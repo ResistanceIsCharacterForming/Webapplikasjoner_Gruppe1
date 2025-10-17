@@ -1,4 +1,4 @@
-export function createBookshelfController(bookshelfService: any) {
+export function createBookshelvesController (bookshelfService: any) {
 
     return {
         async listBookshelves() { 
@@ -38,4 +38,4 @@ export function createBookshelfController(bookshelfService: any) {
     
 }
 
-export const bookshelfController = createBookshelfController({})
+export const bookshelvesController = createBookshelvesController({})
