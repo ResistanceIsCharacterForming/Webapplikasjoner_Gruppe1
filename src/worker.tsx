@@ -7,12 +7,12 @@ import { setCommonHeaders } from "./app/headers"
 import { env } from "cloudflare:workers"
 import { drizzle } from "drizzle-orm/d1"
 
-import { bookshelfRoutes } from "./features/bookshelfRoutes"
 import { adminRoutes } from "./features/adminRoutes"
 import { userRoutes } from "./features/userRoutes"
 import { isAuthenticated } from "./features/isAuthenticated"
 
 import { apiHandler } from "@/features/apiHandler"
+import Home from "./home"
 
 export interface Env {
   DB: D1Database;
@@ -27,5 +27,10 @@ export default defineApp([
   setCommonHeaders(),
   
   isAuthenticated,
+
+  render(Document, [
+    route("/", Home)
+  ]),
+
   route("/api/v*/*/", (ctx) => {return apiHandler(ctx)})
 ])
