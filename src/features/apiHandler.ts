@@ -1,19 +1,25 @@
 import { prefix, route } from "rwsdk/router"
 
-import { bookshelvesApi } from "@/features/bookshelves/api"
+import { bookshelfApi } from "@/features/bookshelf/api"
+import { filterQueryParams } from "@/helpers/queryParamsHandler"
 
 const features = {
-    bookshelves : ({ctx, resource}) => {return bookshelvesApi({ctx, resource})}
+    bookshelf : ({ctx, resource}) => {return bookshelfApi({ctx, resource})}
 }
 
-export const apiHandler = (ctx) => {
+export const apiHandler = (ctx: any) => {
 
-    /* I http://localhost:5173/<bookshelves>/api/v1/test blir <...> tatt ut. */
-    const category: string = ctx.params.$1
-    /* I http://localhost:5173/bookshelves/api/v<1>/test blir <...> tatt ut. */
+    
+
+    const [ id, test ] = filterQueryParams(ctx, ["id", "test"])
+
+    console.log("---")
+    console.log(id)
+    console.log(test)
+
+    const resource: string = ctx.params.$1
+    
     const version: string = ctx.params.$0
-    /* I http://localhost:5173/bookshelves/api/v1/<test> blir <...> tatt ut. */
-    const resource: string = ctx.params.$2
     
     const feature: (keyof typeof features) = ctx.params.$1
 
