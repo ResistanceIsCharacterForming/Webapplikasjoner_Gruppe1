@@ -9,14 +9,6 @@ const features = {
 
 export const apiHandler = (ctx: any) => {
 
-    
-
-    const [ id, test ] = filterQueryParams(ctx, ["id", "test"])
-
-    console.log("---")
-    console.log(id)
-    console.log(test)
-
     const resource: string = ctx.params.$1
     
     const version: string = ctx.params.$0

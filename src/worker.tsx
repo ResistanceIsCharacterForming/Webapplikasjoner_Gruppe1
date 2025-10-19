@@ -27,5 +27,5 @@ export default defineApp([
   setCommonHeaders(),
   
   isAuthenticated,
-  route("/api/v*/*/*/", (ctx) => {return apiHandler(ctx)})
+  route("/api/v*/*/", (ctx) => {return apiHandler(ctx)})
 ])
