@@ -4,7 +4,7 @@
 declare namespace Cloudflare {
 	interface Env {
 		R2: R2Bucket;
-		DB: D1Database;
+		bokkroken: D1Database;
 		ASSETS: Fetcher;
 	}
 }

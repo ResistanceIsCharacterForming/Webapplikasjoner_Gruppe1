@@ -3,13 +3,13 @@ import { render, route } from "rwsdk/router";
 import { Document } from "@/app/Document";
 import { Home } from "@/app/pages/Home";
 
-import { User, users } from "./db/schema/user-schema";
+import { User , users } from "./db/schema/users-schema";
 import { setCommonHeaders } from "./app/headers";
 import { env } from "cloudflare:workers";
 import { drizzle } from "drizzle-orm/d1";
 
 export interface Env {
-  DB: D1Database;
+  bokkroken: D1Database;
 }
 
 export type AppContext = {
@@ -17,16 +17,34 @@ export type AppContext = {
   authUrl: string;
 };
 
+function test(user: User[]){
+  for (let x in user){
+    <p> {x}</p>
+  }
+}
+
 export default defineApp([
   setCommonHeaders(),
   render(Document, [
     route("/", async () => {
-      const userResult = await drizzle(env.DB).select().from(users);
+     
+      console.log("test starting drizzle thang")
+      const db = drizzle(env.bokkroken);
+      //await db.insert(users).values({name: "user",email: "email",password: "safe",settings: "test",createdAt: new Date().toISOString(),});
+      const userResult = await db.select().from(users);
+      console.log("test starting drizzle thang")
+      console.log()
       return (
         <div style={{ padding: "2rem", maxWidth: "600px", margin: "0 auto" }}>
           <h1>Start</h1>
           <p>Velkommen til eksempel</p>
           <p>Databasen har {userResult.length} brukere</p>
+          <p>user id:{userResult[0].id}</p>
+          <p>user password:{userResult[0].password}</p>
+          <p>user email:{userResult[0].email}</p>
+          <p>user name:{userResult[0].name}</p>
+          <p>user set:{userResult[0].settings}</p>
+          <p>user date:{userResult[0].createdAt}</p>
           <div style={{ margin: "1.5rem 0" }}>
             <a
               href="/home"

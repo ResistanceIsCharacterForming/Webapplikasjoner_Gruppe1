@@ -29,6 +29,8 @@ RUN npm install -g pnpm
 
 COPY package*.json pnpm-lock.yaml* ./
 
+COPY . .
+
 RUN pnpm install && \
     pnpm add vite --save-dev
 

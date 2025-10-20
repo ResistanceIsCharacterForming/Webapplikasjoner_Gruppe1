@@ -1,8 +1,8 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "4f73cb60-babb-4ad4-b160-7ba5834c3410",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "3c5c34ef-1103-4cc2-93d6-bfc597b6e236",
+  "prevId": "e17089c2-bd36-48d4-a78a-dcbcb685694c",
   "tables": {
     "admins": {
       "name": "admins",
@@ -14,8 +14,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "admin_level": {
-          "name": "admin_level",
+        "adminLevel": {
+          "name": "adminLevel",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
@@ -377,8 +377,8 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "rapport": {
-      "name": "rapport",
+    "reports": {
+      "name": "reports",
       "columns": {
         "id": {
           "name": "id",
@@ -408,15 +408,15 @@
           "notNull": false,
           "autoincrement": false
         },
-        "rapportType": {
-          "name": "rapportType",
+        "raportType": {
+          "name": "raportType",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "rapportLevel": {
-          "name": "rapportLevel",
+        "raportLevel": {
+          "name": "raportLevel",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
@@ -439,9 +439,9 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "rapport_userId_users_id_fk": {
-          "name": "rapport_userId_users_id_fk",
-          "tableFrom": "rapport",
+        "reports_userId_users_id_fk": {
+          "name": "reports_userId_users_id_fk",
+          "tableFrom": "reports",
           "tableTo": "users",
           "columnsFrom": [
             "userId"
@@ -452,9 +452,9 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "rapport_libaryId_libraries_id_fk": {
-          "name": "rapport_libaryId_libraries_id_fk",
-          "tableFrom": "rapport",
+        "reports_libaryId_libraries_id_fk": {
+          "name": "reports_libaryId_libraries_id_fk",
+          "tableFrom": "reports",
           "tableTo": "libraries",
           "columnsFrom": [
             "libaryId"
@@ -465,9 +465,9 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "rapport_reviewId_reviews_id_fk": {
-          "name": "rapport_reviewId_reviews_id_fk",
-          "tableFrom": "rapport",
+        "reports_reviewId_reviews_id_fk": {
+          "name": "reports_reviewId_reviews_id_fk",
+          "tableFrom": "reports",
           "tableTo": "reviews",
           "columnsFrom": [
             "reviewId"
@@ -489,7 +489,10 @@
   "_meta": {
     "schemas": {},
     "tables": {},
-    "columns": {}
+    "columns": {
+      "\"reports\".\"rapportType\"": "\"reports\".\"raportType\"",
+      "\"reports\".\"rapportLevel\"": "\"reports\".\"raportLevel\""
+    }
   },
   "internal": {
     "indexes": {}
