@@ -1,11 +1,9 @@
-"use client";
-
-import { MapScreenClient } from "@/features/map/components/mapGenerator";
+import { MapGenerator } from "@/features/map/components/mapGenerator";
 
 export function MapScreen() {
   return (
     <div>
-      <MapScreenClient />
+      <MapGenerator />
     </div>
   );
 }

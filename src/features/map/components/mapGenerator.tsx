@@ -1,11 +1,32 @@
 "use client";
 
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { useEffect, useState } from "react";
+import "leaflet/dist/leaflet.css";
 
-export function MapScreenClient() {
+function isClient() {
+  return typeof window !== "undefined";
+}
+
+export function MapGenerator() {
+  const [leaflet, setLeaflet] = useState<any>(null);
+
+  useEffect(() => {
+    if (!isClient()) return;
+
+    import("react-leaflet").then((module) => {
+      setLeaflet(module);
+    });
+  }, []);
+
+  if (!leaflet) {
+    return <div>Loading map...</div>;
+  }
+
+  const { MapContainer, TileLayer, Marker, Popup } = leaflet;
+
   return (
     <MapContainer
-      center={[51.505, -0.09]}
+      center={[59.12183, 11.381]}
       zoom={13}
       style={{ height: "100vh", width: "100%" }}
     >
@@ -13,9 +34,9 @@ export function MapScreenClient() {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={[51.505, -0.09]}>
+      <Marker position={[59.12183, 11.381]}>
         <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
+          Halden. <br /> Temporary example.
         </Popup>
       </Marker>
     </MapContainer>
