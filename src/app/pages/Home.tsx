@@ -1,13 +1,10 @@
-import { RequestInfo } from "rwsdk/worker";
+import { MapScreen } from "@/features/map/pages/mapScreen";
 
-export function Home({ ctx }: RequestInfo) {
+export function Home() {
+  console.log(document.documentElement.outerHTML);
   return (
     <div>
-      <p>
-        {ctx.user?.username
-          ? `You are logged in as user ${ctx.user.username}`
-          : "You are not logged in"}
-      </p>
+      <MapScreen />
     </div>
   );
 }
