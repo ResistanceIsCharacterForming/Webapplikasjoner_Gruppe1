@@ -1,5 +1,6 @@
 export function createBookshelfController (bookshelfService: any) {
 
+    /* Alle disse funksjonene skal til slutt kalle funksjoner / bruke services til å hente data. Men de kommer selv til å bygge ferdi Reponse objekt og sende det tilbake som svar for at API-kall / route.  */
     return {
         async listBookshelves() { 
             return new Response(
