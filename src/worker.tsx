@@ -1,12 +1,18 @@
-import { defineApp } from "rwsdk/worker";
-import { render, route } from "rwsdk/router";
-import { Document } from "@/app/Document";
-import { Home } from "@/app/pages/Home";
+import { defineApp } from "rwsdk/worker"
+import { render, route, prefix } from "rwsdk/router"
+import { Document } from "@/app/Document"
 
-import { User , users } from "./db/schema/users-schema";
-import { setCommonHeaders } from "./app/headers";
-import { env } from "cloudflare:workers";
-import { drizzle } from "drizzle-orm/d1";
+import { User, users } from "./db/schema/user-schema"
+import { setCommonHeaders } from "./app/headers"
+import { env } from "cloudflare:workers"
+import { drizzle } from "drizzle-orm/d1"
+
+import { adminRoutes } from "./features/adminRoutes"
+import { userRoutes } from "./features/userRoutes"
+import { isAuthenticated } from "./features/isAuthenticated"
+
+import { apiHandler } from "@/features/apiHandler"
+import Home from "./home"
 
 export interface Env {
   bokkroken: D1Database;
@@ -15,7 +21,7 @@ export interface Env {
 export type AppContext = {
   user: User | undefined;
   authUrl: string;
-};
+}
 
 function test(user: User[]){
   for (let x in user){
@@ -25,6 +31,9 @@ function test(user: User[]){
 
 export default defineApp([
   setCommonHeaders(),
+  
+  isAuthenticated,
+
   render(Document, [
     route("/", async () => {
      
@@ -34,7 +43,7 @@ export default defineApp([
       const userResult = await db.select().from(users);
       console.log("test starting drizzle thang")
       console.log()
-      return (
+      return (<>
         <div style={{ padding: "2rem", maxWidth: "600px", margin: "0 auto" }}>
           <h1>Start</h1>
           <p>Velkommen til eksempel</p>
@@ -66,7 +75,7 @@ export default defineApp([
             will be redirected to login if you're not signed in.
           </p>
         </div>
-      );
+      </>);
     }),
     route("/home", [
       ({ ctx }) => {
@@ -80,4 +89,6 @@ export default defineApp([
       Home,
     ]),
   ]),
-]);
+
+  route("/api/v*/*/", (ctx) => {return apiHandler(ctx)})
+])
