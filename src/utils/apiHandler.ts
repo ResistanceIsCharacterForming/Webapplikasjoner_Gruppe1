@@ -1,10 +1,10 @@
 import { prefix, route } from "rwsdk/router"
 
-import { bookshelfApi } from "@/features/bookshelf/api"
-import { filterQueryParams } from "@/helpers/queryParamsHandler"
+import { libraryApi } from "@/features/library/api"
+import { filterQueryParams } from "./queryParamsHandler"
 
 const features = {
-    bookshelf : ({ctx, resource}) => {return bookshelfApi({ctx, resource})}
+    library : ({ctx, resource}) => {return libraryApi({ctx, resource})}
 }
 
 export const apiHandler = (ctx: any) => {

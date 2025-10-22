@@ -1,10 +1,12 @@
 import { prefix, route } from "rwsdk/router"
-import { bookshelfController } from "./controller"
-import { filterQueryParams } from "@/helpers/queryParamsHandler"
+import { singletonMaster } from "@/utils/singletonBuilder"
+import { filterQueryParams } from "@/utils/queryParamsHandler"
 
-export const bookshelfApi = async ({ctx, resource}) => {
+export const libraryApi = async ({ctx, resource}) => {
 
-    if (resource === "bookshelf") {
+    const libraryController = singletonMaster.libraryController
+
+    if (resource === "library") {
 
         /* Attempt to get values from id and review params if they exist. */
         const [ id, review ] = filterQueryParams(ctx, ["id", "review"]) as [string, string]
@@ -13,27 +15,27 @@ export const bookshelfApi = async ({ctx, resource}) => {
 
             case "GET":
                 if (id !== undefined) {
-                    return bookshelfController.getBookshelfById(id)
+                    return libraryController.getBookshelfById(id)
                 }
 
-                return bookshelfController.listBookshelves()
+                return libraryController.listBookshelves()
 
             case "POST":
                 if (id !== undefined && review !== undefined) {
-                    return bookshelfController.createReview({})
+                    return libraryController.createReview({})
                 }
 
                 if (id !== undefined) {
-                    return bookshelfController.createBookshelf({})
+                    return libraryController.createBookshelf({})
                 }
 
             case "PUT":
                 if (id !== undefined && review !== undefined) {
-                    return bookshelfController.editReview(id)
+                    return libraryController.editReview(id)
                 }
 
                 if (id !== undefined) {
-                    return bookshelfController.editBookshelf(id)
+                    return libraryController.editBookshelf(id)
                 }
 
             default:

@@ -11,7 +11,7 @@ import { adminRoutes } from "./features/adminRoutes";
 import { userRoutes } from "./features/userRoutes";
 import { isAuthenticated } from "./features/isAuthenticated";
 
-import { apiHandler } from "@/features/apiHandler";
+import { apiHandler } from "@/utils/apiHandler";
 import Home from "./home";
 
 import { MapScreen } from "./features/map/pages/mapScreen";

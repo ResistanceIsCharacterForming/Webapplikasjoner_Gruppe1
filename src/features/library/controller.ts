@@ -1,4 +1,4 @@
-export function createBookshelfController (bookshelfService: any) {
+export function createLibraryController (libraryService: any) {
 
     /* Alle disse funksjonene skal til slutt kalle funksjoner / bruke services til å hente data. Men de kommer selv til å bygge ferdi Reponse objekt og sende det tilbake som svar for at API-kall / route.  */
     return {
@@ -14,6 +14,7 @@ export function createBookshelfController (bookshelfService: any) {
             })
         },
         async getBookshelfById(data: any) { 
+            libraryService.test()
             return new Response(
                 JSON.stringify({
                 data: `getBookshelfById`,
@@ -71,5 +72,3 @@ export function createBookshelfController (bookshelfService: any) {
     }
     
 }
-
-export const bookshelfController = createBookshelfController({})
