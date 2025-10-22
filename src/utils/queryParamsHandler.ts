@@ -1,3 +1,7 @@
+/* MERK: Jeg skal skrive om alt her for å bruke URL -- https://developer.mozilla.org/en-US/docs/Web/API/URL/URL -- kjente ikke til den før. */
+
+
+
 /* This is a lightweight helper function to take a url and parse any query parameter inside it. Example of how to use this function: const [ id, test ] = filterQueryParams(ctx, ["id", "test"]) */
 /* ctx is the same as used for routing. We need it to get the url. params is a array of strings, this is the keys we are expecting. */
 export const filterQueryParams = (ctx: any, params: string[]) => {

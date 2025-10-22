@@ -2,40 +2,67 @@ import { prefix, route } from "rwsdk/router"
 import { singletonMaster } from "@/utils/singletonBuilder"
 import { filterQueryParams } from "@/utils/queryParamsHandler"
 
-export const libraryApi = async ({ctx, resource}) => {
+import { apiFeature } from "@/types/api"
+
+export const libraryApi = async ({ctx, resource}: apiFeature) => {
 
     const libraryController = singletonMaster.libraryController
 
     if (resource === "library") {
 
         /* Attempt to get values from id and review params if they exist. */
-        const [ id, review ] = filterQueryParams(ctx, ["id", "review"]) as [string, string]
+        const [ 
+            libraryId,
+            reviewId,
+            libraryText,
+            reviewText,
+            libraryName,
+            libraryBooks
+        ] = filterQueryParams(
+            ctx, [
+            "libraryId",
+            "reviewId",
+            "libraryText",
+            "reviewText",
+            "libraryName",
+            "libraryBooks"
+        ]) as [
+            string,
+            string,
+            string,
+            string,
+            string,
+            string
+        ]
         
         switch (ctx.request.method) {
 
             case "GET":
-                if (id !== undefined) {
-                    return libraryController.getBookshelfById(id)
+                if (libraryId !== undefined) {
+                    return libraryController.getLibraryById(libraryId)
                 }
 
-                return libraryController.listBookshelves()
+                return libraryController.listLibraries()
 
             case "POST":
-                if (id !== undefined && review !== undefined) {
-                    return libraryController.createReview({})
+                console.log(libraryId)
+                console.log(reviewId)
+                console.log(reviewText)
+                if (libraryId !== undefined && reviewId !== undefined && reviewText !== undefined) {
+                    return libraryController.createReview(libraryId, reviewId, reviewText)
                 }
 
-                if (id !== undefined) {
-                    return libraryController.createBookshelf({})
+                if (libraryId !== undefined && libraryText !== undefined && libraryBooks !== undefined && libraryName !== undefined) {
+                    return libraryController.createLibrary(libraryId, libraryText, libraryBooks, libraryName)
                 }
 
             case "PUT":
-                if (id !== undefined && review !== undefined) {
-                    return libraryController.editReview(id)
+                if (reviewId !== undefined && reviewText !== undefined) {
+                    return libraryController.editReview(reviewId, reviewText)
                 }
 
-                if (id !== undefined) {
-                    return libraryController.editBookshelf(id)
+                if (libraryId !== undefined && libraryText !== undefined && libraryBooks !== undefined) {
+                    return libraryController.editLibrary(libraryId, libraryText, libraryBooks)
                 }
 
             default:

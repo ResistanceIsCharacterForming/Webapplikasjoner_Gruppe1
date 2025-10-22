@@ -1,11 +1,15 @@
+import { apiResponse } from "@/types/api"
+
+import { filterQueryParams } from "@/utils/queryParamsHandler"
+
 export function createLibraryController (libraryService: any) {
 
     /* Alle disse funksjonene skal til slutt kalle funksjoner / bruke services til å hente data. Men de kommer selv til å bygge ferdi Reponse objekt og sende det tilbake som svar for at API-kall / route.  */
     return {
-        async listBookshelves() { 
+        async listLibraries() { 
             return new Response(
                 JSON.stringify({
-                data: `listBookshelves`,
+                data: `listBookshelves` /* Kall til libraryService.listBookshelves() eller lignende. */,
                 success: true
             }),
             {
@@ -13,11 +17,10 @@ export function createLibraryController (libraryService: any) {
                 headers: {"Content-Type": "application/json"}
             })
         },
-        async getBookshelfById(data: any) { 
-            libraryService.test()
+        async getLibraryById(id: string): Promise<Response> { 
             return new Response(
                 JSON.stringify({
-                data: `getBookshelfById`,
+                data: `getBookshelfById ${id}` /* Kall til libraryService.getBookshelfById(id) eller lignende. */,
                 success: true
             }),
             {
@@ -25,10 +28,10 @@ export function createLibraryController (libraryService: any) {
                 headers: {"Content-Type": "application/json"}
             })
         },
-        async createBookshelf(data: any) {
+        async createLibrary(id: string, text: string, books: string, name: string) {
              return new Response(
                 JSON.stringify({
-                data: `createBookshelf`,
+                data: `createBookshelf ${id} ${text} ${books} ${name}`,
                 success: true
             }),
             {
@@ -36,10 +39,10 @@ export function createLibraryController (libraryService: any) {
                 headers: {"Content-Type": "application/json"}
             })
         },
-        async editBookshelf(id: string) {
+        async editLibrary(id: string, text: string, books: string) {
              return new Response(
                 JSON.stringify({
-                data: `editBookshelf`,
+                data: `editBookshelf  ${id} ${text} ${books}`,
                 success: true
             }),
             {
@@ -47,10 +50,10 @@ export function createLibraryController (libraryService: any) {
                 headers: {"Content-Type": "application/json"}
             })
         },
-        async editReview(id: string) {
+        async editReview(id: string, text: string) {
              return new Response(
                 JSON.stringify({
-                data: `editReview`,
+                data: `editReview ${id} ${text}`,
                 success: true
             }),
             {
@@ -58,10 +61,10 @@ export function createLibraryController (libraryService: any) {
                 headers: {"Content-Type": "application/json"}
             })
         },
-        async createReview(data: any) {
+        async createReview(libraryId: string, reviewId: string, text: string) {
              return new Response(
                 JSON.stringify({
-                data: `createReview`,
+                data: `createReview ${libraryId} ${reviewId} ${text}` /* kall libraryService */,
                 success: true
             }),
             {

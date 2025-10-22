@@ -3,8 +3,10 @@ import { prefix, route } from "rwsdk/router"
 import { libraryApi } from "@/features/library/api"
 import { filterQueryParams } from "./queryParamsHandler"
 
+import { apiFeature } from "@/types/api"
+
 const features = {
-    library : ({ctx, resource}) => {return libraryApi({ctx, resource})}
+    library : ({ctx, resource}: apiFeature) => {return libraryApi({ctx, resource})}
 }
 
 export const apiHandler = (ctx: any) => {

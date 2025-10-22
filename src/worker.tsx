@@ -93,7 +93,7 @@ export default defineApp([
     ]),
   ]),
 
-  route("/api/v*/*/", (ctx) => {
+  route("/api/v*/*/", (ctx: any) => {
     return apiHandler(ctx);
   }),
   route("/map", MapScreen),
