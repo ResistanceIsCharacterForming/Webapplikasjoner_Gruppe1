@@ -1,9 +1,4 @@
-import { apiResponse } from "@/types/api"
-
-import { filterQueryParams } from "@/utils/queryParamsHandler"
-
 export function createLibraryController (libraryService: any) {
-
     /* Alle disse funksjonene skal til slutt kalle funksjoner / bruke services til å hente data. Men de kommer selv til å bygge ferdi Reponse objekt og sende det tilbake som svar for at API-kall / route.  */
     return {
         async listLibraries() { 
@@ -50,6 +45,17 @@ export function createLibraryController (libraryService: any) {
                 headers: {"Content-Type": "application/json"}
             })
         },
+        async deleteLibrary(id: string) {
+             return new Response(
+                JSON.stringify({
+                data: `deleteLibrary ${id}`,
+                success: true
+            }),
+            {
+                status: 201,
+                headers: {"Content-Type": "application/json"}
+            })
+        },
         async editReview(id: string, text: string) {
              return new Response(
                 JSON.stringify({
@@ -72,6 +78,16 @@ export function createLibraryController (libraryService: any) {
                 headers: {"Content-Type": "application/json"}
             })
         },
+        async deleteReview(id: string) {
+             return new Response(
+                JSON.stringify({
+                data: `deleteReview ${id}`,
+                success: true
+            }),
+            {
+                status: 201,
+                headers: {"Content-Type": "application/json"}
+            })
+        },
     }
-    
 }

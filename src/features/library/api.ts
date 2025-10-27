@@ -1,75 +1,65 @@
 import { prefix, route } from "rwsdk/router"
 import { singletonMaster } from "@/utils/singletonBuilder"
-import { filterQueryParams } from "@/utils/queryParamsHandler"
 
-import { apiFeature } from "@/types/api"
-
-export const libraryApi = async ({ctx, resource}: apiFeature) => {
-
+export const libraryApi = async (ctx: any) => {
     const libraryController = singletonMaster.libraryController
-
-    if (resource === "library") {
-
-        /* Attempt to get values from id and review params if they exist. */
-        const [ 
-            libraryId,
-            reviewId,
-            libraryText,
-            reviewText,
-            libraryName,
-            libraryBooks
-        ] = filterQueryParams(
-            ctx, [
-            "libraryId",
-            "reviewId",
-            "libraryText",
-            "reviewText",
-            "libraryName",
-            "libraryBooks"
-        ]) as [
-            string,
-            string,
-            string,
-            string,
-            string,
-            string
-        ]
-        
-        switch (ctx.request.method) {
-
-            case "GET":
-                if (libraryId !== undefined) {
-                    return libraryController.getLibraryById(libraryId)
-                }
-
-                return libraryController.listLibraries()
-
-            case "POST":
-                console.log(libraryId)
-                console.log(reviewId)
-                console.log(reviewText)
+    const libraryId: string | undefined = ctx.params.libraryId
+    const reviewId: string | undefined = ctx.params.reviewId
+    switch (ctx.request.method.toLowerCase()) {
+        case "get":
+            if (libraryId !== undefined) {
+                return libraryController.getLibraryById(libraryId)
+            }
+            return libraryController.listLibraries()
+        case "post":
+            try {
+                const data = await ctx.request.json()
+                const libraryText: string | undefined= data.libraryText
+                const libraryBooks: string | undefined = data.libraryBooks
+                const libraryName: string | undefined = data.libraryBooks
+                const reviewText: string | undefined = data.reviewText
                 if (libraryId !== undefined && reviewId !== undefined && reviewText !== undefined) {
-                    return libraryController.createReview(libraryId, reviewId, reviewText)
+                    return libraryController.createReview(
+                        libraryId,
+                        reviewId, 
+                        data.reviewText
+                    )
                 }
-
                 if (libraryId !== undefined && libraryText !== undefined && libraryBooks !== undefined && libraryName !== undefined) {
-                    return libraryController.createLibrary(libraryId, libraryText, libraryBooks, libraryName)
+                    return libraryController.createLibrary(
+                        libraryId,
+                        libraryText,
+                        libraryBooks,
+                        libraryName
+                    )
                 }
-
-            case "PUT":
-                if (reviewId !== undefined && reviewText !== undefined) {
-                    return libraryController.editReview(reviewId, reviewText)
-                }
-
+                return new Response("Bad Request.", {status: 400})
+            } catch {
+                return new Response("Bad Request.", {status: 404})
+            }
+        case "put":
+            try {
+                const data = await ctx.request.json()
+                const libraryText: string | undefined= data.libraryText
+                const libraryBooks: string | undefined = data.libraryBooks
+                const reviewText: string | undefined = data.reviewText
                 if (libraryId !== undefined && libraryText !== undefined && libraryBooks !== undefined) {
                     return libraryController.editLibrary(libraryId, libraryText, libraryBooks)
                 }
+                if (libraryId !== undefined && reviewId !== undefined && reviewText !== undefined) {
+                    return libraryController.editReview(reviewId, reviewText)
+                }
+                if (libraryId !== undefined && reviewId !== undefined) {
+                    return libraryController.deleteReview(reviewId)
+                }
+                if (libraryId !== undefined) {
+                    return libraryController.deleteLibrary(libraryId)
+                }
+             } catch {
+                return new Response("Bad Request.", {status: 404})
+            }
+        default:
+            return new Response("Method not allowed.", {status: 405})
 
-            default:
-                return new Response("Method not allowed.", {status: 405})
-
-        }
-        
     }
-
 }

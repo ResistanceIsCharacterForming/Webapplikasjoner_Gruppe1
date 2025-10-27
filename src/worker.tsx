@@ -15,6 +15,8 @@ import { apiHandler } from "@/utils/apiHandler";
 import Home from "./home";
 
 import { MapScreen } from "./features/map/pages/mapScreen";
+import { filterSlugs } from "@/middleware/handleSlugs";
+import { createApiPath } from "@/middleware/hooks/apiRoute";
 
 export interface Env {
   bokkroken: D1Database;
@@ -93,8 +95,20 @@ export default defineApp([
     ]),
   ]),
 
-  route("/api/v*/*/", (ctx: any) => {
-    return apiHandler(ctx);
-  }),
+  prefix(
+    "/api/v:version/:resource",
+    [route("/", (ctx: any) => {
+      return apiHandler(ctx);
+    }),
+    route("/:libraryId", (ctx: any) => {
+      return apiHandler(ctx);
+    }),
+    route("/:libraryId/:reviewId/", (ctx: any) => {
+      return apiHandler(ctx);
+    })]
+  ),
+
+
+
   route("/map", MapScreen),
 ]);
