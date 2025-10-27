@@ -9,7 +9,8 @@ import { drizzle } from "drizzle-orm/d1";
 
 import { adminRoutes } from "./features/adminRoutes";
 import { userRoutes } from "./features/userRoutes";
-import { isAuthenticated } from "./features/isAuthenticated";
+import { isAuthenticated } from "@/middleware/authentication";
+import { isAuthorized } from "@/middleware/authorization";
 
 import { apiHandler } from "@/utils/apiHandler";
 import Home from "./home";
@@ -100,6 +101,8 @@ export default defineApp([
     [route("/", (ctx: any) => {
       return apiHandler(ctx);
     }),
+    isAuthenticated,
+    isAuthorized,
     route("/:slugOne", (ctx: any) => {
       return apiHandler(ctx);
     }),
