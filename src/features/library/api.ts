@@ -6,7 +6,6 @@ export const libraryApi = async (ctx: any) => {
     const reviewId: string | undefined = ctx.params.slugTwo
     switch (ctx.request.method.toLowerCase()) {
         case "get":
-            console.log(ctx.request.headers.get("content-type"))
             if (libraryId !== undefined) {
                 return libraryController.getLibraryById(libraryId)
             }
