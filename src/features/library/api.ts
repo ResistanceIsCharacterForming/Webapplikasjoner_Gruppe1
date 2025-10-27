@@ -1,12 +1,12 @@
-import { prefix, route } from "rwsdk/router"
 import { singletonMaster } from "@/utils/singletonBuilder"
 
 export const libraryApi = async (ctx: any) => {
     const libraryController = singletonMaster.libraryController
-    const libraryId: string | undefined = ctx.params.libraryId
-    const reviewId: string | undefined = ctx.params.reviewId
+    const libraryId: string | undefined = ctx.params.slugOne
+    const reviewId: string | undefined = ctx.params.slugTwo
     switch (ctx.request.method.toLowerCase()) {
         case "get":
+            console.log(ctx.request.headers.get("content-type"))
             if (libraryId !== undefined) {
                 return libraryController.getLibraryById(libraryId)
             }
@@ -14,7 +14,7 @@ export const libraryApi = async (ctx: any) => {
         case "post":
             try {
                 const data = await ctx.request.json()
-                const libraryText: string | undefined= data.libraryText
+                const libraryText: string | undefined = data.libraryText
                 const libraryBooks: string | undefined = data.libraryBooks
                 const libraryName: string | undefined = data.libraryBooks
                 const reviewText: string | undefined = data.reviewText
@@ -60,6 +60,5 @@ export const libraryApi = async (ctx: any) => {
             }
         default:
             return new Response("Method not allowed.", {status: 405})
-
     }
 }

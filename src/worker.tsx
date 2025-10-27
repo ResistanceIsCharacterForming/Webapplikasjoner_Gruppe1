@@ -100,10 +100,10 @@ export default defineApp([
     [route("/", (ctx: any) => {
       return apiHandler(ctx);
     }),
-    route("/:libraryId", (ctx: any) => {
+    route("/:slugOne", (ctx: any) => {
       return apiHandler(ctx);
     }),
-    route("/:libraryId/:reviewId/", (ctx: any) => {
+    route("/:slugOne/:slugTwo/", (ctx: any) => {
       return apiHandler(ctx);
     })]
   ),
