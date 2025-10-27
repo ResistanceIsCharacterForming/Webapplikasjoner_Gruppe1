@@ -3,26 +3,28 @@
 import { useEffect, useState } from "react";
 import "leaflet/dist/leaflet.css";
 
+import { LocationMarker } from "@/features/map/hooks/markerPlacer";
+
 function isClient() {
   return typeof window !== "undefined";
 }
 
 export function MapGenerator() {
-  const [leaflet, setLeaflet] = useState<any>(null);
+  const [reactLeaflet, setReactLeaflet] = useState<any>(null);
 
   useEffect(() => {
     if (!isClient()) return;
 
     import("react-leaflet").then((module) => {
-      setLeaflet(module);
+      setReactLeaflet(module);
     });
   }, []);
 
-  if (!leaflet) {
+  if (!reactLeaflet) {
     return <div>Loading map...</div>;
   }
 
-  const { MapContainer, TileLayer, Marker, Popup } = leaflet;
+  const { MapContainer, TileLayer } = reactLeaflet;
 
   return (
     <MapContainer
@@ -34,11 +36,7 @@ export function MapGenerator() {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={[59.12183, 11.381]}>
-        <Popup>
-          Halden. <br /> Temporary example.
-        </Popup>
-      </Marker>
+      <LocationMarker reactLeaflet={reactLeaflet} />
     </MapContainer>
   );
 }
