@@ -12,6 +12,7 @@ export const users = sqliteTable("users", {
   password: text().notNull(),
   settings: text(),
   createdAt: text(),
+  profileImage: text(),
 });
 
 export type User = typeof users.$inferSelect;

@@ -3,7 +3,7 @@
 import { defineScript } from "rwsdk/worker";
 import { drizzle } from "drizzle-orm/d1";
 
-import { users,reviews,reviewUsefullness,reports,libraries,favoritLibraries,admins } from "./schema";
+import { users,reviews,reviewsEndorsements,reports,libraries,favoritLibraries,admins } from "./schema";
 
 export default defineScript( async ({ env }) => {
   try {
@@ -13,7 +13,7 @@ export default defineScript( async ({ env }) => {
     await db.delete(libraries);
     await db.delete(admins);
     await db.delete(reviews);
-    await db.delete(reviewUsefullness);
+    await db.delete(reviewsEndorsements);
     await db.delete(favoritLibraries);
     await db.delete(reports);  
       // Insert a user
@@ -64,7 +64,7 @@ export default defineScript( async ({ env }) => {
     // Insert a review usefulness
 
 
-    await db.insert(reviewUsefullness).values({  
+    await db.insert(reviewsEndorsements).values({  
         userId: newUserId[0].id,
         reviewId: newReviewId[0].id,
     });

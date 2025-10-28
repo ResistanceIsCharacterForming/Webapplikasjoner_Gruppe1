@@ -8,6 +8,34 @@
       "when": 1760886685578,
       "tag": "0000_dapper_jamie_braddock",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1760902423485,
+      "tag": "0001_high_hulk",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1760904751736,
+      "tag": "0002_goofy_devos",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1761552747815,
+      "tag": "0003_reflective_stellaris",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1761600149755,
+      "tag": "0004_lovely_human_cannonball",
+      "breakpoints": true
     }
   ]
 }

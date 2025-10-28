@@ -11,6 +11,7 @@ export const reviews = sqliteTable("reviews", {
     text: text(),
     reviewsPoints: int(),
     createdAt: text(),
+    Photo: text(),
 });
 
 export type review = typeof reviews.$inferSelect;
