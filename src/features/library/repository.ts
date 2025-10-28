@@ -37,11 +37,11 @@ export const editLibrary = async (id: string,data : any) => {
     const restult : library[]= await db.update(libraries).set(data).where(eq(libraries.id, id)).returning();
     return { succes :true, data: restult }
   } catch (error) {
-    return { success: false, error: 'Failed edit' }
+    return { success: false, error: 'Failed edit libary' }
   }
 }
 
-export const getLibrariesById = async (id: string) => {
+export const getLibraryById = async (id: string) => {
   try {
     const restult : library[] = await db.select().from(libraries).where(eq(libraries.id, id));
     return { success: true, data: restult }
@@ -50,7 +50,7 @@ export const getLibrariesById = async (id: string) => {
   }
 }
 
-export const getLibrariesByUserId = async (id:string) => {
+export const getLibraryByUserId = async (id:string) => {
   try {
     const restult : library[] = await db.select().from(libraries).where(eq(libraries.userId, id));
     return { success: true, data: restult }
@@ -59,7 +59,7 @@ export const getLibrariesByUserId = async (id:string) => {
   }
 }
 
-export const deleteLibrariesById = async (id:string) => {
+export const deleteLibraryById = async (id:string) => {
   try {
     await db.delete(libraries).where(eq(libraries.id,id)); 
     return { success: true }
