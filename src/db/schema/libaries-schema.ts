@@ -5,7 +5,7 @@ import { randomUUID } from "node:crypto";
 
 export const libraries = sqliteTable("libraries", {
   id: text().primaryKey().$defaultFn(() => randomUUID()),
-  userId:text("userId").references(() => users.id),
+  userId:text("userId").references(() => users.id, { onDelete: 'set null' }),
   name: text().notNull(),
   text: text().notNull(),
   cordlon: text().notNull(),

@@ -51,7 +51,7 @@ export const getLibrariesById = async (id: string) => {
   }
 }
 
-export const getLibrariesByUserId = async (id: string) => {
+export const getLibrariesByUserId = async (id:string) => {
   try {
     const restult : library[] = await db.select().from(libraries).where(eq(libraries.userId, id));
     return { success: true, data: restult }
@@ -60,11 +60,12 @@ export const getLibrariesByUserId = async (id: string) => {
   }
 }
 
-export const deleteLibrariesById = async (id: string) => {
+export const deleteLibrariesById = async (id:string) => {
   try {
-    await db.delete(libraries).where(eq(libraries.id, id)); 
+    await db.delete(libraries).where(eq(libraries.id,id)); 
     return { success: true }
     } catch (error) {
+      console.log(error)
     return { success: false, error: 'Failed deleting libary by id' }
     }
 }

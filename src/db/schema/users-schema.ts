@@ -1,6 +1,3 @@
-// src/db/schema/user-schema.ts
-
-import { date } from "drizzle-orm/mysql-core";
 import { sqliteTable, text, int } from "drizzle-orm/sqlite-core";
 import { randomUUID } from "node:crypto";
 
