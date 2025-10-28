@@ -9,6 +9,13 @@ function isClient() {
   return typeof window !== "undefined";
 }
 
+function getInitialCenter() {
+  const params = new URLSearchParams(window.location.search);
+  const lat = parseFloat(params.get("lat") || "59.12183");
+  const lng = parseFloat(params.get("lng") || "11.381");
+  return [lat, lng] as [number, number];
+}
+
 export function MapGenerator() {
   const [reactLeaflet, setReactLeaflet] = useState<any>(null);
 
@@ -28,7 +35,7 @@ export function MapGenerator() {
 
   return (
     <MapContainer
-      center={[59.12183, 11.381]}
+      center={getInitialCenter()}
       zoom={13}
       style={{ height: "100vh", width: "100%" }}
     >

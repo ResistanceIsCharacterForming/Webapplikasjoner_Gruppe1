@@ -13,6 +13,13 @@ export function LocationMarker({ reactLeaflet }: { reactLeaflet: any }) {
       setPosition(e.latlng);
       map.flyTo(e.latlng, map.getZoom());
     },
+    moveend() {
+      const { lat, lng } = map.getCenter();
+      const url = new URL(window.location.href);
+      url.searchParams.set("lat", lat.toFixed(5));
+      url.searchParams.set("lng", lng.toFixed(5));
+      window.history.replaceState({}, "", url);
+    },
   });
 
   return position === null ? null : (
