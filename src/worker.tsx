@@ -98,7 +98,8 @@ export default defineApp([
 
   
   isAuthenticated,
-  route("/api/v1/:resource/:action/*/", (ctx: any) => {
+  isAuthorized,
+  route("/api/v1/*/", (ctx: any) => {
     return apiHandler(ctx)
   }),
   

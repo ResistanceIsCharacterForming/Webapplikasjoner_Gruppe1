@@ -4,19 +4,20 @@ export const libraryApi = async (ctx: any) => {
     
     const libraryController = singletonMaster.libraryController
 
-    const action: string = ctx.params.action
-    const libraryId: string = ctx.params.$0
+    const libraryId: string = ctx.params.id
 
     switch (ctx.request.method.toLowerCase()) {
+
         case "get":
-            if (action === "fetch") {
-                if (libraryId !== "all") {
-                    return libraryController.getLibraryById(libraryId)
-                }
-                return libraryController.listLibraries()
+
+            if (libraryId !== "") {
+                return libraryController.getLibraryById(libraryId)
             }
+            return libraryController.listLibraries()
+
         case "post":
-            if (action === "create") {
+
+            if (libraryId !== "") {
                 try {
                     const data = await ctx.request.json()
                     const libraryText: string | undefined = data.libraryText
@@ -35,24 +36,30 @@ export const libraryApi = async (ctx: any) => {
                     return new Response("Bad Request.", {status: 404})
                 }
             }
-        case "put":
-            if (action === "edit") {
+
+        case "put": 
+
+            if (libraryId !== "") {
                 try {
                     const data = await ctx.request.json()
                     const libraryText: string | undefined= data.libraryText
                     const libraryBooks: string | undefined = data.libraryBooks
-                    if (libraryId !== undefined && libraryText !== undefined && libraryBooks !== undefined) {
+                    if (libraryText !== undefined && libraryBooks !== undefined) {
                         return libraryController.editLibrary(libraryId, libraryText, libraryBooks)
                     }
-                    
                 } catch {
                     return new Response("Bad Request.", {status: 404})
                 }
             }
-            if (action === "delete") {
+
+        case "delete":
+            
+            if (libraryId !== "delete") {
                 return libraryController.deleteLibrary(libraryId)
             }
+        
         default:
             return new Response("Method not allowed.", {status: 405})
+
     }
 }

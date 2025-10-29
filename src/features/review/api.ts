@@ -4,19 +4,17 @@ export const reviewApi = async (ctx: any) => {
 
     const reviewController = singletonMaster.reviewController
 
-    const action: string = ctx.params.action
-    const reviewId: string = ctx.params.$0
+    const reviewId: string = ctx.params.id
 
     switch (ctx.request.method.toLowerCase()) {
         case "get":
-            if (action === "fetch") {
-                if (reviewId !== "all") {
-                    return reviewController.getReviewById(reviewId)
-                }
-                return reviewController.listReviews()
+            if (reviewId !== "") {
+                return reviewController.getReviewById(reviewId)
             }
+            return reviewController.listReviews()
+
         case "post":
-            if (action === "create") {
+            if (reviewId !== "") {
                 try {
                     const data = await ctx.request.json()
                     const reviewText: string | undefined = data.reviewText
@@ -31,8 +29,9 @@ export const reviewApi = async (ctx: any) => {
                     return new Response("Bad Request.", {status: 404})
                 }
             }
+
         case "put":
-            if (action === "edit") {
+            if (reviewId !== "") {
                 try {
                     const data = await ctx.request.json()
                     const reviewText: string | undefined = data.reviewText
@@ -44,7 +43,9 @@ export const reviewApi = async (ctx: any) => {
                     return new Response("Bad Request.", {status: 404})
                 }
             }
-            if (action === "delete") {
+        
+        case "delete":
+            if (reviewId !== "") {
                 return reviewController.deleteReview(reviewId)
             }
     }
