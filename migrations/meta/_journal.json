@@ -50,6 +50,13 @@
       "when": 1761681118852,
       "tag": "0006_public_pandemic",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1761734011765,
+      "tag": "0007_hard_firebrand",
+      "breakpoints": true
     }
   ]
 }
