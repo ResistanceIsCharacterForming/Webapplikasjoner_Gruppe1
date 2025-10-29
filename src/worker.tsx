@@ -18,6 +18,7 @@ import Home from "./home";
 import { MapScreen } from "./features/map/pages/mapScreen";
 
 import { seed } from "./db/seed";
+import { libraries } from "./db/schema";
 
 
 export interface Env {
@@ -29,12 +30,6 @@ export type AppContext = {
   authUrl: string;
 };
 
-function test(user: User[]) {
-  for (let x in user) {
-    <p> {x}</p>;
-  }
-}
-
 export default defineApp([
   setCommonHeaders(),
 
@@ -42,8 +37,10 @@ export default defineApp([
 
   render(Document, [
     route("/", async () => {
+      
       console.log("test starting drizzle thang");
       const db = drizzle(env.bokkroken);
+      await db.delete(libraries);
       //const seeddatabase = await seed();
       //await db.insert(users).values({name: "user",email: "email",password: "safe",settings: "test",createdAt: new Date().toISOString(),});
       const userResult = await db.select().from(users);
