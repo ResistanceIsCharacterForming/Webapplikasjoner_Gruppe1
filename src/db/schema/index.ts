@@ -5,7 +5,7 @@ export * from "./libaries-schema";
 export * from "./reviews-schema";
 
 export * from "./admins-schema";
-export * from "./review_Usefullness-schema";
+export * from "./reviewsEndorsement-schema";
 
-export * from "./favorit_libaries-schema";
+export * from "./favoritLibaries-schema";
 export * from "./raports-schema";

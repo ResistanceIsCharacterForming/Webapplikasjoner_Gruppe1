@@ -1,4 +1,3 @@
-import { date } from "drizzle-orm/mysql-core";
 import { sqliteTable, text, int } from "drizzle-orm/sqlite-core";
 import {users} from "./users-schema";
 
