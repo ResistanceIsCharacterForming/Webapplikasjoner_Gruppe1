@@ -15,6 +15,7 @@ import { apiHandler } from "@/utils/apiHandler";
 import Home from "./home";
 
 import { MapScreen } from "./features/map/pages/mapScreen";
+import { seed } from "./db/seed";
 
 export interface Env {
   bokkroken: D1Database;
@@ -40,6 +41,7 @@ export default defineApp([
     route("/", async () => {
       console.log("test starting drizzle thang");
       const db = drizzle(env.bokkroken);
+      //const seeddatabase = await seed();
       //await db.insert(users).values({name: "user",email: "email",password: "safe",settings: "test",createdAt: new Date().toISOString(),});
       const userResult = await db.select().from(users);
       console.log("test starting drizzle thang");

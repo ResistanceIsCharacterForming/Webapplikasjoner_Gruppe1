@@ -4,11 +4,10 @@ import { defineScript } from "rwsdk/worker";
 import { drizzle } from "drizzle-orm/d1";
 
 import { users,reviews,reviewsEndorsements,reports,libraries,favoritLibraries,admins } from "./schema";
+import { db } from "./index";
 
-export default defineScript( async ({ env }) => {
-  try {
-    const db = drizzle(env.bokkroken);
-   
+export  const seed = async () =>{
+  try { 
     await db.delete(users);
     await db.delete(libraries);
     await db.delete(admins);
@@ -214,4 +213,4 @@ export default defineScript( async ({ env }) => {
       error: "Failed to seed database",
     });
   }
-});
+};
