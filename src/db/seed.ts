@@ -8,9 +8,9 @@ import { db } from "./index";
 
 export  const seed = async () =>{
   try { 
+    await db.delete(admins);
     await db.delete(users);
     await db.delete(libraries);
-    await db.delete(admins);
     await db.delete(reviews);
     await db.delete(reviewsEndorsements);
     await db.delete(favoritLibraries);
