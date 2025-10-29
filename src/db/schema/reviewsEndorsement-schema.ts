@@ -8,7 +8,6 @@ export const reviewsEndorsements = sqliteTable("reviewsEndorsements", {
     id: int().primaryKey({ autoIncrement: true }),
     reviewId:int("reviewId").references(() => reviews.id,{ onDelete: 'cascade' }),
     userId:text("userId").references(() => users.id,{ onDelete: 'cascade' }),
-    score:int().notNull(),
 });
 
 export type reviewEndorsement = typeof reviewsEndorsements.$inferSelect;
