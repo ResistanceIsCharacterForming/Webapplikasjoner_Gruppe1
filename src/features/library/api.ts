@@ -1,48 +1,65 @@
-import { prefix, route } from "rwsdk/router"
 import { singletonMaster } from "@/utils/singletonBuilder"
-import { filterQueryParams } from "@/utils/queryParamsHandler"
 
-export const libraryApi = async ({ctx, resource}) => {
-
+export const libraryApi = async (ctx: any) => {
+    
     const libraryController = singletonMaster.libraryController
 
-    if (resource === "library") {
+    const libraryId: string = ctx.params.id
 
-        /* Attempt to get values from id and review params if they exist. */
-        const [ id, review ] = filterQueryParams(ctx, ["id", "review"]) as [string, string]
+    switch (ctx.request.method.toLowerCase()) {
+
+        case "get":
+
+            if (libraryId !== "") {
+                return libraryController.getLibraryById(libraryId)
+            }
+            return libraryController.listLibraries()
+
+        case "post":
+
+            if (libraryId !== "") {
+                try {
+                    const data = await ctx.request.json()
+                    const libraryText: string | undefined = data.libraryText
+                    const libraryBooks: string | undefined = data.libraryBooks
+                    const libraryName: string | undefined = data.libraryBooks
+                    if (libraryText !== undefined && libraryBooks !== undefined && libraryName !== undefined) {
+                        return libraryController.createLibrary(
+                            libraryId,
+                            libraryText,
+                            libraryBooks,
+                            libraryName
+                        )
+                    }
+                    return new Response("Bad Request.", {status: 400})
+                } catch {
+                    return new Response("Bad Request.", {status: 404})
+                }
+            }
+
+        case "put": 
+
+            if (libraryId !== "") {
+                try {
+                    const data = await ctx.request.json()
+                    const libraryText: string | undefined= data.libraryText
+                    const libraryBooks: string | undefined = data.libraryBooks
+                    if (libraryText !== undefined && libraryBooks !== undefined) {
+                        return libraryController.editLibrary(libraryId, libraryText, libraryBooks)
+                    }
+                } catch {
+                    return new Response("Bad Request.", {status: 404})
+                }
+            }
+
+        case "delete":
+            
+            if (libraryId !== "delete") {
+                return libraryController.deleteLibrary(libraryId)
+            }
         
-        switch (ctx.request.method) {
+        default:
+            return new Response("Method not allowed.", {status: 405})
 
-            case "GET":
-                if (id !== undefined) {
-                    return libraryController.getBookshelfById(id)
-                }
-
-                return libraryController.listBookshelves()
-
-            case "POST":
-                if (id !== undefined && review !== undefined) {
-                    return libraryController.createReview({})
-                }
-
-                if (id !== undefined) {
-                    return libraryController.createBookshelf({})
-                }
-
-            case "PUT":
-                if (id !== undefined && review !== undefined) {
-                    return libraryController.editReview(id)
-                }
-
-                if (id !== undefined) {
-                    return libraryController.editBookshelf(id)
-                }
-
-            default:
-                return new Response("Method not allowed.", {status: 405})
-
-        }
-        
     }
-
 }

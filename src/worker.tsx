@@ -9,13 +9,16 @@ import { drizzle } from "drizzle-orm/d1";
 
 import { adminRoutes } from "./features/adminRoutes";
 import { userRoutes } from "./features/userRoutes";
-import { isAuthenticated } from "./features/isAuthenticated";
+import { isAuthenticated } from "@/middleware/authentication";
+import { isAuthorized } from "@/middleware/authorization";
 
 import { apiHandler } from "@/utils/apiHandler";
 import Home from "./home";
 
 import { MapScreen } from "./features/map/pages/mapScreen";
+
 import { seed } from "./db/seed";
+
 
 export interface Env {
   bokkroken: D1Database;
@@ -95,8 +98,14 @@ export default defineApp([
     ]),
   ]),
 
-  route("/api/v*/*/", (ctx) => {
-    return apiHandler(ctx);
+  
+  isAuthenticated,
+  isAuthorized,
+  route("/api/v1/*/", (ctx: any) => {
+    return apiHandler(ctx)
   }),
+  
+
+  
   route("/map", MapScreen),
 ]);
