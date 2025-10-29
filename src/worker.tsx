@@ -96,22 +96,13 @@ export default defineApp([
     ]),
   ]),
 
-  prefix(
-    "/api/v:version/:resource",
-    [route("/", (ctx: any) => {
-      return apiHandler(ctx);
-    }),
-    isAuthenticated,
-    isAuthorized,
-    route("/:slugOne", (ctx: any) => {
-      return apiHandler(ctx);
-    }),
-    route("/:slugOne/:slugTwo/", (ctx: any) => {
-      return apiHandler(ctx);
-    })]
-  ),
+  
+  isAuthenticated,
+  route("/api/v1/:resource/:action/*/", (ctx: any) => {
+    return apiHandler(ctx)
+  }),
+  
 
-
-
+  
   route("/map", MapScreen),
 ]);
