@@ -1,4 +1,4 @@
-export function createDashboardController (dashboardService: any) {
+export function createReportController (reportService: any) {
     return {
         async listReports() { 
             return new Response(

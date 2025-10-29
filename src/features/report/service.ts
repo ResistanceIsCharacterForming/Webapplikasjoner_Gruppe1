@@ -1,4 +1,4 @@
-export function createDashboardService() {
+export function createReportService() {
 
     return {
         test() {

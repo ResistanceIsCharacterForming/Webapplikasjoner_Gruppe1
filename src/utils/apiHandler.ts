@@ -2,7 +2,7 @@ import { prefix, route } from "rwsdk/router"
 
 import { libraryApi } from "@/features/library/api"
 import { userApi } from "@/features/user/api"
-import { dashboardApi } from "@/features/dashboard/api"
+import { dashboardApi } from "@/features/report/api"
 import { reviewApi } from "@/features/review/api"
 import { isAuthorized } from "@/middleware/authorization"
 

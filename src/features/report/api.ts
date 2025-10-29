@@ -1,8 +1,8 @@
 import { singletonMaster } from "@/utils/singletonBuilder"
 
-export const dashboardApi = async (ctx: any) => {
+export const reportApi = async (ctx: any) => {
 
-    const dashboardController = singletonMaster.dashboardController
+    const reportController = singletonMaster.reportController
     const reportId: string = ctx.params.ide
     const reportType: string = ctx.params.type
 
@@ -11,11 +11,11 @@ export const dashboardApi = async (ctx: any) => {
         case "get":
             
             if (reportId !== "" && reportType !== "") {
-                return dashboardController.listReportsByType(reportType)
+                return reportController.listReportsByType(reportType)
             }
             if (reportId !== "") {
-                return dashboardController.getReportById(reportId)
+                return reportController.getReportById(reportId)
             }
-            return dashboardController.listReports()
+            return reportController.listReports()
     }
 }
