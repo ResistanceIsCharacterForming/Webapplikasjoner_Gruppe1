@@ -6,8 +6,8 @@ import { db } from "../../db/index";
 //admins
 export const getAdmins = async () => {
   try {
-    const restult: admin[] = await db.select().from(admins);
-    return { success: true, data: restult }
+    const result: admin[] = await db.select().from(admins);
+    return { success: true, data: result }
   } catch (error) {
     return { success: false, error: 'Failed getting admins' }
   }
@@ -15,12 +15,12 @@ export const getAdmins = async () => {
 
 export const createAdmin = async (data : any) => {
   try {
-    const restult: admin[] = await db.insert(admins).values({
+    const result: admin[] = await db.insert(admins).values({
         userId: data.userId,
         createdAt: data.createdAt,
         adminLevel: data.adminLevel,
     }).returning();
-    return { success: true, data: restult }
+    return { success: true, data: result }
   } catch (error) {
     return { success: false, error: 'Failed creating admin' }
   }
@@ -28,8 +28,8 @@ export const createAdmin = async (data : any) => {
 
 export const editAdmin = async (id: string,data : any) => {
  try {
-    const restult : admin[]= await db.update(admins).set(data).where(eq(admins.userId, id)).returning();
-    return { succes :true, data: restult }
+    const result : admin[]= await db.update(admins).set(data).where(eq(admins.userId, id)).returning();
+    return { succes :true, data: result }
   } catch (error) {
     return { success: false, error: 'Failed edit admin' }
   }
@@ -37,8 +37,8 @@ export const editAdmin = async (id: string,data : any) => {
 
 export const getAdminById = async (id: string) => {
   try {
-    const restult : admin[] = await db.select().from(admins).where(eq(admins.userId, id));
-    return { success: true, data: restult }
+    const result : admin[] = await db.select().from(admins).where(eq(admins.userId, id));
+    return { success: true, data: result }
   } catch (error) {
     return { success: false, error: 'Failed getting admin by id' }
   }

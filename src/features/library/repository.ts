@@ -1,96 +1,106 @@
 import {eq,and, lte, gte} from "drizzle-orm";
-import {libraries, library} from "../../db/schema";
+import {libraries,library } from "../../db/schema";
 import { db } from "../../db/index";
+import { LibraryRepository } from "@/types/library";
 
 
 
-// Libraries
-export const getLibraries = async () => {
+export function createLibraryRepository():LibraryRepository{
+  return{
+    
+    async getLibraries(){
   try {
-    const restult: library[] = await db.select().from(libraries);
-    return { success: true, data: restult }
+    const result: library[] = await db.select().from(libraries);
+    return { success: true, data: result }
   } catch (error) {
     return { success: false, error: 'Failed getting libraries' }
   }
-}
+},
 
-export const createLibrary = async (data : any) => {
+  async createLibrary(userId:string,name: string,text: string,cordlat: number,cordlon: number,books: string,createdAt:string,photos:string){
   try {
-    const restult: library[] = await db.insert(libraries).values({
-        userId: data.userId,
-        name: data.name,
-        text: data.text,
-        cordlat: data.cordlat,
-        cordlon: data.cordlon,
-        books: data.books,
-        createdAt: data.createdAt,
-        photos: data.photos,  
+    const result: library[] = await db.insert(libraries).values({
+        userId: userId,
+        name: name,
+        text: text,
+        cordlat: cordlat,
+        cordlon: cordlon,
+        books: books,
+        createdAt: createdAt,
+        photos: photos,  
     }).returning();
-    return { success: true, data: restult }
+    return { success: true, data: result }
   } catch (error) {
-    return { success: false, error: 'Failed creating libary' }
+    return { success: false, error: 'Failed creating library' }
   }
-}
+},
 
-export const editLibrary = async (id: string,data : any) => {
+  async editLibrary(id: string,data : any){
  try {
-    const restult : library[]= await db.update(libraries).set(data).where(eq(libraries.id, id)).returning();
-    return { succes :true, data: restult }
+    const result : library[]= await db.update(libraries).set(data).where(eq(libraries.id, id)).returning();
+    return { success :true, data: result }
   } catch (error) {
-    return { success: false, error: 'Failed edit libary' }
+    return { success: false, error: 'Failed edit library' }
   }
-}
+},
 
-export const getLibraryById = async (id: string) => {
+  async getLibraryById(id: string){
   try {
-    const restult : library[] = await db.select().from(libraries).where(eq(libraries.id, id));
-    return { success: true, data: restult }
+    const result : library[] = await db.select().from(libraries).where(eq(libraries.id, id));
+    return { success: true, data: result }
   } catch (error) {
-    return { success: false, error: 'Failed getting libary by id' }
+    return { success: false, error: 'Failed getting library by id' }
   }
-}
+},
 
-export const getLibraryByUserId = async (id:string) => {
+  async getLibraryByUserId(id:string){
   try {
-    const restult : library[] = await db.select().from(libraries).where(eq(libraries.userId, id));
-    return { success: true, data: restult }
+    const result : library[] = await db.select().from(libraries).where(eq(libraries.userId, id));
+    return { success: true, data: result }
   } catch (error) {
-    return { success: false, error: 'Failed getting libary by id' }
+    return { success: false, error: 'Failed getting library by id' }
   }
-}
+},
 
-export const getLibraryBycords = async (maxlon:number,minlon:number,maxlat:number,minlat:number) => {
+  async getLibraryBycords(maxlon:number,minlon:number,maxlat:number,minlat:number){
   try {
-    const restult : library[]  =  await db.select().from(libraries).where(
+    const result : library[]  =  await db.select().from(libraries).where(
       and(
           gte(libraries.cordlat, minlat),
           lte(libraries.cordlat, maxlat),
           gte(libraries.cordlon, minlon),
           lte(libraries.cordlon, maxlon),
       ));
-    return{success: true,restult}
+    return{success: true,result}
   }
   catch (error){
     return{success:false,error:"failed getting review by id"}
   }
-}
+},
 
-export const deleteLibraryById = async (id:string) => {
+  async deleteLibraryById(id:string){
   try {
     await db.delete(libraries).where(eq(libraries.id,id)); 
     return { success: true }
     } catch (error) {
       console.log(error)
-    return { success: false, error: 'Failed deleting libary by id' }
+    return { success: false, error: 'Failed deleting library by id' }
     }
-}
+},
 
-export const deleteLibrariesByUserId = async (id: string) => {
+  async deleteLibrariesByUserId(id: string){
   try {
     await db.delete(libraries).where(eq(libraries.userId, id)); 
     return { success: true }
     } catch (error) {
-    return { success: false, error: 'Failed deleting libary by user id' }
+    return { success: false, error: 'Failed deleting library by user id' }
     }
+},
+
+
 }
+
+}
+
+
 

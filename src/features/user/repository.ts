@@ -6,8 +6,8 @@ import { db } from "../../db/index";
 
 export const getUsers = async () => {
   try {
-    const restult: User[] = await db.select().from(users);
-    return { success: true, data: restult }
+    const result: User[] = await db.select().from(users);
+    return { success: true, data: result }
   } catch (error) {
     return { success: false, error: 'Failed getting users' }
   }
@@ -15,7 +15,7 @@ export const getUsers = async () => {
 
 export const createUser = async (data : any) => {
   try {
-    const restult: User[] = await db.insert(users).values({
+    const result: User[] = await db.insert(users).values({
         name: data.name,
         email: data.email,
         password: data.password,
@@ -23,7 +23,7 @@ export const createUser = async (data : any) => {
         createdAt: data.createdAt,
         profileImage: data.profileImage,
     }).returning();
-    return { success: true, data: restult }
+    return { success: true, data: result }
   } catch (error) {
     return { success: false, error: 'Failed creating user' }
   }
@@ -31,8 +31,8 @@ export const createUser = async (data : any) => {
 
 export const editUser = async (id: string,data : any) => {
  try {
-    const restult : User[]= await db.update(users).set(data).where(eq(users.id, id)).returning();
-    return { succes :true, data: restult }
+    const result : User[]= await db.update(users).set(data).where(eq(users.id, id)).returning();
+    return { succes :true, data: result }
   } catch (error) {
     return { success: false, error: 'Failed edit user' }
   }
@@ -40,8 +40,8 @@ export const editUser = async (id: string,data : any) => {
 
 export const getUserById = async (id: string) => {
   try {
-    const restult : User[] = await db.select().from(users).where(eq(users.id, id));
-    return { success: true, data: restult }
+    const result : User[] = await db.select().from(users).where(eq(users.id, id));
+    return { success: true, data: result }
   } catch (error) {
     return { success: false, error: 'Failed getting user by id' }
   }
@@ -60,8 +60,8 @@ export const deleteUserById = async (id:string) => {
 // favrit libaraies
 export const getfavoritLibraries = async () => {
   try {
-    const restult: favoritLibrary[] = await db.select().from(favoritLibraries);
-    return { success: true, data: restult }
+    const result: favoritLibrary[] = await db.select().from(favoritLibraries);
+    return { success: true, data: result }
   } catch (error) {
     return { success: false, error: 'Failed getting favoritLibraries' }
   }
@@ -69,11 +69,11 @@ export const getfavoritLibraries = async () => {
 
 export const createfavoritLibrary = async (data : any) => {
   try {
-    const restult: favoritLibrary[] = await db.insert(favoritLibraries).values({
+    const result: favoritLibrary[] = await db.insert(favoritLibraries).values({
         userId: data.userId,
         libaryId:data.libaryId,
     }).returning();
-    return { success: true, data: restult }
+    return { success: true, data: result }
   } catch (error) {
     return { success: false, error: 'Failed creating favoritLibrary' }
   }
@@ -81,8 +81,8 @@ export const createfavoritLibrary = async (data : any) => {
 
 export const editfavoritLibrary = async (id: number,data : any) => {
  try {
-    const restult : favoritLibrary[]= await db.update(favoritLibraries).set(data).where(eq(favoritLibraries.id, id)).returning();
-    return { succes :true, data: restult }
+    const result : favoritLibrary[]= await db.update(favoritLibraries).set(data).where(eq(favoritLibraries.id, id)).returning();
+    return { succes :true, data: result }
   } catch (error) {
     return { success: false, error: 'Failed edit favoritLibrary' }
   }
@@ -90,8 +90,8 @@ export const editfavoritLibrary = async (id: number,data : any) => {
 
 export const getfavoritLibraryById = async (id: number) => {
   try {
-    const restult : favoritLibrary[] = await db.select().from(favoritLibraries).where(eq(favoritLibraries.id, id));
-    return { success: true, data: restult }
+    const result : favoritLibrary[] = await db.select().from(favoritLibraries).where(eq(favoritLibraries.id, id));
+    return { success: true, data: result }
   } catch (error) {
     return { success: false, error: 'Failed getting favoritLibrary by id' }
   }
@@ -100,8 +100,8 @@ export const getfavoritLibraryById = async (id: number) => {
 
 export const getfavoritLibrariesByUserId = async (id: string) => {
   try {
-    const restult : favoritLibrary[] = await db.select().from(favoritLibraries).where(eq(favoritLibraries.userId, id));
-    return { success: true, data: restult }
+    const result : favoritLibrary[] = await db.select().from(favoritLibraries).where(eq(favoritLibraries.userId, id));
+    return { success: true, data: result }
   } catch (error) {
     return { success: false, error: 'Failed getting favoritLibrary by user id' }
   }
@@ -110,8 +110,8 @@ export const getfavoritLibrariesByUserId = async (id: string) => {
 
 export const getfavoritLibrariesByLibaryId = async (id: string) => {
   try {
-    const restult : favoritLibrary[] = await db.select().from(favoritLibraries).where(eq(favoritLibraries.libaryId, id));
-    return { success: true, data: restult }
+    const result : favoritLibrary[] = await db.select().from(favoritLibraries).where(eq(favoritLibraries.libaryId, id));
+    return { success: true, data: result }
   } catch (error) {
     return { success: false, error: 'Failed getting favoritLibrary by libary id' }
   }

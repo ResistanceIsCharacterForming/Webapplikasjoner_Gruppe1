@@ -2,14 +2,14 @@ import { prefix, route } from "rwsdk/router"
 
 import { libraryApi } from "@/features/library/api"
 import { userApi } from "@/features/user/api"
-import { dashboardApi } from "@/features/report/api"
+import { reportApi } from "@/features/report/api"
 import { reviewApi } from "@/features/review/api"
 import { isAuthorized } from "@/middleware/authorization"
 
 const features = {
     libraries  : (ctx: any) => {return libraryApi(ctx)},
     users : (ctx: any) => {return userApi(ctx)},
-    reports : (ctx: any) => {return dashboardApi(ctx)},
+    reports : (ctx: any) => {return reportApi(ctx)},
     reviews : (ctx: any) => {return reviewApi(ctx)}
 }
 

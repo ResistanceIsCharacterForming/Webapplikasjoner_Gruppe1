@@ -6,8 +6,8 @@ import { db } from "../../db/index";
 // reveiws 
 export const getReviews = async () => {
   try {
-    const restult : review[] = await db.select().from(reviews);
-    return { success: true, data: restult }
+    const result : review[] = await db.select().from(reviews);
+    return { success: true, data: result }
   } catch (error) {
     return { success: false, error: 'Failed getting reviews' }
   }
@@ -15,7 +15,7 @@ export const getReviews = async () => {
 
 export const createReview = async (data : any) => {
   try {
-    const restult : review[]  = await db.insert(reviews).values({
+    const result : review[]  = await db.insert(reviews).values({
         userId: data.userId,
         libaryId: data.libaryId,
         text: data.text,
@@ -23,7 +23,7 @@ export const createReview = async (data : any) => {
         createdAt: data.createdAt,
         Photo: data.Photo,
     }).returning();
-    return { success: true, data: restult }
+    return { success: true, data: result }
   }
     catch (error) {
     return { success: false, error: 'Failed creating review' }
@@ -32,8 +32,8 @@ export const createReview = async (data : any) => {
 
 export const getReviewById = async (id:number) => {
   try {
-    const restult : review[]  =  await db.select().from(reviews).where(eq(reviews.id, id));
-    return{success: true,restult}
+    const result : review[]  =  await db.select().from(reviews).where(eq(reviews.id, id));
+    return{success: true,result}
   }
   catch (error){
     return{success:false,error:"failed getting review by id"}
@@ -43,8 +43,8 @@ export const getReviewById = async (id:number) => {
 
 export const getReviewByUserId = async (id:string) => {
   try {
-    const restult : review[]  =  await db.select().from(reviews).where(eq(reviews.userId, id));
-    return{success: true,restult}
+    const result : review[]  =  await db.select().from(reviews).where(eq(reviews.userId, id));
+    return{success: true,result}
   }
   catch (error){
     return{success:false,error:"failed getting review by user id"}
@@ -53,8 +53,8 @@ export const getReviewByUserId = async (id:string) => {
 
 export const getReviewByLibaryId = async (id:string) => {
   try {
-    const restult : review[]  =  await db.select().from(reviews).where(eq(reviews.libaryId, id));
-    return{success: true,restult}
+    const result : review[]  =  await db.select().from(reviews).where(eq(reviews.libaryId, id));
+    return{success: true,result}
   }
   catch (error){
     return{success:false,error:"failed getting review by libary id"}
@@ -63,8 +63,8 @@ export const getReviewByLibaryId = async (id:string) => {
 
 export const editReview = async (id:number,data:any) => {
   try {
-    const restult: review[] = await db.update(reviews).set(data).where(eq(reviews.id, id)).returning();
-    return{success: true,restult}
+    const result: review[] = await db.update(reviews).set(data).where(eq(reviews.id, id)).returning();
+    return{success: true,result}
   }
   catch (error){
     return{success:false,error:"failed to edit reveiw"}
@@ -106,8 +106,8 @@ export const deleteReviewByLibaryId = async (id:string) => {
 // reveiws endorsments
 export const getReviewsEndorsements = async () => {
   try {
-    const restult:reviewEndorsement[] = await db.select().from(reviewsEndorsements);
-    return { success: true, restult: reviewsEndorsements }
+    const result:reviewEndorsement[] = await db.select().from(reviewsEndorsements);
+    return { success: true, result: reviewsEndorsements }
   } catch (error) {
     return { success: false, error: 'Failed getting reviewsEndorsements' }
   }
@@ -115,11 +115,11 @@ export const getReviewsEndorsements = async () => {
 
 export const createReviewEndorsement = async (data : any) => {
   try {
-    const restult : reviewEndorsement[] = await db.insert(reviewsEndorsements).values({
+    const result : reviewEndorsement[] = await db.insert(reviewsEndorsements).values({
        reviewId : data.reviewId,
        userId: data.userId,
     }).returning();
-    return { success: true, data: restult }
+    return { success: true, data: result }
   }
     catch (error) {
     return { success: false, error: 'Failed creating reviewEndorsement' }
@@ -128,8 +128,8 @@ export const createReviewEndorsement = async (data : any) => {
 
 export const getReviewEndorsementById = async (id:number) => {
   try {
-    const restult : reviewEndorsement[] =  await db.select().from(reviewsEndorsements).where(eq(reviewsEndorsements.id, id));
-    return{success: true,restult}
+    const result : reviewEndorsement[] =  await db.select().from(reviewsEndorsements).where(eq(reviewsEndorsements.id, id));
+    return{success: true,result}
   }
   catch (error){
     return{success:false,error:"failed getting reviewEndorsement by id"}
@@ -138,8 +138,8 @@ export const getReviewEndorsementById = async (id:number) => {
 
 export const getReviewEndorsementByUserId = async (id:string) => {
   try {
-    const restult : reviewEndorsement[] =  await db.select().from(reviewsEndorsements).where(eq(reviewsEndorsements.userId, id));
-    return{success: true,restult}
+    const result : reviewEndorsement[] =  await db.select().from(reviewsEndorsements).where(eq(reviewsEndorsements.userId, id));
+    return{success: true,result}
   }
   catch (error){
     return{success:false,error:"failed getting reviewEndorsement by user id"}
@@ -148,8 +148,8 @@ export const getReviewEndorsementByUserId = async (id:string) => {
 
 export const getReviewEndorsementByReviewId = async (id:number) => {
   try {
-    const restult : reviewEndorsement[] =  await db.select().from(reviewsEndorsements).where(eq(reviewsEndorsements.reviewId, id));
-    return{success: true,restult}
+    const result : reviewEndorsement[] =  await db.select().from(reviewsEndorsements).where(eq(reviewsEndorsements.reviewId, id));
+    return{success: true,result}
   }
   catch (error){
     return{success:false,error:"failed getting reviewEndorsement by review id"}
@@ -158,8 +158,8 @@ export const getReviewEndorsementByReviewId = async (id:number) => {
 
 export const editReviewEndorsement = async (id:number,data:any) => {
   try {
-    const restult : reviewEndorsement[] = await db.update(reviewsEndorsements).set(data).where(eq(reviewsEndorsements.id, id)).returning();
-    return{success: true,restult}
+    const result : reviewEndorsement[] = await db.update(reviewsEndorsements).set(data).where(eq(reviewsEndorsements.id, id)).returning();
+    return{success: true,result}
   }
   catch (error){
     return{success:false,error:"failed to edit reviewEndorsement"}

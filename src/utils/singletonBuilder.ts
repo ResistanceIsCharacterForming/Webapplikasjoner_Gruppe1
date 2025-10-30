@@ -6,10 +6,13 @@ import { createReportController } from "@/features/report/controller"
 import { createReportService } from "@/features/report/service"
 import { createReviewController } from "@/features/review/controller"
 import { createReviewService } from "@/features/review/service"
+import { createLibraryRepository } from "@/features/library/repository"
 
 export const singletonMaster = ({
-    libraryController: createLibraryController(createLibraryService()),
+    libraryController: createLibraryController(createLibraryService( createLibraryRepository() )),
     userController: createUserController(createUserService()),
     reportController: createReportController(createReportService()),
     reviewController: createReviewController(createReviewService())
+
+
 })
