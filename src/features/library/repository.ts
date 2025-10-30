@@ -1,4 +1,4 @@
-import {eq} from "drizzle-orm";
+import {eq,and, lte, gte} from "drizzle-orm";
 import {libraries, library,review,reviews,reviewEndorsement,reviewsEndorsements} from "../../db/schema";
 import { db } from "../../db/index";
 
@@ -59,6 +59,21 @@ export const getLibraryByUserId = async (id:string) => {
   }
 }
 
+export const getLibraryBycords = async (maxlon:number,minlon:number,maxlat:number,minlat:number) => {
+  try {
+    const restult : library[]  =  await db.select().from(libraries).where(
+      and(
+          gte(libraries.cordlat, minlat),
+          lte(libraries.cordlat, maxlat),
+          gte(libraries.cordlon, minlon),
+          lte(libraries.cordlon, maxlon),
+      ));
+    return{success: true,restult}
+  }
+  catch (error){
+    return{success:false,error:"failed getting review by id"}
+  }
+}
 export const deleteLibraryById = async (id:string) => {
   try {
     await db.delete(libraries).where(eq(libraries.id,id)); 
@@ -116,6 +131,7 @@ export const getReviewById = async (id:number) => {
   }
 }
 
+
 export const getReviewByUserId = async (id:string) => {
   try {
     const restult : review[]  =  await db.select().from(reviews).where(eq(reviews.userId, id));
@@ -126,7 +142,7 @@ export const getReviewByUserId = async (id:string) => {
   }
 }
 
-export const getReviewByLiibaryId = async (id:string) => {
+export const getReviewByLibaryId = async (id:string) => {
   try {
     const restult : review[]  =  await db.select().from(reviews).where(eq(reviews.libaryId, id));
     return{success: true,restult}
@@ -172,7 +188,6 @@ export const createReviewEndorsement = async (data : any) => {
     const restult : reviewEndorsement[] = await db.insert(reviewsEndorsements).values({
        reviewId : data.reviewId,
        userId: data.userId,
-       score: data.score
     }).returning();
     return { success: true, data: restult }
   }
