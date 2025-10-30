@@ -57,6 +57,7 @@ export const deleteUserById = async (id:string) => {
     }
 }
 
+// favrit libaraies
 export const getfavoritLibraries = async () => {
   try {
     const restult: favoritLibrary[] = await db.select().from(favoritLibraries);
