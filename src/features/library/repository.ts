@@ -1,11 +1,11 @@
 import {eq,and, lte, gte} from "drizzle-orm";
 import {libraries,library } from "../../db/schema";
 import { db } from "../../db/index";
-import { LibraryRepository } from "@/types/library";
+import { libraryRepository } from "@/types/library";
 
 
 
-export function createLibraryRepository():LibraryRepository{
+export function createLibraryRepository():libraryRepository{
   return{
     
     async getLibraries(){
@@ -35,7 +35,7 @@ export function createLibraryRepository():LibraryRepository{
   }
 },
 
-  async editLibrary(id: string,data : any){
+  async editLibrary(id: string,data : Partial<library>){
  try {
     const result : library[]= await db.update(libraries).set(data).where(eq(libraries.id, id)).returning();
     return { success :true, data: result }

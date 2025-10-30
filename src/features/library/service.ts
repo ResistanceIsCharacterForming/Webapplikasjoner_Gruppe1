@@ -1,8 +1,8 @@
 import { library } from "@/db/schema"
-import { libraryservice, LibraryRepository } from "@/types/library"
+import { libraryservice, libraryRepository } from "@/types/library"
 
 
-export function createLibraryService(repository: LibraryRepository):libraryservice {
+export function createLibraryService(repository: libraryRepository):libraryservice {
 
     return {
         async listLibraries() {

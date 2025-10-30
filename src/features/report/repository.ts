@@ -1,54 +1,57 @@
 import {and, eq} from "drizzle-orm";
 import {report,reports} from "../../db/schema";
 import { db } from "../../db/index";
+import { reportRepository } from "@/types/reports";
 
-// raports
-export const getReports = async () => {
+export function createReportRepository(): reportRepository{
+  return{
+
+  async getReports(){
   try {
     const result: report[] = await db.select().from(reports);
     return { success: true, data: result }
   } catch (error) {
     return { success: false, error: 'Failed getting reports' }
   }
-}
+},
 
-export const createReport = async (data : any) => {
+  async createReport(data :any){
   try {
     const result: report[] = await db.insert(reports).values(data).returning();
     return { success: true, data: result }
   } catch (error) {
     return { success: false, error: 'Failed creating report' }
   }
-}
+},
 
-export const editReport = async (id: number,data : any) => {
+ async editReport(id: number,data : any){
  try {
     const result : report[]= await db.update(reports).set(data).where(eq(reports.id, id)).returning();
-    return { succes :true, data: result }
+    return { success: true, data: result }
   } catch (error) {
     return { success: false, error: 'Failed edit report' }
   }
-}
+},
 
-export const getReportById = async (id: number) => {
+async getReportById(id: number){
   try {
     const result : report[] = await db.select().from(reports).where(eq(reports.id, id));
     return { success: true, data: result }
   } catch (error) {
     return { success: false, error: 'Failed getting report by id' }
   }
-}
+},
 
-export const getReportByType = async (type: string) => {
+async getReportByType(type: string){
   try {
     const result : report[] = await db.select().from(reports).where(eq(reports.raportType, type));
     return { success: true, data: result }
   } catch (error) {
     return { success: false, error: 'Failed getting report by type' }
   }
-}
+},
 
-export const getReportByTypeAndLevel = async (type: string,level: number) => {
+ async getReportByTypeAndLevel(type: string,level: number){
   try {
     const result : report[] = await db.select().from(reports).where(
         and(
@@ -60,19 +63,18 @@ export const getReportByTypeAndLevel = async (type: string,level: number) => {
   } catch (error) {
     return { success: false, error: 'Failed getting report by type and level' }
   }
-}
+},
 
-export const getReportByLevel = async (level: number) => {
+ async getReportByLevel(level: number){
   try {
     const result : report[] = await db.select().from(reports).where(eq(reports.raportLevel, level), );
     return { success: true, data: result }
   } catch (error) {
     return { success: false, error: 'Failed getting report by level' }
   }
-}
+},
 
-
-export const deleteReportById = async (id:number) => {
+ async deleteReportById(id:number){
   try {
     await db.delete(reports).where(eq(reports.id,id)); 
     return { success: true }
@@ -80,5 +82,8 @@ export const deleteReportById = async (id:number) => {
       console.log(error)
     return { success: false, error: 'Failed deleting report by id' }
     }
+},
+
+  }
 }
 

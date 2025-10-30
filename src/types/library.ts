@@ -1,12 +1,11 @@
-import { library,libraries } from "@/db/schema";
-import { createLibraryRepository } from "@/features/library/repository";
+import { library} from "@/db/schema";
 import { apiResponse } from "./api";
 
 
-export interface LibraryRepository {
+export interface libraryRepository {
   getLibraries(): Promise<apiResponse<library[]>>;
   createLibrary(userId:string,name: string,text: string,cordlat: number,cordlon: number,books: string,createdAt:string,photos:string): Promise<apiResponse<library[]>>;
-  editLibrary(id: string, data: any): Promise<apiResponse<library[]>>;
+  editLibrary(id: string, data: Partial<library>): Promise<apiResponse<library[]>>;
   getLibraryById(id: string): Promise<apiResponse<library[]>>;
   getLibraryByUserId(id: string): Promise<apiResponse<library[]>>;
   getLibraryBycords(maxlon: number,minlon: number,maxlat: number,minlat: number): Promise<apiResponse<library[]>>;

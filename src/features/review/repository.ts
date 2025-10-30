@@ -1,19 +1,21 @@
 import {eq} from "drizzle-orm";
 import {review,reviews,reviewEndorsement,reviewsEndorsements} from "../../db/schema";
 import { db } from "../../db/index";
+import { reviewRepository } from "@/types/reviews";
 
+export function createReviewRepository():reviewRepository{
+  return{
 
-// reveiws 
-export const getReviews = async () => {
+async getReviews(){
   try {
     const result : review[] = await db.select().from(reviews);
     return { success: true, data: result }
   } catch (error) {
     return { success: false, error: 'Failed getting reviews' }
   }
-}
+},
 
-export const createReview = async (data : any) => {
+async createReview(data : any){
   try {
     const result : review[]  = await db.insert(reviews).values({
         userId: data.userId,
@@ -28,9 +30,9 @@ export const createReview = async (data : any) => {
     catch (error) {
     return { success: false, error: 'Failed creating review' }
   }
-}
+},
 
-export const getReviewById = async (id:number) => {
+async getReviewById(id:number){
   try {
     const result : review[]  =  await db.select().from(reviews).where(eq(reviews.id, id));
     return{success: true,result}
@@ -38,10 +40,10 @@ export const getReviewById = async (id:number) => {
   catch (error){
     return{success:false,error:"failed getting review by id"}
   }
-}
+},
 
 
-export const getReviewByUserId = async (id:string) => {
+async getReviewByUserId(id:string){
   try {
     const result : review[]  =  await db.select().from(reviews).where(eq(reviews.userId, id));
     return{success: true,result}
@@ -49,9 +51,9 @@ export const getReviewByUserId = async (id:string) => {
   catch (error){
     return{success:false,error:"failed getting review by user id"}
   }
-}
+},
 
-export const getReviewByLibaryId = async (id:string) => {
+async getReviewByLibaryId(id:string){
   try {
     const result : review[]  =  await db.select().from(reviews).where(eq(reviews.libaryId, id));
     return{success: true,result}
@@ -59,9 +61,9 @@ export const getReviewByLibaryId = async (id:string) => {
   catch (error){
     return{success:false,error:"failed getting review by libary id"}
   }
-}
+},
 
-export const editReview = async (id:number,data:any) => {
+async editReview(id:number,data:Partial<review>){
   try {
     const result: review[] = await db.update(reviews).set(data).where(eq(reviews.id, id)).returning();
     return{success: true,result}
@@ -69,9 +71,9 @@ export const editReview = async (id:number,data:any) => {
   catch (error){
     return{success:false,error:"failed to edit reveiw"}
   }
-}
+},
 
-export const deleteReviewById = async (id:number) => {
+async deleteReviewById(id:number){
   try {
     await db.delete(reviews).where(eq(reviews.id,id));
     return{success: true}
@@ -79,9 +81,9 @@ export const deleteReviewById = async (id:number) => {
   catch (error){
     return{success:false,error:"failed to delete review"}
   }
-}
+},
 
-export const deleteReviewByUserId = async (id:string) => {
+async deleteReviewByUserId(id:string){
   try {
     await db.delete(reviews).where(eq(reviews.userId,id));
     return{success: true}
@@ -89,9 +91,9 @@ export const deleteReviewByUserId = async (id:string) => {
   catch (error){
     return{success:false,error:"failed to delete review"}
   }
-} 
+},
 
-export const deleteReviewByLibaryId = async (id:string) => {
+async deleteReviewByLibaryId(id:string){
   try {
     await db.delete(reviews).where(eq(reviews.libaryId,id));
     return{success: true}
@@ -99,21 +101,20 @@ export const deleteReviewByLibaryId = async (id:string) => {
   catch (error){
     return{success:false,error:"failed to delete review"}
   }
-} 
+},
 
+// reviews endorsments
 
-
-// reveiws endorsments
-export const getReviewsEndorsements = async () => {
+async getReviewsEndorsements(){
   try {
     const result:reviewEndorsement[] = await db.select().from(reviewsEndorsements);
     return { success: true, result: reviewsEndorsements }
   } catch (error) {
     return { success: false, error: 'Failed getting reviewsEndorsements' }
   }
-}
+},
 
-export const createReviewEndorsement = async (data : any) => {
+async createReviewEndorsement(data : any){
   try {
     const result : reviewEndorsement[] = await db.insert(reviewsEndorsements).values({
        reviewId : data.reviewId,
@@ -124,9 +125,9 @@ export const createReviewEndorsement = async (data : any) => {
     catch (error) {
     return { success: false, error: 'Failed creating reviewEndorsement' }
   }
-}
+},
 
-export const getReviewEndorsementById = async (id:number) => {
+async getReviewEndorsementById(id:number){
   try {
     const result : reviewEndorsement[] =  await db.select().from(reviewsEndorsements).where(eq(reviewsEndorsements.id, id));
     return{success: true,result}
@@ -134,9 +135,9 @@ export const getReviewEndorsementById = async (id:number) => {
   catch (error){
     return{success:false,error:"failed getting reviewEndorsement by id"}
   }
-}
+},
 
-export const getReviewEndorsementByUserId = async (id:string) => {
+async getReviewEndorsementByUserId(id:string){
   try {
     const result : reviewEndorsement[] =  await db.select().from(reviewsEndorsements).where(eq(reviewsEndorsements.userId, id));
     return{success: true,result}
@@ -144,9 +145,9 @@ export const getReviewEndorsementByUserId = async (id:string) => {
   catch (error){
     return{success:false,error:"failed getting reviewEndorsement by user id"}
   }
-}
+},
 
-export const getReviewEndorsementByReviewId = async (id:number) => {
+async getReviewEndorsementByReviewId(id:number){
   try {
     const result : reviewEndorsement[] =  await db.select().from(reviewsEndorsements).where(eq(reviewsEndorsements.reviewId, id));
     return{success: true,result}
@@ -154,9 +155,9 @@ export const getReviewEndorsementByReviewId = async (id:number) => {
   catch (error){
     return{success:false,error:"failed getting reviewEndorsement by review id"}
   }
-}
+},
 
-export const editReviewEndorsement = async (id:number,data:any) => {
+async editReviewEndorsement(id:number,data:Partial<reviewEndorsement>){
   try {
     const result : reviewEndorsement[] = await db.update(reviewsEndorsements).set(data).where(eq(reviewsEndorsements.id, id)).returning();
     return{success: true,result}
@@ -164,9 +165,9 @@ export const editReviewEndorsement = async (id:number,data:any) => {
   catch (error){
     return{success:false,error:"failed to edit reviewEndorsement"}
   }
-}
+},
 
-export const deleteReviewEndorsementById = async (id:number) => {
+async deleteReviewEndorsementById(id:number){
   try {
     await db.delete(reviewsEndorsements).where(eq(reviewsEndorsements.id,id));
     return{success: true}
@@ -174,5 +175,8 @@ export const deleteReviewEndorsementById = async (id:number) => {
   catch (error){
     return{success:false,error:"failed to delete reviewEndorsement"}
   }
+},
+  }
+
 }
 
