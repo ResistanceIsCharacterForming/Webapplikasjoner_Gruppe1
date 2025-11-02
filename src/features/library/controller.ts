@@ -1,45 +1,49 @@
-export function createLibraryController (libraryService: any) {
+import { libraryservice } from "@/types/library"
+
+export function createLibraryController (libraryService: libraryservice) {
 
     /* Alle disse funksjonene skal til slutt kalle funksjoner / bruke services til å hente data. Men de kommer selv til å bygge ferdi Reponse objekt og sende det tilbake som svar for at API-kall / route.  */
     return {
-        async listBookshelves() { 
+        async listLibraries() { 
+            const result = await libraryService.listLibraries()
             return new Response(
                 JSON.stringify({
-                data: `listBookshelves`,
-                success: true
+                data: result.data,
+                success: result.success,
             }),
             {
                 status: 201,
                 headers: {"Content-Type": "application/json"}
             })
         },
-        async getBookshelfById(data: any) { 
-            libraryService.test()
+        async getLibraryById(id: string): Promise<Response> { 
+            const result = await libraryService.getLibraryWithId(id)
             return new Response(
                 JSON.stringify({
-                data: `getBookshelfById`,
-                success: true
+                data: result.data,
+                success: result.success
             }),
             {
                 status: 201,
                 headers: {"Content-Type": "application/json"}
             })
         },
-        async createBookshelf(data: any) {
+        async createLibrary(userId:string,name: string,text: string,cordlat: number,cordlon: number,books: string,photos:string ) {
+             const result = await libraryService.createlibrary(userId,name,text,cordlat,cordlon,books,photos)
              return new Response(
                 JSON.stringify({
-                data: `createBookshelf`,
-                success: true
+                 data: result.data,
+                success: result.success
             }),
             {
                 status: 201,
                 headers: {"Content-Type": "application/json"}
             })
         },
-        async editBookshelf(id: string) {
+        async editLibrary(id: string, text: string, books: string) {
              return new Response(
                 JSON.stringify({
-                data: `editBookshelf`,
+                data: `editBookshelf  ${id} ${text} ${books}`,
                 success: true
             }),
             {
@@ -47,28 +51,16 @@ export function createLibraryController (libraryService: any) {
                 headers: {"Content-Type": "application/json"}
             })
         },
-        async editReview(id: string) {
+        async deleteLibrary(id: string) {
              return new Response(
                 JSON.stringify({
-                data: `editReview`,
+                data: `deleteLibrary ${id}`,
                 success: true
             }),
             {
                 status: 201,
                 headers: {"Content-Type": "application/json"}
             })
-        },
-        async createReview(data: any) {
-             return new Response(
-                JSON.stringify({
-                data: `createReview`,
-                success: true
-            }),
-            {
-                status: 201,
-                headers: {"Content-Type": "application/json"}
-            })
-        },
+        }
     }
-    
 }

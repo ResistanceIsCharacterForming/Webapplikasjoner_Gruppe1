@@ -1,0 +1,1 @@
+ALTER TABLE `reviewsEndorsements` DROP COLUMN `score`;

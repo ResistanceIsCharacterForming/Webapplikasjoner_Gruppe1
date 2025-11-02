@@ -1,0 +1,182 @@
+import {eq} from "drizzle-orm";
+import {review,reviews,reviewEndorsement,reviewsEndorsements} from "../../db/schema";
+import { db } from "../../db/index";
+import { reviewRepository } from "@/types/reviews";
+
+export function createReviewRepository():reviewRepository{
+  return{
+
+async getReviews(){
+  try {
+    const result : review[] = await db.select().from(reviews);
+    return { success: true, data: result }
+  } catch (error) {
+    return { success: false, error: 'Failed getting reviews' }
+  }
+},
+
+async createReview(data : any){
+  try {
+    const result : review[]  = await db.insert(reviews).values({
+        userId: data.userId,
+        libaryId: data.libaryId,
+        text: data.text,
+        reviewsPoints: data.reviewsPoints,
+        createdAt: data.createdAt,
+        Photo: data.Photo,
+    }).returning();
+    return { success: true, data: result }
+  }
+    catch (error) {
+    return { success: false, error: 'Failed creating review' }
+  }
+},
+
+async getReviewById(id:number){
+  try {
+    const result : review[]  =  await db.select().from(reviews).where(eq(reviews.id, id));
+    return{success: true,result}
+  }
+  catch (error){
+    return{success:false,error:"failed getting review by id"}
+  }
+},
+
+
+async getReviewByUserId(id:string){
+  try {
+    const result : review[]  =  await db.select().from(reviews).where(eq(reviews.userId, id));
+    return{success: true,result}
+  }
+  catch (error){
+    return{success:false,error:"failed getting review by user id"}
+  }
+},
+
+async getReviewByLibaryId(id:string){
+  try {
+    const result : review[]  =  await db.select().from(reviews).where(eq(reviews.libaryId, id));
+    return{success: true,result}
+  }
+  catch (error){
+    return{success:false,error:"failed getting review by libary id"}
+  }
+},
+
+async editReview(id:number,data:Partial<review>){
+  try {
+    const result: review[] = await db.update(reviews).set(data).where(eq(reviews.id, id)).returning();
+    return{success: true,result}
+  }
+  catch (error){
+    return{success:false,error:"failed to edit reveiw"}
+  }
+},
+
+async deleteReviewById(id:number){
+  try {
+    await db.delete(reviews).where(eq(reviews.id,id));
+    return{success: true}
+  }
+  catch (error){
+    return{success:false,error:"failed to delete review"}
+  }
+},
+
+async deleteReviewByUserId(id:string){
+  try {
+    await db.delete(reviews).where(eq(reviews.userId,id));
+    return{success: true}
+  }
+  catch (error){
+    return{success:false,error:"failed to delete review"}
+  }
+},
+
+async deleteReviewByLibaryId(id:string){
+  try {
+    await db.delete(reviews).where(eq(reviews.libaryId,id));
+    return{success: true}
+  }
+  catch (error){
+    return{success:false,error:"failed to delete review"}
+  }
+},
+
+// reviews endorsments
+
+async getReviewsEndorsements(){
+  try {
+    const result:reviewEndorsement[] = await db.select().from(reviewsEndorsements);
+    return { success: true, result: reviewsEndorsements }
+  } catch (error) {
+    return { success: false, error: 'Failed getting reviewsEndorsements' }
+  }
+},
+
+async createReviewEndorsement(data : any){
+  try {
+    const result : reviewEndorsement[] = await db.insert(reviewsEndorsements).values({
+       reviewId : data.reviewId,
+       userId: data.userId,
+    }).returning();
+    return { success: true, data: result }
+  }
+    catch (error) {
+    return { success: false, error: 'Failed creating reviewEndorsement' }
+  }
+},
+
+async getReviewEndorsementById(id:number){
+  try {
+    const result : reviewEndorsement[] =  await db.select().from(reviewsEndorsements).where(eq(reviewsEndorsements.id, id));
+    return{success: true,result}
+  }
+  catch (error){
+    return{success:false,error:"failed getting reviewEndorsement by id"}
+  }
+},
+
+async getReviewEndorsementByUserId(id:string){
+  try {
+    const result : reviewEndorsement[] =  await db.select().from(reviewsEndorsements).where(eq(reviewsEndorsements.userId, id));
+    return{success: true,result}
+  }
+  catch (error){
+    return{success:false,error:"failed getting reviewEndorsement by user id"}
+  }
+},
+
+async getReviewEndorsementByReviewId(id:number){
+  try {
+    const result : reviewEndorsement[] =  await db.select().from(reviewsEndorsements).where(eq(reviewsEndorsements.reviewId, id));
+    return{success: true,result}
+  }
+  catch (error){
+    return{success:false,error:"failed getting reviewEndorsement by review id"}
+  }
+},
+
+async editReviewEndorsement(id:number,data:Partial<reviewEndorsement>){
+  try {
+    const result : reviewEndorsement[] = await db.update(reviewsEndorsements).set(data).where(eq(reviewsEndorsements.id, id)).returning();
+    return{success: true,result}
+  }
+  catch (error){
+    return{success:false,error:"failed to edit reviewEndorsement"}
+  }
+},
+
+async deleteReviewEndorsementById(id:number){
+  try {
+    await db.delete(reviewsEndorsements).where(eq(reviewsEndorsements.id,id));
+    return{success: true}
+  }
+  catch (error){
+    return{success:false,error:"failed to delete reviewEndorsement"}
+  }
+},
+  }
+
+}
+
