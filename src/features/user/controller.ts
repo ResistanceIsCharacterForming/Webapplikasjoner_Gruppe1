@@ -1,10 +1,11 @@
 export function createUserController (userService: any) {
     return {
-         async listUsers() { 
+         async listUsers() {
+            const result = await userService.listUsers()
             return new Response(
                 JSON.stringify({
-                data: `listUsers` /* Kall til libraryService.listBookshelves() eller lignende. */,
-                success: true
+                data: result.data,
+                success: result.success,
             }),
             {
                 status: 201,
@@ -12,10 +13,12 @@ export function createUserController (userService: any) {
             })
         },
         async getUserById(id: string) { 
+
+            const result = await userService.getUserById(id)
             return new Response(
                 JSON.stringify({
-                data: `getUserById ${id}` /* Kall til libraryService.listBookshelves() eller lignende. */,
-                success: true
+                data: result.data,
+                success: result.success,
             }),
             {
                 status: 201,

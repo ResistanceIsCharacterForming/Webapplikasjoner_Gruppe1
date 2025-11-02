@@ -8,6 +8,9 @@ import { createReviewController } from "@/features/review/controller"
 import { createReviewService } from "@/features/review/service"
 import { createLibraryRepository } from "@/features/library/repository"
 import { createDbConnection } from "@/db/index"
+import { createUserRepository } from "@/features/user/repository"
+import { createReportRepository } from "@/features/report/repository"
+import { createReviewRepository } from "@/features/review/repository"
 
 /* https://www.typescriptlang.org/docs/handbook/basic-types.html */
 
@@ -29,7 +32,7 @@ export const singletonMaster = {
     _libraryController: null as ReturnType<typeof createLibraryController> | null,
     get libraryController() {
         if (!this._libraryController) {
-            this._libraryController = createLibraryController(createLibraryService( createLibraryRepository() ))
+            this._libraryController = createLibraryController(createLibraryService(createLibraryRepository()))
         }
         return this._libraryController
     },
@@ -37,7 +40,7 @@ export const singletonMaster = {
     _userController: null as ReturnType<typeof createUserController> | null,
     get userController() {
         if (!this._userController) {
-            this._userController = createUserController(createUserService())
+            this._userController = createUserController(createUserService(createUserRepository()))
         }
         return this._userController
     },
@@ -45,7 +48,7 @@ export const singletonMaster = {
     _reportController: null as ReturnType<typeof createReportController> | null,
     get reportController() {
         if (!this._reportController) {
-            this._reportController = createReportController(createReportService())
+            this._reportController = createReportController(createReportService(createReportRepository()))
         }
         return this._reportController
     },
@@ -53,7 +56,7 @@ export const singletonMaster = {
     _reviewController: null as ReturnType<typeof createReviewController> | null,
     get reviewController() {
         if (!this._reviewController) {
-            this._reviewController = createReviewController(createReviewService())
+            this._reviewController = createReviewController(createReviewService(createReviewRepository()))
         }
         return this._reviewController
     }

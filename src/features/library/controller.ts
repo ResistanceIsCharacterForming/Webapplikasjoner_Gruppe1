@@ -5,7 +5,6 @@ export function createLibraryController (libraryService: libraryservice) {
     /* Alle disse funksjonene skal til slutt kalle funksjoner / bruke services til å hente data. Men de kommer selv til å bygge ferdi Reponse objekt og sende det tilbake som svar for at API-kall / route.  */
     return {
         async listLibraries() { 
-            console.log("runs")
             const result = await libraryService.listLibraries()
             return new Response(
                 JSON.stringify({
