@@ -1,13 +1,13 @@
-import { LatLng, LocationEvent } from "leaflet";
+import { LatLng, LocationEvent, Map } from "leaflet";
 import { useState } from "react";
 
 export function LocationMarker({ reactLeaflet }: { reactLeaflet: any }) {
   const { Marker, Popup, useMapEvents } = reactLeaflet;
 
   const [position, setPosition] = useState<LatLng | null>(null);
-  const map = useMapEvents({
+  const map: Map = useMapEvents({
     click() {
-      map.locate();
+      map.locate({ enableHighAccuracy: true });
     },
     locationfound(e: LocationEvent) {
       setPosition(e.latlng);
@@ -16,8 +16,8 @@ export function LocationMarker({ reactLeaflet }: { reactLeaflet: any }) {
     moveend() {
       const { lat, lng } = map.getCenter();
       const url = new URL(window.location.href);
-      url.searchParams.set("lat", lat.toFixed(5));
-      url.searchParams.set("lng", lng.toFixed(5));
+      url.searchParams.set("lat", lat.toFixed(6));
+      url.searchParams.set("lng", lng.toFixed(6));
       window.history.replaceState({}, "", url);
     },
   });
