@@ -1,11 +1,15 @@
-export function createLibraryController (libraryService: any) {
+import { libraryservice } from "@/types/library"
+
+export function createLibraryController (libraryService: libraryservice) {
+
     /* Alle disse funksjonene skal til slutt kalle funksjoner / bruke services til å hente data. Men de kommer selv til å bygge ferdi Reponse objekt og sende det tilbake som svar for at API-kall / route.  */
     return {
         async listLibraries() { 
+            const result = await libraryService.listLibraries()
             return new Response(
                 JSON.stringify({
-                data: `listBookshelves` /* Kall til libraryService.listBookshelves() eller lignende. */,
-                success: true
+                data: result.data,
+                success: result.success,
             }),
             {
                 status: 201,
@@ -13,21 +17,23 @@ export function createLibraryController (libraryService: any) {
             })
         },
         async getLibraryById(id: string): Promise<Response> { 
+            const result = await libraryService.getLibraryWithId(id)
             return new Response(
                 JSON.stringify({
-                data: `getBookshelfById ${id}` /* Kall til libraryService.getBookshelfById(id) eller lignende. */,
-                success: true
+                data: result.data,
+                success: result.success
             }),
             {
                 status: 201,
                 headers: {"Content-Type": "application/json"}
             })
         },
-        async createLibrary(id: string, text: string, books: string, name: string) {
+        async createLibrary(userId:string,name: string,text: string,cordlat: number,cordlon: number,books: string,photos:string ) {
+             const result = await libraryService.createlibrary(userId,name,text,cordlat,cordlon,books,photos)
              return new Response(
                 JSON.stringify({
-                data: `createBookshelf ${id} ${text} ${books} ${name}`,
-                success: true
+                 data: result.data,
+                success: result.success
             }),
             {
                 status: 201,

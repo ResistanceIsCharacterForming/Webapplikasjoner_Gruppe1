@@ -8,9 +8,9 @@ import { db } from "./index";
 
 export  const seed = async () =>{
   try { 
+    await db.delete(admins);
     await db.delete(users);
     await db.delete(libraries);
-    await db.delete(admins);
     await db.delete(reviews);
     await db.delete(reviewsEndorsements);
     await db.delete(favoritLibraries);
@@ -62,8 +62,8 @@ export  const seed = async () =>{
         userId: newUserId[0].id,
         name: "halden skole",  
         text: "dette er test bibliotek",
-        cordlat:"59.129280",
-        cordlon:"11.353732",
+        cordlat:59.129280,
+        cordlon:11.353732,
         books: "it for dummies, javascript for dummies, learning python",
         createdAt: new Date().toISOString(),
         photos:"{}"
@@ -73,8 +73,8 @@ export  const seed = async () =>{
         userId: newUserId[0].id,
         name: "halden brannstasjon",  
         text: "dette er test bibliotek",
-        cordlat:"59.126407",
-        cordlon:"11.35266",
+        cordlat:59.126407,
+        cordlon:11.35266,
         books: "brannsikerhet v1,brannsikerhet v2, brannsikhert for barn v1",
         createdAt: new Date().toISOString(),
         photos:"{}"
@@ -84,8 +84,8 @@ export  const seed = async () =>{
         userId: newUserId[2].id,
         name: "hiof studenleiligheter",  
         text: "dette er test bibliotek",
-        cordlat:"59.130680",
-        cordlon:"11.35497",
+        cordlat:59.130680,
+        cordlon:11.35497,
         books: "ringes herre,hunger games,where is waldo",
         createdAt: new Date().toISOString(),
         photos:"{}"
@@ -95,8 +95,8 @@ export  const seed = async () =>{
         userId: newUserId[3].id,
         name: "solbergtårnet",  
         text: "dette er test bibliotek",
-        cordlat:"59.211874",
-        cordlon:"11.163802",
+        cordlat:59.211874,
+        cordlon:11.163802,
         books: "",
         createdAt: new Date().toISOString(),
         photos:"{}"

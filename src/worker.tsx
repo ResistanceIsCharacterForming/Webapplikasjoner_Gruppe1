@@ -12,6 +12,10 @@ import { apiHandler } from "@/utils/apiHandler"
 import { pageHandler } from "@/utils/pageHandler"
 
 import { User, users } from "@/db/schema/user-schema"
+import { MapScreen } from "./features/map/pages/mapScreen";
+
+import { seed } from "./db/seed";
+import { admins, libraries, reviews } from "./db/schema";
 
 import { Testing } from "@/test"
 
@@ -24,11 +28,16 @@ export type AppContext = {
   authUrl: string;
 }
 
+
 export default defineApp([
   setCommonHeaders(),
 
   isAuthenticated,
 
+  render(Document, [
+   
+  isAuthenticated,
+  
   route("/api/v1/*/", (ctx: any) => {
     return apiHandler(ctx)
   }),
@@ -38,4 +47,5 @@ export default defineApp([
       return pageHandler(ctx)
     })
   ])
+])
 ])
