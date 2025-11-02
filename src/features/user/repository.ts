@@ -23,7 +23,9 @@ async createUser(data : any){
         password: data.password,
         settings: data.settings,
         createdAt: data.createdAt,
+        lastLoginAt: data.lastLoginAt,
         profileImage: data.profileImage,
+        isActive:data.is_active
     }).returning();
     return { success: true, data: result }
   } catch (error) {
