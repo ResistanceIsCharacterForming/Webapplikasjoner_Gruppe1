@@ -21,9 +21,10 @@ export function createLibraryService(repository: libraryRepository):libraryservi
             const result=await repository.getLibraryBycords(maxlon,minlon,maxlat,minlat)
             return result
         },
-        async createlibrary( userId:string,name: string,text: string,cordlat: number,cordlon: number,books: string,photos:string ) {
+        async createlibrary( userId:string|null,name: string,text: string,cordlat: number,cordlon: number,books: string,photos:string) {
             const createdAt = new Date().toUTCString()
-            const result=await repository.createLibrary(userId,name,text,cordlat,cordlon,books,createdAt,photos)
+            const isVisible = true
+            const result=await repository.createLibrary({userId,name,text,cordlat,cordlon,books,createdAt,photos,isVisible})
             return result
         },
          async editlibrary(id:string,data:Partial<library>) {
@@ -37,7 +38,7 @@ export function createLibraryService(repository: libraryRepository):libraryservi
          async deletelibraryWithUserId(id:string) {
             const result=await repository.deleteLibrariesByUserId(id)
             return result
-        },
+        }
     }
 
 }

@@ -1,4 +1,4 @@
-import { sqliteTable, text, real } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, real, int } from "drizzle-orm/sqlite-core";
 import {users} from "./users-schema";
 import { randomUUID } from "node:crypto";
 
@@ -13,6 +13,7 @@ export const libraries = sqliteTable("libraries", {
   books: text(),
   createdAt: text(),
   photos: text(),
+  isVisible: int('isvisible', { mode: 'boolean' }).notNull(),
 });
 
 export type library = typeof libraries.$inferSelect;
