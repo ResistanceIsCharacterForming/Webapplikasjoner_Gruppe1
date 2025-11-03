@@ -16,6 +16,8 @@ import { MapScreen } from "./features/map/pages/mapScreen";
 
 import { seed } from "./db/seed";
 import { admins, libraries, reviews } from "./db/schema";
+import { createReportService } from "./features/report/service";
+import { createReportRepository } from "./features/report/repository";
 
 import { Testing } from "@/test"
 

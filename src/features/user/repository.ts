@@ -20,6 +20,7 @@ export function createUserRepository():userRepository{
       }
     },
 
+
     async createUser(data : any){
       try {
         const result: User[] = await db.insert(users).values({
@@ -28,7 +29,9 @@ export function createUserRepository():userRepository{
             password: data.password,
             settings: data.settings,
             createdAt: data.createdAt,
+            lastLoginAt: data.lastLoginAt,
             profileImage: data.profileImage,
+            isVisible:data.isVisible
         }).returning();
         return { success: true, data: result }
       } catch (error) {

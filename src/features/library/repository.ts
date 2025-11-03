@@ -18,18 +18,9 @@ export function createLibraryRepository():libraryRepository{
   }
 },
 
-  async createLibrary(userId:string,name: string,text: string,cordlat: number,cordlon: number,books: string,createdAt:string,photos:string){
+  async createLibrary(data:any){
   try {
-    const result: library[] = await db.insert(libraries).values({
-        userId: userId,
-        name: name,
-        text: text,
-        cordlat: cordlat,
-        cordlon: cordlon,
-        books: books,
-        createdAt: createdAt,
-        photos: photos,  
-    }).returning();
+    const result: library[] = await db.insert(libraries).values(data).returning();
     return { success: true, data: result }
   } catch (error) {
     return { success: false, error: 'Failed creating library' }

@@ -5,8 +5,8 @@ import {libraries} from "./libaries-schema";
 
 export const reviews = sqliteTable("reviews", {
     id: int().primaryKey({ autoIncrement: true }),
-    userId:text("userId").references(() => users.id,{ onDelete: 'cascade' }),
-    libaryId:text("libaryId").references(() => libraries.id,{ onDelete: 'cascade' }),
+    userId:text("userId").references(() => users.id,{ onDelete: 'cascade' }).notNull(),
+    libaryId:text("libaryId").references(() => libraries.id,{ onDelete: 'cascade' }).notNull(),
     text: text(),
     reviewsPoints: int(),
     createdAt: text(),

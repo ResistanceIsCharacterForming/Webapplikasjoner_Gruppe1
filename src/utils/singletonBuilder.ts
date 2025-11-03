@@ -14,6 +14,7 @@ import { createReviewRepository } from "@/features/review/repository"
 
 /* https://www.typescriptlang.org/docs/handbook/basic-types.html */
 
+
 /* Lazy loader for alle singletons. */
 export const singletonMaster = {
     /* Privat property. Set som null, altså blank når objektet lages. Bruk ReturnType for å matche typen til hva createDbConnection gir oss. */

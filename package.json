@@ -20,7 +20,8 @@
     "migrate:new": "drizzle-kit generate",
     "migrate:dev": "wrangler d1 migrations apply DB --local",
     "migrate:prod": "wrangler d1 migrations apply DB --remote",
-    "seed": "npm run worker:run ./src/db/seed.ts"
+    "seed": "npm run worker:run ./src/db/seed.ts",
+    "test": "vitest"
   },
   "dependencies": {
     "@react-leaflet/core": "^3.0.0",
@@ -39,7 +40,7 @@
     "react-dom": "19.2.0",
     "react-leaflet": "5.0.0",
     "react-server-dom-webpack": "19.2.0",
-    "rwsdk": "1.0.0-beta.9",
+    "rwsdk": "1.0.0-beta.22",
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.14",
     "ufo": "^1.6.1",
