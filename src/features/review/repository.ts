@@ -1,9 +1,12 @@
 import {eq} from "drizzle-orm";
 import {review,reviews,reviewEndorsement,reviewsEndorsements} from "../../db/schema";
-import { db } from "../../db/index";
+import { singletonMaster } from "@/utils/singletonBuilder"
 import { reviewRepository } from "@/types/reviews";
 
 export function createReviewRepository():reviewRepository{
+
+  const db = singletonMaster.dbConnection
+
   return{
 
 async getReviews(){

@@ -1,9 +1,12 @@
 import {and, eq} from "drizzle-orm";
 import {report,reports} from "../../db/schema";
-import { db } from "../../db/index";
+import { singletonMaster } from "@/utils/singletonBuilder"
 import { reportRepository } from "@/types/reports";
 
 export function createReportRepository(): reportRepository{
+
+  const db = singletonMaster.dbConnection
+
   return{
 
   async getReports(){

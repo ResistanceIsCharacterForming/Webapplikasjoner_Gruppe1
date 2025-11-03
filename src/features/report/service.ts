@@ -1,4 +1,4 @@
-export function createReportService() {
+export function createReportService(repository: any) {
 
     return {
         test() {

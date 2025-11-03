@@ -1,4 +1,4 @@
-export function createReviewService() {
+export function createReviewService(repository: any) {
 
     return {
         test() {
