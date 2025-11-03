@@ -11,7 +11,7 @@ export const users = sqliteTable("users", {
   createdAt: text(),
   lastLoginAt: text(),
   profileImage: text(),
-  isActive: int('is_active', { mode: 'boolean' }).notNull(),
+  isVisible: int('is_visible', { mode: 'boolean' }).notNull(),
 });
 
 export type User = typeof users.$inferSelect;

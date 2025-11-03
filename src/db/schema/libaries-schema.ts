@@ -13,7 +13,7 @@ export const libraries = sqliteTable("libraries", {
   books: text(),
   createdAt: text(),
   photos: text(),
-  isActive: int('is_active', { mode: 'boolean' }).notNull(),
+  isVisible: int('isvisible', { mode: 'boolean' }).notNull(),
 });
 
 export type library = typeof libraries.$inferSelect;

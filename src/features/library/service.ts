@@ -23,8 +23,8 @@ export function createLibraryService(repository: libraryRepository):libraryservi
         },
         async createlibrary( userId:string|null,name: string,text: string,cordlat: number,cordlon: number,books: string,photos:string) {
             const createdAt = new Date().toUTCString()
-            const isActive = true
-            const result=await repository.createLibrary({userId,name,text,cordlat,cordlon,books,createdAt,photos,isActive})
+            const isVisible = true
+            const result=await repository.createLibrary({userId,name,text,cordlat,cordlon,books,createdAt,photos,isVisible})
             return result
         },
          async editlibrary(id:string,data:Partial<library>) {
