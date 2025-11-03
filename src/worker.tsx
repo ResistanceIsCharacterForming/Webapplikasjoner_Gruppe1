@@ -7,8 +7,8 @@ import { setCommonHeaders } from "./app/headers";
 import { env } from "cloudflare:workers";
 import { drizzle } from "drizzle-orm/d1";
 
-import { adminRoutes } from "./features/adminRoutes";
-import { userRoutes } from "./features/userRoutes";
+//import { adminRoutes } from "./features/adminRoutes";
+//import { userRoutes } from "./features/userRoutes";
 import { isAuthenticated } from "@/middleware/authentication";
 import { isAuthorized } from "@/middleware/authorization";
 
@@ -19,7 +19,6 @@ import { MapScreen } from "./features/map/pages/mapScreen";
 
 import { seed } from "./db/seed";
 import { admins, libraries, reviews } from "./db/schema";
-
 
 export interface Env {
   bokkroken: D1Database;
@@ -41,10 +40,10 @@ export default defineApp([
       //const seeddatabase = await seed();
       //await db.insert(users).values({name: "user",email: "email",password: "safe",settings: "test",createdAt: new Date().toISOString(),});
       const userResult = await db.select().from(users);
-      const libaryresult = await db.select().from(libraries)
-      const adminresult = await db.select().from(admins)
-      const reviewresult = await db.select().from(reviews)
-      let x = 0
+      const libaryresult = await db.select().from(libraries);
+      const adminresult = await db.select().from(admins);
+      const reviewresult = await db.select().from(reviews);
+      let x = 0;
       return (
         <>
           <div style={{ padding: "2rem", maxWidth: "600px", margin: "0 auto" }}>
@@ -97,14 +96,11 @@ export default defineApp([
     ]),
   ]),
 
-  
   isAuthenticated,
   isAuthorized,
   route("/api/v1/*/", (ctx: any) => {
-    return apiHandler(ctx)
+    return apiHandler(ctx);
   }),
-  
 
-  
   route("/map", MapScreen),
 ]);
