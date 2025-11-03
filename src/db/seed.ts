@@ -4,8 +4,8 @@ import { defineScript } from "rwsdk/worker";
 import { drizzle } from "drizzle-orm/d1";
 
 import { users,reviews,reviewsEndorsements,reports,libraries,favoritLibraries,admins } from "./schema";
-import { db } from "./index";
-
+import { singletonMaster } from "@/utils/singletonBuilder";
+const db = singletonMaster.dbConnection
 export  const seed = async () =>{
   try { 
     await db.delete(admins);
