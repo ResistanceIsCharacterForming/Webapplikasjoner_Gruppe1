@@ -6,7 +6,7 @@ import { setCommonHeaders } from "./app/headers"
 import { env } from "cloudflare:workers"
 
 import { isAuthenticated } from "@/middleware/authentication"
-import { isAuthorized } from "@/middleware/authorization"
+import { isAuthorized } from "@/middleware/authorization/authorization"
 
 import { apiHandler } from "@/utils/apiHandler"
 import { pageHandler } from "@/utils/pageHandler"
@@ -38,9 +38,9 @@ export default defineApp([
    
   isAuthenticated,
   
-  route("/api/v1/*/", (ctx: any) => {
+  route("/api/v1/*/", [isAuthenticated, (ctx: any) => {
     return apiHandler(ctx)
-  }),
+  }]),
   
   render(Document, [
     route("/*/", (ctx: any) => {

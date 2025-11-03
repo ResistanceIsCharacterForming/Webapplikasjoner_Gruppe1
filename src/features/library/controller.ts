@@ -28,6 +28,18 @@ export function createLibraryController (libraryService: libraryservice) {
                 headers: {"Content-Type": "application/json"}
             })
         },
+        async listLibraryWithCords(maxlon:number,minlon:number,maxlat:number,minlat:number): Promise<Response> { 
+            const result = await libraryService.listLibraryWithCords(maxlon,minlon,maxlat,minlat)
+            return new Response(
+                JSON.stringify({
+                data: result.data,
+                success: result.success
+            }),
+            {
+                status: 201,
+                headers: {"Content-Type": "application/json"}
+            })
+        },
         async createLibrary(userId:string,name: string,text: string,cordlat: number,cordlon: number,books: string,photos:string ) {
              const result = await libraryService.createlibrary(userId,name,text,cordlat,cordlon,books,photos)
              return new Response(

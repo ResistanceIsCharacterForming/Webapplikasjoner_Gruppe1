@@ -37,7 +37,7 @@ export function createLibraryService(repository: libraryRepository):libraryservi
          async deletelibraryWithUserId(id:string) {
             const result=await repository.deleteLibrariesByUserId(id)
             return result
-        },
+        }
     }
 
 }
