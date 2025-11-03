@@ -1,4 +1,4 @@
-import { libraryservice } from "@/types/library"
+import { libraryservice } from "@/types/library";
 
 export function createLibraryController (libraryService: libraryservice) {
 
@@ -74,5 +74,7 @@ export function createLibraryController (libraryService: libraryservice) {
                 headers: {"Content-Type": "application/json"}
             })
         }
-    }
+      );
+    },
+  };
 }
