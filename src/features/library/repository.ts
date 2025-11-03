@@ -1,11 +1,12 @@
 import {eq,and, lte, gte} from "drizzle-orm";
 import {libraries,library } from "../../db/schema";
-import { db } from "../../db/index";
+import { singletonMaster } from "@/utils/singletonBuilder"
 import { libraryRepository } from "@/types/library";
 
-
-
 export function createLibraryRepository():libraryRepository{
+
+  const db = singletonMaster.dbConnection
+
   return{
     
     async getLibraries(){

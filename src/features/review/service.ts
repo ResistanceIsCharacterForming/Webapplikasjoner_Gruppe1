@@ -1,7 +1,4 @@
-import { review, reviewEndorsement } from "@/db/schema";
-import { reviewRepository, reviewService } from "@/types/reviews";
-
-export function createReviewService(repository:reviewRepository):reviewService {
+export function createReviewService(repository: any) {
 
     return {
         async getReviews(){
