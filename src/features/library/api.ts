@@ -3,7 +3,6 @@ import { singletonMaster } from "@/utils/singletonBuilder"
 export const libraryApi = async (ctx: any) => {
     
     const libraryController = singletonMaster.libraryController
-
     const libraryId: string = ctx.params.id
 
     switch (ctx.request.method.toLowerCase()) {
@@ -20,15 +19,27 @@ export const libraryApi = async (ctx: any) => {
             if (libraryId !== "") {
                 try {
                     const data = await ctx.request.json()
+                    const libraryUserId:string | undefined = data.libraryUserId
                     const libraryText: string | undefined = data.libraryText
+                    const libraryName: string | undefined = data.libraryName
+                    const libraryCordLat: number | undefined = data.libraryCordLat
+                    const libraryCordlon: number | undefined = data.libraryCordlon
                     const libraryBooks: string | undefined = data.libraryBooks
-                    const libraryName: string | undefined = data.libraryBooks
-                    if (libraryText !== undefined && libraryBooks !== undefined && libraryName !== undefined) {
+                    const libraryPhotos: string | undefined = data.libraryPhotos
+
+                    if (
+                        libraryUserId !== undefined && libraryCordLat !== undefined && libraryCordlon !== undefined
+                        && libraryText !== undefined && libraryBooks !== undefined && libraryName !== undefined
+                        && libraryPhotos !== undefined
+                    ) {
                         return libraryController.createLibrary(
-                            libraryId,
+                            libraryUserId,
+                            libraryName,
                             libraryText,
+                            libraryCordLat,
+                            libraryCordlon,
                             libraryBooks,
-                            libraryName
+                            libraryPhotos
                         )
                     }
                     return new Response("Bad Request.", {status: 400})
