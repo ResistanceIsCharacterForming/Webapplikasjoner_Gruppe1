@@ -1,7 +1,6 @@
 import { defineApp } from "rwsdk/worker"
-import { render, route, prefix } from "rwsdk/router"
+import { render, route } from "rwsdk/router"
 import { Document } from "@/app/Document"
-
 import { setCommonHeaders } from "./app/headers"
 import { env } from "cloudflare:workers"
 
