@@ -5,6 +5,7 @@ import { drizzle } from "drizzle-orm/d1";
 
 import { users,reviews,reviewsEndorsements,reports,libraries,favoritLibraries,admins } from "./schema";
 import { singletonMaster } from "@/utils/singletonBuilder";
+import { scrypt } from "crypto";
 const db = singletonMaster.dbConnection
 export  const seed = async () =>{
   try { 
@@ -23,7 +24,9 @@ export  const seed = async () =>{
         password: "tempnothashed",
         settings: "{}",
         createdAt: new Date().toISOString(),
-        profileImage:""
+        lastLoginAt: new Date().toISOString(),
+        profileImage:"",
+        isVisible:true
     });
 
       await db.insert(users).values({
@@ -31,8 +34,10 @@ export  const seed = async () =>{
         email: "mjsoylan@hiof.no",
         password: "tempnothashed",
         settings: "{}",
-        createdAt: new Date().toISOString(),
-        profileImage:""
+         createdAt: new Date().toISOString(),
+        lastLoginAt: new Date().toISOString(),
+        profileImage:"",
+        isVisible:true
     });
 
      await db.insert(users).values({
@@ -40,8 +45,10 @@ export  const seed = async () =>{
         email: "nikol.lysebraate@hiof.no",
         password: "tempnothashed",
         settings: "{}",
-        createdAt: new Date().toISOString(),
-        profileImage:""
+         createdAt: new Date().toISOString(),
+        lastLoginAt: new Date().toISOString(),
+        profileImage:"",
+        isVisible:true
     });
 
     
@@ -51,7 +58,9 @@ export  const seed = async () =>{
         password: "tempnothashed",
         settings: "{}",
         createdAt: new Date().toISOString(),
-        profileImage:""
+        lastLoginAt: new Date().toISOString(),
+        profileImage:"",
+        isVisible:true
     });
    
      const newUserId = await db.select({id: users.id}).from(users)
@@ -66,7 +75,8 @@ export  const seed = async () =>{
         cordlon:11.353732,
         books: "it for dummies, javascript for dummies, learning python",
         createdAt: new Date().toISOString(),
-        photos:"{}"
+        photos:"{}",
+        isVisible:true
     });
 
      await db.insert(libraries).values({
@@ -77,7 +87,8 @@ export  const seed = async () =>{
         cordlon:11.35266,
         books: "brannsikerhet v1,brannsikerhet v2, brannsikhert for barn v1",
         createdAt: new Date().toISOString(),
-        photos:"{}"
+        photos:"{}",
+        isVisible:true
     });
 
     await db.insert(libraries).values({
@@ -88,7 +99,8 @@ export  const seed = async () =>{
         cordlon:11.35497,
         books: "ringes herre,hunger games,where is waldo",
         createdAt: new Date().toISOString(),
-        photos:"{}"
+        photos:"{}",
+        isVisible:true
     });
 
       await db.insert(libraries).values({
@@ -99,7 +111,8 @@ export  const seed = async () =>{
         cordlon:11.163802,
         books: "",
         createdAt: new Date().toISOString(),
-        photos:"{}"
+        photos:"{}",
+        isVisible:true
     });
 
 

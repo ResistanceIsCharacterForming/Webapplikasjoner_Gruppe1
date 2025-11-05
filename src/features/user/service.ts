@@ -2,8 +2,6 @@ import { User } from "@/db/schema"
 import { userRepository } from "@/types/user"
 import { scrypt } from "crypto"
 
-
-
 export function createUserService(repository: userRepository) {
     const salt="qx5LIDftxlLttSJ6AHS654Y67usOmuQZ"
 
