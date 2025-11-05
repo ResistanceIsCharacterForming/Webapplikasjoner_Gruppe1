@@ -5,14 +5,12 @@ import { userApi } from "@/features/user/api"
 import { reportApi } from "@/features/report/api"
 import { reviewApi } from "@/features/review/api"
 import { setParams } from "@/utils/params"
-import { sessionApi } from "@/features/session/api"
 
 const features = {
     libraries  : (ctx: any) => {return libraryApi(ctx)},
     users : (ctx: any) => {return userApi(ctx)},
     reports : (ctx: any) => {return reportApi(ctx)},
-    reviews : (ctx: any) => {return reviewApi(ctx)},
-    sessions : (ctx: any) => {return sessionApi(ctx)}
+    reviews : (ctx: any) => {return reviewApi(ctx)}
 }
 
 export const apiHandler = (ctx: any) => {

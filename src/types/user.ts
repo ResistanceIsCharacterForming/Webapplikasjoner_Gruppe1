@@ -5,7 +5,7 @@ import { admin } from "@/db/schema";
 
 export interface userRepository {
   getUsers(): Promise<apiResponse<User[]>>;
-  createUser(data : any): Promise<apiResponse<User[]>>;
+  createUser(id: string, name: string, email: string, password: string, createdAt: Date): Promise<apiResponse<User[]>>;
   editUser(id: string, data: Partial<User>): Promise<apiResponse<User[]>>;
   getUserById(id: string): Promise<apiResponse<User[]>>;
   deleteUserById(id: string): Promise<apiResponse<void>>;

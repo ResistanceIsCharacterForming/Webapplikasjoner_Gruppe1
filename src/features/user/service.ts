@@ -11,8 +11,9 @@ export function createUserService(repository: any) {
             const result = await repository.getUserById(id)
             return result
         },
-        async createUser(id: string, name: string, email: string, password: string) {
-             
+        async createUser(id: string, name: string, email: string, password: string, createdAt: Date) {
+            const result = await repository.createUser()
+            return result
         },
         async editUser(id: string, name: string, email: string) {
 

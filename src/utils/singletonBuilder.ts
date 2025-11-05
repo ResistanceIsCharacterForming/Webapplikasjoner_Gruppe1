@@ -11,9 +11,6 @@ import { createDbConnection } from "@/db/index"
 import { createUserRepository } from "@/features/user/repository"
 import { createReportRepository } from "@/features/report/repository"
 import { createReviewRepository } from "@/features/review/repository"
-import { createSessionController } from "@/features/session/controller"
-import { createSessionService } from "@/features/session/service"
-import { createSessionRepository } from "@/features/session/repository"
 
 /* https://www.typescriptlang.org/docs/handbook/basic-types.html */
 
@@ -36,7 +33,7 @@ export const singletonMaster = {
     _libraryController: null as ReturnType<typeof createLibraryController> | null,
     get libraryController() {
         if (!this._libraryController) {
-            this._libraryController = createLibraryController(createLibraryService(createLibraryRepository()))
+            this._libraryController = createLibraryController(createLibraryService(createLibraryRepository(this.dbConnection)))
         }
         return this._libraryController
     },
@@ -44,7 +41,7 @@ export const singletonMaster = {
     _userController: null as ReturnType<typeof createUserController> | null,
     get userController() {
         if (!this._userController) {
-            this._userController = createUserController(createUserService(createUserRepository()))
+            this._userController = createUserController(createUserService(createUserRepository(this.dbConnection)))
         }
         return this._userController
     },
@@ -52,7 +49,7 @@ export const singletonMaster = {
     _reportController: null as ReturnType<typeof createReportController> | null,
     get reportController() {
         if (!this._reportController) {
-            this._reportController = createReportController(createReportService(createReportRepository()))
+            this._reportController = createReportController(createReportService(createReportRepository(this.dbConnection)))
         }
         return this._reportController
     },
@@ -60,16 +57,8 @@ export const singletonMaster = {
     _reviewController: null as ReturnType<typeof createReviewController> | null,
     get reviewController() {
         if (!this._reviewController) {
-            this._reviewController = createReviewController(createReviewService(createReviewRepository()))
+            this._reviewController = createReviewController(createReviewService(createReviewRepository(this.dbConnection)))
         }
         return this._reviewController
-    },
-
-    _sessionController: null as ReturnType<typeof createSessionController> | null,
-    get sessionController() {
-        if (!this._sessionController) {
-            this._sessionController = createSessionController(createSessionService(createSessionRepository()))
-        }
-        return this._sessionController
     }
 }

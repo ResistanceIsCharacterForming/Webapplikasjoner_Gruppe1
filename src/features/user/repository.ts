@@ -1,13 +1,10 @@
-import {admin, admins, users,User,favoritLibraries,favoritLibrary} from "../../db/schema";
-import {eq,and, lte, gte} from "drizzle-orm";
-import {libraries,library } from "../../db/schema";
-import { singletonMaster } from "@/utils/singletonBuilder"
+import {admin, admins, users,User,favoritLibraries,favoritLibrary} from "../../db/schema"
+import {eq,and, lte, gte} from "drizzle-orm"
+import {libraries,library } from "../../db/schema"
 
-import { userRepository } from "@/types/user";
+import { userRepository } from "@/types/user"
 
-export function createUserRepository():userRepository{
-
-  const db = singletonMaster.dbConnection
+export function createUserRepository(db: any):userRepository{
 
   return{
 
@@ -21,17 +18,17 @@ export function createUserRepository():userRepository{
     },
 
 
-    async createUser(data : any){
+    async createUser(id: string, name: string, email: string, password: string, createdAt: Date){
       try {
         const result: User[] = await db.insert(users).values({
-            name: data.name,
-            email: data.email,
-            password: data.password,
-            settings: data.settings,
-            createdAt: data.createdAt,
-            lastLoginAt: data.lastLoginAt,
-            profileImage: data.profileImage,
-            isVisible:data.isVisible
+            name: name,
+            email: email,
+            password: password,
+            settings: "",
+            createdAt: createdAt,
+            lastLoginAt: Date,
+            profileImage: "",
+            isVisible: false
         }).returning();
         return { success: true, data: result }
       } catch (error) {
