@@ -74,7 +74,5 @@ export function createLibraryController (libraryService: libraryservice) {
                 headers: {"Content-Type": "application/json"}
             })
         }
-      );
-    },
-  };
+  }
 }

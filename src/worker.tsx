@@ -5,14 +5,11 @@ import { Document } from "@/app/Document"
 import { setCommonHeaders } from "./app/headers"
 import { env } from "cloudflare:workers"
 
-import { isAuthenticated } from "@/middleware/authentication"
-import { isAuthorized } from "@/middleware/authorization/authorization"
-
 import { apiHandler } from "@/utils/apiHandler"
 import { pageHandler } from "@/utils/pageHandler"
 
-import { User, users } from "@/db/schema/user-schema"
-import { MapScreen } from "./features/map/pages/mapScreen";
+import { User, users } from "@/db/schema/"
+import { MapScreen } from "./features/library/pages/mapScreen";
 
 import { seed } from "./db/seed";
 import { admins, libraries, reviews } from "./db/schema";
@@ -20,6 +17,8 @@ import { createReportService } from "./features/report/service";
 import { createReportRepository } from "./features/report/repository";
 
 import { Testing } from "@/test"
+
+import { authCheck } from "@/middleware/authHandler"
 
 export interface Env {
   bokkroken: D1Database;
@@ -34,20 +33,37 @@ export type AppContext = {
 export default defineApp([
   setCommonHeaders(),
 
-  isAuthenticated,
-
   render(Document, [
-   
-  isAuthenticated,
+
+  authCheck,
   
-  route("/api/v1/*/", [isAuthenticated, (ctx: any) => {
+  route("/api/v1/*/", [(ctx: any) => {
     return apiHandler(ctx)
   }]),
+
+  /*
+  route("/hi", () => {
+    return new Response("Logged in", {
+      headers: {
+        "Set-Cookie": "token=YOUR_JWT; HttpOnly; Path=/; Secure; SameSite=Lax",
+        "Content-Type": "text/plain",
+      }
+    })
+  }),
+
+  route("/u", (ctx) => {
+    
+    const cookieHeader = ctx.request.headers.get("cookie")
+    const cookieHeader = ctx.request.headers.getSetCookie()
+ 
+    console.log(cookieHeader)
+
+
+  }),
+  */
   
   render(Document, [
-    route("/*/", (ctx: any) => {
-      return pageHandler(ctx)
-    })
+    route("/home", MapScreen )
   ])
 ])
 ])

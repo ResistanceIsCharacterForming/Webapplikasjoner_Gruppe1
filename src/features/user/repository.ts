@@ -1,4 +1,4 @@
-import {users,User,favoritLibraries,favoritLibrary} from "../../db/schema";
+import {admin, admins, users,User,favoritLibraries,favoritLibrary} from "../../db/schema";
 import {eq,and, lte, gte} from "drizzle-orm";
 import {libraries,library } from "../../db/schema";
 import { singletonMaster } from "@/utils/singletonBuilder"
@@ -155,5 +155,57 @@ export function createUserRepository():userRepository{
         }
     },
 
-  }
+
+  async getAdmins(){
+    try {
+      const result: admin[] = await db.select().from(admins);
+      return { success: true, data: result }
+    } catch (error) {
+      return { success: false, error: 'Failed getting admins' }
+    }
+    },
+  
+    async createAdmin(userId:string,createdAt:string,adminLevel:number){
+    try {
+      const result: admin[] = await db.insert(admins).values({
+          userId: userId,
+          createdAt: createdAt,
+          adminLevel: adminLevel,
+      }).returning();
+      return { success: true, data: result }
+    } catch (error) {
+      return { success: false, error: 'Failed creating admin' }
+    }
+  },
+  
+  async editAdmin(id: string,data : any){
+   try {
+      const result : admin[]= await db.update(admins).set(data).where(eq(admins.userId, id)).returning();
+      return { success: true, data: result }
+    } catch (error) {
+      return { success: false, error: 'Failed edit admin' }
+    }
+  },
+  
+  async getAdminById(id: string){
+    try {
+      const result : admin[] = await db.select().from(admins).where(eq(admins.userId, id));
+      return { success: true, data: result }
+    } catch (error) {
+      return { success: false, error: 'Failed getting admin by id' }
+    }
+  },
+  
+  async deleteAdminById(id:string){
+    try {
+      await db.delete(admins).where(eq(admins.userId,id)); 
+      return { success: true }
+      } catch (error) {
+        console.log(error)
+      return { success: false, error: 'Failed deleting admin by id' }
+      }
+  },
+    }
+
+
 }

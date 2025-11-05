@@ -11,6 +11,9 @@ import { createDbConnection } from "@/db/index"
 import { createUserRepository } from "@/features/user/repository"
 import { createReportRepository } from "@/features/report/repository"
 import { createReviewRepository } from "@/features/review/repository"
+import { createSessionController } from "@/features/session/controller"
+import { createSessionService } from "@/features/session/service"
+import { createSessionRepository } from "@/features/session/repository"
 
 /* https://www.typescriptlang.org/docs/handbook/basic-types.html */
 
@@ -60,5 +63,13 @@ export const singletonMaster = {
             this._reviewController = createReviewController(createReviewService(createReviewRepository()))
         }
         return this._reviewController
+    },
+
+    _sessionController: null as ReturnType<typeof createSessionController> | null,
+    get sessionController() {
+        if (!this._sessionController) {
+            this._sessionController = createSessionController(createSessionService(createSessionRepository()))
+        }
+        return this._sessionController
     }
 }

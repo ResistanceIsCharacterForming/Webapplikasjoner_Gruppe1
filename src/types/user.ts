@@ -1,6 +1,6 @@
 import { favoritLibrary, User } from "@/db/schema";
 import { apiResponse } from "./api";
-
+import { admin } from "@/db/schema";
 
 
 export interface userRepository {
@@ -21,4 +21,10 @@ export interface userRepository {
   deletefavoritLibraryById(id:number): Promise<apiResponse<void>>;
   deletefavoritLibrariesByUserId(id:string): Promise<apiResponse<void>>;
   deletefavoritLibrariesByLibaryId(id:string): Promise<apiResponse<void>>;
+
+  getAdmins(): Promise<apiResponse<admin[]>>;
+  createAdmin(userId:string,createdAt:string,adminLevel:number): Promise<apiResponse<admin[]>>;
+  editAdmin(id: string, data: any): Promise<apiResponse<admin[]>>;
+  getAdminById(id: string): Promise<apiResponse<admin[]>>;
+  deleteAdminById(id: string): Promise<apiResponse<void>>;
 }

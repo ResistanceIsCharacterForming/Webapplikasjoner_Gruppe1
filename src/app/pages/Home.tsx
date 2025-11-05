@@ -1,4 +1,4 @@
-import { MapScreen } from "@/features/map/pages/mapScreen";
+import { MapScreen } from "@/features/library/pages/mapScreen";
 
 export function Home() {
   console.log(document.documentElement.outerHTML);

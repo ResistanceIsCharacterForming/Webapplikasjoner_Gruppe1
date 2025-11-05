@@ -5,9 +5,9 @@ import { userApi } from "@/features/user/api"
 import { reportApi } from "@/features/report/api"
 import { reviewApi } from "@/features/review/api"
 import { isAuthorized } from "@/middleware/authorization/authorization"
-import { setParams } from "@/middleware/params"
+import { setParams } from "@/utils/params"
 
-import { MapScreen } from "@/features/map/pages/mapScreen"
+import { MapScreen } from "@/features/library/pages/mapScreen"
 
 const features = {
     map  : () => {return MapScreen()}
