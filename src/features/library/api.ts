@@ -6,7 +6,10 @@ export const libraryApi = async (ctx: any) => {
     const libraryController = singletonMaster.libraryController
 
     const [ resource, libraryId, type ] = setParams(ctx)
-    
+
+    console.log("api " + ctx.params.resource)
+
+
     switch (ctx.request.method.toLowerCase()) {
 
         case "get":

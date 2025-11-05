@@ -44,3 +44,34 @@ export const setParams = (ctx: any) => {
     return params
 
 }
+
+
+export function extractParams() {
+  return async (ctx: any) => {
+    console.log(ctx.request.url)
+    const url = new URL(ctx.request.url)
+    const parts = url.pathname.split("/")
+    const resource: string = parts[3] ?? ""
+    const id: string = parts[4] ?? ""
+    const type = url.searchParams.get("type") ?? ""
+
+    ctx.params = {resource, id, type}
+}
+}
+
+
+/*
+
+
+export function getUrlParts() {
+    return async (ctx: any) => {
+        new URL(ctx.request.url).pathname.split("/")
+    }
+}
+
+export function extractResource() {
+    const parts = await getUrlParts()
+    return async (ctx: any) => {
+
+    }
+}*/

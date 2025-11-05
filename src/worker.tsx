@@ -18,6 +18,7 @@ import { createReportRepository } from "./features/report/repository";
 import { Testing } from "@/test"
 
 import { authCheck } from "@/middleware/authHandler"
+import { extractParams } from "./utils/params"
 
 export interface Env {
   bokkroken: D1Database;
@@ -32,9 +33,10 @@ export type AppContext = {
 export default defineApp([
   setCommonHeaders(),
 
-  render(Document, [
-
+  extractParams(),
   authCheck,
+
+
   
   route("/api/v1/*/", [(ctx: any) => {
     return apiHandler(ctx)
@@ -64,5 +66,5 @@ export default defineApp([
   render(Document, [
     route("/home", MapScreen )
   ])
-])
+
 ])

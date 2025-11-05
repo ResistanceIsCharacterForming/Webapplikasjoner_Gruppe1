@@ -6,21 +6,46 @@ import { reportApi } from "@/features/report/api"
 import { reviewApi } from "@/features/review/api"
 import { setParams } from "@/utils/params"
 
+import { singletonMaster } from "@/utils/singletonBuilder"
+import { singletonMaster } from "@/utils/singletonBuilder"
+
+/*
 const features = {
     libraries  : (ctx: any) => {return libraryApi(ctx)},
     users : (ctx: any) => {return userApi(ctx)},
     reports : (ctx: any) => {return reportApi(ctx)},
     reviews : (ctx: any) => {return reviewApi(ctx)}
 }
+*/
+
+
 
 export const apiHandler = (ctx: any) => {
 
-    const [ resource ] = setParams(ctx)
+    const [ resource, id, type ] = setParams(ctx)
 
-    console.log(resource)
 
-    if (resource !== "" && resource in features) {
-        const feature: (keyof typeof features) = resource as any
-        return features[feature](ctx)
+
+    const features = {
+        get: {
+            libraries: () => {
+                if (id !== "") {
+                    return singletonMaster.libraryController.getLibraryById(id)
+                }
+                return singletonMaster.libraryController.listLibraries()
+                
+            },
+            users: () => {
+                if (id !== "") {
+                    return singletonMaster.userController.getUserById(id)
+                }
+                return singletonMaster.userController.listUsers()
+            }
+        }
     }
+
+    const method = (ctx.request.method.toLowerCase()) as keyof typeof features
+    const feature = resource as keyof typeof features[typeof method]
+
+    return features[method][feature]()
 }

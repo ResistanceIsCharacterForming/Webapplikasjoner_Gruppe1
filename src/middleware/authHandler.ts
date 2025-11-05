@@ -7,6 +7,8 @@ export const authCheck = (ctx: any) => {
     console.log(resource)
     console.log(id)
 
+    console.log("auth " + ctx.params.resource)
+
     switch (ctx.request.method.toLowerCase()) {
 
         case "get":

@@ -18,17 +18,17 @@ export function createUserRepository(db: any):userRepository{
     },
 
 
-    async createUser(id: string, name: string, email: string, password: string, createdAt: Date){
+    async createUser(data: any){
       try {
         const result: User[] = await db.insert(users).values({
-            name: name,
-            email: email,
-            password: password,
-            settings: "",
-            createdAt: createdAt,
-            lastLoginAt: Date,
-            profileImage: "",
-            isVisible: false
+            name: data.name,
+            email: data.email,
+            password: data.password,
+            settings: data.settings,
+            createdAt: data.createdAt,
+            lastLoginAt: data.lastLoginAt,
+            profileImage: data.profileImage,
+            isVisible: data.isVisible
         }).returning();
         return { success: true, data: result }
       } catch (error) {
