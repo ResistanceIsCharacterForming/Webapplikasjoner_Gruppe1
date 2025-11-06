@@ -51,7 +51,6 @@ async deleteAdminById(id:string){
     await db.delete(admins).where(eq(admins.userId,id)); 
     return { success: true }
     } catch (error) {
-      console.log(error)
     return { success: false, error: 'Failed deleting admin by id' }
     }
 },

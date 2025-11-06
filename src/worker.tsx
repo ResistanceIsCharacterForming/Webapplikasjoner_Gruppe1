@@ -6,6 +6,7 @@ import { isAuthenticated } from "@/middleware/authentication"
 import { apiHandler } from "@/utils/apiHandler"
 import { pageHandler } from "@/utils/pageHandler"
 import {  User } from "./db/schema";
+import { scrypt } from "crypto"
 
 export interface Env {
   bokkroken: D1Database;
@@ -16,8 +17,8 @@ export type AppContext = {
   authUrl: string;
 }
 
-
 export default defineApp([
+  
   setCommonHeaders(),
 
   isAuthenticated,

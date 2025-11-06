@@ -3,10 +3,7 @@ import {review,reviews,reviewEndorsement,reviewsEndorsements} from "../../db/sch
 import { singletonMaster } from "@/utils/singletonBuilder"
 import { reviewRepository } from "@/types/reviews";
 
-export function createReviewRepository():reviewRepository{
-
-  const db = singletonMaster.dbConnection
-
+export function createReviewRepository(db:any):reviewRepository{
   return{
 
 async getReviews(){

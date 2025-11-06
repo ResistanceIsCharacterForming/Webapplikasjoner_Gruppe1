@@ -62,7 +62,6 @@ export function createUserRepository():userRepository{
         await db.delete(users).where(eq(users.id,id)); 
         return { success: true }
         } catch (error) {
-          console.log(error)
         return { success: false, error: 'Failed deleting user by id' }
         }
     },
@@ -130,7 +129,6 @@ export function createUserRepository():userRepository{
         await db.delete(favoritLibraries).where(eq(favoritLibraries.id,id)); 
         return { success: true }
         } catch (error) {
-          console.log(error)
         return { success: false, error: 'Failed deleting favoritLibrary by id' }
         }
     },
@@ -140,7 +138,6 @@ export function createUserRepository():userRepository{
         await db.delete(favoritLibraries).where(eq(favoritLibraries.userId,id)); 
         return { success: true }
         } catch (error) {
-          console.log(error)
         return { success: false, error: 'Failed deleting favoritLibrary by id' }
         }
     },
@@ -150,7 +147,6 @@ export function createUserRepository():userRepository{
         await db.delete(favoritLibraries).where(eq(favoritLibraries.libaryId,id)); 
         return { success: true }
         } catch (error) {
-          console.log(error)
         return { success: false, error: 'Failed deleting favoritLibrary by id' }
         }
     },

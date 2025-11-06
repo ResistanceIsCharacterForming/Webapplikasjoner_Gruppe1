@@ -82,7 +82,6 @@ async getReportByType(type: string){
     await db.delete(reports).where(eq(reports.id,id)); 
     return { success: true }
     } catch (error) {
-      console.log(error)
     return { success: false, error: 'Failed deleting report by id' }
     }
 },
