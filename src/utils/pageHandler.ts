@@ -7,18 +7,17 @@ import { reviewApi } from "@/features/review/api"
 import { isAuthorized } from "@/middleware/authorization/authorization"
 import { setParams } from "@/utils/params"
 
-import { MapScreen } from "@/features/library/pages/mapScreen"
+import { MapScreen } from "@/features/map/pages/mapScreen"
+import { databasescreen } from "@/test"
 
 const features = {
+    db : () =>{return databasescreen()},
     map  : () => {return MapScreen()}
 }
 
 export const pageHandler = (ctx: any) => {
 
     setParams(ctx)
-
-    console.log(ctx.params.resource)
-    
     if (ctx.params.resource !== "" && ctx.params.resource in features) {
         const feature: (keyof typeof features) = ctx.params.resource as any
         return features[feature]()

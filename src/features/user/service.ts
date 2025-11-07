@@ -1,4 +1,4 @@
-import { User } from "@/db/schema"
+import { favoritLibrary, User } from "@/db/schema"
 import { userRepository } from "@/types/user"
 import { scrypt } from "crypto"
 
@@ -58,10 +58,47 @@ export function createUserService(repository: userRepository) {
                     return { success: true, password:false }
                 }
                 }
-                    
-                    
-
-            
-        }
+        },
+         async deleteUserByid(id: string) {
+            const result = await repository.deleteUserById(id)
+            return result
+        },
+        //favlibs
+        async getfavoritLibraries() {
+            const result = await repository.getfavoritLibraries()
+            return result
+        },
+        async createfavoritLibrary(data: any) {
+            const result = await repository.createfavoritLibrary(data)
+            return result
+        },
+        async editfavoritLibrary(id: number,data:Partial<favoritLibrary>) {
+            const result = await repository.editfavoritLibrary(id,data)
+            return result
+        },
+        async getfavoritLibraryById(id: number) {
+            const result = await repository.getfavoritLibraryById(id)
+            return result
+        },
+        async getfavoritLibrariesByUserId(id: string) {
+            const result = await repository.getfavoritLibrariesByUserId(id)
+            return result
+        },
+        async getfavoritLibrariesByLibaryId(id: string) {
+            const result = await repository.getfavoritLibrariesByLibaryId(id)
+            return result
+        },
+        async deletefavoritLibraryById(id: number) {
+            const result = await repository.deletefavoritLibraryById(id)
+            return result
+        },
+        async deletefavoritLibrariesByUserId(id: string) {
+            const result = await repository.deletefavoritLibrariesByUserId(id)
+            return result
+        },
+        async deletefavoritLibrariesByLibaryId(id: string) {
+            const result = await repository.deletefavoritLibrariesByLibaryId(id)
+            return result
+        },
     }
 }

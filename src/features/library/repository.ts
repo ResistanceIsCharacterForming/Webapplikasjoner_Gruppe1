@@ -60,7 +60,7 @@ export function createLibraryRepository(db: any):libraryRepository{
           gte(libraries.cordlon, minlon),
           lte(libraries.cordlon, maxlon),
       ));
-    return{success: true,result}
+    return{success: true,data:result}
   }
   catch (error){
     return{success:false,error:"failed getting review by id"}
@@ -72,7 +72,6 @@ export function createLibraryRepository(db: any):libraryRepository{
     await db.delete(libraries).where(eq(libraries.id,id)); 
     return { success: true }
     } catch (error) {
-      console.log(error)
     return { success: false, error: 'Failed deleting library by id' }
     }
 },

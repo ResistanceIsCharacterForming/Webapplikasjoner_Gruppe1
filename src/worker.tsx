@@ -20,6 +20,8 @@ import { Testing } from "@/test"
 import { authCheck } from "@/middleware/authHandler"
 import { extractParams } from "./utils/params"
 
+import { scrypt } from "crypto"
+
 export interface Env {
   bokkroken: D1Database;
 }
@@ -29,8 +31,8 @@ export type AppContext = {
   authUrl: string;
 }
 
-
 export default defineApp([
+  
   setCommonHeaders(),
 
   extractParams(),
