@@ -1,5 +1,5 @@
 import { defineApp } from "rwsdk/worker"
-import { render, route } from "rwsdk/router"
+import { layout, prefix, render, route } from "rwsdk/router"
 import { Document } from "@/app/Document"
 import { setCommonHeaders } from "./app/headers"
 import { env } from "cloudflare:workers"
@@ -17,30 +17,6 @@ import { createReportRepository } from "./features/report/repository";
 
 import { Testing } from "@/test"
 
-import { authCheck } from "@/middleware/authHandler"
-import { extractParams } from "./utils/params"
-
-export interface Env {
-  bokkroken: D1Database;
-}
-
-export type AppContext = {
-  user: User | undefined;
-  authUrl: string;
-}
-
-
-export default defineApp([
-  setCommonHeaders(),
-
-  extractParams(),
-  authCheck,
-
-
-  
-  route("/api/v1/*/", [(ctx: any) => {
-    return apiHandler(ctx)
-  }]),
 
   /*
   route("/hi", () => {
@@ -63,8 +39,40 @@ export default defineApp([
   }),
   */
   
+
+import { authCheck } from "@/middleware/authHandler"
+import { extractParams } from "./utils/params"
+import LoginScreen from "./features/auth/LoginScreen"
+import { MainLayout } from "./features/auth/Layout"
+
+import { APIv1 } from "./utils/routesAPI"
+
+export interface Env {
+  bokkroken: D1Database;
+}
+
+export type AppContext = {
+  user: User | undefined;
+  authUrl: string;
+}
+
+
+export default defineApp([
+  setCommonHeaders(),
+
+  
+  authCheck,
+
+  prefix("/api/v1/", APIv1),
+
   render(Document, [
-    route("/home", MapScreen )
+    layout(MainLayout, [
+      route("/home", MapScreen ),
+      route("/login", LoginScreen )
+    ])
   ])
 
 ])
+
+
+console.log(...APIv1)

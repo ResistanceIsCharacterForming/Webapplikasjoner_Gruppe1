@@ -25,9 +25,9 @@ export function createUserController (userService: any) {
                 headers: {"Content-Type": "application/json"}
             })
         },
-        async createUser(id: string, name: string, email: string, password: string, createdAt: Date) {
+        async createUser(name: string, email: string, password: string,settings:string,profileImage:string) {
 
-            const result = await userService.createUser(id, name, email, password)
+            const result = await userService.createUser({name, email, password, settings, profileImage})
 
              return new Response(
                 JSON.stringify({
