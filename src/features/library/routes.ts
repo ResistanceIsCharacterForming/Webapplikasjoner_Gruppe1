@@ -4,7 +4,7 @@ import { singletonMaster } from "@/utils/singletonBuilder"
 const libraryController = singletonMaster.libraryController
 
 export const librariesRoutes = [
-    route("/libraries/", async (ctx) => {
+    route("libraries", async (ctx) => {
         console.log(true)
 
         const method = ctx.request.method.toLowerCase()
@@ -13,9 +13,10 @@ export const librariesRoutes = [
         }
         return new Response(null, { status: 405 })
     }),
-    route("/libraries/:id", async (ctx) => {
+    route("libraries/:id", async (ctx) => {
         const method = ctx.request.method.toLowerCase()
-        const id = ctx.params?.$0 ?? undefined
+        console.log(ctx.params?.id)
+        const id = ctx.params?.id ?? undefined
         if (id && method === "get") {
            return libraryController.getLibraryById(id)
         }

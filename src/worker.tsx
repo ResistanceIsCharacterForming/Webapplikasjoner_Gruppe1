@@ -47,6 +47,10 @@ import { MainLayout } from "./features/auth/Layout"
 
 import { APIv1 } from "./utils/routesAPI"
 
+import { singletonMaster } from "@/utils/singletonBuilder"
+import { librariesRoutes } from "./features/library/routes"
+
+
 export interface Env {
   bokkroken: D1Database;
 }
@@ -75,4 +79,4 @@ export default defineApp([
 ])
 
 
-console.log(...APIv1)
+console.log(APIv1)
