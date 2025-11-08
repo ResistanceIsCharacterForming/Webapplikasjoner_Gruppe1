@@ -1,5 +1,6 @@
 import { route } from "rwsdk/router"
 import { singletonMaster } from "@/utils/singletonBuilder"
+import { postLibraryData } from "@/types/library"
 
 const libraryController = singletonMaster.libraryController
 
@@ -20,6 +21,11 @@ export const librariesRoutes = [
         if (id && method === "get") {
            return libraryController.getLibraryById(id)
         }
+        if (id && method === "post") {
+           const data: postLibraryData = await ctx.request.json()
+           const result = await libraryController.createLibrary(data)
+           return result
+        }
         return new Response(null, { status: 405 })
-    })
+    }),   
 ]

@@ -1,4 +1,4 @@
-import { prefix, route } from "rwsdk/router"
+/*import { prefix, route } from "rwsdk/router"
 
 import { libraryApi } from "@/features/library/api"
 import { userApi } from "@/features/user/api"
@@ -23,4 +23,4 @@ export const apiHandler = (ctx: any) => {
         const feature: (keyof typeof features) = resource as keyof typeof features
         return features[feature](ctx)
     }
-}
+}*/

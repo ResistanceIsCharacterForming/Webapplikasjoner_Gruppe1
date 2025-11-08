@@ -1,3 +1,4 @@
+/*
 import { setParams } from "@/utils/params"
 import { singletonMaster } from "@/utils/singletonBuilder"
 
@@ -78,4 +79,4 @@ export const libraryApi = async (ctx: any) => {
             return new Response("Method not allowed.", {status: 405})
 
     }
-}
+}*/

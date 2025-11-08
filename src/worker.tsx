@@ -4,7 +4,6 @@ import { Document } from "@/app/Document"
 import { setCommonHeaders } from "./app/headers"
 import { env } from "cloudflare:workers"
 
-import { apiHandler } from "@/utils/apiHandler"
 import { pageHandler } from "@/utils/pageHandler"
 
 import { User, users } from "@/db/schema/"
@@ -14,8 +13,6 @@ import { seed } from "./db/seed";
 import { admins, libraries, reviews } from "./db/schema";
 import { createReportService } from "./features/report/service";
 import { createReportRepository } from "./features/report/repository";
-
-import { Testing } from "@/test"
 
 
   /*
@@ -77,6 +74,3 @@ export default defineApp([
   ])
 
 ])
-
-
-console.log(APIv1)

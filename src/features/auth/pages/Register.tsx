@@ -1,6 +1,6 @@
-"use client";
 
-import { useTask } from "@/hooks/useTask"
+/*
+"use client";
 
 export default function Register() {
   const { user, updateUser } = useTask();
@@ -45,4 +45,4 @@ export default function Register() {
       <button type="submit">Create task</button>
     </form>
   );
-}
+}*/
