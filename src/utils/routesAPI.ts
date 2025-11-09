@@ -1,4 +1,4 @@
-import { tokensRoutes } from "@/features/tokens/routes"
+import { tokensRoutes } from "@/features/token/routes"
 import { librariesRoutes } from "@/features/library/routes"
 import { usersRoutes } from "@/features/user/routes"
 import { Route } from "rwsdk/router"

@@ -4,6 +4,10 @@ import { verifyPassword } from "./hooks/password"
 
 export function createTokensService() {
     return {
+        async verifyToken(data: any) {
+            console.log(data)
+            return {success: true}
+        },
         async handleLogin(data: any) {
             const { email, password } = data
             const user = await singletonMaster.userService.getUserByEmail(email)
@@ -16,12 +20,7 @@ export function createTokensService() {
             
             const result = await verifyPassword(password, hashedPassword)
 
-            console.log(password)
-
-            if (result === true) {
-                return true
-            }
-            return false
+            return {success: result, id: user.data.id}
         }
     }
 }

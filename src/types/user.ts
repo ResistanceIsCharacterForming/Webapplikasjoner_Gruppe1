@@ -1,4 +1,4 @@
-import { favoritLibrary, User } from "@/db/schema";
+import { favoritLibrary, user } from "@/db/schema";
 import { apiResponse } from "./api";
 import { admin } from "@/db/schema";
 
@@ -19,11 +19,11 @@ export type databaseUserData = postUserData & {
 
 
 export interface userRepository {
-  getUsers(): Promise<apiResponse<User[]>>;
-  createUser(data: databaseUserData): Promise<apiResponse<User[]>>;
-  editUser(id: string, data: Partial<User>): Promise<apiResponse<User[]>>;
-  getUserById(id: string): Promise<apiResponse<User[]>>;
-  getUserByEmail(email: string): Promise<apiResponse<User>>;
+  getUsers(): Promise<apiResponse<user[]>>;
+  createUser(data: databaseUserData): Promise<apiResponse<user[]>>;
+  editUser(id: string, data: Partial<user>): Promise<apiResponse<user[]>>;
+  getUserById(id: string): Promise<apiResponse<user[]>>;
+  getUserByEmail(email: string): Promise<apiResponse<user>>;
   deleteUserById(id: string): Promise<apiResponse<void>>;
 
   //favoritlibaries

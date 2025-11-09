@@ -39,14 +39,15 @@ import { createReportRepository } from "./features/report/repository";
 
 import { authCheck } from "@/middleware/authHandler"
 import { extractParams } from "./utils/params"
-import { MainLayout } from "./features/tokens/Layout"
+import { MainLayout } from "./features/token/layouts/Layout"
 
 import { APIv1 } from "./utils/routesAPI"
 
 import { singletonMaster } from "@/utils/singletonBuilder"
 import { librariesRoutes } from "./features/library/routes"
-import RegisterScreen from "./features/tokens/pages/Register"
-import LoginScreen from "./features/tokens/pages/Login"
+import RegisterScreen from "./features/token/pages/Register"
+import LoginScreen from "./features/token/pages/Login"
+import DashboardScreen from "./features/report/pages/Dashboard"
 
 export interface Env {
   bokkroken: D1Database;
@@ -71,7 +72,8 @@ export default defineApp([
    /* layout(MainLayout, [*/
       route("/home", MapScreen),
       route("/login", LoginScreen),
-      route("/register", RegisterScreen)
+      route("/register", RegisterScreen),
+      route("/dashboard", DashboardScreen)
     /*])*/
   ])
 

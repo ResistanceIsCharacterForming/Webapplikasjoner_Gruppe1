@@ -14,4 +14,4 @@ export const users = sqliteTable("users", {
   isVisible: int('is_visible', { mode: 'boolean' }).notNull(),
 });
 
-export type User = typeof users.$inferSelect;
+export type user = typeof users.$inferSelect;

@@ -1,4 +1,4 @@
-import { favoritLibrary, User } from "@/db/schema"
+import { favoritLibrary, user } from "@/db/schema"
 import { postUserData, userRepository } from "@/types/user"
 
 import {

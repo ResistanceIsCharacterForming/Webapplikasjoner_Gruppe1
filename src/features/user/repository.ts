@@ -1,4 +1,4 @@
-import {admin, admins, users,User,favoritLibraries,favoritLibrary} from "../../db/schema"
+import {admin, admins, users,user,favoritLibraries,favoritLibrary} from "../../db/schema"
 import {eq,and, lte, gte} from "drizzle-orm"
 import {libraries,library } from "../../db/schema"
 
@@ -10,7 +10,7 @@ export function createUserRepository(db: any):userRepository{
 
     async getUsers(){
       try {
-        const result: User[] = await db.select().from(users);
+        const result: user[] = await db.select().from(users);
         return { success: true, data: result }
       } catch (error) {
         return { success: false, error: 'Failed getting users' }
@@ -20,7 +20,7 @@ export function createUserRepository(db: any):userRepository{
 
     async createUser(data: databaseUserData){
       try {
-        const result: User[] = await db.insert(users).values(data).returning();
+        const result: user[] = await db.insert(users).values(data).returning();
         return { success: true, data: result }
       } catch (error) {
         console.log("createUser: " + error)
@@ -28,9 +28,9 @@ export function createUserRepository(db: any):userRepository{
       }
     },
 
-    async editUser(id: string,data : Partial<User>){
+    async editUser(id: string,data : Partial<user>){
     try {
-        const result : User[]= await db.update(users).set(data).where(eq(users.id, id)).returning();
+        const result : user[]= await db.update(users).set(data).where(eq(users.id, id)).returning();
       return { success: true, data: result }
       } catch (error) {
         return { success: false, error: 'Failed edit user' }
@@ -39,7 +39,7 @@ export function createUserRepository(db: any):userRepository{
 
     async getUserById(id: string){
       try {
-        const result : User[] = await db.select().from(users).where(eq(users.id, id));
+        const result : user[] = await db.select().from(users).where(eq(users.id, id));
         return { success: true, data: result }
       } catch (error) {
         return { success: false, error: 'Failed getting user by id' }
@@ -48,7 +48,7 @@ export function createUserRepository(db: any):userRepository{
 
     async getUserByEmail(email: string){
       try {
-        const result : User[] = await db.select().from(users).where(eq(users.email, email))
+        const result : user[] = await db.select().from(users).where(eq(users.email, email))
         const user = result[0] ?? null
         return { success: true, data: user }
       } catch (error) {

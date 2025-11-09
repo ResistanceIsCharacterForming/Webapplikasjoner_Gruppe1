@@ -11,8 +11,8 @@ import { createDbConnection } from "@/db/index"
 import { createUserRepository } from "@/features/user/repository"
 import { createReportRepository } from "@/features/report/repository"
 import { createReviewRepository } from "@/features/review/repository"
-import { createTokensController } from "@/features/tokens/controller"
-import { createTokensService } from "@/features/tokens/service"
+import { createTokensController } from "@/features/token/controller"
+import { createTokensService } from "@/features/token/service"
 
 /* https://www.typescriptlang.org/docs/handbook/basic-types.html */
 
@@ -72,10 +72,18 @@ export const singletonMaster = {
         return this._reviewController
     },
 
+    _tokensService: null as ReturnType<typeof createTokensService> | null,
+    get tokensService() {
+        if (!this._tokensService) {
+            this._tokensService = createTokensService()
+        }
+        return this._tokensService
+    },
+
     _tokensController: null as ReturnType<typeof createTokensController> | null,
     get tokensController() {
         if (!this._tokensController) {
-            this._tokensController = createTokensController(createTokensService())
+            this._tokensController = createTokensController(this.tokensService)
         }
         return this._tokensController
     }

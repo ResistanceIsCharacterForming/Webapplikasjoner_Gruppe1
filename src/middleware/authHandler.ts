@@ -49,4 +49,8 @@ export const authCheck = (ctx: any) => {
         /* Check JWT token */
         /* if ctx.user.id == feature.usersIsAdmin(id)  return */
     }
+
+    const cookieHeader = ctx.cookies
+    console.log(cookieHeader)
+
 }
