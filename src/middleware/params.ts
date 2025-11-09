@@ -3,7 +3,6 @@ export const setParams = (ctx: any) => {
     const [ resource, id, type ] = ((ctx: any): string[] => {
 
         if (ctx.params.$0 !== undefined) {
-
             const paramsLength = ctx.params.$0.split("/").length
 
             switch(paramsLength) {

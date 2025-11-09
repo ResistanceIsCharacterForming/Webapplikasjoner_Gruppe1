@@ -1,6 +1,20 @@
+import { favoritLibrary, User } from "@/db/schema"
+import { userRepository } from "@/types/user"
+import { scrypt } from "crypto"
 
+export function createUserService(repository: userRepository) {
+    const salt="qx5LIDftxlLttSJ6AHS654Y67usOmuQZ"
 
-export function createUserService(repository: any) {
+    async function hashPassword(password:string) {
+        const oldpass=password;
+         await scrypt(password,salt,32,(err,derivedKey) => {
+                    if (err) throw err;
+                        password=(derivedKey.toString('hex'));
+                    });
+        if (oldpass==password)
+                return "false"
+        return password
+    }
 
     return {
          async listUsers() { 
@@ -11,11 +25,80 @@ export function createUserService(repository: any) {
             const result = await repository.getUserById(id)
             return result
         },
-        async createUser(id: string, name: string, email: string, password: string) {
-             
-        },
-        async editUser(id: string, name: string, email: string) {
+        async createUser(name: string, email: string, password: string,settings:string,profileImage:string) {
+            const isVisible=true;
+            const createdAt = new Date().toUTCString()
+            await scrypt(password,salt, 32, (err, derivedKey) => {
+                if (err) throw err
+                password = (derivedKey.toString('hex'))
+            });
 
-        }
+            const result = await repository.createUser({name,email,createdAt,password,settings,profileImage,isVisible})
+            return result
+        },
+        async editUser(id: string,data:Partial<User>) {
+            if(data.password){
+                data.password=await hashPassword(data.password)
+            }
+            const result = await repository.editUser(id,data)
+            return result
+        },
+
+        async passwordcheck(id:string,password:string){
+            const user = await repository.getUserById(id)
+            if(user.data){
+                await scrypt(password,salt,32,(err,derivedKey) => {
+                    if (err) throw err;
+                        password=(derivedKey.toString('hex'));
+                    });
+
+                if (user.data[0].password == password){
+                    return { success: true, password:true }
+                }else{
+                    return { success: true, password:false }
+                }
+                }
+        },
+         async deleteUserByid(id: string) {
+            const result = await repository.deleteUserById(id)
+            return result
+        },
+        //favlibs
+        async getfavoritLibraries() {
+            const result = await repository.getfavoritLibraries()
+            return result
+        },
+        async createfavoritLibrary(data: any) {
+            const result = await repository.createfavoritLibrary(data)
+            return result
+        },
+        async editfavoritLibrary(id: number,data:Partial<favoritLibrary>) {
+            const result = await repository.editfavoritLibrary(id,data)
+            return result
+        },
+        async getfavoritLibraryById(id: number) {
+            const result = await repository.getfavoritLibraryById(id)
+            return result
+        },
+        async getfavoritLibrariesByUserId(id: string) {
+            const result = await repository.getfavoritLibrariesByUserId(id)
+            return result
+        },
+        async getfavoritLibrariesByLibaryId(id: string) {
+            const result = await repository.getfavoritLibrariesByLibaryId(id)
+            return result
+        },
+        async deletefavoritLibraryById(id: number) {
+            const result = await repository.deletefavoritLibraryById(id)
+            return result
+        },
+        async deletefavoritLibrariesByUserId(id: string) {
+            const result = await repository.deletefavoritLibrariesByUserId(id)
+            return result
+        },
+        async deletefavoritLibrariesByLibaryId(id: string) {
+            const result = await repository.deletefavoritLibrariesByLibaryId(id)
+            return result
+        },
     }
 }

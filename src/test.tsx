@@ -1,49 +1,77 @@
-import { drizzle } from "drizzle-orm/d1";
-import { User, users } from "./db/schema/users-schema";
-import { env } from "cloudflare:workers";
 
-export const Testing = async () => {
-    console.log("test starting drizzle thang");
-    const db = drizzle(env.bokkroken);
-    //const seeddatabase = await seed();
-    //await db.insert(users).values({name: "user",email: "email",password: "safe",settings: "test",createdAt: new Date().toISOString(),});
-    const userResult = await db.select().from(users);
-    console.log("test starting drizzle thang");
-    console.log();
+import { singletonMaster } from "./utils/singletonBuilder";
+import { createUserService } from "./features/user/service";
+import { createUserRepository } from "./features/user/repository";
+import { createLibraryService } from "./features/library/service";
+import { createLibraryRepository } from "./features/library/repository";
+import FileUploadComponent from "./form";
+
+
+export const databasescreen = async () => {
+  const test = singletonMaster.ImageHandler;
+  const user=await createUserService(createUserRepository())
+  const libary=await createLibraryService(createLibraryRepository(singletonMaster.dbConnection))
+  const userResult=await user.listUsers()
+  const libarres=await libary.listLibraries()
+  const listItems = userResult.data?.map(user =>
+    <tr style={{borderBlock:"groove"}}>
+    <td>  {user.id}  </td>
+    <td>  {user.email}  </td>
+    <td>  {user.name}  </td>
+    <td>  {user.password}  </td>
+    <td>  {user.createdAt}  </td>
+    <td>  {user.lastLoginAt}  </td>
+    <td>  {user.isVisible}  </td>
+    <td>  {user.profileImage}  </td>
+    <td>  {user.settings}  </td>
+    </tr>
+    );
+    const listlibary = libarres.data?.map(user =>
+    <tr style={{borderBlock:"groove"}}>
+    <td>  {user.id}  </td>
+    <td>  {user.name}  </td>
+    <td>  {user.createdAt}  </td>
+    <td>  {user.books}  </td>
+    <td>  {user.isVisible}  </td>
+    <td>  {user.cordlat}  </td>
+    <td>  {user.cordlon}  </td>
+     <td> {user.text}  </td>
+     <td> {user.photos}  </td>
+    </tr>
+    );
 
     return (
-        <>
-          <div style={{ padding: "2rem", maxWidth: "600px", margin: "0 auto" }}>
-            <h1>Start</h1>
-            <p>Velkommen til eksempel</p>
-            <p>Databasen har {userResult.length} brukere</p>
-            <p>user id:{userResult[0].id}</p>
-            <p>user password:{userResult[0].password}</p>
-            <p>user email:{userResult[0].email}</p>
-            <p>user name:{userResult[0].name}</p>
-            <p>user set:{userResult[0].settings}</p>
-            <p>user date:{userResult[0].createdAt}</p>
-            <div style={{ margin: "1.5rem 0" }}>
-              <a
-                href="/home"
-                style={{
-                  display: "inline-block",
-                  padding: "0.5rem 1rem",
-                  background: "#0070f3",
-                  color: "white",
-                  textDecoration: "none",
-                  borderRadius: "4px",
-                  fontWeight: "500",
-                }}
-              >
-                Go to Home Page
-              </a>
-            </div>
-            <p style={{ fontSize: "0.875rem", color: "#666" }}>
-              Note: The home page is protected and requires authentication. You
-              will be redirected to login if you're not signed in.
-            </p>
+    <div style={{ padding: "2rem", margin: "0 auto"}}>
+      <h1>list element</h1>
+      <table>
+        <tr>
+          <td>id</td>
+          <td>email</td>
+          <td>name</td>
+          <td>password</td>
+          <td>createdAt</td>
+          <td>last login</td>
+          <td>isvisable</td>
+          <td>icon</td>
+          <td>settings</td>
+        </tr>
+          {listItems}
+      </table>
+      <table>
+        <tr>
+          <td>id</td>
+          <td>name</td>
+          <td>createdAt</td>
+          <td>books</td>
+          <td>isvisable</td>
+          <td>cordlon</td>
+          <td>cordlat</td>
+        </tr>
+          {listlibary}
+      </table>
+      <FileUploadComponent/>
+      
+                
           </div>
-        </>
       )
 } 

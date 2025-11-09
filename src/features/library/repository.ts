@@ -3,10 +3,7 @@ import {libraries,library } from "../../db/schema";
 import { singletonMaster } from "@/utils/singletonBuilder"
 import { libraryRepository } from "@/types/library";
 
-export function createLibraryRepository():libraryRepository{
-
-  const db = singletonMaster.dbConnection
-
+export function createLibraryRepository(db:any):libraryRepository{
   return{
     
     async getLibraries(){
@@ -63,7 +60,7 @@ export function createLibraryRepository():libraryRepository{
           gte(libraries.cordlon, minlon),
           lte(libraries.cordlon, maxlon),
       ));
-    return{success: true,result}
+    return{success: true,data:result}
   }
   catch (error){
     return{success:false,error:"failed getting review by id"}
@@ -75,7 +72,6 @@ export function createLibraryRepository():libraryRepository{
     await db.delete(libraries).where(eq(libraries.id,id)); 
     return { success: true }
     } catch (error) {
-      console.log(error)
     return { success: false, error: 'Failed deleting library by id' }
     }
 },

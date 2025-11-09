@@ -3,11 +3,13 @@
 import { defineScript } from "rwsdk/worker";
 import { drizzle } from "drizzle-orm/d1";
 
-import { users,reviews,reviewsEndorsements,reports,libraries,favoritLibraries,admins } from "./schema";
+import { users,reviews,reviewsEndorsements,reports,libraries,favoritLibraries,admins, User, library } from "./schema";
 import { singletonMaster } from "@/utils/singletonBuilder";
+import { scrypt } from "crypto";
 const db = singletonMaster.dbConnection
 export  const seed = async () =>{
   try { 
+    //make sure the tables are empty
     await db.delete(admins);
     await db.delete(users);
     await db.delete(libraries);
@@ -16,93 +18,120 @@ export  const seed = async () =>{
     await db.delete(favoritLibraries);
     await db.delete(reports); 
 
-      // Insert a user
-    await db.insert(users).values({
+    //partial do id is made in the db
+    const madsuser:Partial<User> ={
         name: "madsuser",
         email: "mads.soyland@gmail.com",
         password: "tempnothashed",
         settings: "{}",
         createdAt: new Date().toISOString(),
-        profileImage:""
-    });
+        lastLoginAt: new Date().toISOString(),
+        profileImage:"",
+        isVisible:true
+      };
 
-      await db.insert(users).values({
+     const madsuser2:Partial<User> ={
         name: "madsuser2",
         email: "mjsoylan@hiof.no",
         password: "tempnothashed",
         settings: "{}",
         createdAt: new Date().toISOString(),
-        profileImage:""
-    });
+        lastLoginAt: new Date().toISOString(),
+        profileImage:"",
+        isVisible:true
+      };
 
-     await db.insert(users).values({
-        name: "nikolaiuser",
-        email: "nikol.lysebraate@hiof.no",
-        password: "tempnothashed",
-        settings: "{}",
-        createdAt: new Date().toISOString(),
-        profileImage:""
-    });
+     const nikolaiuser:Partial<User> ={
+      name: "nikolaiuser",
+      email: "nikol.lysebraate@hiof.no",
+      password: "tempnothashed",
+      settings: "{}",
+      createdAt: new Date().toISOString(),
+      lastLoginAt: new Date().toISOString(),
+      profileImage:"",
+      isVisible:true
+      };
 
-    
-     await db.insert(users).values({
+     const mathias:Partial<User> ={  
         name: "mathias",
         email: "mathias.hem@hiof.no",
         password: "tempnothashed",
         settings: "{}",
         createdAt: new Date().toISOString(),
-        profileImage:""
-    });
+        lastLoginAt: new Date().toISOString(),
+        profileImage:"",
+        isVisible:true
+      };
+
+      // Insert a user
+    await db.insert(users).values({madsuser});
+
+    await db.insert(users).values({madsuser2});
+
+    await db.insert(users).values({nikolaiuser})
+
+    await db.insert(users).values({mathias});
    
-     const newUserId = await db.select({id: users.id}).from(users)
+    const newUserId = await db.select({id: users.id}).from(users)
+    // 0 er mads,1 er mads2,2 er nikolai,3 er mathias
 
-      // 0 er mads,1 er mads2,2 er nikolai,3 er mathias
-      // Insert a library
-    await db.insert(libraries).values({
-        userId: newUserId[0].id,
-        name: "halden skole",  
-        text: "dette er test bibliotek",
-        cordlat:59.129280,
-        cordlon:11.353732,
-        books: "it for dummies, javascript for dummies, learning python",
-        createdAt: new Date().toISOString(),
-        photos:"{}"
-    });
+    const halden_skole:Partial<library> = {
+      userId: newUserId[0].id,
+      name: "halden skole",  
+      text: "dette er test bibliotek",
+      cordlat:59.129280,
+      cordlon:11.353732,
+      books: "it for dummies, javascript for dummies, learning python",
+      createdAt: new Date().toISOString(),
+      photos:"{}",
+      isVisible:true
+    }
 
-     await db.insert(libraries).values({
-        userId: newUserId[0].id,
-        name: "halden brannstasjon",  
-        text: "dette er test bibliotek",
-        cordlat:59.126407,
-        cordlon:11.35266,
-        books: "brannsikerhet v1,brannsikerhet v2, brannsikhert for barn v1",
-        createdAt: new Date().toISOString(),
-        photos:"{}"
-    });
+    const halden_brannstasjon:Partial<library> = {
+      userId: newUserId[0].id,
+      name: "halden brannstasjon",  
+      text: "dette er test bibliotek",
+      cordlat:59.126407,
+      cordlon:11.35266,
+      books: "brannsikerhet v1,brannsikerhet v2, brannsikhert for barn v1",
+      createdAt: new Date().toISOString(),
+      photos:"{}",
+      isVisible:true
+    }
 
-    await db.insert(libraries).values({
-        userId: newUserId[2].id,
-        name: "hiof studenleiligheter",  
-        text: "dette er test bibliotek",
-        cordlat:59.130680,
-        cordlon:11.35497,
-        books: "ringes herre,hunger games,where is waldo",
-        createdAt: new Date().toISOString(),
-        photos:"{}"
-    });
+    const hiof_studenleiligheter:Partial<library> = {
+      userId: newUserId[2].id,
+      name: "hiof studenleiligheter",  
+      text: "dette er test bibliotek",
+      cordlat:59.130680,
+      cordlon:11.35497,
+      books: "ringes herre,hunger games,where is waldo",
+      createdAt: new Date().toISOString(),
+      photos:"{}",
+      isVisible:true
+    }
 
-      await db.insert(libraries).values({
-        userId: newUserId[3].id,
-        name: "solbergtårnet",  
-        text: "dette er test bibliotek",
-        cordlat:59.211874,
-        cordlon:11.163802,
-        books: "",
-        createdAt: new Date().toISOString(),
-        photos:"{}"
-    });
+    const solbergtårnet:Partial<library> = {
+      userId: newUserId[3].id,
+      name: "solbergtårnet",  
+      text: "dette er test bibliotek",
+      cordlat:59.211874,
+      cordlon:11.163802,
+      books: "",
+      createdAt: new Date().toISOString(),
+      photos:"{}",
+      isVisible:true
+    }
+    // Insert a library
+    await db.insert(libraries).values({halden_skole});
 
+     await db.insert(libraries).values({halden_brannstasjon});
 
+    await db.insert(libraries).values({hiof_studenleiligheter});
+
+    await db.insert(libraries).values({solbergtårnet});
+
+    
     // Insert an admin
     await db.insert(admins).values({
         userId: newUserId[0].id,
@@ -191,21 +220,12 @@ export  const seed = async () =>{
         text: "dette er en test rapport",
         createdAt: new Date().toISOString(),
     });
+    console.log("finished seeding")
+    return Response.json({
+      success: true,
+      error: "seeded database",
+    });
 
-
-
-
-   
-    // Verify the insert by selecting all users
-    const result = await db.select().from(users).all();
-
-
-    console.log("🌱 Finished seeding");
-
-
-    return;
-
-   
   } catch (error) {
     console.error("Error seeding database:", error);
     return Response.json({

@@ -1,4 +1,4 @@
-import { library} from "@/db/schema";
+import { libraries} from "@/db/schema";
 import { apiResponse } from "./api";
 
 
@@ -23,3 +23,5 @@ export interface libraryservice{
   deletelibraryWithId(id:string): Promise<apiResponse<void>>;
   deletelibraryWithUserId(id:string): Promise<apiResponse<void>>;
 }
+
+export type library = typeof libraries.$inferSelect;
