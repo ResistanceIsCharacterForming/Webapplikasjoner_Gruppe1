@@ -1,43 +1,72 @@
 import {
   LatLng,
   LatLngBounds,
+  LeafletMouseEvent,
   LocationEvent,
   LeafletEvent,
   Map,
 } from "leaflet"
 
-import { useState } from "react"
+import { MouseEvent, useState } from "react"
 
-async function getLibrariesInView(bounds: LatLngBounds) {
-  //const libraryController = singletonMaster.libraryController
-  const _southWest = bounds.getSouthWest()
-  const _northEast = bounds.getNorthEast()
+async function getLibrariesInView(bounds: LatLngBounds): Promise<any[]> {
+  const res = await fetch("api/v1/libraries/")
+  if (!res.ok) {
+    console.error("Failed to fetch libraries:", res.statusText)
+    return []
+  }
 
-  // const res = await libraryController.listLibraryWithCords(
-  //   _northEast.lng,
-  //   _southWest.lng,
-  //   _northEast.lat,
-  //   _southWest.lat
-  // )
-  // const libraries = await res.json()
-  // console.log(libraries)
+  const libraries: any = await res.json();
+  return libraries.data || []
 }
+
+async function addLibrary(coordinate: LatLng) {
+  const newLibrary = {
+    libraryUserId: "28fae289-ab8e-44f3-9c33-fffdc55ec36a",
+    libraryName: "Test Bibliotek",
+    libraryText: "Lorem Ipsum.",
+    libraryCordLat: coordinate.lat,
+    libraryCordlon: coordinate.lng,
+    createdAt: new Date().toISOString(),
+    libraryBooks: "",
+    libraryPhotos: "{}",
+  }
+
+  const res = await fetch("api/v1/libraries/create/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(newLibrary),
+  })
+
+  if (!res.ok) {
+    console.error("Failed to create library:", res.statusText)
+    return
+  }
+}
+
 
 export function LocationMarker({ reactLeaflet }: { reactLeaflet: any }) {
   const { Marker, Popup, useMapEvents } = reactLeaflet
   const [position, setPosition] = useState<LatLng | null>(null)
+  const [libraries, setLibraries] = useState<any[]>([])
 
   const map: Map = useMapEvents({
-    click() {
-      map.locate({ enableHighAccuracy: true })
+    click(e: LeafletMouseEvent) {
+      addLibrary(e.latlng)
+      //map.locate({ enableHighAccuracy: true })
     },
     locationfound(e: LocationEvent) {
       setPosition(e.latlng)
-      map.flyTo(e.latlng, map.getZoom())
+      map.flyTo(e.latlng, 15)
     },
-    moveend(e: LeafletEvent) {
-      const bounds = map.getBounds()
-      getLibrariesInView(bounds)
+    async moveend(e: LeafletEvent) {
+      const zoomLevel = map.getZoom()
+      if (zoomLevel >= 14) {
+        const bounds = map.getBounds()
+        const libraries = await getLibrariesInView(bounds)
+        setLibraries(libraries)
+      } else setLibraries([])
+      
 
       const { lat, lng } = map.getCenter()
       const url = new URL(window.location.href)
@@ -47,9 +76,22 @@ export function LocationMarker({ reactLeaflet }: { reactLeaflet: any }) {
     },
   })
 
-  return position === null ? null : (
+  return (
+  <>
+  {position && (
     <Marker position={position}>
       <Popup>You are here</Popup>
     </Marker>
+  )}
+  {libraries.map((library) => (
+    <Marker key={library.id} position={[library.cordlat, library.cordlon]}>
+      <Popup>
+        <strong>{library.name}</strong>
+        <br />
+        {library.text}
+      </Popup>
+    </Marker>
+  ))}
+  </>
   )
 }

@@ -4,7 +4,7 @@ import { libraryApi } from "@/features/library/api"
 import { userApi } from "@/features/user/api"
 import { reportApi } from "@/features/report/api"
 import { reviewApi } from "@/features/review/api"
-import { isAuthorized } from "@/middleware/authorization/authorization"
+//import { isAuthorized } from "@/middleware/authorization/authorization"
 import { setParams } from "@/utils/params"
 
 import { MapScreen } from "@/features/library/pages/mapScreen"
