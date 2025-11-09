@@ -1,3 +1,5 @@
+import { postUserData } from "@/types/user"
+
 export function createUserController (userService: any) {
     return {
          async listUsers() {
@@ -13,7 +15,6 @@ export function createUserController (userService: any) {
             })
         },
         async getUserById(id: string) { 
-
             const result = await userService.getUserById(id)
             return new Response(
                 JSON.stringify({
@@ -25,11 +26,12 @@ export function createUserController (userService: any) {
                 headers: {"Content-Type": "application/json"}
             })
         },
-        async createUser(id: string, name: string, email: string, password: string) {
+        async createUser(data: postUserData) {
+            const result = await userService.createUser(data)
              return new Response(
                 JSON.stringify({
-                data: `createUser ${id} ${name} ${email} ${password}`,
-                success: true
+                data: result.data,
+                success: result.success,
             }),
             {
                 status: 201,

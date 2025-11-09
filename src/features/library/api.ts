@@ -1,9 +1,15 @@
+/*
+import { setParams } from "@/utils/params"
 import { singletonMaster } from "@/utils/singletonBuilder"
 
 export const libraryApi = async (ctx: any) => {
     
     const libraryController = singletonMaster.libraryController
-    const libraryId: string = ctx.params.id
+
+    const [ resource, libraryId, type ] = setParams(ctx)
+
+    console.log("api " + ctx.params.resource)
+
 
     switch (ctx.request.method.toLowerCase()) {
 
@@ -73,4 +79,4 @@ export const libraryApi = async (ctx: any) => {
             return new Response("Method not allowed.", {status: 405})
 
     }
-}
+}*/

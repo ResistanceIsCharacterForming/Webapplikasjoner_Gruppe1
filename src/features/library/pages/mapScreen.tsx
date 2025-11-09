@@ -1,9 +1,9 @@
-import { MapGenerator } from "@/features/map/components/mapGenerator";
+import { MapGenerator } from "@/features/library/pages/mapGenerator"
 
 export function MapScreen() {
   return (
     <div>
       <MapGenerator />
     </div>
-  );
+  )
 }

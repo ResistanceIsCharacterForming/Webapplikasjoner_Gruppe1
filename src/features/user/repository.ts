@@ -1,19 +1,16 @@
-import {users,User,favoritLibraries,favoritLibrary} from "../../db/schema";
-import {eq,and, lte, gte} from "drizzle-orm";
-import {libraries,library } from "../../db/schema";
-import { singletonMaster } from "@/utils/singletonBuilder"
+import {admin, admins, users,user,favoritLibraries,favoritLibrary} from "../../db/schema"
+import {eq,and, lte, gte} from "drizzle-orm"
+import {libraries,library } from "../../db/schema"
 
-import { userRepository } from "@/types/user";
+import { databaseUserData, userRepository } from "@/types/user"
 
-export function createUserRepository():userRepository{
-
-  const db = singletonMaster.dbConnection
+export function createUserRepository(db: any):userRepository{
 
   return{
 
     async getUsers(){
       try {
-        const result: User[] = await db.select().from(users);
+        const result: user[] = await db.select().from(users);
         return { success: true, data: result }
       } catch (error) {
         return { success: false, error: 'Failed getting users' }
@@ -21,27 +18,19 @@ export function createUserRepository():userRepository{
     },
 
 
-    async createUser(data : any){
+    async createUser(data: databaseUserData){
       try {
-        const result: User[] = await db.insert(users).values({
-            name: data.name,
-            email: data.email,
-            password: data.password,
-            settings: data.settings,
-            createdAt: data.createdAt,
-            lastLoginAt: data.lastLoginAt,
-            profileImage: data.profileImage,
-            isVisible:data.isVisible
-        }).returning();
+        const result: user[] = await db.insert(users).values(data).returning();
         return { success: true, data: result }
       } catch (error) {
+        console.log("createUser: " + error)
         return { success: false, error: 'Failed creating user' }
       }
     },
 
-    async editUser(id: string,data : Partial<User>){
+    async editUser(id: string,data : Partial<user>){
     try {
-        const result : User[]= await db.update(users).set(data).where(eq(users.id, id)).returning();
+        const result : user[]= await db.update(users).set(data).where(eq(users.id, id)).returning();
       return { success: true, data: result }
       } catch (error) {
         return { success: false, error: 'Failed edit user' }
@@ -50,10 +39,21 @@ export function createUserRepository():userRepository{
 
     async getUserById(id: string){
       try {
-        const result : User[] = await db.select().from(users).where(eq(users.id, id));
+        const result : user[] = await db.select().from(users).where(eq(users.id, id));
         return { success: true, data: result }
       } catch (error) {
         return { success: false, error: 'Failed getting user by id' }
+      }
+    },
+
+    async getUserByEmail(email: string){
+      try {
+        const result : user[] = await db.select().from(users).where(eq(users.email, email))
+        const user = result[0] ?? null
+        return { success: true, data: user }
+      } catch (error) {
+        console.log("getUserByEmail: " + error)
+        return { success: false, error: 'Failed getting user by email' }
       }
     },
 
@@ -151,5 +151,57 @@ export function createUserRepository():userRepository{
         }
     },
 
-  }
+
+  async getAdmins(){
+    try {
+      const result: admin[] = await db.select().from(admins);
+      return { success: true, data: result }
+    } catch (error) {
+      return { success: false, error: 'Failed getting admins' }
+    }
+    },
+  
+    async createAdmin(userId:string,createdAt:string,adminLevel:number){
+    try {
+      const result: admin[] = await db.insert(admins).values({
+          userId: userId,
+          createdAt: createdAt,
+          adminLevel: adminLevel,
+      }).returning();
+      return { success: true, data: result }
+    } catch (error) {
+      return { success: false, error: 'Failed creating admin' }
+    }
+  },
+  
+  async editAdmin(id: string,data : any){
+   try {
+      const result : admin[]= await db.update(admins).set(data).where(eq(admins.userId, id)).returning();
+      return { success: true, data: result }
+    } catch (error) {
+      return { success: false, error: 'Failed edit admin' }
+    }
+  },
+  
+  async getAdminById(id: string){
+    try {
+      const result : admin[] = await db.select().from(admins).where(eq(admins.userId, id));
+      return { success: true, data: result }
+    } catch (error) {
+      return { success: false, error: 'Failed getting admin by id' }
+    }
+  },
+  
+  async deleteAdminById(id:string){
+    try {
+      await db.delete(admins).where(eq(admins.userId,id)); 
+      return { success: true }
+      } catch (error) {
+        console.log(error)
+      return { success: false, error: 'Failed deleting admin by id' }
+      }
+  },
+    }
+
+
 }

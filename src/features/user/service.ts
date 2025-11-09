@@ -1,10 +1,23 @@
-import { favoritLibrary, User } from "@/db/schema"
-import { userRepository } from "@/types/user"
-import { scrypt } from "crypto"
+import { favoritLibrary, user } from "@/db/schema"
+import { postUserData, userRepository } from "@/types/user"
+
+import {
+  hashPassword as hash,
+  verifyPassword as verify,
+} from "better-auth/crypto"
+
+export async function hashPassword(password: string): Promise<string> {
+  try {
+    return await hash(password);
+  } catch (error) {
+    console.error("Password hashing error:", error);
+    throw new Error("Failed to hash password");
+  }
+}
 
 export function createUserService(repository: userRepository) {
     const salt="qx5LIDftxlLttSJ6AHS654Y67usOmuQZ"
-
+/*
     async function hashPassword(password:string) {
         const oldpass=password;
          await scrypt(password,salt,32,(err,derivedKey) => {
@@ -14,7 +27,7 @@ export function createUserService(repository: userRepository) {
         if (oldpass==password)
                 return "false"
         return password
-    }
+    }*/
 
     return {
          async listUsers() { 
@@ -25,25 +38,31 @@ export function createUserService(repository: userRepository) {
             const result = await repository.getUserById(id)
             return result
         },
-        async createUser(name: string, email: string, password: string,settings:string,profileImage:string) {
-            const isVisible=true;
-            const createdAt = new Date().toUTCString()
-            await scrypt(password,salt, 32, (err, derivedKey) => {
-                if (err) throw err
-                password = (derivedKey.toString('hex'))
-            });
-
-            const result = await repository.createUser({name,email,createdAt,password,settings,profileImage,isVisible})
+        async getUserByEmail(email: string) { 
+            const result = await repository.getUserByEmail(email)
             return result
         },
-        async editUser(id: string,data:Partial<User>) {
+        async createUser(data: postUserData) {
+            
+            const salt = new Uint8Array(16)
+
+            const hashedPassword = await hashPassword(data.password)
+            data.password = hashedPassword
+
+            console.log(data.password)
+
+            const createdAt = new Date().toString()
+            const result = await repository.createUser({...data, settings: "", createdAt: createdAt, lastLoginAt: "", profileImage: "", isVisible: true})
+            return result
+        },
+       /* async editUser(id: string,data:Partial<User>) {
             if(data.password){
                 data.password=await hashPassword(data.password)
             }
             const result = await repository.editUser(id,data)
             return result
-        },
-
+        },*/
+/*
         async passwordcheck(id:string,password:string){
             const user = await repository.getUserById(id)
             if(user.data){
@@ -58,7 +77,7 @@ export function createUserService(repository: userRepository) {
                     return { success: true, password:false }
                 }
                 }
-        },
+        },*/
          async deleteUserByid(id: string) {
             const result = await repository.deleteUserById(id)
             return result

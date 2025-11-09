@@ -11,6 +11,8 @@ import { createDbConnection, createR2Connection } from "@/db/index"
 import { createUserRepository } from "@/features/user/repository"
 import { createReportRepository } from "@/features/report/repository"
 import { createReviewRepository } from "@/features/review/repository"
+import { createTokensController } from "@/features/token/controller"
+import { createTokensService } from "@/features/token/service"
 import { createImageHandler } from "@/features/image/imagehandler"
 
 /* https://www.typescriptlang.org/docs/handbook/basic-types.html */
@@ -55,10 +57,18 @@ export const singletonMaster = {
         return this._libraryController
     },
 
+    _userService: null as ReturnType<typeof createUserService> | null,
+    get userService() {
+        if (!this._userService) {
+            this._userService = createUserService(createUserRepository(this.dbConnection))
+        }
+        return this._userService
+    },
+
     _userController: null as ReturnType<typeof createUserController> | null,
     get userController() {
         if (!this._userController) {
-            this._userController = createUserController(createUserService(createUserRepository()))
+            this._userController = createUserController(this.userService)
         }
         return this._userController
     },
@@ -66,7 +76,7 @@ export const singletonMaster = {
     _reportController: null as ReturnType<typeof createReportController> | null,
     get reportController() {
         if (!this._reportController) {
-            this._reportController = createReportController(createReportService(createReportRepository()))
+            this._reportController = createReportController(createReportService(createReportRepository(this.dbConnection)))
         }
         return this._reportController
     },
@@ -74,8 +84,24 @@ export const singletonMaster = {
     _reviewController: null as ReturnType<typeof createReviewController> | null,
     get reviewController() {
         if (!this._reviewController) {
-            this._reviewController = createReviewController(createReviewService(createReviewRepository()))
+            this._reviewController = createReviewController(createReviewService(createReviewRepository(this.dbConnection)))
         }
         return this._reviewController
+    },
+
+    _tokensService: null as ReturnType<typeof createTokensService> | null,
+    get tokensService() {
+        if (!this._tokensService) {
+            this._tokensService = createTokensService()
+        }
+        return this._tokensService
+    },
+
+    _tokensController: null as ReturnType<typeof createTokensController> | null,
+    get tokensController() {
+        if (!this._tokensController) {
+            this._tokensController = createTokensController(this.tokensService)
+        }
+        return this._tokensController
     }
 }

@@ -1,6 +1,6 @@
-import { libraryservice } from "@/types/library";
+import { libraryService, postLibraryData } from "@/types/library";
 
-export function createLibraryController(libraryService: libraryservice) {
+export function createLibraryController(libraryService: libraryService) {
   /* Alle disse funksjonene skal til slutt kalle funksjoner / bruke services til å hente data. Men de kommer selv til å bygge ferdi Reponse objekt og sende det tilbake som svar for at API-kall / route.  */
   return {
     async listLibraries() {
@@ -53,23 +53,9 @@ export function createLibraryController(libraryService: libraryservice) {
       );
     },
     async createLibrary(
-      userId: string,
-      name: string,
-      text: string,
-      cordlat: number,
-      cordlon: number,
-      books: string,
-      photos: string
+      data: postLibraryData
     ) {
-      const result = await libraryService.createlibrary(
-        userId,
-        name,
-        text,
-        cordlat,
-        cordlon,
-        books,
-        photos
-      );
+      const result = await libraryService.createLibrary(data)
       return new Response(
         JSON.stringify({
           data: result.data,
@@ -79,7 +65,7 @@ export function createLibraryController(libraryService: libraryservice) {
           status: 201,
           headers: { "Content-Type": "application/json" },
         }
-      );
+      )
     },
     async editLibrary(id: string, text: string, books: string) {
       return new Response(
@@ -102,8 +88,7 @@ export function createLibraryController(libraryService: libraryservice) {
         {
           status: 201,
           headers: { "Content-Type": "application/json" },
-        }
-      );
-    },
-  };
+        })
+  }
+}
 }

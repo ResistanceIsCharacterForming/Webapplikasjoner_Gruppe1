@@ -3,9 +3,7 @@ import {report,reports} from "../../db/schema";
 import { singletonMaster } from "@/utils/singletonBuilder"
 import { reportRepository } from "@/types/reports";
 
-export function createReportRepository(): reportRepository{
-
-  const db = singletonMaster.dbConnection
+export function createReportRepository(db: any): reportRepository{
 
   return{
 

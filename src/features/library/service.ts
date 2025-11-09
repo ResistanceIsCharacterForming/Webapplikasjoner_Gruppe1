@@ -1,8 +1,8 @@
 import { library } from "@/db/schema"
-import { libraryservice, libraryRepository } from "@/types/library"
+import { libraryService, libraryRepository, postLibraryData } from "@/types/library"
 
 
-export function createLibraryService(repository: libraryRepository):libraryservice {
+export function createLibraryService(repository: libraryRepository): libraryService {
 
     return {
         async listLibraries() {
@@ -21,10 +21,11 @@ export function createLibraryService(repository: libraryRepository):libraryservi
             const result=await repository.getLibraryBycords(maxlon,minlon,maxlat,minlat)
             return result
         },
-        async createlibrary( userId:string|null,name: string,text: string,cordlat: number,cordlon: number,books: string,photos:string) {
-            const createdAt = new Date().toUTCString()
-            const isVisible = true
-            const result=await repository.createLibrary({userId,name,text,cordlat,cordlon,books,createdAt,photos,isVisible})
+        async createLibrary( data: postLibraryData ) {
+            /* const { userId, name, text, cordlon, cordlat, books } = data */
+            const createdAt = new Date().toString()
+            /*console.log({...data, createdAt: createdAt, isVisible: true})*/
+            const result = await repository.createLibrary({...data, createdAt: createdAt, isVisible: true, photos: ""})
             return result
         },
          async editlibrary(id:string,data:Partial<library>) {

@@ -1,7 +1,7 @@
 import {eq,and, lte, gte} from "drizzle-orm";
 import {libraries,library } from "../../db/schema";
 import { singletonMaster } from "@/utils/singletonBuilder"
-import { libraryRepository } from "@/types/library";
+import { databaseLibraryData, libraryRepository } from "@/types/library";
 
 export function createLibraryRepository(db:any):libraryRepository{
   return{
@@ -15,14 +15,16 @@ export function createLibraryRepository(db:any):libraryRepository{
   }
 },
 
-  async createLibrary(data:any){
-  try {
-    const result: library[] = await db.insert(libraries).values(data).returning();
-    return { success: true, data: result }
-  } catch (error) {
-    return { success: false, error: 'Failed creating library' }
-  }
-},
+  async createLibrary(data: databaseLibraryData) {
+    try {
+      /*console.log(data)*/
+      const result: library[] = await db.insert(libraries).values(data).returning();
+      return { success: true, data: result }
+    } catch (error) {
+      console.error("createLibrary error: ", error)
+      return { success: false, error: 'Failed creating library' }
+    }
+  },
 
   async editLibrary(id: string,data : Partial<library>){
  try {
@@ -34,13 +36,13 @@ export function createLibraryRepository(db:any):libraryRepository{
 },
 
   async getLibraryById(id: string){
-  try {
-    const result : library[] = await db.select().from(libraries).where(eq(libraries.id, id));
-    return { success: true, data: result }
-  } catch (error) {
-    return { success: false, error: 'Failed getting library by id' }
-  }
-},
+    try {
+      const result : library[] = await db.select().from(libraries).where(eq(libraries.id, id));
+      return { success: true, data: result }
+    } catch (error) {
+      return { success: false, error: 'Failed getting library by id' }
+    }
+  },
 
   async getLibraryByUserId(id:string){
   try {
