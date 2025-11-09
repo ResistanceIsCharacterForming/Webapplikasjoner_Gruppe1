@@ -7,7 +7,6 @@ import { reviewApi } from "@/features/review/api"
 import { setParams } from "@/utils/params"
 
 import { singletonMaster } from "@/utils/singletonBuilder"
-import { singletonMaster } from "@/utils/singletonBuilder"
 
 /*
 const features = {
@@ -24,7 +23,7 @@ export const apiHandler = (ctx: any) => {
 
     const [ resource, id, type ] = setParams(ctx)
 
-
+    console.log("api " + ctx.params.resource)
 
     const features = {
         get: {

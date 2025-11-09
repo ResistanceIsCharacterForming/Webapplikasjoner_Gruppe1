@@ -48,7 +48,7 @@ export const setParams = (ctx: any) => {
 
 export function extractParams() {
   return async (ctx: any) => {
-    //console.log(ctx.request.url)
+    console.log(ctx.request.url)
     const url = new URL(ctx.request.url)
     const parts = url.pathname.split("/")
     const resource: string = parts[3] ?? ""
