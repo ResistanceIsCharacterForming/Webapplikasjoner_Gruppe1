@@ -39,14 +39,14 @@ import { createReportRepository } from "./features/report/repository";
 
 import { authCheck } from "@/middleware/authHandler"
 import { extractParams } from "./utils/params"
-import LoginScreen from "./features/auth/LoginScreen"
-import { MainLayout } from "./features/auth/Layout"
+import { MainLayout } from "./features/tokens/Layout"
 
 import { APIv1 } from "./utils/routesAPI"
 
 import { singletonMaster } from "@/utils/singletonBuilder"
 import { librariesRoutes } from "./features/library/routes"
-
+import RegisterScreen from "./features/tokens/pages/Register"
+import LoginScreen from "./features/tokens/pages/Login"
 
 export interface Env {
   bokkroken: D1Database;
@@ -58,6 +58,7 @@ export type AppContext = {
 }
 
 
+
 export default defineApp([
   setCommonHeaders(),
 
@@ -67,10 +68,11 @@ export default defineApp([
   prefix("/api/v1/", APIv1),
 
   render(Document, [
-    layout(MainLayout, [
-      route("/home", MapScreen ),
-      route("/login", LoginScreen )
-    ])
+   /* layout(MainLayout, [*/
+      route("/home", MapScreen),
+      route("/login", LoginScreen),
+      route("/register", RegisterScreen)
+    /*])*/
   ])
 
 ])

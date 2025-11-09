@@ -24,7 +24,7 @@ export function createLibraryService(repository: libraryRepository): libraryServ
         async createLibrary( data: postLibraryData ) {
             /* const { userId, name, text, cordlon, cordlat, books } = data */
             const createdAt = new Date().toString()
-            console.log({...data, createdAt: createdAt, isVisible: true})
+            /*console.log({...data, createdAt: createdAt, isVisible: true})*/
             const result = await repository.createLibrary({...data, createdAt: createdAt, isVisible: true, photos: ""})
             return result
         },

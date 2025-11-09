@@ -2,7 +2,7 @@ import {admin, admins, users,User,favoritLibraries,favoritLibrary} from "../../d
 import {eq,and, lte, gte} from "drizzle-orm"
 import {libraries,library } from "../../db/schema"
 
-import { userRepository } from "@/types/user"
+import { databaseUserData, userRepository } from "@/types/user"
 
 export function createUserRepository(db: any):userRepository{
 
@@ -18,20 +18,12 @@ export function createUserRepository(db: any):userRepository{
     },
 
 
-    async createUser(data: any){
+    async createUser(data: databaseUserData){
       try {
-        const result: User[] = await db.insert(users).values({
-            name: data.name,
-            email: data.email,
-            password: data.password,
-            settings: data.settings,
-            createdAt: data.createdAt,
-            lastLoginAt: data.lastLoginAt,
-            profileImage: data.profileImage,
-            isVisible: data.isVisible
-        }).returning();
+        const result: User[] = await db.insert(users).values(data).returning();
         return { success: true, data: result }
       } catch (error) {
+        console.log("createUser: " + error)
         return { success: false, error: 'Failed creating user' }
       }
     },
@@ -51,6 +43,17 @@ export function createUserRepository(db: any):userRepository{
         return { success: true, data: result }
       } catch (error) {
         return { success: false, error: 'Failed getting user by id' }
+      }
+    },
+
+    async getUserByEmail(email: string){
+      try {
+        const result : User[] = await db.select().from(users).where(eq(users.email, email))
+        const user = result[0] ?? null
+        return { success: true, data: user }
+      } catch (error) {
+        console.log("getUserByEmail: " + error)
+        return { success: false, error: 'Failed getting user by email' }
       }
     },
 

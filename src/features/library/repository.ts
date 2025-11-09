@@ -17,7 +17,7 @@ export function createLibraryRepository(db:any):libraryRepository{
 
   async createLibrary(data: databaseLibraryData) {
     try {
-      console.log(data)
+      /*console.log(data)*/
       const result: library[] = await db.insert(libraries).values(data).returning();
       return { success: true, data: result }
     } catch (error) {
@@ -36,13 +36,13 @@ export function createLibraryRepository(db:any):libraryRepository{
 },
 
   async getLibraryById(id: string){
-  try {
-    const result : library[] = await db.select().from(libraries).where(eq(libraries.id, id));
-    return { success: true, data: result }
-  } catch (error) {
-    return { success: false, error: 'Failed getting library by id' }
-  }
-},
+    try {
+      const result : library[] = await db.select().from(libraries).where(eq(libraries.id, id));
+      return { success: true, data: result }
+    } catch (error) {
+      return { success: false, error: 'Failed getting library by id' }
+    }
+  },
 
   async getLibraryByUserId(id:string){
   try {

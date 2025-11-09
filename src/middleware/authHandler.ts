@@ -11,7 +11,7 @@ export const authCheck = (ctx: any) => {
     const method = "delete"
 
     type policy = "public" | "auth" | "owner" | "admin"
-
+/* fibonashi rekke */
     const policiesAPI: any = {
         auth: { get: "public", delete: "auth" },
         libraries: { get: "public", post: "auth", put: "owner", delete: "admin"},

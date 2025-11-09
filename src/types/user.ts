@@ -3,11 +3,27 @@ import { apiResponse } from "./api";
 import { admin } from "@/db/schema";
 
 
+export interface postUserData {
+  name: string,
+  email: string,
+  password: string
+}
+
+export type databaseUserData = postUserData & {
+  settings: string,
+  createdAt: string,
+  lastLoginAt: string
+  profileImage: string
+  isVisible: boolean
+}
+
+
 export interface userRepository {
   getUsers(): Promise<apiResponse<User[]>>;
-  createUser(data: any): Promise<apiResponse<User[]>>;
+  createUser(data: databaseUserData): Promise<apiResponse<User[]>>;
   editUser(id: string, data: Partial<User>): Promise<apiResponse<User[]>>;
   getUserById(id: string): Promise<apiResponse<User[]>>;
+  getUserByEmail(email: string): Promise<apiResponse<User>>;
   deleteUserById(id: string): Promise<apiResponse<void>>;
 
   //favoritlibaries

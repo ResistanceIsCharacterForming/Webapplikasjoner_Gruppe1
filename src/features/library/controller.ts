@@ -55,11 +55,7 @@ export function createLibraryController(libraryService: libraryService) {
     async createLibrary(
       data: postLibraryData
     ) {
-      
-      console.log(data)
-
       const result = await libraryService.createLibrary(data)
-      
       return new Response(
         JSON.stringify({
           data: result.data,
