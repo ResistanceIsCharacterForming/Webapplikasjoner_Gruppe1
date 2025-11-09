@@ -17,8 +17,9 @@ export function createLibraryService(repository: libraryRepository): libraryServ
             const result=await repository.getLibraryByUserId(id)
             return result
         },
-        async listLibraryWithCords(maxlon:number,minlon:number,maxlat:number,minlat:number) {
-            const result=await repository.getLibraryBycords(maxlon,minlon,maxlat,minlat)
+        async listLibraryWithCords(data: any) {
+            const cordsData = {}
+            const result=await repository.getLibraryByCords(cordsData)
             return result
         },
         async createLibrary( data: postLibraryData ) {

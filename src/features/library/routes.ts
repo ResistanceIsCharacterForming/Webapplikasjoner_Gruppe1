@@ -25,5 +25,11 @@ export const librariesRoutes = [
            return result
         }
         return new Response(null, { status: 405 })
-    }),   
+    }),
+    route("libraries?cords=:cordOne;:cordTwo", async (ctx) => {
+        const method = ctx.request.method.toLowerCase()
+        if (ctx.params && method === "get") {
+            return libraryController.listLibraryWithCords({cordOne: ctx.params.cordOne, cordTwo: ctx.params.cordTwo})
+        }
+    })
 ]

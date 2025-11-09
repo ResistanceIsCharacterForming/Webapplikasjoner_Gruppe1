@@ -53,8 +53,9 @@ export function createLibraryRepository(db:any):libraryRepository{
   }
 },
 
-  async getLibraryBycords(maxlon:number,minlon:number,maxlat:number,minlat:number){
+  async getLibraryByCords(data: any){
   try {
+    const { minlat, maxlat, minlon, maxlon } = data
     const result : library[]  =  await db.select().from(libraries).where(
       and(
           gte(libraries.cordlat, minlat),
