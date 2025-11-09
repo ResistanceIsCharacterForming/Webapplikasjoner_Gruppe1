@@ -6,12 +6,14 @@ import { reportApi } from "@/features/report/api"
 import { reviewApi } from "@/features/review/api"
 import { isAuthorized } from "@/middleware/authorization/authorization"
 import { setParams } from "@/middleware/params"
+import { imageApi } from "@/features/image/api"
 
 const features = {
     libraries  : (ctx: any) => {return libraryApi(ctx)},
     users : (ctx: any) => {return userApi(ctx)},
     reports : (ctx: any) => {return reportApi(ctx)},
-    reviews : (ctx: any) => {return reviewApi(ctx)}
+    reviews : (ctx: any) => {return reviewApi(ctx)},
+    image :(ctx: any) => {return imageApi(ctx)}
 }
 
 export const apiHandler = (ctx: any) => {
