@@ -47,7 +47,7 @@ import { singletonMaster } from "@/utils/singletonBuilder"
 import { librariesRoutes } from "./features/library/routes"
 import RegisterScreen from "./features/token/pages/Register"
 import LoginScreen from "./features/token/pages/Login"
-import DashboardScreen from "./features/report/pages/Dashboard"
+import DashboardScreen from "./features/report/pages/dashboard"
 
 export interface Env {
   bokkroken: D1Database;
