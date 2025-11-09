@@ -3,7 +3,7 @@
 import { defineScript } from "rwsdk/worker";
 import { drizzle } from "drizzle-orm/d1";
 
-import { users,reviews,reviewsEndorsements,reports,libraries,favoritLibraries,admins, User, library } from "./schema";
+import { users,reviews,reviewsEndorsements,reports,libraries,favoritLibraries,admins, user, library } from "./schema";
 import { singletonMaster } from "@/utils/singletonBuilder";
 import { scrypt } from "crypto";
 const db = singletonMaster.dbConnection
@@ -19,7 +19,7 @@ export  const seed = async () =>{
     await db.delete(reports); 
 
     //partial do id is made in the db
-    const madsuser:Partial<User> ={
+    const madsuser:Partial<user> ={
         name: "madsuser",
         email: "mads.soyland@gmail.com",
         password: "tempnothashed",
@@ -30,7 +30,7 @@ export  const seed = async () =>{
         isVisible:true
       };
 
-     const madsuser2:Partial<User> ={
+     const madsuser2:Partial<user> ={
         name: "madsuser2",
         email: "mjsoylan@hiof.no",
         password: "tempnothashed",
@@ -41,7 +41,7 @@ export  const seed = async () =>{
         isVisible:true
       };
 
-     const nikolaiuser:Partial<User> ={
+     const nikolaiuser:Partial<user> ={
       name: "nikolaiuser",
       email: "nikol.lysebraate@hiof.no",
       password: "tempnothashed",
@@ -52,7 +52,7 @@ export  const seed = async () =>{
       isVisible:true
       };
 
-     const mathias:Partial<User> ={  
+     const mathias:Partial<user> ={  
         name: "mathias",
         email: "mathias.hem@hiof.no",
         password: "tempnothashed",

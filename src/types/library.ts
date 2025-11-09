@@ -22,7 +22,7 @@ export interface libraryRepository {
   editLibrary(id: string, data: Partial<library>): Promise<apiResponse<library[]>>;
   getLibraryById(id: string): Promise<apiResponse<library[]>>;
   getLibraryByUserId(id: string): Promise<apiResponse<library[]>>;
-  getLibraryBycords(maxlon: number,minlon: number,maxlat: number,minlat: number): Promise<apiResponse<library[]>>;
+  getLibraryBycords(cordlat:number,cordlon:number): Promise<apiResponse<library[]>>;
   deleteLibraryById(id: string): Promise<apiResponse<void>>;
   deleteLibrariesByUserId(id: string): Promise<apiResponse<void>>;
 }
@@ -31,7 +31,7 @@ export interface libraryService{
   listLibraries(): Promise<apiResponse<library[]>>;
   getLibraryWithId(id:string): Promise<apiResponse<library[]>>;
   listLibraryWithUserId(id:string): Promise<apiResponse<library[]>>;
-  listLibraryWithCords(maxlon:number,minlon:number,maxlat:number,minlat:number): Promise<apiResponse<library[]>>;
+  listLibraryWithCords(cordlat:number,cordlon:number): Promise<apiResponse<library[]>>;
   createLibrary(data: postLibraryData): Promise<apiResponse<library[]>>;
   editlibrary(id:string,data:Partial<library>): Promise<apiResponse<library[]>>;
   deletelibraryWithId(id:string): Promise<apiResponse<void>>;

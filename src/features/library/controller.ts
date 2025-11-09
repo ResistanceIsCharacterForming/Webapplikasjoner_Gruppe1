@@ -30,16 +30,12 @@ export function createLibraryController(libraryService: libraryService) {
       );
     },
     async listLibraryWithCords(
-      maxlon: number,
-      minlon: number,
-      maxlat: number,
-      minlat: number
+      cordlat:number,
+      cordlon: number
     ): Promise<Response> {
       const result = await libraryService.listLibraryWithCords(
-        maxlon,
-        minlon,
-        maxlat,
-        minlat
+        cordlat,
+        cordlon
       );
       return new Response(
         JSON.stringify({
