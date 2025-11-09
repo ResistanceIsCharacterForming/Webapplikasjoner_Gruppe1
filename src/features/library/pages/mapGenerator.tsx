@@ -36,6 +36,7 @@ export function MapGenerator() {
   return (
     <MapContainer
       center={getInitialCenter()}
+      minZoom={4}
       zoom={13}
       style={{ height: "100vh", width: "100%" }}
     >

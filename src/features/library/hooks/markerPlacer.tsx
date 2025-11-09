@@ -30,12 +30,17 @@ export function LocationMarker({ reactLeaflet }: { reactLeaflet: any }) {
     },
     locationfound(e: LocationEvent) {
       setPosition(e.latlng)
-      map.flyTo(e.latlng, map.getZoom())
+      map.flyTo(e.latlng, 15)
     },
     async moveend(e: LeafletEvent) {
-      const bounds = map.getBounds()
-      const libraries = await getLibrariesInView(bounds)
-      setLibraries(libraries)
+      const zoomLevel = map.getZoom()
+      console.log(zoomLevel);
+      if (zoomLevel >= 14) {
+        const bounds = map.getBounds()
+        const libraries = await getLibrariesInView(bounds)
+        setLibraries(libraries)
+      } else setLibraries([])
+      
 
       const { lat, lng } = map.getCenter()
       const url = new URL(window.location.href)
