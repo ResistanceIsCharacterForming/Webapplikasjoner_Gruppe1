@@ -7,12 +7,13 @@ import { createReportService } from "@/features/report/service"
 import { createReviewController } from "@/features/review/controller"
 import { createReviewService } from "@/features/review/service"
 import { createLibraryRepository } from "@/features/library/repository"
-import { createDbConnection } from "@/db/index"
+import { createDbConnection, createR2Connection } from "@/db/index"
 import { createUserRepository } from "@/features/user/repository"
 import { createReportRepository } from "@/features/report/repository"
 import { createReviewRepository } from "@/features/review/repository"
 import { createTokensController } from "@/features/token/controller"
 import { createTokensService } from "@/features/token/service"
+import { createImageHandler } from "@/features/image/imagehandler"
 
 /* https://www.typescriptlang.org/docs/handbook/basic-types.html */
 
@@ -31,6 +32,22 @@ export const singletonMaster = {
         /* Send tilbake privat property */
         return this._dbConnection
     },
+    _r2Connection:null as ReturnType<typeof createR2Connection> |null,
+    get r2Connection(){
+        if(!this._r2Connection){
+            this._r2Connection = createR2Connection()
+        }
+        return this._r2Connection
+    },
+
+    _ImageController: null as ReturnType<typeof createImageHandler> | null,
+    get ImageController(){
+        if (!this._ImageController){
+            this._ImageController = createImageHandler()
+        }
+        return this._ImageController
+    }
+    ,
 
     _libraryController: null as ReturnType<typeof createLibraryController> | null,
     get libraryController() {
