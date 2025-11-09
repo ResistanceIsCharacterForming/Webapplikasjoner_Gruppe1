@@ -1,6 +1,4 @@
 import { env } from "cloudflare:workers"
-import { error } from "console"
-
 
 export function createImageHandler(){
       const r2db=env.R2
