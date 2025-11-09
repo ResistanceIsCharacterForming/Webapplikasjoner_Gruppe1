@@ -1,4 +1,4 @@
-import { MapGenerator } from "@/features/library/pages/mapGenerator"
+import { MapGenerator } from "@/features/libraries/pages/mapGenerator"
 
 export function MapScreen() {
   return (

@@ -1,5 +1,5 @@
 import type { LayoutProps } from 'rwsdk/router'
-import { AuthProvider } from "@/features/token/layouts/AuthContext"
+import { AuthProvider } from "@/features/tokens/layouts/AuthContext"
 
 export function MainLayout({ children, requestInfo }: LayoutProps) {
 

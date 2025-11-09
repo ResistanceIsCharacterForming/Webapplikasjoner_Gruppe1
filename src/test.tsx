@@ -1,7 +1,7 @@
 
 import { singletonMaster } from "./utils/singletonBuilder";
-import { createUserService } from "./features/user/service";
-import { createUserRepository } from "./features/user/repository";
+import { createUserService } from "./features/users/service";
+import { createUserRepository } from "./features/users/repository";
 import { createLibraryService } from "./features/library/service";
 import { createLibraryRepository } from "./features/library/repository";
 import FileUploadComponent from "./form";

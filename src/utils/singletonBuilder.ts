@@ -1,22 +1,30 @@
-import { createLibraryController } from "@/features/library/controller"
-import { createLibraryService } from "@/features/library/service"
-import { createUserController } from "@/features/user/controller"
-import { createUserService } from "@/features/user/service"
-import { createReportController } from "@/features/report/controller"
-import { createReportService } from "@/features/report/service"
-import { createReviewController } from "@/features/review/controller"
-import { createReviewService } from "@/features/review/service"
-import { createLibraryRepository } from "@/features/library/repository"
+/* Libraries */
+import { createLibraryController } from "@/features/libraries/controller"
+import { createLibraryService } from "@/features/libraries/service"
+import { createLibraryRepository } from "@/features/libraries/repository"
+
+/* Users */
+import { createUserController } from "@/features/users/controller"
+import { createUserService } from "@/features/users/service"
+import { createUserRepository } from "@/features/users/repository"
+
+/* Reports */
+import { createReportController } from "@/features/reports/controller"
+import { createReportService } from "@/features/reports/service"
+import { createReportRepository } from "@/features/reports/repository"
+
+/* Reviews */
+import { createReviewController } from "@/features/reviews/controller"
+import { createReviewService } from "@/features/reviews/service"
+import { createReviewRepository } from "@/features/reviews/repository"
+
+/* Tokens */
+import { createTokensController } from "@/features/tokens/controller"
+import { createTokensService } from "@/features/tokens/service"
+import { createImageHandler } from "@/features/images/imagehandler"
+
+/* Database */
 import { createDbConnection, createR2Connection } from "@/db/index"
-import { createUserRepository } from "@/features/user/repository"
-import { createReportRepository } from "@/features/report/repository"
-import { createReviewRepository } from "@/features/review/repository"
-import { createTokensController } from "@/features/token/controller"
-import { createTokensService } from "@/features/token/service"
-import { createImageHandler } from "@/features/image/imagehandler"
-
-/* https://www.typescriptlang.org/docs/handbook/basic-types.html */
-
 
 /* Lazy loader for alle singletons. */
 export const singletonMaster = {

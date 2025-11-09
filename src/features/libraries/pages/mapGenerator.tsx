@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import "leaflet/dist/leaflet.css"
 
-import { LocationMarker } from "@/features/library/hooks/markerPlacer"
+import { LocationMarker } from "@/features/libraries/hooks/markerPlacer"
 
 function isClient() {
   return typeof window !== "undefined"
