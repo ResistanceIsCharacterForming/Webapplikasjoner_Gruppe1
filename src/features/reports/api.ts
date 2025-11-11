@@ -1,3 +1,4 @@
+/*
 import { singletonMaster } from "@/utils/singletonBuilder"
 
 export const reportApi = async (ctx: any) => {
@@ -18,4 +19,4 @@ export const reportApi = async (ctx: any) => {
             }
             return reportController.listReports()
     }
-}
+}*/

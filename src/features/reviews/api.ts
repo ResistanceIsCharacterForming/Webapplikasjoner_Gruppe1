@@ -1,3 +1,4 @@
+/*
 import { singletonMaster } from "@/utils/singletonBuilder"
 
 export const reviewApi = async (ctx: any) => {
@@ -49,4 +50,4 @@ export const reviewApi = async (ctx: any) => {
                 return reviewController.deleteReview(reviewId)
             }
     }
-}
+}*/

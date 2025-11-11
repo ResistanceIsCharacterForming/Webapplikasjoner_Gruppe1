@@ -2,35 +2,27 @@ import { singletonMaster } from "@/utils/singletonBuilder"
 
 import { verifyPassword } from "./hooks/password"
 
-import * as jose from 'jose'
+import { createToken, verifyToken } from "./hooks/handleToken"
 
 export function createTokensService() {
     return {
-        async verifyToken(ctx: any) {
+        async checkCredentials(ctx: any) {
+
+            let cookie: string | undefined = ctx.request.headers.get("cookie") ?? undefined
+
+            if (!cookie) return false
+
+            let jwt: string = cookie.split(":")[1]
+
+            if (!jwt.includes("token")) return false
+
+            jwt = jwt.replaceAll(' ', '')
+
+            jwt = jwt.split("=")[1]
             
-            const cookie: string | undefined = ctx.request.headers.get("cookie")
+            const result = await verifyToken(jwt)
 
-            if (!cookie) return new Response(null, { status: 300 })
-            
-            const jwt = cookie.split("=")[1]
-
-            const JWT_SECRET = process.env.JWT_SECRET
-
-            const secret = new TextEncoder().encode(
-                JWT_SECRET
-            )
-
-            try {
-                const { payload, protectedHeader } = await jose.jwtVerify(jwt, secret, {
-                    issuer: 'urn:example:issuer',
-                    audience: 'urn:example:audience',
-                })
-                return {success: true, id: payload.id}
-            } catch (error) {
-                console.log(error)
-                return {success: false}
-            }
-
+            return result
         },
         async handleLogin(data: any) {
             const { email, password } = data
@@ -45,22 +37,11 @@ export function createTokensService() {
 
             if(!result) return false
 
-            const JWT_SECRET = process.env.JWT_SECRET
+            const success = result
 
-            const secret = new TextEncoder().encode(
-                JWT_SECRET,
-            )
+            const jwt = await createToken(user.data.id)
 
-            const alg = 'HS256'
-            const jwt = await new jose.SignJWT({ 'id': user.data.id })
-            .setProtectedHeader({ alg })
-            .setIssuedAt()
-            .setIssuer('urn:example:issuer')
-            .setAudience('urn:example:audience')
-            .setExpirationTime('1h')
-            .sign(secret)
-
-            return {success: result, jwt: jwt}
+            return {success: success, jwt: jwt}
         }
     }
 }

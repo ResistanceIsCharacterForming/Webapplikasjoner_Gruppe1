@@ -6,7 +6,7 @@ export const tokensRoutes = [
     route("tokens", async (ctx) => {
         const method = ctx.request.method.toLowerCase()
         if (method === "get") {
-            const result = await singletonMaster.tokensController.verifyToken(ctx)
+            const result = await singletonMaster.tokensController.checkCredentials(ctx)
             return result
         }
         if (method === "post") {
