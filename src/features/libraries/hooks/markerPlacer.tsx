@@ -1,3 +1,4 @@
+import { library } from "@/types/library"
 import {
   LatLng,
   LatLngBounds,
@@ -9,7 +10,7 @@ import {
 
 import { MouseEvent, useState } from "react"
 
-async function getLibrariesInView(bounds: LatLngBounds): Promise<any[]> {
+async function getLibrariesInView(bounds: LatLngBounds): Promise<library[]> {
   const res = await fetch("api/v1/libraries/")
   if (!res.ok) {
     console.error("Failed to fetch libraries:", res.statusText)
@@ -51,21 +52,21 @@ async function addLibrary(coordinate: LatLng) {
 export function LocationMarker({ reactLeaflet }: { reactLeaflet: any }) {
   const { Marker, Popup, useMapEvents } = reactLeaflet
   const [position, setPosition] = useState<LatLng | null>(null)
-  const [libraries, setLibraries] = useState<any[]>([])
+  const [libraries, setLibraries] = useState<library[]>([])
 
 
   async function refreshMarkers(map: Map) {
     const zoomLevel = map.getZoom()
       if (zoomLevel >= 14) {
         const bounds = map.getBounds()
-        const libraries = await getLibrariesInView(bounds)
-        setLibraries(libraries)
+        const librariesInView = await getLibrariesInView(bounds)
+        setLibraries(librariesInView)
       } else setLibraries([])
   }
 
   const map: Map = useMapEvents({
     async click(e: LeafletMouseEvent) {
-      addLibrary(e.latlng)
+      await addLibrary(e.latlng)
       await refreshMarkers(map)
       
       //map.locate({ enableHighAccuracy: true })
