@@ -25,6 +25,8 @@ import { createImageHandler } from "@/features/images/imagehandler"
 
 /* Database */
 import { createDbConnection, createR2Connection } from "@/db/index"
+import { createImageService } from "@/features/images/service"
+import { createImageRepository } from "@/features/images/repository"
 
 /* Lazy loader for alle singletons. */
 export const singletonMaster = {
@@ -51,7 +53,7 @@ export const singletonMaster = {
     _ImageController: null as ReturnType<typeof createImageHandler> | null,
     get ImageController(){
         if (!this._ImageController){
-            this._ImageController = createImageHandler()
+            this._ImageController = createImageHandler(createImageService(createImageRepository(this.r2Connection)))
         }
         return this._ImageController
     }

@@ -62,7 +62,7 @@ export const ImgboxComponent = (imgelement)=>{
    return(
     <div>
       <p>aaaaaaaaaaaaaaaaaaa</p>
-      <img src={imghref} alt="img" />
+      <img src={imghref} alt="img" width="100px" height="100px"/>
       <p>aaaaaaaaaaaaaaaaaaa</p>
     </div>
    )

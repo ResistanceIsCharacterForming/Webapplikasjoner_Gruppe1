@@ -1,7 +1,7 @@
 import { imagehandler, imageService } from "@/types/image"
 import { singletonMaster } from "@/utils/singletonBuilder"
 
-export function createImageHandler(service:imageService){
+export function createImageHandler(service:imageService):imagehandler{
     return{
         async getImage(key:string){
             const result= await service.getimg(key)
@@ -26,10 +26,6 @@ export function createImageHandler(service:imageService){
             else
                 return { success: false, data: "failed to delete img"}
         }
-
-
-
-
     }
 
 }
