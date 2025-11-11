@@ -65,12 +65,10 @@ export function LocationMarker({ reactLeaflet }: { reactLeaflet: any }) {
   }
 
   const map: Map = useMapEvents({
-    async click(e: LeafletMouseEvent) {
-      await addLibrary(e.latlng)
-      await refreshMarkers(map)
-      
-      //map.locate({ enableHighAccuracy: true })
-    },
+    // async click(e: LeafletMouseEvent) {
+    //   await addLibrary(e.latlng)
+    //   await refreshMarkers(map)
+    // },
     locationfound(e: LocationEvent) {
       setPosition(e.latlng)
       map.flyTo(e.latlng, 15)
