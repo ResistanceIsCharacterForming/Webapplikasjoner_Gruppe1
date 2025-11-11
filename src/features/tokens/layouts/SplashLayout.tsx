@@ -1,5 +1,4 @@
 import type { LayoutProps } from 'rwsdk/router'
-import { AuthProvider } from "@/features/tokens/layouts/AuthContext"
 
 export function SplashLayout({ children, requestInfo }: LayoutProps) {
 
@@ -8,7 +7,7 @@ export function SplashLayout({ children, requestInfo }: LayoutProps) {
   return (
 
     <div className="app">
-
+      
         <main>{children}</main>
 
     </div>

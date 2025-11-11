@@ -10,7 +10,7 @@ export function createTokensService() {
 
             let cookie: string | undefined = ctx.request.headers.get("cookie") ?? undefined
 
-            if (!cookie) return false
+            if (cookie === undefined) return false
 
             let jwt: string = cookie.split(":")[1]
 
