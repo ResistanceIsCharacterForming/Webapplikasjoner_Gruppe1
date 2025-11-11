@@ -2,6 +2,10 @@ import {
   Map,
   Control,
   DomUtil,
+  Marker,
+  DivIcon,
+  LeafletMouseEvent,
+  LatLng,
 } from "leaflet"
 import { useEffect } from "react";
 import {renderToStaticMarkup} from "react-dom/server"
@@ -11,7 +15,13 @@ import { faLocationCrosshairs } from "@fortawesome/free-solid-svg-icons"
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons"
 import { faLocationPin } from "@fortawesome/free-solid-svg-icons"
 
-export function MapControls({ reactLeaflet }: { reactLeaflet: any }) {
+interface MapControlsProps {
+    reactLeaflet: any
+    setShowForm: React.Dispatch<React.SetStateAction<boolean>>
+    setFormCoordinate: React.Dispatch<React.SetStateAction<LatLng | null>>
+}
+
+export function MapControls({ reactLeaflet, setShowForm, setFormCoordinate }: MapControlsProps) {
     const { useMap } = reactLeaflet
     const currentMap: Map = useMap();
 
@@ -61,7 +71,10 @@ export function MapControls({ reactLeaflet }: { reactLeaflet: any }) {
 
                 Object.assign(container.style, style)
 
-                
+                button.onclick = () => {
+                    setFormCoordinate(map.getCenter())
+                    setShowForm((prev) => !prev)
+                }
 
                 container.appendChild(button)
                 return container
