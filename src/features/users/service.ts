@@ -17,7 +17,7 @@ export async function hashPassword(password: string): Promise<string> {
   }
 }
 
-export function createUserService(repository: userRepository) {
+export function createUserService(repository: userRepository ,imagehandler:imagehandler) {
     return {
          async listUsers() { 
             const result = await repository.getUsers()
