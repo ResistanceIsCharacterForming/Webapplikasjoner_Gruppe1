@@ -21,15 +21,16 @@ async function getLibrariesInView(bounds: LatLngBounds): Promise<library[]> {
   return libraries.data || []
 }
 
-async function addLibrary(coordinate: LatLng) {
-  const newLibrary = {
+export async function AddLibrary(libName: string, libText: string, coordinate: LatLng, libBooks: string = "") {
+  const newLibrary: library = {
+    id: "create",
     userId: "28fae289-ab8e-44f3-9c33-fffdc55ec36a",
-    name: "Test Bibliotek",
-    text: "Lorem Ipsum.",
+    name: libName,
+    text: libText,
     cordlat: coordinate.lat,
     cordlon: coordinate.lng,
     createdAt: new Date().toISOString(),
-    books: "",
+    books: libBooks,
     photos: "{}",
     isVisible:true
   }
