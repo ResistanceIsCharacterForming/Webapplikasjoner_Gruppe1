@@ -1,6 +1,6 @@
 "use client";
 import { getRandomValues } from 'crypto';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const FileUploadComponent =  () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -18,7 +18,7 @@ const FileUploadComponent =  () => {
     // For multiple file upload
     // setSelectedFiles(Array.from(event.target.files));
   }
-
+  
 
 
   const handleimage = async () => {
@@ -44,3 +44,27 @@ const FileUploadComponent =  () => {
 };
 
 export default FileUploadComponent;
+
+
+export const ImgboxComponent = (imgelement)=>{
+  const [imghref, setimghref] = useState("null");
+    const handleimage = async () => {
+    const url="http://localhost:5173/api/v1/image/defualtProfile.png"
+    const test =await fetch(url,{
+      method:"Get"
+    })
+    setimghref(URL.createObjectURL(await test.blob()))
+  }
+  useEffect(() =>{
+   handleimage()
+  })
+   
+   return(
+    <div>
+      <p>aaaaaaaaaaaaaaaaaaa</p>
+      <img src={imghref} alt="img" />
+      <p>aaaaaaaaaaaaaaaaaaa</p>
+    </div>
+   )
+}
+

@@ -1,10 +1,12 @@
 import { favoritLibrary, user } from "@/db/schema"
+import { imagehandler } from "@/types/image";
 import { postUserData, userRepository } from "@/types/user"
 
 import {
   hashPassword as hash,
   verifyPassword as verify,
 } from "better-auth/crypto"
+import { and } from "drizzle-orm";
 
 export async function hashPassword(password: string): Promise<string> {
   try {
@@ -15,7 +17,7 @@ export async function hashPassword(password: string): Promise<string> {
   }
 }
 
-export function createUserService(repository: userRepository) {
+export function createUserService(repository: userRepository,imagehandler: imagehandler) {
     const salt="qx5LIDftxlLttSJ6AHS654Y67usOmuQZ"
 /*
     async function hashPassword(password:string) {
@@ -36,23 +38,32 @@ export function createUserService(repository: userRepository) {
         },
         async getUserById(id: string) { 
             const result = await repository.getUserById(id)
-            return result
+            const img =await imagehandler.getImage("defualtProfile.png")
+            //const test=result.data[0]["img"]=img
+            const returnData ={img:img.data,...result.data}
+            return {succes:true,data:returnData}
         },
         async getUserByEmail(email: string) { 
             const result = await repository.getUserByEmail(email)
             return result
         },
         async createUser(data: postUserData) {
-            
-            const salt = new Uint8Array(16)
-
-            const hashedPassword = await hashPassword(data.password)
-            data.password = hashedPassword
-
-            console.log(data.password)
-
+            let profileImage="0"
+            const {image,...userdata}=data
+             if(image !==null){
+                 profileImage="1"
+             }
+            const hashedPassword = await hashPassword(userdata.password)
+            userdata.password = hashedPassword
             const createdAt = new Date().toString()
-            const result = await repository.createUser({...data, settings: "", createdAt: createdAt, lastLoginAt: "", profileImage: "", isVisible: true})
+            const result = await repository.createUser({...userdata,settings:"", createdAt: createdAt, lastLoginAt: "", profileImage: profileImage, isVisible: true})
+            if (result.success && result.data){
+                const key= result.data[0].id+"@profilePicture.png"
+                if(data.image !==null){
+                const test=await imagehandler.putImage(key,image)
+            }
+            
+            }
             return result
         },
        /* async editUser(id: string,data:Partial<User>) {

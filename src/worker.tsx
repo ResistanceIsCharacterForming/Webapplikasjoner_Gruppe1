@@ -15,6 +15,7 @@ import { APIv1 } from "./utils/routesAPI"
 import RegisterScreen from "./features/tokens/pages/Register"
 import LoginScreen from "./features/tokens/pages/Login"
 import DashboardScreen from "./features/reports/pages/dashboard"
+import { databasescreen } from "./test"
 
 export interface Env {
   bokkroken: D1Database;
@@ -35,6 +36,7 @@ export default defineApp([
   render(Document, [
    /* layout(MainLayout, [*/
       route("/home", MapScreen),
+       route("/db", databasescreen),
       route("/login", LoginScreen),
       route("/register", RegisterScreen),
       route("/dashboard", DashboardScreen)

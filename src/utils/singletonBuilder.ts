@@ -68,7 +68,7 @@ export const singletonMaster = {
     _userService: null as ReturnType<typeof createUserService> | null,
     get userService() {
         if (!this._userService) {
-            this._userService = createUserService(createUserRepository(this.dbConnection))
+            this._userService = createUserService(createUserRepository(this.dbConnection),this.ImageController)
         }
         return this._userService
     },
