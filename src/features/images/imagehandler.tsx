@@ -1,31 +1,42 @@
-import { imagehandler, imageService } from "@/types/image"
-import { singletonMaster } from "@/utils/singletonBuilder"
+import { env } from "cloudflare:workers"
 
-export function createImageHandler(service:imageService):imagehandler{
+export function createImageHandler(){
+      const r2db=env.R2
     return{
-        async getImage(key:string){
-            const result= await service.getimg(key)
-            if(result.success)
-                return { success: true, data: result.data }
+        async getImage(img:string){
+            try{
+                const result= await r2db.get(img)
+            if(result)
+                return { success: true, data: result }
             else
-                return { success: false, data: "failed to get img" }
-            
+                return { success: false, error:"failed to get img"}
+            }catch(error){
+                return  { success: false, error:error}
+            }
         },
         async putImage(key:string,img:any){
-            const result= await service.putimg(key,img)
-             if(result.success)
-                return { success: true, data: result.data }
+            try{
+                const result= await r2db.put(key,img)
+            if(result)
+                return { success: true, data: result }
             else
-                return { success: false, data: "failed to put img" }
-            
+                return { success: false, error:"failed to put img"}
+            }catch(error){
+                return  { success: false, error:error}
+            }
         },
         async delimage(key:string){
-             const result=await service.deleteimg(key)
-            if(result.success)
-                return { success: true, data: result.data }
-            else
-                return { success: false, data: "failed to delete img"}
+              try{
+                await r2db.delete(key)
+                return { success: true, data: "img is deleted" }
+            }catch(error){
+                return  { success: false, error:error}
+            }
         }
+
+
+
+
     }
 
 }

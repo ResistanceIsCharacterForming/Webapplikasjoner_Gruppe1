@@ -25,8 +25,6 @@ import { createImageHandler } from "@/features/images/imagehandler"
 
 /* Database */
 import { createDbConnection, createR2Connection } from "@/db/index"
-import { createImageService } from "@/features/images/service"
-import { createImageRepository } from "@/features/images/repository"
 
 /* Lazy loader for alle singletons. */
 export const singletonMaster = {
@@ -53,7 +51,7 @@ export const singletonMaster = {
     _ImageController: null as ReturnType<typeof createImageHandler> | null,
     get ImageController(){
         if (!this._ImageController){
-            this._ImageController = createImageHandler(createImageService(createImageRepository(this.r2Connection)))
+            this._ImageController = createImageHandler()
         }
         return this._ImageController
     }
@@ -70,7 +68,7 @@ export const singletonMaster = {
     _userService: null as ReturnType<typeof createUserService> | null,
     get userService() {
         if (!this._userService) {
-            this._userService = createUserService(createUserRepository(this.dbConnection),this.ImageController)
+            this._userService = createUserService(createUserRepository(this.dbConnection))
         }
         return this._userService
     },

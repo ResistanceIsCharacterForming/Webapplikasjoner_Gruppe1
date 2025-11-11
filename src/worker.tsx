@@ -15,7 +15,6 @@ import { APIv1 } from "./utils/routesAPI"
 import RegisterScreen from "./features/tokens/pages/Register"
 import LoginScreen from "./features/tokens/pages/Login"
 import DashboardScreen from "./features/reports/pages/dashboard"
-import { databasescreen } from "./test"
 import { SplashLayout } from "./features/tokens/layouts/SplashLayout"
 
 export interface Env {
@@ -42,9 +41,6 @@ export default defineApp([
 
    /* layout(MainLayout, [*/
       route("/home", MapScreen),
-      route("/db", databasescreen),
-      route("/login", LoginScreen),
-      route("/register", RegisterScreen),
       route("/dashboard", DashboardScreen)
     /*])*/
   ])

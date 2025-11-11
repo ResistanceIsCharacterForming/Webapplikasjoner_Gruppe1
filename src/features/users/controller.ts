@@ -48,16 +48,6 @@ export function createUserController (userService: any) {
                 status: 201,
                 headers: {"Content-Type": "application/json"}
             })
-        }, async deleteUser(id: string) {
-             const result = await userService.deleteUserByid(id)
-             return new Response(
-                JSON.stringify({
-                success: result.success
-            }),
-            {
-                status: 201,
-                headers: {"Content-Type": "application/json"}
-            })
         },
     }
 }

@@ -6,16 +6,10 @@ import { admin } from "@/db/schema"
 export interface postUserData {
   name: string,
   email: string,
-  password: string,
-  image:File|null
-}
-export interface UserData {
-  name: string,
-  email: string,
-  password: string,
+  password: string
 }
 
-export type databaseUserData = UserData & {
+export type databaseUserData = postUserData & {
   settings: string,
   createdAt: string,
   lastLoginAt: string
