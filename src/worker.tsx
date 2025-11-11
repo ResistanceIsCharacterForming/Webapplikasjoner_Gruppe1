@@ -7,8 +7,8 @@ import { env } from "cloudflare:workers"
 import { user, users } from "@/db/schema/"
 import { MapScreen } from "./features/libraries/pages/mapScreen";
 
-import { authCheck } from "@/middleware/authHandler"
-import { MainLayout } from "./features/tokens/layouts/Layout"
+import { authCheck, isAdmin } from "@/middleware/authHandler"
+/*import { MainLayout } from "./features/tokens/layouts/Layout"*/
 
 import { APIv1 } from "./utils/routesAPI"
 
@@ -39,10 +39,9 @@ export default defineApp([
       route("/register", RegisterScreen)
     ]),
 
-   /* layout(MainLayout, [*/
+    /*layout(MainLayout, [*/
       route("/home", MapScreen),
-      route("/dashboard", DashboardScreen)
+      route("/dashboard", [isAdmin, DashboardScreen])
     /*])*/
   ])
-
 ])

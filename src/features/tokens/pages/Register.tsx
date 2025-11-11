@@ -1,6 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState } from "react"
+
+import 'bootstrap/dist/css/bootstrap.min.css'
+
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
+import Modal from 'react-bootstrap/Modal'
 
 export default function RegisterScreen() {
 
@@ -29,38 +35,65 @@ export default function RegisterScreen() {
   }
 
   return (
-    <form onSubmit={onCreateUser}>
-      <div>
-        <label htmlFor="name">Name:</label>
-        <input
-          id="name"
-          type="text"
+    <>
+    <Form
+      className="mx-auto mt-5 p-4 border rounded"
+      style={{ maxWidth: '400px' }}
+      onSubmit={async (e) => {
+      e.preventDefault()
+        try {
+          const result = await fetch("/api/v1/users", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(user),
+          })
+          updateUser({name: "", password: "", email: ""})
+        } catch (error) {
+          console.error(error)
+        }
+      }}
+    >
+      <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>Name:</Form.Label>
+        <Form.Control 
+          type="name"
           name="name"
           value={user.name}
-          onChange={(e) => updateUser({...user, name: e.target.value })}
-        />
-      </div>
-      <div>
-        <label htmlFor="password">Password:</label>
-        <input
+          onChange={(e) =>
+            updateUser({...user, name: e.target.value 
+          })}
+          placeholder="Enter name" />
+      </Form.Group>
+
+      <Form.Group className="mb-3" controlId="formBasicPassword">
+        <Form.Label>Password:</Form.Label>
+        <Form.Control
           type="password"
-          id="password"
           name="password"
           value={user.password}
-          onChange={(e) => updateUser({...user, password: e.target.value })}
-        />
-      </div>
-      <div>
-        <label htmlFor="email">Email:</label>
-        <input
+          onChange={(e) =>
+            updateUser({...user, password: e.target.value 
+          })}
+          placeholder="Password" />
+      </Form.Group>
+
+      <Form.Group className="mb-3" controlId="formBasicPassword">
+        <Form.Label>Email:</Form.Label>
+        <Form.Control
           type="email"
-          id="email"
           name="email"
           value={user.email}
-          onChange={(e) => updateUser({...user, email: e.target.value })}
-        />
-      </div>
-      <button type="submit">Create new user</button>
-    </form>
+          onChange={(e) =>
+            updateUser({...user, email: e.target.value 
+          })}
+          placeholder="Email" />
+      </Form.Group>
+      <Button variant="primary" type="submit">
+        Login
+      </Button>
+    </Form>
+    </>
   )
 }

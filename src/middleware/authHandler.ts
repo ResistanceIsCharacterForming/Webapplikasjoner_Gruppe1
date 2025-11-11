@@ -7,7 +7,7 @@ export const authCheck = async (ctx: any) => {
     const auth = await singletonMaster.tokensService.checkCredentials(ctx)
 
     /* Vi forventer å få tilbake UID-en til brukeren hvis JWT fra token er riktig. */
-    const userId = auth.userId ?? undefined
+    const userId: string | undefined = auth.userId ?? undefined
 
     /* Hent URL for siden som blir forespurt. */
     const url = new URL(ctx.request.url)
