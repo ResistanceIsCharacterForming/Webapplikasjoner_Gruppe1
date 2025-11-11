@@ -1,42 +1,31 @@
-import { env } from "cloudflare:workers"
+import { imagehandler, imageService } from "@/types/image"
+import { singletonMaster } from "@/utils/singletonBuilder"
 
-export function createImageHandler(){
-      const r2db=env.R2
+export function createImageHandler(service:imageService):imagehandler{
     return{
-        async getImage(img:string){
-            try{
-                const result= await r2db.get(img)
-            if(result)
-                return { success: true, data: result }
+        async getImage(key:string){
+            const result= await service.getimg(key)
+            if(result.success)
+                return { success: true, data: result.data }
             else
-                return { success: false, error:"failed to get img"}
-            }catch(error){
-                return  { success: false, error:error}
-            }
+                return { success: false, data: "failed to get img" }
+            
         },
         async putImage(key:string,img:any){
-            try{
-                const result= await r2db.put(key,img)
-            if(result)
-                return { success: true, data: result }
+            const result= await service.putimg(key,img)
+             if(result.success)
+                return { success: true, data: result.data }
             else
-                return { success: false, error:"failed to put img"}
-            }catch(error){
-                return  { success: false, error:error}
-            }
+                return { success: false, data: "failed to put img" }
+            
         },
         async delimage(key:string){
-              try{
-                await r2db.delete(key)
-                return { success: true, data: "img is deleted" }
-            }catch(error){
-                return  { success: false, error:error}
-            }
+             const result=await service.deleteimg(key)
+            if(result.success)
+                return { success: true, data: result.data }
+            else
+                return { success: false, data: "failed to delete img"}
         }
-
-
-
-
     }
 
 }
