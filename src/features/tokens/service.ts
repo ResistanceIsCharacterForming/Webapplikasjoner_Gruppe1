@@ -31,7 +31,7 @@ export function createTokensService() {
             jwt = jwt.replaceAll(' ', '')
 
             jwt = jwt.split("=")[1]
-            
+
             const result = await verifyToken(jwt)
 
             return result
