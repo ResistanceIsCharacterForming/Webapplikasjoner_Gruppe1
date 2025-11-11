@@ -2,16 +2,19 @@
 import { singletonMaster } from "./utils/singletonBuilder";
 import { createUserService } from "./features/users/service";
 import { createUserRepository } from "./features/users/repository";
-import { createLibraryService } from "./features/library/service";
-import { createLibraryRepository } from "./features/library/repository";
-import FileUploadComponent from "./form";
+
+import FileUploadComponent, { ImgboxComponent } from "./form";
+
+import { createLibraryService } from "./features/libraries/service";
+import { createLibraryRepository } from "./features/libraries/repository";
 
 
 export const databasescreen = async () => {
-  const test = singletonMaster.ImageHandler;
-  const user=await createUserService(createUserRepository())
+  const test = singletonMaster.ImageController;
+  const user=await createUserService(createUserRepository(singletonMaster.dbConnection),singletonMaster.ImageController)
   const libary=await createLibraryService(createLibraryRepository(singletonMaster.dbConnection))
   const userResult=await user.listUsers()
+  const test2=await user.getUserById("858dcdca-f633-459a-8450-f5ff38f9f08b")
   const libarres=await libary.listLibraries()
   const listItems = userResult.data?.map(user =>
     <tr style={{borderBlock:"groove"}}>
@@ -70,7 +73,7 @@ export const databasescreen = async () => {
           {listlibary}
       </table>
       <FileUploadComponent/>
-      
+      <ImgboxComponent imgelement={test2.data.img?.key}/>
                 
           </div>
       )
