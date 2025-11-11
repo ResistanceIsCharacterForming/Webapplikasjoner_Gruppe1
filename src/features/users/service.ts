@@ -42,6 +42,17 @@ export function createUserService(repository: userRepository) {
             const result = await repository.deleteUserById(id)
             return result
         },
+        async getAdminById(id: string) {
+            const result = await repository.getAdminById(id)
+            return result
+        },
+        async createAdmin(userId:string,createdAt:string,adminLevel:number) {
+            const result = await repository.createAdmin(userId, createdAt, adminLevel)
+            return result
+        },
+        async isUserOwner(id: string) {
+
+        },
         //favlibs
         async getfavoritLibraries() {
             const result = await repository.getfavoritLibraries()

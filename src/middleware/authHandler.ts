@@ -40,4 +40,21 @@ export const authCheck = async (ctx: any) => {
             if (userId === undefined) return new Response("No auth", { status: 401 })
         }
     }
+
+    ctx.user = userId
+}
+
+/* Middleware for å undersøke om brukeren er admin. Tar ikke høyde for admin-nivå. */
+export const isAdmin = async (ctx: any) => {
+    /* Prøv å hent oppføring fra admins tabell med bruker sin ID.  */
+    const result = await singletonMaster.userService.getAdminById(ctx.user)
+    /* Hvis enten result.data ikke finnes, eller den har ingen data, da er ikke bruker admin. */
+    if (result.data === undefined || result.data.length === 0) {
+        /* Avbrytt forespørsel. */
+        return new Response("No auth", { status: 401 })
+    }
+}
+
+export const isOwner = async (ctx: any) => {
+    
 }
