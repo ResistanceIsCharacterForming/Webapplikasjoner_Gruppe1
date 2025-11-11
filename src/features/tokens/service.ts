@@ -7,23 +7,24 @@ import { createToken, verifyToken } from "./hooks/handleToken"
 export function createTokensService() {
     return {
         async checkCredentials(ctx: any) {
+            let cookieHeader: string | undefined = ctx.request.headers.get("cookie") ?? undefined
+            let cookieArray: [string]
+            let singleCookie: string = ""
 
-            let cookie: string | undefined = ctx.request.headers.get("cookie") ?? undefined
-
-            if (cookie === undefined) return false
+            if (cookieHeader === undefined) return false
             
-            if (cookie.includes(";")) {
+            if (cookieHeader.includes(";")) {
                 
-                cookie = ctx.request.headers.get("cookie").split(";")
+                cookieArray = ctx.request.headers.get("cookie").split(";")
 
-                const singleCookie = cookie.filter(x => x.includes("jwtToken"))
-                
-                cookie = singleCookie[0]
+                if (cookieArray.length <= 1) return false
+
+                singleCookie = cookieArray.filter(x => x.includes("jwtToken"))[0]
             }
 
-            if (!cookie.includes(":")) return false
+            if (!singleCookie.includes(":")) return false
 
-            let jwt: string = cookie.split(":")[1]
+            let jwt: string = singleCookie.split(":")[1]
 
             if (!jwt.includes("jwtToken")) return false
 
