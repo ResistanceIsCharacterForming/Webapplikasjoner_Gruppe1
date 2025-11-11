@@ -10,7 +10,7 @@ export function createUserRepository(db: any):userRepository{
 
     async getUsers(){
       try {
-        const result: user[] = await db.select().from(users);
+        const result: user[] = await db.select().from(users)
         return { success: true, data: result }
       } catch (error) {
         return { success: false, error: 'Failed getting users' }
@@ -20,7 +20,7 @@ export function createUserRepository(db: any):userRepository{
 
     async createUser(data: databaseUserData){
       try {
-        const result: user[] = await db.insert(users).values(data).returning();
+        const result: user[] = await db.insert(users).values(data).returning()
         return { success: true, data: result }
       } catch (error) {
         console.log("createUser: " + error)
@@ -30,7 +30,7 @@ export function createUserRepository(db: any):userRepository{
 
     async editUser(id: string,data : Partial<user>){
     try {
-        const result : user[]= await db.update(users).set(data).where(eq(users.id, id)).returning();
+        const result : user[]= await db.update(users).set(data).where(eq(users.id, id)).returning()
       return { success: true, data: result }
       } catch (error) {
         return { success: false, error: 'Failed edit user' }
@@ -39,7 +39,7 @@ export function createUserRepository(db: any):userRepository{
 
     async getUserById(id: string){
       try {
-        const result : user[] = await db.select().from(users).where(eq(users.id, id));
+        const result : user[] = await db.select().from(users).where(eq(users.id, id))
         return { success: true, data: result }
       } catch (error) {
         return { success: false, error: 'Failed getting user by id' }
@@ -59,17 +59,16 @@ export function createUserRepository(db: any):userRepository{
 
     async deleteUserById(id:string){
       try {
-        await db.delete(users).where(eq(users.id,id)); 
+        await db.delete(users).where(eq(users.id,id)) 
         return { success: true }
         } catch (error) {
         return { success: false, error: 'Failed deleting user by id' }
         }
     },
-
     // favrit libaraies
     async getfavoritLibraries(){
       try {
-        const result: favoritLibrary[] = await db.select().from(favoritLibraries);
+        const result: favoritLibrary[] = await db.select().from(favoritLibraries)
         return { success: true, data: result }
       } catch (error) {
         return { success: false, error: 'Failed getting favoritLibraries' }
@@ -81,7 +80,7 @@ export function createUserRepository(db: any):userRepository{
         const result: favoritLibrary[] = await db.insert(favoritLibraries).values({
             userId: data.userId,
             libaryId:data.libaryId,
-        }).returning();
+        }).returning()
         return { success: true, data: result }
       } catch (error) {
         return { success: false, error: 'Failed creating favoritLibrary' }
@@ -90,7 +89,7 @@ export function createUserRepository(db: any):userRepository{
 
     async editfavoritLibrary(id: number,data : Partial<favoritLibrary>){
     try {
-        const result : favoritLibrary[]= await db.update(favoritLibraries).set(data).where(eq(favoritLibraries.id, id)).returning();
+        const result : favoritLibrary[]= await db.update(favoritLibraries).set(data).where(eq(favoritLibraries.id, id)).returning()
         return { success: true, data: result }
       } catch (error) {
         return { success: false, error: 'Failed edit favoritLibrary' }
@@ -99,7 +98,7 @@ export function createUserRepository(db: any):userRepository{
 
     async getfavoritLibraryById(id: number){
       try {
-        const result : favoritLibrary[] = await db.select().from(favoritLibraries).where(eq(favoritLibraries.id, id));
+        const result : favoritLibrary[] = await db.select().from(favoritLibraries).where(eq(favoritLibraries.id, id))
         return { success: true, data: result }
       } catch (error) {
         return { success: false, error: 'Failed getting favoritLibrary by id' }
@@ -108,7 +107,7 @@ export function createUserRepository(db: any):userRepository{
 
     async getfavoritLibrariesByUserId(id: string){
       try {
-        const result : favoritLibrary[] = await db.select().from(favoritLibraries).where(eq(favoritLibraries.userId, id));
+        const result : favoritLibrary[] = await db.select().from(favoritLibraries).where(eq(favoritLibraries.userId, id))
         return { success: true, data: result }
       } catch (error) {
         return { success: false, error: 'Failed getting favoritLibrary by user id' }
@@ -117,7 +116,7 @@ export function createUserRepository(db: any):userRepository{
 
     async getfavoritLibrariesByLibaryId(id: string){
       try {
-        const result : favoritLibrary[] = await db.select().from(favoritLibraries).where(eq(favoritLibraries.libaryId, id));
+        const result : favoritLibrary[] = await db.select().from(favoritLibraries).where(eq(favoritLibraries.libaryId, id))
         return { success: true, data: result }
       } catch (error) {
         return { success: false, error: 'Failed getting favoritLibrary by libary id' }
@@ -126,7 +125,7 @@ export function createUserRepository(db: any):userRepository{
 
     async deletefavoritLibraryById(id:number){
       try {
-        await db.delete(favoritLibraries).where(eq(favoritLibraries.id,id)); 
+        await db.delete(favoritLibraries).where(eq(favoritLibraries.id,id)) 
         return { success: true }
         } catch (error) {
         return { success: false, error: 'Failed deleting favoritLibrary by id' }
@@ -135,7 +134,7 @@ export function createUserRepository(db: any):userRepository{
 
     async deletefavoritLibrariesByUserId(id:string){
       try {
-        await db.delete(favoritLibraries).where(eq(favoritLibraries.userId,id)); 
+        await db.delete(favoritLibraries).where(eq(favoritLibraries.userId,id)) 
         return { success: true }
         } catch (error) {
         return { success: false, error: 'Failed deleting favoritLibrary by id' }
@@ -144,7 +143,7 @@ export function createUserRepository(db: any):userRepository{
 
     async deletefavoritLibrariesByLibaryId(id:string){
       try {
-        await db.delete(favoritLibraries).where(eq(favoritLibraries.libaryId,id)); 
+        await db.delete(favoritLibraries).where(eq(favoritLibraries.libaryId,id)) 
         return { success: true }
         } catch (error) {
         return { success: false, error: 'Failed deleting favoritLibrary by id' }
@@ -154,20 +153,20 @@ export function createUserRepository(db: any):userRepository{
 
   async getAdmins(){
     try {
-      const result: admin[] = await db.select().from(admins);
+      const result: admin[] = await db.select().from(admins)
       return { success: true, data: result }
     } catch (error) {
       return { success: false, error: 'Failed getting admins' }
     }
     },
-  
+    
     async createAdmin(userId:string,createdAt:string,adminLevel:number){
     try {
       const result: admin[] = await db.insert(admins).values({
           userId: userId,
           createdAt: createdAt,
           adminLevel: adminLevel,
-      }).returning();
+      }).returning()
       return { success: true, data: result }
     } catch (error) {
       return { success: false, error: 'Failed creating admin' }
@@ -176,7 +175,7 @@ export function createUserRepository(db: any):userRepository{
   
   async editAdmin(id: string,data : any){
    try {
-      const result : admin[]= await db.update(admins).set(data).where(eq(admins.userId, id)).returning();
+      const result : admin[]= await db.update(admins).set(data).where(eq(admins.userId, id)).returning()
       return { success: true, data: result }
     } catch (error) {
       return { success: false, error: 'Failed edit admin' }
@@ -185,7 +184,7 @@ export function createUserRepository(db: any):userRepository{
   
   async getAdminById(id: string){
     try {
-      const result : admin[] = await db.select().from(admins).where(eq(admins.userId, id));
+      const result : admin[] = await db.select().from(admins).where(eq(admins.userId, id))
       return { success: true, data: result }
     } catch (error) {
       return { success: false, error: 'Failed getting admin by id' }
@@ -194,7 +193,7 @@ export function createUserRepository(db: any):userRepository{
   
   async deleteAdminById(id:string){
     try {
-      await db.delete(admins).where(eq(admins.userId,id)); 
+      await db.delete(admins).where(eq(admins.userId,id)) 
       return { success: true }
       } catch (error) {
         console.log(error)

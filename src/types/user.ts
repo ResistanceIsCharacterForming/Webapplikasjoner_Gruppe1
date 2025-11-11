@@ -1,6 +1,6 @@
-import { favoritLibrary, user } from "@/db/schema";
-import { apiResponse } from "./api";
-import { admin } from "@/db/schema";
+import { favoritLibrary, user } from "@/db/schema"
+import { apiResponse } from "./api"
+import { admin } from "@/db/schema"
 
 
 export interface postUserData {
@@ -25,28 +25,30 @@ export type databaseUserData = UserData & {
 
 
 export interface userRepository {
-  getUsers(): Promise<apiResponse<user[]>>;
-  createUser(data: databaseUserData): Promise<apiResponse<user[]>>;
-  editUser(id: string, data: Partial<user>): Promise<apiResponse<user[]>>;
-  getUserById(id: string): Promise<apiResponse<user[]>>;
-  getUserByEmail(email: string): Promise<apiResponse<user>>;
-  deleteUserById(id: string): Promise<apiResponse<void>>;
+  getUsers(): Promise<apiResponse<user[]>>
+  createUser(data: databaseUserData): Promise<apiResponse<user[]>>
+  editUser(id: string, data: Partial<user>): Promise<apiResponse<user[]>>
+  getUserById(id: string): Promise<apiResponse<user[]>>
+  getUserByEmail(email: string): Promise<apiResponse<user>>
+  deleteUserById(id: string): Promise<apiResponse<void>>,
+  isUserAdmin(ctx: any): Promise<boolean>,
+  isUserOwner(ctx: any): Promise<boolean>
 
   //favoritlibaries
 
-  getfavoritLibraries(): Promise<apiResponse<favoritLibrary[]>>;
-  createfavoritLibrary(data:any): Promise<apiResponse<favoritLibrary[]>>;
-  editfavoritLibrary(id:number,data:Partial<favoritLibrary>): Promise<apiResponse<favoritLibrary[]>>;
-  getfavoritLibraryById(id:number): Promise<apiResponse<favoritLibrary[]>>;
-  getfavoritLibrariesByUserId(id:string): Promise<apiResponse<favoritLibrary[]>>;
-  getfavoritLibrariesByLibaryId(id:string): Promise<apiResponse<favoritLibrary[]>>;
-  deletefavoritLibraryById(id:number): Promise<apiResponse<void>>;
-  deletefavoritLibrariesByUserId(id:string): Promise<apiResponse<void>>;
-  deletefavoritLibrariesByLibaryId(id:string): Promise<apiResponse<void>>;
+  getfavoritLibraries(): Promise<apiResponse<favoritLibrary[]>>
+  createfavoritLibrary(data:any): Promise<apiResponse<favoritLibrary[]>>
+  editfavoritLibrary(id:number,data:Partial<favoritLibrary>): Promise<apiResponse<favoritLibrary[]>>
+  getfavoritLibraryById(id:number): Promise<apiResponse<favoritLibrary[]>>
+  getfavoritLibrariesByUserId(id:string): Promise<apiResponse<favoritLibrary[]>>
+  getfavoritLibrariesByLibaryId(id:string): Promise<apiResponse<favoritLibrary[]>>
+  deletefavoritLibraryById(id:number): Promise<apiResponse<void>>
+  deletefavoritLibrariesByUserId(id:string): Promise<apiResponse<void>>
+  deletefavoritLibrariesByLibaryId(id:string): Promise<apiResponse<void>>
 
-  getAdmins(): Promise<apiResponse<admin[]>>;
-  createAdmin(userId:string,createdAt:string,adminLevel:number): Promise<apiResponse<admin[]>>;
-  editAdmin(id: string, data: any): Promise<apiResponse<admin[]>>;
-  getAdminById(id: string): Promise<apiResponse<admin[]>>;
-  deleteAdminById(id: string): Promise<apiResponse<void>>;
+  getAdmins(): Promise<apiResponse<admin[]>>
+  createAdmin(userId:string,createdAt:string,adminLevel:number): Promise<apiResponse<admin[]>>
+  editAdmin(id: string, data: any): Promise<apiResponse<admin[]>>
+  getAdminById(id: string): Promise<apiResponse<admin[]>>
+  deleteAdminById(id: string): Promise<apiResponse<void>>
 }

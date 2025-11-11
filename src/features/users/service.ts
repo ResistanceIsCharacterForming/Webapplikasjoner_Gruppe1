@@ -17,20 +17,7 @@ export async function hashPassword(password: string): Promise<string> {
   }
 }
 
-export function createUserService(repository: userRepository,imagehandler: imagehandler) {
-    const salt="qx5LIDftxlLttSJ6AHS654Y67usOmuQZ"
-/*
-    async function hashPassword(password:string) {
-        const oldpass=password;
-         await scrypt(password,salt,32,(err,derivedKey) => {
-                    if (err) throw err;
-                        password=(derivedKey.toString('hex'));
-                    });
-        if (oldpass==password)
-                return "false"
-        return password
-    }*/
-
+export function createUserService(repository: userRepository) {
     return {
          async listUsers() { 
             const result = await repository.getUsers()
@@ -66,32 +53,20 @@ export function createUserService(repository: userRepository,imagehandler: image
             }
             return result
         },
-       /* async editUser(id: string,data:Partial<User>) {
-            if(data.password){
-                data.password=await hashPassword(data.password)
-            }
-            const result = await repository.editUser(id,data)
-            return result
-        },*/
-/*
-        async passwordcheck(id:string,password:string){
-            const user = await repository.getUserById(id)
-            if(user.data){
-                await scrypt(password,salt,32,(err,derivedKey) => {
-                    if (err) throw err;
-                        password=(derivedKey.toString('hex'));
-                    });
-
-                if (user.data[0].password == password){
-                    return { success: true, password:true }
-                }else{
-                    return { success: true, password:false }
-                }
-                }
-        },*/
          async deleteUserByid(id: string) {
             const result = await repository.deleteUserById(id)
             return result
+        },
+        async getAdminById(id: string) {
+            const result = await repository.getAdminById(id)
+            return result
+        },
+        async createAdmin(userId:string,createdAt:string,adminLevel:number) {
+            const result = await repository.createAdmin(userId, createdAt, adminLevel)
+            return result
+        },
+        async isUserOwner(id: string) {
+
         },
         //favlibs
         async getfavoritLibraries() {

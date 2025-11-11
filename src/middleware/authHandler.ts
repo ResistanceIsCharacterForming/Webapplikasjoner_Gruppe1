@@ -1,56 +1,60 @@
-import { setParams } from "@/utils/params"
+/* Hente singletonMaster for å få tilgang til service laget til tokens. */
+import { singletonMaster } from "@/utils/singletonBuilder"
 
-export const authCheck = (ctx: any) => {
+/* Middelware for å brytte tidlig hvis brukeren forsøker å få tilgang til en begrenset rute og de ikke er innlogget. */
+export const authCheck = async (ctx: any) => {
+    /* Send ctx til funksjonen checkCredentials i token sitt service lag.  */
+    const auth = await singletonMaster.tokensService.checkCredentials(ctx)
 
-    /*const [ resource, id, type ] = setParams(ctx)*/
+    /* Vi forventer å få tilbake UID-en til brukeren hvis JWT fra token er riktig. */
+    const userId = auth.userId ?? undefined
 
-    /*const method = ctx.request.method.toLowerCase()*/
+    /* Hent URL for siden som blir forespurt. */
+    const url = new URL(ctx.request.url)
 
-    const resource = "users"
-
-    const method = "delete"
-
-    type policy = "public" | "auth" | "owner" | "admin"
-/* fibonashi rekke */
-    const policiesAPI: any = {
-        auth: { get: "public", delete: "auth" },
-        libraries: { get: "public", post: "auth", put: "owner", delete: "admin"},
-        users: { get: "auth", post: "public", put: "owner", delete: "admin" },
-        reports: { get: "auth" },
-        reviews: { get: "auth", post: "auth", put: "owner", delete: "admin" }
+    /* Hent ut selve stinavnet fra url. Hvis brukeren har lagt til en trailing slash fjern den. */
+    let requestedPathname: string = url.pathname
+    if (url.pathname.slice(-1) === "/") {
+        requestedPathname = url.pathname.slice(0, -1)
     }
 
-    const policiesRoute: any = {
-        login: "public",
+    /* Hvilken metode brukes for å gjøre denne handlingen. */
+    const method = ctx.request.method.toLowerCase()
+
+    /* Dette er en oversikt over hvilken sider og API ressurser som krever at brukeren er logget inn. */
+    const protectedRoutes: [{pathname: string, method: string}] = [
+        {pathname : "/api/v1/users", method : "any"}
+    ]
+
+    /* Vi bruker sameMethod for å enkelt lagre om enten method er lik hva method fra et objekt er eller any, altså vilkårlig.  */
+    let sameMethod: boolean = false
+    /* Hent hvert objekt fra protectedRoutes. */
+    for (let route of protectedRoutes) {
+        /* Gjør denne sammenligning her for å øke lesbarhet nedenfor. */
+        if (method === route.method || route.method == "any") {
+            sameMethod = true
+        }
+        /* Hvis objektet sin sti er lik den som forespures og metoden er beskyttet, undersøker om vi er logget inn. */
+        if (route.pathname == requestedPathname && sameMethod) {
+            /* Hvis userId ikke finnes, altså brukeren ikke er logget inn, send tilbake en feilmelding. */
+            if (userId === undefined) return new Response("No auth", { status: 401 })
+        }
     }
 
-    let currentPolicy: policy = "auth"
+    ctx.user = userId
+}
 
-    if (resource in policiesAPI) {
-        currentPolicy = policiesAPI[resource][method] ?? "auth"
+/* Middleware for å undersøke om brukeren er admin. Tar ikke høyde for admin-nivå. */
+export const isAdmin = async (ctx: any) => {
+    /* Prøv å hent oppføring fra admins tabell med bruker sin ID.  */
+    const result = await singletonMaster.userService.getAdminById(ctx.user)
+    /* Hvis enten result.data ikke finnes, eller den har ingen data, da er ikke bruker admin. */
+    if (result.data === undefined || result.data.length === 0) {
+        /* Avbrytt forespørsel. */
+        return new Response("No auth", { status: 401 })
     }
+}
+
+export const isOwner = async (ctx: any) => {
     
-    if (resource in policiesRoute) {
-        currentPolicy = policiesRoute[resource] ?? "auth"
-    }
-
-    if (currentPolicy == "public") return
-
-    if (currentPolicy == "auth") {
-        /* Check JWT token */
-    }
-
-    if (currentPolicy == "owner") {
-        /* Check JWT token */
-        /* if ctx.user.id == feature.checkId(id)  return */
-    }
-
-    if (currentPolicy == "admin") {
-        /* Check JWT token */
-        /* if ctx.user.id == feature.usersIsAdmin(id)  return */
-    }
-
-    const cookieHeader = ctx.cookies
-    console.log(cookieHeader)
-
 }

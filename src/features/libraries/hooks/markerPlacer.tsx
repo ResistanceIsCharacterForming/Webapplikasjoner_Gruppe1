@@ -1,3 +1,4 @@
+import { library } from "@/types/library"
 import {
   LatLng,
   LatLngBounds,
@@ -9,7 +10,7 @@ import {
 
 import { MouseEvent, useState } from "react"
 
-async function getLibrariesInView(bounds: LatLngBounds): Promise<any[]> {
+async function getLibrariesInView(bounds: LatLngBounds): Promise<library[]> {
   const res = await fetch("api/v1/libraries/")
   if (!res.ok) {
     console.error("Failed to fetch libraries:", res.statusText)
@@ -22,14 +23,15 @@ async function getLibrariesInView(bounds: LatLngBounds): Promise<any[]> {
 
 async function addLibrary(coordinate: LatLng) {
   const newLibrary = {
-    libraryUserId: "28fae289-ab8e-44f3-9c33-fffdc55ec36a",
-    libraryName: "Test Bibliotek",
-    libraryText: "Lorem Ipsum.",
-    libraryCordLat: coordinate.lat,
-    libraryCordlon: coordinate.lng,
+    userId: "28fae289-ab8e-44f3-9c33-fffdc55ec36a",
+    name: "Test Bibliotek",
+    text: "Lorem Ipsum.",
+    cordlat: coordinate.lat,
+    cordlon: coordinate.lng,
     createdAt: new Date().toISOString(),
-    libraryBooks: "",
-    libraryPhotos: "{}",
+    books: "",
+    photos: "{}",
+    isVisible:true
   }
 
   const res = await fetch("api/v1/libraries/create/", {
@@ -42,31 +44,37 @@ async function addLibrary(coordinate: LatLng) {
     console.error("Failed to create library:", res.statusText)
     return
   }
+
+  await res.json();
 }
 
 
 export function LocationMarker({ reactLeaflet }: { reactLeaflet: any }) {
   const { Marker, Popup, useMapEvents } = reactLeaflet
   const [position, setPosition] = useState<LatLng | null>(null)
-  const [libraries, setLibraries] = useState<any[]>([])
+  const [libraries, setLibraries] = useState<library[]>([])
+
+
+  async function refreshMarkers(map: Map) {
+    const zoomLevel = map.getZoom()
+      if (zoomLevel >= 14) {
+        const bounds = map.getBounds()
+        const librariesInView = await getLibrariesInView(bounds)
+        setLibraries(librariesInView)
+      } else setLibraries([])
+  }
 
   const map: Map = useMapEvents({
-    click(e: LeafletMouseEvent) {
-      addLibrary(e.latlng)
-      //map.locate({ enableHighAccuracy: true })
-    },
+    // async click(e: LeafletMouseEvent) {
+    //   await addLibrary(e.latlng)
+    //   await refreshMarkers(map)
+    // },
     locationfound(e: LocationEvent) {
       setPosition(e.latlng)
       map.flyTo(e.latlng, 15)
     },
     async moveend(e: LeafletEvent) {
-      const zoomLevel = map.getZoom()
-      if (zoomLevel >= 14) {
-        const bounds = map.getBounds()
-        const libraries = await getLibrariesInView(bounds)
-        setLibraries(libraries)
-      } else setLibraries([])
-      
+      await refreshMarkers(map)
 
       const { lat, lng } = map.getCenter()
       const url = new URL(window.location.href)

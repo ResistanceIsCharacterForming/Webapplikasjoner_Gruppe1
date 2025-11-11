@@ -2,9 +2,9 @@
 
 export function createTokensController(tokensService: any) {
     return {
-        async verifyToken(ctx: any) {
+        async checkCredentials(ctx: any) {
 
-            const result = await tokensService.verifyToken(ctx)
+            const result = await tokensService.checkCredentials(ctx)
 
              if (result.success === true) {
                 
@@ -33,8 +33,8 @@ export function createTokensController(tokensService: any) {
             
                 return new Response("Logged in", {
                     headers: {
-                        "Set-Cookie": "token=" + result.jwt + "; HttpOnly; Secure",
-                        "Content-Type": "text/plain"
+                        "Set-Cookie": `Set-Cookie: token=${result.jwt}; HttpOnly; Secure; Path=/; SameSite=None`,
+                        "Content-Type": "text/plain",
                     }
                 })
 

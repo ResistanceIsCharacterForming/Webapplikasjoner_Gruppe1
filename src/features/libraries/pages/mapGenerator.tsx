@@ -18,6 +18,7 @@ function getInitialCenter() {
 
 export function MapGenerator() {
   const [reactLeaflet, setReactLeaflet] = useState<any>(null)
+  const [mapControls, setMapControls] = useState<any>(null)
 
   useEffect(() => {
     if (!isClient()) return
@@ -25,13 +26,18 @@ export function MapGenerator() {
     import("react-leaflet").then((module) => {
       setReactLeaflet(module)
     })
+
+    import("@/features/libraries/hooks/mapControls").then((module) => {
+      setMapControls(module)
+    })
   }, [])
 
-  if (!reactLeaflet) {
+  if (!reactLeaflet || !mapControls) {
     return <div>Loading map...</div>
   }
 
-  const { MapContainer, TileLayer } = reactLeaflet
+  const { MapContainer, TileLayer, useMap } = reactLeaflet
+  const { MapControls } = mapControls
 
   return (
     <MapContainer
@@ -44,6 +50,7 @@ export function MapGenerator() {
         attribution='&copy <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
+      <MapControls reactLeaflet={reactLeaflet} />
       <LocationMarker reactLeaflet={reactLeaflet} />
     </MapContainer>
   )

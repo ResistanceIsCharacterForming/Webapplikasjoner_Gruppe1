@@ -28,28 +28,30 @@ export default function LoginScreen() {
   }
 
   return (
-    <form onSubmit={onCreateUser}>
-      <div>
-        <label htmlFor="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={details.password}
-          onChange={(e) => updateDetails({...details, password: e.target.value })}
-        />
-      </div>
-      <div>
-        <label htmlFor="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={details.email}
-          onChange={(e) => updateDetails({...details, email: e.target.value })}
-        />
-      </div>
-      <button type="submit">Login</button>
-    </form>
+    <article>
+      <form onSubmit={onCreateUser}>
+        <section>
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={details.password}
+            onChange={(e) => updateDetails({...details, password: e.target.value })}
+          />
+        </section>
+        <section>
+          <label htmlFor="email">Email:</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={details.email}
+            onChange={(e) => updateDetails({...details, email: e.target.value })}
+          />
+        </section>
+        <button type="submit">Login</button>
+      </form>
+    </article>
   )
 }
