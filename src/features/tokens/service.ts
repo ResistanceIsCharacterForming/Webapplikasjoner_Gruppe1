@@ -8,18 +8,22 @@ export function createTokensService() {
     return {
         async checkCredentials(ctx: any) {
 
-            let cookie: string | undefined = ctx.request.headers.get("cookie") ?? undefined
-            
+           let cookie: string | undefined = ctx.request.headers.get("cookie") ?? undefined
+            console.log(ctx.request.headers)
             if (cookie === undefined) return false
 
-            let jwt: string = cookie.split(":")[1]
+            let jwt: string = ""
+
+            if (!cookie.includes(":")) return false
+
+            jwt = cookie.split(":")[1]
 
             if (!jwt.includes("jwtToken")) return false
 
             jwt = jwt.replaceAll(' ', '')
 
             jwt = jwt.split("=")[1]
-            
+
             const result = await verifyToken(jwt)
 
             return result
