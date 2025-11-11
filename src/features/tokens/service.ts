@@ -9,12 +9,12 @@ export function createTokensService() {
         async checkCredentials(ctx: any) {
 
             let cookie: string | undefined = ctx.request.headers.get("cookie") ?? undefined
-
+            
             if (cookie === undefined) return false
 
             let jwt: string = cookie.split(":")[1]
 
-            if (!jwt.includes("token")) return false
+            if (!jwt.includes("jwtToken")) return false
 
             jwt = jwt.replaceAll(' ', '')
 

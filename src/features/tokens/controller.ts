@@ -33,7 +33,7 @@ export function createTokensController(tokensService: any) {
             
                 return new Response("Logged in", {
                     headers: {
-                        "Set-Cookie": `Set-Cookie: token=${result.jwt}; HttpOnly; Secure; Path=/; SameSite=None`,
+                        "Set-Cookie": `Set-Cookie: jwtToken=${result.jwt}; HttpOnly; Secure; Path=/; SameSite=None`,
                         "Content-Type": "text/plain",
                     }
                 })
