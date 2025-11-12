@@ -32,13 +32,13 @@ export default function LoginScreen() {
   }
 
   return (
-    <article className="bg-timberwolf shadow-lg border-raisinBlack border-1 rounded-bl-lg rounded-tr-lg m-auto w-auto row-span-2 p-3 sm:p-5! sm:w-lg!">
-      <h2 className="text-burntUmber! font-prata pb-3">Logg deg på Bokkroken</h2>
+    <article className="bg-lotion shadow-md border-darkVanilla border-1 rounded-bl-lg rounded-tr-lg m-auto w-auto row-span-2 p-3 sm:p-5! sm:w-lg!">
+      <h2 className="text-oldRose! font-prata pb-3">Logg deg på Bokkroken</h2>
       <form onSubmit={onCreateUser}>
       <section className="pb-3">
-        <label className="font-manrope text-raisinBlack" htmlFor="password">Passord:</label>
+        <label className="font-manrope text-blackChocolate" htmlFor="password">Passord:</label>
         <input
-          className = "w-full border-raisinBlack border-1 p-1 focus:outline-none focus:shadow focus:border-cedarChest rounded-md"
+          className = "w-full border-blackChocolate border-1 p-1 focus:outline-none focus:shadow focus:border-darkVanilla rounded-md"
           placeholder="Skriv her ..."
           required
           type="password"
@@ -49,9 +49,9 @@ export default function LoginScreen() {
         />
       </section>
       <section className="pb-3">
-        <label className="font-manrope text-raisinBlack" htmlFor="email">Email:</label>
+        <label className="font-manrope text-blackChocolate" htmlFor="email">Email:</label>
         <input
-          className = "w-full border-raisinBlack border-1 p-1 focus:outline-none focus:shadow focus:border-cedarChest rounded-md"
+          className = "w-full border-blackChocolate border-1 p-1 focus:outline-none focus:shadow focus:border-darkVanilla rounded-md"
           placeholder="Skriv her ..."
           required
           type="email"
@@ -61,7 +61,7 @@ export default function LoginScreen() {
           onChange={(e) => updateDetails({...details, email: e.target.value })}
         />
       </section>
-      <button className="font-manrope py-2 px-3 font-bold text-timberwolf bg-burntUmber hover:bg-cedarChest rounded-lg" type="submit">Logg på</button>
+      <button className="font-manrope py-2 px-3 font-bold text-lotion! bg-oldRose! hover:bg-darkVanilla! rounded-lg" type="submit">Logg på</button>
     </form>
     </article>
   )

@@ -68,3 +68,4 @@ coverage
 .wrangler/state/v3/d1/miniflare-D1DatabaseObject/7638ac0f8705eba4e03cbe309c7437b349e4404f55a256fca63863d88db70e0b.sqlite
 .wrangler/state/v3/d1/miniflare-D1DatabaseObject/7638ac0f8705eba4e03cbe309c7437b349e4404f55a256fca63863d88db70e0b.sqlite
 package-lock.json
+package-lock.json

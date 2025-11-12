@@ -4,11 +4,11 @@
 
 @theme {
     --color-*: initial;
-    --color-burntUmber: #81322A;
-    --color-cedarChest: #C45E4C;
-    --color-beaver: #A38579;
-    --color-raisinBlack: #29221F;
-    --color-timberwolf: #DAD7CE;
+    --color-lotion: #FFFCF8; 
+    --color-blackChocolate: #1E180D; 
+    --color-darkVanilla: #DFBD9C; 
+    --color-oldRose: #BD8274; 
+    --color-oldLace: #FBF4E0; 
     --font-manrope: "Manrope", sans-serif;
     --font-prata: "Prata", serif;
 }
