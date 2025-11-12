@@ -6,10 +6,6 @@ import '../../../styles/temp.css'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
-import Modal from 'react-bootstrap/Modal'
-
 export default function LoginScreen() {
 
   type detailsForm = {
@@ -36,30 +32,37 @@ export default function LoginScreen() {
   }
 
   return (
-    <article>
+    <article className="bg-timberwolf shadow-lg border-raisinBlack border-1 rounded-bl-lg rounded-tr-lg m-auto w-auto row-span-2 p-3 sm:p-5! sm:w-lg!">
+      <h2 className="text-burntUmber! font-prata pb-3">Logg deg på Bokkroken</h2>
       <form onSubmit={onCreateUser}>
-        <section>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={details.password}
-            onChange={(e) => updateDetails({...details, password: e.target.value })}
-          />
-        </section>
-        <section>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={details.email}
-            onChange={(e) => updateDetails({...details, email: e.target.value })}
-          />
-        </section>
-        <button type="submit">Login</button>
-      </form>
+      <section className="pb-3">
+        <label className="font-manrope text-raisinBlack" htmlFor="password">Passord:</label>
+        <input
+          className = "w-full border-raisinBlack border-1 p-1 focus:outline-none focus:shadow focus:border-cedarChest rounded-md"
+          placeholder="Skriv her ..."
+          required
+          type="password"
+          id="password"
+          name="password"
+          value={details.password}
+          onChange={(e) => updateDetails({...details, password: e.target.value })}
+        />
+      </section>
+      <section className="pb-3">
+        <label className="font-manrope text-raisinBlack" htmlFor="email">Email:</label>
+        <input
+          className = "w-full border-raisinBlack border-1 p-1 focus:outline-none focus:shadow focus:border-cedarChest rounded-md"
+          placeholder="Skriv her ..."
+          required
+          type="email"
+          id="email"
+          name="email"
+          value={details.email}
+          onChange={(e) => updateDetails({...details, email: e.target.value })}
+        />
+      </section>
+      <button className="font-manrope py-2 px-3 font-bold text-timberwolf bg-burntUmber hover:bg-cedarChest rounded-lg" type="submit">Logg på</button>
+    </form>
     </article>
   )
 }
