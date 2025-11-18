@@ -27,17 +27,19 @@ export const reportsRoutes = [
        route("reports/:id", [
          async(ctx) => {
             const method = ctx.request.method.toLowerCase()
+            const id = ctx.params?.id ?? undefined
+            if (id === undefined) return new Response("No Id", {status: 401})
              if (method === "get") {
-                const id = ctx.params?.id ?? undefined
                 const result = await reportController.getReportById(id)
                 return result
             }
         },
         async (ctx) => {
             const method = ctx.request.method.toLowerCase()
+            const id = ctx.params?.id ?? undefined
+            if (id === undefined) return new Response("No Id", {status: 401})
             if (method === "put") {
                 //add type to json here
-                const id = ctx.params?.id ?? undefined
                 const data: any = await ctx.request.json()
                 const result = reportController.editReport(id,data)
                 return result
@@ -45,8 +47,9 @@ export const reportsRoutes = [
         },
         async (ctx) => {
             const method = ctx.request.method.toLowerCase()
+            const id = ctx.params?.id ?? undefined
+            if (id === undefined) return new Response("No Id", {status: 401})
             if (method === "delete") {
-                const id = ctx.params?.id ?? undefined
                 const result = reportController.deleteReport(id)
                 return result
             }

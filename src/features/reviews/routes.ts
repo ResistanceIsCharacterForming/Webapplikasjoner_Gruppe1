@@ -27,26 +27,29 @@ export const reviewsRoutes = [
      route("reviews/:id", [
          async(ctx) => {
             const method = ctx.request.method.toLowerCase()
+            const id = ctx.params?.id ?? undefined
+            if (id === undefined) return new Response("No Id", {status: 401})
              if (method === "get") {
-                const id = ctx.params?.id ?? undefined
                 const result = await reviewController.getReviewById(id)
                 return result
             }
         },
           async(ctx) => {
             const method = ctx.request.method.toLowerCase()
+            const id = ctx.params?.id ?? undefined
+            if (id === undefined) return new Response("No Id", {status: 401})
              if (method === "put") {
                 //add type to form here
                 const data: any = await ctx.request.formData()
-                const id = ctx.params?.id ?? undefined
                 const result = await reviewController.editReview(id,data)
                 return result
             }
         },
         async (ctx) => {
             const method = ctx.request.method.toLowerCase()
+            const id = ctx.params?.id ?? undefined
+            if (id === undefined) return new Response("No Id", {status: 401})
             if (method === "delete") {
-                const id = ctx.params?.id ?? undefined
                 const result = await reviewController.deleteReview(id)
                 return result
             }
@@ -55,9 +58,10 @@ export const reviewsRoutes = [
     route("reviews/:id/endorsements", [
          async(ctx) => {
             const method = ctx.request.method.toLowerCase()
+            const id = ctx.params?.id ?? undefined
+            if (id === undefined) return new Response("No Id", {status: 401})
              if (method === "get") {
                 //add type to form here
-                const id = ctx.params?.id ?? undefined
                 const result =await reviewController.getEndorsmentByReviewId(id)
                 return result
             }
@@ -84,16 +88,18 @@ export const reviewsRoutes = [
      route("endorsements/:id", [
          async(ctx) => {
             const method = ctx.request.method.toLowerCase()
+            const id = ctx.params?.id ?? undefined
+            if (id === undefined) return new Response("No Id", {status: 401})
              if (method === "get") {
-                const id = ctx.params?.id ?? undefined
                 const result = await reviewController.getEndorsmentById(id)
                 return result
             }
         },
         async(ctx) => {
             const method = ctx.request.method.toLowerCase()
+            const id = ctx.params?.id ?? undefined
+            if (id === undefined) return new Response("No Id", {status: 401})
              if (method === "put") {
-                const id = ctx.params?.id ?? undefined
                 const data: any = await ctx.request.formData()
                 const result = await reviewController.editEndorsment(id,data)
                 return result
@@ -101,8 +107,9 @@ export const reviewsRoutes = [
         },
         async(ctx) => {
             const method = ctx.request.method.toLowerCase()
+            const id = ctx.params?.id ?? undefined
+            if (id === undefined) return new Response("No Id", {status: 401})
              if (method === "delete") {
-                const id = ctx.params?.id ?? undefined
                 const result = await reviewController.deleteEndorsment(id)
             }
         },
