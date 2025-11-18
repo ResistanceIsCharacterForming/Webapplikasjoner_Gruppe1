@@ -34,7 +34,9 @@ export function createUserService(repository: userRepository ,imagehandler:image
             const result = await repository.getUserByEmail(email)
             return result
         },
-        async createUser(data: postUserData) {
+        async createUser(formdata: FormData) {
+            const dataObject  = Object.fromEntries(formdata.entries());
+            const data =dataObject as unknown as postUserData
             let profileImage="0"
             const {image,...userdata}=data
              if(image !==null){
@@ -47,10 +49,16 @@ export function createUserService(repository: userRepository ,imagehandler:image
             if (result.success && result.data){
                 const key= result.data[0].id+"@profilePicture.png"
                 if(data.image !==null){
-                const test=await imagehandler.putImage(key,image)
+                await imagehandler.putImage(key,image)
             }
             
             }
+            return result
+        },
+        async editUserById(id:string,formdata:FormData){
+            const dataObject  = Object.fromEntries(formdata.entries());
+            const data =dataObject as unknown as postUserData
+            const result = await repository.editUser(id,data)
             return result
         },
          async deleteUserByid(id: string) {
@@ -61,8 +69,17 @@ export function createUserService(repository: userRepository ,imagehandler:image
             const result = await repository.getAdminById(id)
             return result
         },
-        async createAdmin(userId:string,createdAt:string,adminLevel:number) {
+        async createAdmin(userId:string,adminLevel:number) {
+             const createdAt = new Date().toString()
             const result = await repository.createAdmin(userId, createdAt, adminLevel)
+            return result
+        },
+        async editAdmin(userId:string,adminLevel:number){
+            const result = await repository.editAdmin(userId,adminLevel)
+            return result
+        },
+        async deleteAdmin(userId:string){
+            const result = await repository.deleteAdminById(userId)
             return result
         },
         async isUserOwner(id: string) {
@@ -77,7 +94,9 @@ export function createUserService(repository: userRepository ,imagehandler:image
             const result = await repository.createfavoritLibrary(data)
             return result
         },
-        async editfavoritLibrary(id: number,data:Partial<favoritLibrary>) {
+        async editfavoritLibrary(id: number,formdata:any) {
+            const dataObject  = Object.fromEntries(formdata.entries());
+            const data =dataObject as unknown as Partial<favoritLibrary>
             const result = await repository.editfavoritLibrary(id,data)
             return result
         },

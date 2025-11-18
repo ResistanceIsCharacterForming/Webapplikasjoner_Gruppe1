@@ -28,7 +28,7 @@ export default function RegisterScreen() {
         },
         body: JSON.stringify(user),
       })
-      console.log(result)
+      console.log(await result)
     } catch (error) {
       console.error(error)
     }
@@ -40,15 +40,17 @@ export default function RegisterScreen() {
       className="mx-auto mt-5 p-4 border rounded"
       style={{ maxWidth: '400px' }}
       onSubmit={async (e) => {
+        const formdata= new FormData()
+        formdata.append("name",user.name)
+        formdata.append("password",user.password)
+        formdata.append("email",user.email)
       e.preventDefault()
         try {
           const result = await fetch("/api/v1/users", {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(user),
+            body: formdata,
           })
+          console.log( result)
           updateUser({name: "", password: "", email: ""})
         } catch (error) {
           console.error(error)

@@ -23,7 +23,7 @@ export const authCheck = async (ctx: any) => {
 
     /* Dette er en oversikt over hvilken sider og API ressurser som krever at brukeren er logget inn. */
     const protectedRoutes: [{pathname: string, method: string}] = [
-        {pathname : "/api/v1/users", method : "any"}
+        {pathname : "/api/v1/users", method : "get"}
     ]
 
     /* Vi bruker sameMethod for å enkelt lagre om enten method er lik hva method fra et objekt er eller any, altså vilkårlig.  */

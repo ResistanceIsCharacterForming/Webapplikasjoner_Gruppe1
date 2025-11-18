@@ -1,11 +1,12 @@
-import { report } from "@/db/schema";
+import { reports } from "@/db/schema";
 import { apiResponse } from "./api";
+import { createReportService } from "@/features/reports/service";
 
 
 export interface reportRepository {
   getReports(): Promise<apiResponse<report[]>>;
   createReport(data:any): Promise<apiResponse<report[]>>;
-  editReport(id: number, data: Partial<report>): Promise<apiResponse<report[]>>;
+  editReport(id: number, data: Partial<uploadreport>): Promise<apiResponse<report[]>>;
   getReportById(id: number): Promise<apiResponse<report[]>>;
   getReportByType(type: string): Promise<apiResponse<report[]>>;
   getReportByTypeAndLevel(type:string,level:number):Promise<apiResponse<report[]>>;
@@ -14,17 +15,26 @@ export interface reportRepository {
 }
 
 
+
 export interface reportService{
   getReports(): Promise<apiResponse<report[]>>;
   getReportsWithType(type: string): Promise<apiResponse<report[]>>;
   getReportsWithlevel(level: number): Promise<apiResponse<report[]>>;
   getReportsWithTypeAndLevel(type: string,level:number): Promise<apiResponse<report[]>>;
   getReportWithId(id: number): Promise<apiResponse<report[]>>;
-  editReport(id: number,data: Partial<report>): Promise<apiResponse<report[]>>;
-  createReports(userId:string|null,libaryId:string|null,reviewId:number|null,raportLevel:number,text:string,raportType:string): Promise<apiResponse<report[]>>;
+  editReport(id: number,formdata: any): Promise<apiResponse<report[]>>;
+  createReports(data:any): Promise<apiResponse<report[]>>;
   deleteReport(id:number): Promise<apiResponse<void>>;
+}
 
+export type report =typeof reports.$inferSelect
 
-
-
+export type uploadreport ={
+    text: string | null;
+    userId: string | null;
+    createdAt: string | null;
+    libaryId: string | null;
+    reviewId: string | null;
+    raportType: string;
+    raportLevel: number;
 }

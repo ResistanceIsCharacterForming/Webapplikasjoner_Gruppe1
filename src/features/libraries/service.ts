@@ -1,8 +1,9 @@
-import { library } from "@/db/schema"
+
+import { imagehandler } from "@/types/image";
 import { libraryService, libraryRepository, postLibraryData } from "@/types/library"
 
 
-export function createLibraryService(repository: libraryRepository): libraryService {
+export function createLibraryService(repository: libraryRepository,imagehandler:imagehandler): libraryService {
 
     return {
         async listLibraries() {
@@ -17,20 +18,50 @@ export function createLibraryService(repository: libraryRepository): libraryServ
             const result=await repository.getLibraryByUserId(id)
             return result
         },
-        async listLibraryWithCords(data: any) {
-            const cordsData = {}
-            const result=await repository.getLibraryByCords(cordsData)
+        async listLibraryWithCords(lat:number,long:number) {
+            const result=await repository.getLibraryByCords(lat,long)
             return result
         },
-        async createLibrary( data: postLibraryData ) {
-            /* const { userId, name, text, cordlon, cordlat, books } = data */
+        async createLibrary( formdata: any ) {
+            //add zod here
+            const files=formdata.getAll("files")
+            formdata.delete("files")
+            const dataObject  = Object.fromEntries(formdata.entries());
+            const libarydata =dataObject as unknown as postLibraryData
+            let photos="0"
+            if(files !==null){
+               photos=files.length.toString()
+            }
             const createdAt = new Date().toString()
-            /*console.log({...data, createdAt: createdAt, isVisible: true})*/
-            const result = await repository.createLibrary({...data, createdAt: createdAt, isVisible: true, photos: ""})
+            const result = await repository.createLibrary({...libarydata, createdAt: createdAt, isVisible: true, photos: ""})
+            if(files !==null){
+                if (result.success && result.data){
+                    for (let index = 0; index < files.length; index++) {
+                        const key= result.data[0].id+"@libaryPicture"+index.toString()+".png"
+                        await imagehandler.putImage(key,files[index])
+                    }   
+                }
+            }
             return result
         },
-         async editlibrary(id:string,data:Partial<library>) {
-            const result=await repository.editLibrary(id,data)
+         async editlibrary(id:string,formdata:any) {
+            const files=formdata.getAll("files")
+            formdata.delete("files")
+            const dataObject  = Object.fromEntries(formdata.entries());
+            const libarydata =dataObject as unknown as postLibraryData
+            let photos="0"
+            if(files !==null){
+               photos=files.length.toString()
+            }
+            const result=await repository.editLibrary(id,libarydata)
+            if(files !==null){
+                if (result.success && result.data){
+                    for (let index = 0; index < files.length; index++) {
+                        const key= result.data[0].id+"@libaryPicture"+index.toString()+".png"
+                        await imagehandler.putImage(key,files[index])
+                    }   
+                }
+            }
             return result
         },
          async deletelibraryWithId(id:string) {

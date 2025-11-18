@@ -34,7 +34,8 @@ export default function LoginScreen() {
               "Content-Type": "application/json",
             },
             body: JSON.stringify(details),
-          })
+          }
+        )
           updateDetails({password: "", email: ""})
         } catch (error) {
           console.error(error)
