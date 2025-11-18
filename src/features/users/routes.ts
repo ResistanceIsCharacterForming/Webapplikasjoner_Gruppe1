@@ -3,14 +3,17 @@ import { singletonMaster } from "@/utils/singletonBuilder"
 import { postUserData } from "@/types/user"
 import { isAdmin } from "@/middleware/authHandler"
 
+
 const userController = singletonMaster.userController
+const reviewController = singletonMaster.reviewController
+const libraryController =singletonMaster.libraryController
 
 export const usersRoutes = [
     route("users", [
-        async(ctx) => {
-            const data: postUserData = await ctx.request.json()
+         async(ctx) => {
             const method = ctx.request.method.toLowerCase()
-            if (method === "post") {
+             if (method === "post") {
+                const data: postUserData = await ctx.request.formData()
                 const result = await userController.createUser(data)
                 return result
             }
@@ -22,22 +25,151 @@ export const usersRoutes = [
                 const result = await userController.listUsers()
                 return result
             }
-        },
+        }
     ]),
-    route("users/:id", async (ctx) => {
-        const method = ctx.request.method.toLowerCase()
-         const id = ctx.params?.id ?? undefined
-        if (method === "get") {
-            const result = await userController.getUserById(id)
-            return result
-        }
-        if (method ==="put"){
-
-        }
-        if (method ==="delete"){
-            console.log(id)
-            const result = await userController.deleteUser(id)
-            return result
-        }
-    })
+    route("users/:id", [
+        async (ctx) => {
+            const method = ctx.request.method.toLowerCase()
+            if (method === "get") {
+                const id = ctx.params?.id ?? undefined
+                const result = await userController.getUserById(id)
+                return result
+        }},
+        async (ctx) => {
+            const method = ctx.request.method.toLowerCase()
+            if (method === "put") {
+                const data: any = await ctx.request.formData()
+                const id = ctx.params?.id ?? undefined
+                const result = await userController.editUser(id,data)
+                return result
+        }},
+        async (ctx) => {
+            const method = ctx.request.method.toLowerCase()
+            if (method === "delete") {
+                const id = ctx.params?.id ?? undefined
+                const result = await userController.deleteUser(id)
+                return result
+        }},
+        ]),
+    route("users/:id/admin", [
+        async (ctx) => {
+            const method = ctx.request.method.toLowerCase()
+            if (method === "get") {
+                const id = ctx.params?.id ?? undefined
+                const result = await userController.getAdminById(id)
+                return result
+        }},
+        async (ctx) => {
+            const method = ctx.request.method.toLowerCase()
+            if (method === "delete") {
+                 const id = ctx.params?.id ?? undefined
+                const result = await userController.deleteAdmin(id)
+                return result
+        }},
+        ]),
+    route("users/:id/admin/:level",[
+         async (ctx) => {
+            const method = ctx.request.method.toLowerCase()
+            if (method === "post") {
+                const level= ctx.params?.level ?? undefined
+                const id = ctx.params?.id ?? undefined
+                const result = await userController.createAdmin(id,level)
+                return result
+        }},
+         async (ctx) => {
+            const method = ctx.request.method.toLowerCase()
+            if (method === "put") {
+                const level= ctx.params?.level ?? undefined
+                const id = ctx.params?.id ?? undefined
+                const result = await userController.editAdmin(id,level)
+                return result
+        }},
+    ]),
+    route("users/:id/endorsements",[
+        async (ctx) => {
+            //add controler for theese
+            const method = ctx.request.method.toLowerCase()
+            if (method === "get") {
+                const id = ctx.params?.id ?? undefined
+                const result =reviewController.getEndorsmentByUserId(id)
+                return result
+        }},
+    ]),
+    route("users/:id/Libraries",[
+        async (ctx) => {
+            //add controler for theese
+            const method = ctx.request.method.toLowerCase()
+            if (method === "get") {
+                const id = ctx.params?.id ?? undefined
+                const result =libraryController.getLibraryByUserId(id)
+                return result
+        }},
+        async (ctx) => {
+            //add controler for theese
+            const method = ctx.request.method.toLowerCase()
+            if (method === "delete") {
+                const id = ctx.params?.id ?? undefined
+                 const result =libraryController.deleteLibraryByUserId(id)
+                return result
+        }},
+    ]),
+    route("users/:id/favoritLibaries",[
+        async (ctx) => {
+            //add controler for theese
+            const method = ctx.request.method.toLowerCase()
+            if (method === "get") {
+                const id = ctx.params?.id ?? undefined
+                const result =userController.getfavoritLibrariesFromUser(id)
+                return result
+        }},
+        async (ctx) => {
+            const method = ctx.request.method.toLowerCase()
+            if (method === "delete") {
+                const id = ctx.params?.id ?? undefined
+                const result =userController.deletefavoritLibrariesByUser(id)
+                return result
+        }},
+    ]),
+    route("users/:id/favoritLibaries/:libaryid",[
+        async (ctx) => {
+            const method = ctx.request.method.toLowerCase()
+            if (method === "post") {
+                const id = ctx.params?.id ?? undefined
+                const libaryid = ctx.params?.libaryid ?? undefined
+                const result =userController.createfavoritLibrary(id,libaryid)
+                return result
+        }}, 
+    ]),
+    route("favoritLibaries",[
+        async (ctx) => {
+            const method = ctx.request.method.toLowerCase()
+            if (method === "get") {
+                const result = await userController.getfavoritLibraries()
+                return result
+        }},
+    ]),
+    route("favoritLibaries/:id",[
+        async (ctx) => {
+            const method = ctx.request.method.toLowerCase()
+            if (method === "get") {
+                 const id = ctx.params?.id ?? undefined
+                const result =await userController.getfavoritLibrary(id)
+                return result
+        }},
+         async (ctx) => {
+            const method = ctx.request.method.toLowerCase()
+            if (method === "delete") {
+                const id = ctx.params?.id ?? undefined
+                const result =await userController.deletefavoritLibrary(id)
+                return result
+        }},
+         async (ctx) => {
+            const method = ctx.request.method.toLowerCase()
+            if (method === "put") {
+                const id = ctx.params?.id ?? undefined
+                const data: any = await ctx.request.formData()
+                const result =await userController.editfavoritLibrary(id,data)
+                return result
+        }},
+    ]),
 ]

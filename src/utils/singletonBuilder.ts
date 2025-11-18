@@ -62,7 +62,7 @@ export const singletonMaster = {
     _libraryController: null as ReturnType<typeof createLibraryController> | null,
     get libraryController() {
         if (!this._libraryController) {
-            this._libraryController = createLibraryController(createLibraryService(createLibraryRepository(this.dbConnection)))
+            this._libraryController = createLibraryController(createLibraryService(createLibraryRepository(this.dbConnection),this.ImageController))
         }
         return this._libraryController
     },
@@ -94,7 +94,7 @@ export const singletonMaster = {
     _reviewController: null as ReturnType<typeof createReviewController> | null,
     get reviewController() {
         if (!this._reviewController) {
-            this._reviewController = createReviewController(createReviewService(createReviewRepository(this.dbConnection)))
+            this._reviewController = createReviewController(createReviewService(createReviewRepository(this.dbConnection),this.ImageController))
         }
         return this._reviewController
     },

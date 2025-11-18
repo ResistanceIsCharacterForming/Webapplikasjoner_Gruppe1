@@ -1,13 +1,10 @@
 import {admin, admins, users,user,favoritLibraries,favoritLibrary} from "../../db/schema"
-import {eq,and, lte, gte} from "drizzle-orm"
-import {libraries,library } from "../../db/schema"
+import {eq} from "drizzle-orm"
 
 import { databaseUserData, userRepository } from "@/types/user"
 
 export function createUserRepository(db: any):userRepository{
-
   return{
-
     async getUsers(){
       try {
         const result: user[] = await db.select().from(users)
@@ -173,9 +170,9 @@ export function createUserRepository(db: any):userRepository{
     }
   },
   
-  async editAdmin(id: string,data : any){
+  async editAdmin(id: string,Level :admin["adminLevel"] ){
    try {
-      const result : admin[]= await db.update(admins).set(data).where(eq(admins.userId, id)).returning()
+      const result : admin[]= await db.update(admins).set({adminLevel: Level}).where(eq(admins.userId, id)).returning()
       return { success: true, data: result }
     } catch (error) {
       return { success: false, error: 'Failed edit admin' }

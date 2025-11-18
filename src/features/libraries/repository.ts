@@ -53,15 +53,14 @@ export function createLibraryRepository(db:any):libraryRepository{
   }
 },
 
-  async getLibraryByCords(data: any){
+  async getLibraryByCords(lat: number,long: number){
   try {
-    const { cordlat, cordlon} = data
     const result : library[]  =  await db.select().from(libraries).where(
       and(
-          gte(libraries.cordlat, cordlat-0.40),
-          lte(libraries.cordlat, cordlat+0.40),
-          gte(libraries.cordlon, cordlon-0.40),
-          lte(libraries.cordlon, cordlon+0.40),
+          gte(libraries.cordlat, lat-0.40),
+          lte(libraries.cordlat, lat+0.40),
+          gte(libraries.cordlon, long-0.40),
+          lte(libraries.cordlon, long+0.40),
       ));
     return{success: true,data:result}
   }

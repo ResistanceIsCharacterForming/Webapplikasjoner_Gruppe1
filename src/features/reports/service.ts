@@ -1,5 +1,5 @@
 import { report } from "@/db/schema";
-import { reportRepository, reportService } from "@/types/reports"
+import { reportRepository, reportService, uploadreport } from "@/types/reports"
 
 export function createReportService(repository:reportRepository):reportService {
 
@@ -24,13 +24,17 @@ export function createReportService(repository:reportRepository):reportService {
              const result= await repository.getReportById(id);
             return result
         },
-         async editReport(id: number,data: Partial<report>){
-             const result= await repository.editReport(id,data);
+         async editReport(id: number,formdata:any){
+            const dataObject  = Object.fromEntries(formdata.entries());
+            const data =dataObject as unknown as Partial<uploadreport>
+            const result= await repository.editReport(id,data);
             return result
         },
-         async createReports(userId:string|null,libaryId:string|null,reviewId:number|null,raportLevel:number,text:string,raportType:string){
-            const createdAt = new Date().toUTCString()
-            const data ={userId,libaryId,reviewId,raportLevel,text,raportType,createdAt}
+         async createReports(formdata:any){
+            const dataObject  = Object.fromEntries(formdata.entries());
+            // implement zod here for it
+            const data =dataObject as unknown as uploadreport
+            data.createdAt =new Date().toUTCString()
             const result= await repository.createReport(data);
             return result
         },

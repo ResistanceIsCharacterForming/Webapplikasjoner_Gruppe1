@@ -1,54 +1,145 @@
-export function createReviewController (reviewService: any) {
+import { reviewService } from "@/types/reviews"
+
+export function createReviewController (reviewService: reviewService) {
     return {
         async listReviews() { 
+            const result=await reviewService.getReviews()
             return new Response(
                 JSON.stringify({
-                data: `listReviews` /* Kall til libraryService.listBookshelves() eller lignende. */,
-                success: true
+                data: result.data,
+                success: result.success
             }),
             {
                 status: 201,
                 headers: {"Content-Type": "application/json"}
             })
         },
-        async getReviewById(id: string): Promise<Response> { 
+        async getReviewById(id: number): Promise<Response> { 
+            const result=await reviewService.getReviewById(id)
             return new Response(
                 JSON.stringify({
-                data: `getReviewById ${id}` /* Kall til libraryService.getBookshelfById(id) eller lignende. */,
-                success: true
+                data: result.data,
+                success: result.success
             }),
             {
                 status: 201,
                 headers: {"Content-Type": "application/json"}
             })
         },
-        async editReview(id: string, text: string) {
-             return new Response(
+        async editReview(id: number, data: any) {
+            const result=await reviewService.editReview(id,data)
+            return new Response(
                 JSON.stringify({
-                data: `editReview ${id} ${text}`,
-                success: true
+                data: result.data,
+                success: result.success
             }),
             {
                 status: 201,
                 headers: {"Content-Type": "application/json"}
             })
         },
-        async createReview(id: string, text: string) {
-             return new Response(
+        async createReview(data:any) {
+            const result=await reviewService.createReview(data)
+            return new Response(
                 JSON.stringify({
-                data: `createReview ${id} ${text}` /* kall libraryService */,
-                success: true
+                data: result.data,
+                success: result.success
             }),
             {
                 status: 201,
                 headers: {"Content-Type": "application/json"}
             })
         },
-        async deleteReview(id: string) {
-             return new Response(
+        async deleteReview(id: number) {
+            const result=await reviewService.deleteReviewById(id)
+            return new Response(
                 JSON.stringify({
-                data: `deleteReview ${id}`,
-                success: true
+                data: result.data,
+                success: result.success
+            }),
+            {
+                status: 201,
+                headers: {"Content-Type": "application/json"}
+            })
+        },
+         async getEndorsmentByReviewId(id: number) {
+            const result=await reviewService.getReviewEndorsementByReviewId(id)
+            return new Response(
+                JSON.stringify({
+                data: result.data,
+                success: result.success
+            }),
+            {
+                status: 201,
+                headers: {"Content-Type": "application/json"}
+            })
+        },
+         async getEndorsmentById(id: number) {
+            const result=await reviewService.getReviewEndorsementById(id)
+            return new Response(
+                JSON.stringify({
+                data: result.data,
+                success: result.success
+            }),
+            {
+                status: 201,
+                headers: {"Content-Type": "application/json"}
+            })
+        },
+        async getEndorsmentByUserId(id: string) {
+            const result=await reviewService.getReviewByUserId(id)
+            return new Response(
+                JSON.stringify({
+                data: result.data,
+                success: result.success
+            }),
+            {
+                status: 201,
+                headers: {"Content-Type": "application/json"}
+            })
+        },
+         async deleteEndorsment(id: number) {
+            const result=await reviewService.deleteReviewEndorsementById(id)
+            return new Response(
+                JSON.stringify({
+                data: result.data,
+                success: result.success
+            }),
+            {
+                status: 201,
+                headers: {"Content-Type": "application/json"}
+            })
+        },
+        async getEndorsments() {
+            const result=await reviewService.getReviewsEndorsements()
+            return new Response(
+                JSON.stringify({
+                data: result.data,
+                success: result.success
+            }),
+            {
+                status: 201,
+                headers: {"Content-Type": "application/json"}
+            })
+        },
+        async createEndorsment(data: any) {
+            const result=await reviewService.createReviewEndorsement(data)
+            return new Response(
+                JSON.stringify({
+                data: result.data,
+                success: result.success
+            }),
+            {
+                status: 201,
+                headers: {"Content-Type": "application/json"}
+            })
+        },
+        async editEndorsment(id: number,data:any) {
+            const result=await reviewService.editReviewEndorsement(id,data)
+            return new Response(
+                JSON.stringify({
+                data: result.data,
+                success: result.success
             }),
             {
                 status: 201,
