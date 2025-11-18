@@ -18,9 +18,14 @@ export const reportsRoutes = [
             //trenger ikke admin på post
             const method = ctx.request.method.toLowerCase()
             if (method === "post") {
-                const data: any = await ctx.request.formData()
-                const result = reportController.postReport(data)
-                return result
+                try {
+                    const data: any = await ctx.request.formData()
+                    const result = reportController.postReport(data)
+                    return result
+                } catch (error) {
+                 new Response(JSON.stringify({success: false,error:"400 check formdata"}),
+                    {status: 400, headers: {"Content-Type": "application/json"}})   
+                }
             }
         }
     ]),
@@ -36,11 +41,15 @@ export const reportsRoutes = [
         async (ctx) => {
             const method = ctx.request.method.toLowerCase()
             if (method === "put") {
-                //add type to json here
-                const id = ctx.params?.id ?? undefined
-                const data: any = await ctx.request.json()
-                const result = reportController.editReport(id,data)
-                return result
+                try {
+                    const id = ctx.params?.id ?? undefined
+                    const data: any = await ctx.request.formData()
+                    const result = reportController.editReport(id,data)
+                    return result
+                } catch (error) {
+                    new Response(JSON.stringify({success: false,error:"400 check formdata"}),
+                    {status: 400, headers: {"Content-Type": "application/json"}})
+                }
             }
         },
         async (ctx) => {

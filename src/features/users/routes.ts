@@ -13,9 +13,14 @@ export const usersRoutes = [
          async(ctx) => {
             const method = ctx.request.method.toLowerCase()
              if (method === "post") {
-                const data: postUserData = await ctx.request.formData()
-                const result = await userController.createUser(data)
-                return result
+                try {
+                    const data: postUserData = await ctx.request.formData()
+                    const result = await userController.createUser(data)
+                    return result   
+                } catch (error) {
+                   new Response(JSON.stringify({success: false,error:"400 check formdata"}),
+                    {status: 400, headers: {"Content-Type": "application/json"}})
+                }
             }
         },
         isAdmin,
@@ -38,10 +43,15 @@ export const usersRoutes = [
         async (ctx) => {
             const method = ctx.request.method.toLowerCase()
             if (method === "put") {
-                const data: any = await ctx.request.formData()
-                const id = ctx.params?.id ?? undefined
-                const result = await userController.editUser(id,data)
-                return result
+                try {
+                    const data: any = await ctx.request.formData()
+                    const id = ctx.params?.id ?? undefined
+                    const result = await userController.editUser(id,data)
+                    return result
+                } catch (error) {
+                    new Response(JSON.stringify({success: false,error:"400 check formdata"}),
+                    {status: 400, headers: {"Content-Type": "application/json"}})
+                }
         }},
         async (ctx) => {
             const method = ctx.request.method.toLowerCase()
@@ -167,9 +177,14 @@ export const usersRoutes = [
             const method = ctx.request.method.toLowerCase()
             if (method === "put") {
                 const id = ctx.params?.id ?? undefined
-                const data: any = await ctx.request.formData()
-                const result =await userController.editfavoritLibrary(id,data)
-                return result
+                try {
+                    const data: any = await ctx.request.formData()
+                    const result =await userController.editfavoritLibrary(id,data)
+                    return result
+                } catch (error) {
+                   new Response(JSON.stringify({success: false,error:"400 check formdata"}),
+                    {status: 400, headers: {"Content-Type": "application/json"}})
+                }
         }},
     ]),
 ]

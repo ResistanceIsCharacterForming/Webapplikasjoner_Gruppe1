@@ -9,10 +9,14 @@ export const reviewsRoutes = [
          async(ctx) => {
             const method = ctx.request.method.toLowerCase()
              if (method === "post") {
-                //add type to form here
-                const data: any = await ctx.request.formData()
-                const result = await reviewController.createReview(data)
-                return result
+                try {
+                    const data: any = await ctx.request.formData()
+                    const result = await reviewController.createReview(data)
+                    return result
+                } catch (error) {
+                    new Response(JSON.stringify({success: false,error:"400 check formdata"}),
+                    {status: 400, headers: {"Content-Type": "application/json"}})
+                }
             }
         },
         async (ctx) => {
@@ -36,11 +40,15 @@ export const reviewsRoutes = [
           async(ctx) => {
             const method = ctx.request.method.toLowerCase()
              if (method === "put") {
-                //add type to form here
-                const data: any = await ctx.request.formData()
-                const id = ctx.params?.id ?? undefined
-                const result = await reviewController.editReview(id,data)
-                return result
+                try {
+                    const data: any = await ctx.request.formData()
+                    const id = ctx.params?.id ?? undefined
+                    const result = await reviewController.editReview(id,data)
+                    return result
+                } catch (error) {
+                    new Response(JSON.stringify({success: false,error:"400 check formdata"}),
+                    {status: 400, headers: {"Content-Type": "application/json"}})
+                }
             }
         },
         async (ctx) => {
@@ -75,9 +83,14 @@ export const reviewsRoutes = [
            async(ctx) => {
             const method = ctx.request.method.toLowerCase()
              if (method === "post") {
-                const data: any = await ctx.request.formData()
-                const result =await reviewController.createEndorsment(data)
-                return result
+                try {
+                    const data: any = await ctx.request.formData()
+                    const result =await reviewController.createEndorsment(data)
+                    return result 
+                } catch (error) {
+                    new Response(JSON.stringify({success: false,error:"400 check formdata"}),
+                    {status: 400, headers: {"Content-Type": "application/json"}})
+                }
             }
         }
     ]),
@@ -93,10 +106,15 @@ export const reviewsRoutes = [
         async(ctx) => {
             const method = ctx.request.method.toLowerCase()
              if (method === "put") {
-                const id = ctx.params?.id ?? undefined
-                const data: any = await ctx.request.formData()
-                const result = await reviewController.editEndorsment(id,data)
-                return result
+                try {
+                    const id = ctx.params?.id ?? undefined
+                    const data: any = await ctx.request.formData()
+                    const result = await reviewController.editEndorsment(id,data)
+                    return result
+                } catch (error) {
+                    new Response(JSON.stringify({success: false,error:"400 check formdata"}),
+                    {status: 400, headers: {"Content-Type": "application/json"}})
+                }
             }
         },
         async(ctx) => {

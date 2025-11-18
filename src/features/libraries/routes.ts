@@ -16,10 +16,14 @@ export const librariesRoutes = [
      async(ctx) => {
             const method = ctx.request.method.toLowerCase()
              if (method === "post") {
-                //add type to form here
-                const data: any = await ctx.request.formData()
-                const result = await libraryController.createLibrary(data)
-                return result
+                try {
+                    const data: any = await ctx.request.formData()
+                    const result = await libraryController.createLibrary(data)
+                    return result
+                } catch (error) {
+                    new Response(JSON.stringify({success: false,error:"400 check formdata"}),
+                    {status: 400, headers: {"Content-Type": "application/json"}})
+                }
             }
     },
     ]),
@@ -50,11 +54,15 @@ export const librariesRoutes = [
     async(ctx) => {
             const method = ctx.request.method.toLowerCase()
              if (method === "put") {
-                const id = ctx.params?.id ?? undefined
-                //add type to form here
-                const data: any = await ctx.request.formData()
-                const result = await libraryController.editLibrary(id,data)
-                return result
+               try {
+                 const id = ctx.params?.id ?? undefined
+                 const data: any = await ctx.request.formData()
+                 const result = await libraryController.editLibrary(id,data)
+                 return result
+               } catch (error) {
+                new Response(JSON.stringify({success: false,error:"400 check formdata"}),
+                    {status: 400, headers: {"Content-Type": "application/json"}})
+               }
             }
     },
     async(ctx) => {

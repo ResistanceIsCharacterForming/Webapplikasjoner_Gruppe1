@@ -21,12 +21,15 @@ import { createReviewRepository } from "@/features/reviews/repository"
 /* Tokens */
 import { createTokensController } from "@/features/tokens/controller"
 import { createTokensService } from "@/features/tokens/service"
-import { createImageHandler } from "@/features/images/imagehandler"
+
 
 /* Database */
 import { createDbConnection, createR2Connection } from "@/db/index"
+
+/* image handler*/ 
 import { createImageService } from "@/features/images/service"
 import { createImageRepository } from "@/features/images/repository"
+import { ImageController } from "@/features/images/controller"
 
 /* Lazy loader for alle singletons. */
 export const singletonMaster = {
@@ -50,10 +53,10 @@ export const singletonMaster = {
         return this._r2Connection
     },
 
-    _ImageController: null as ReturnType<typeof createImageHandler> | null,
+    _ImageController: null as ReturnType<typeof ImageController> | null,
     get ImageController(){
         if (!this._ImageController){
-            this._ImageController = createImageHandler(createImageService(createImageRepository(this.r2Connection)))
+            this._ImageController = ImageController(createImageService(createImageRepository(this.r2Connection)))
         }
         return this._ImageController
     }
