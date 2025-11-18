@@ -15,15 +15,18 @@ export default function LoginScreen() {
 
   const onCreateUser = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    const detailsFormData = new FormData
+
+    detailsFormData.append("password", details.password)
+    detailsFormData.append("email", details.email)
+
+    setDetails({password: "", email: ""})
   
-  return   
     try {
       const result = await fetch("/api/v1/tokens", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(details),
+        body: detailsFormData,
       })
       console.log(result)
     } catch (error) {
@@ -44,7 +47,7 @@ export default function LoginScreen() {
 
   return (
     <article className="container mx-md bg-lotion shadow-md border-darkVanilla border-1 rounded-bl-lg rounded-tr-lg m-auto w-auto row-span-2 p-3 sm:p-5 sm:w-lg">
-      <h2 className="text-oldRose! font-prata pb-3">Logg deg på Bokkroken</h2>
+      <h2 className="text-oldRose text-2xl font-prata pb-3">Logg deg på Bokkroken</h2>
       <form onSubmit={onCreateUser}>
       <section className="pb-3">
        <InputFieldAuth params={{labelTitle : "Passord", inputType : "password", onChangeCallBack: callbackForDetails}}/>

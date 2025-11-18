@@ -25,19 +25,15 @@ export default function RegisterScreen() {
 
     setUser({name: "", password: "", email: ""})
 
-    /*
     try {
       const result = await fetch("/api/v1/users", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
+        body: userFormData,
       })
       console.log(result)
     } catch (error) {
       console.error(error)
-    }*/
+    }
   }
 
   const callbackForUser = (value: string, type: string) => {
@@ -53,7 +49,7 @@ export default function RegisterScreen() {
 
   return (
     <article className="bg-lotion shadow-md border-darkVanilla border-1 rounded-bl-lg rounded-tr-lg m-auto w-auto row-span-2 p-3 sm:p-5 sm:w-lg">
-        <h2 className="text-oldRose! font-prata pb-3">Registrer en ny bruker</h2>
+        <h2 className="text-oldRose text-2xl font-prata pb-3">Registrer en ny bruker</h2>
         <form onSubmit={onCreateUser}>
         <section className="pb-3">
           <InputFieldAuth params={{labelTitle : "Name", inputType : "name", onChangeCallBack: callbackForUser}}/>
