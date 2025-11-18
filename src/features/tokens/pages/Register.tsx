@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 
-import 'bootstrap/dist/css/bootstrap.min.css'
+import InputFieldAuth from "@/shared/frontend/InputFieldAuth";
 
 export default function RegisterScreen() {
 
@@ -12,10 +12,20 @@ export default function RegisterScreen() {
     email: string;
   }
 
-  const [ user, updateUser ] = useState<userForm>({name: "", password: "", email: ""})
+  const [ user, setUser ] = useState<userForm>({name: "", password: "", email: ""})
 
   const onCreateUser = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    const userFormData = new FormData
+
+    userFormData.append("name", user.name)
+    userFormData.append("password", user.password)
+    userFormData.append("email", user.email)
+
+    setUser({name: "", password: "", email: ""})
+
+    /*
     try {
       const result = await fetch("/api/v1/users", {
         method: "POST",
@@ -27,33 +37,35 @@ export default function RegisterScreen() {
       console.log(result)
     } catch (error) {
       console.error(error)
-    }
+    }*/
+  }
+
+  const callbackForUser = (value: string, type: string) => {
+
+    const key = type as keyof userForm
+
+    setUser(prevUser => ({
+    ...prevUser,
+    [key]: value
+    }))
+    
   }
 
   return (
-    <form onSubmit={onCreateUser}>
-      <div>
-        <label htmlFor="name">Name:</label>
-        <input
-          id="name"
-          type="text"
-           onChange={(e) => updateUser({...user, name: e.target.value })}
-        />
-      </div>
-      <div>
-        <label htmlFor="password">Password:</label>
-        <input
-        id="password"
-        onChange={(e) => updateUser({...user, password: e.target.value })}
-        />
-      </div>
-      <div>
-        <label htmlFor="email">Email:</label>
-        <input
-           id="email"onChange={(e) => updateUser({...user, email: e.target.value })}
-        />
-      </div>
-      <button type="submit">Create new user</button>
-    </form>
+    <article className="bg-lotion shadow-md border-darkVanilla border-1 rounded-bl-lg rounded-tr-lg m-auto w-auto row-span-2 p-3 sm:p-5 sm:w-lg">
+        <h2 className="text-oldRose! font-prata pb-3">Registrer en ny bruker</h2>
+        <form onSubmit={onCreateUser}>
+        <section className="pb-3">
+          <InputFieldAuth params={{labelTitle : "Name", inputType : "name", onChangeCallBack: callbackForUser}}/>
+        </section>
+        <section className="pb-3">
+          <InputFieldAuth params={{labelTitle : "Passord", inputType : "password", onChangeCallBack: callbackForUser}}/>
+        </section>
+        <section className="pb-3">
+          <InputFieldAuth params={{labelTitle : "Epost", inputType : "email", onChangeCallBack: callbackForUser}}/>
+        </section>
+        <button className="font-manrope border-2 rounded-xl border-darkVanilla py-2 px-3 font-semibold text-darkChocolate bg-oldRose hover:bg-darkVanilla" type="submit">Lag bruker</button>
+      </form>
+    </article>
   )
 }

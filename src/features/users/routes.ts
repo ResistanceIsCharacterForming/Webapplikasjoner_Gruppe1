@@ -6,14 +6,7 @@ import { isAdmin } from "@/middleware/authHandler"
 const userController = singletonMaster.userController
 
 export const usersRoutes = [
-    route("users", [isAdmin,
-        async (ctx) => {
-            const method = ctx.request.method.toLowerCase()
-            if (method === "get") {
-                const result = await userController.listUsers()
-                return result
-            }
-        },
+    route("users", [
         async(ctx) => {
             const data: postUserData = await ctx.request.json()
             const method = ctx.request.method.toLowerCase()
@@ -21,7 +14,15 @@ export const usersRoutes = [
                 const result = await userController.createUser(data)
                 return result
             }
-        }
+        },
+        isAdmin,
+        async (ctx) => {
+            const method = ctx.request.method.toLowerCase()
+            if (method === "get") {
+                const result = await userController.listUsers()
+                return result
+            }
+        },
     ]),
     route("users/:id", async (ctx) => {
         const method = ctx.request.method.toLowerCase()

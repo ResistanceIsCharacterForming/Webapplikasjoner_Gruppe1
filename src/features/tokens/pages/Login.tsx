@@ -2,9 +2,7 @@
 
 import { useState } from "react"
 
-import '../../../styles/temp.css'
-
-import 'bootstrap/dist/css/bootstrap.min.css'
+import InputFieldAuth from "@/shared/frontend/InputFieldAuth";
 
 export default function LoginScreen() {
 
@@ -13,10 +11,12 @@ export default function LoginScreen() {
     email: string;
   }
 
-  const [ details, updateDetails ] = useState<detailsForm>({password: "", email: ""})
+  const [ details, setDetails ] = useState<detailsForm>({password: "", email: ""})
 
   const onCreateUser = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+  
+  return   
     try {
       const result = await fetch("/api/v1/tokens", {
         method: "POST",
@@ -31,37 +31,28 @@ export default function LoginScreen() {
     }
   }
 
+  const callbackForDetails = (value: string, type: string) => {
+
+    const key = type as keyof detailsForm
+
+    setDetails(prevDetails => ({
+    ...prevDetails,
+    [key]: value
+    }))
+
+  }
+
   return (
-    <article className="bg-lotion shadow-md border-darkVanilla border-1 rounded-bl-lg rounded-tr-lg m-auto w-auto row-span-2 p-3 sm:p-5! sm:w-lg!">
+    <article className="container mx-md bg-lotion shadow-md border-darkVanilla border-1 rounded-bl-lg rounded-tr-lg m-auto w-auto row-span-2 p-3 sm:p-5 sm:w-lg">
       <h2 className="text-oldRose! font-prata pb-3">Logg deg på Bokkroken</h2>
       <form onSubmit={onCreateUser}>
       <section className="pb-3">
-        <label className="font-manrope text-blackChocolate" htmlFor="password">Passord:</label>
-        <input
-          className = "w-full border-blackChocolate border-1 p-1 focus:outline-none focus:shadow focus:border-darkVanilla rounded-md"
-          placeholder="Skriv her ..."
-          required
-          type="password"
-          id="password"
-          name="password"
-          value={details.password}
-          onChange={(e) => updateDetails({...details, password: e.target.value })}
-        />
+       <InputFieldAuth params={{labelTitle : "Passord", inputType : "password", onChangeCallBack: callbackForDetails}}/>
       </section>
       <section className="pb-3">
-        <label className="font-manrope text-blackChocolate" htmlFor="email">Email:</label>
-        <input
-          className = "w-full border-blackChocolate border-1 p-1 focus:outline-none focus:shadow focus:border-darkVanilla rounded-md"
-          placeholder="Skriv her ..."
-          required
-          type="email"
-          id="email"
-          name="email"
-          value={details.email}
-          onChange={(e) => updateDetails({...details, email: e.target.value })}
-        />
+        <InputFieldAuth params={{labelTitle : "Epost", inputType : "email", onChangeCallBack: callbackForDetails}}/>
       </section>
-      <button className="font-manrope py-2 px-3 font-bold text-lotion! bg-oldRose! hover:bg-darkVanilla! rounded-lg" type="submit">Logg på</button>
+      <button className="font-manrope border-2 rounded-xl border-darkVanilla py-2 px-3 font-semibold text-darkChocolate bg-oldRose hover:bg-darkVanilla" type="submit">Logg på</button>
     </form>
     </article>
   )

@@ -1,3 +1,5 @@
+import { RequestInfo } from "rwsdk/worker"
+
 /* Hente singletonMaster for å få tilgang til service laget til tokens. */
 import { singletonMaster } from "@/utils/singletonBuilder"
 
@@ -45,7 +47,7 @@ export const authCheck = async (ctx: any) => {
 }
 
 /* Middleware for å undersøke om brukeren er admin. Tar ikke høyde for admin-nivå. */
-export const isAdmin = async (ctx: any) => {
+export const isAdmin = async (ctx: RequestInfo["ctx"]) => {
     /* Prøv å hent oppføring fra admins tabell med bruker sin ID.  */
     const result = await singletonMaster.userService.getAdminById(ctx.user)
     /* Hvis enten result.data ikke finnes, eller den har ingen data, da er ikke bruker admin. */
