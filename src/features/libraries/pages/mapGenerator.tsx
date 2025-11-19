@@ -6,6 +6,7 @@ import "leaflet/dist/leaflet.css"
 import { LocationMarker } from "@/features/libraries/hooks/markerPlacer"
 import { CreateLibrary } from "./createLibrary"
 import { LatLng } from "leaflet"
+import LibrariesContainer from "@/components/shared/LibrariesContainer"
 
 function isClient() {
   return typeof window !== "undefined"
@@ -44,12 +45,13 @@ export function MapGenerator() {
   const { MapControls } = mapControls
 
   return (
-    <div>
+    <div className="flex justify-center items-center w-full h-screen">
+      <LibrariesContainer/>
       <MapContainer
         center={getInitialCenter()}
         minZoom={4}
         zoom={13}
-        style={{ height: "100vh", width: "100%" }}
+        className="position: relativ z-0 h-[100vh] w-[100%]"
       >
         <TileLayer
           attribution='&copy <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -57,6 +59,7 @@ export function MapGenerator() {
         />
         <MapControls reactLeaflet={reactLeaflet} setShowForm={setShowForm} setFormCoordinate={setFormCoordinate} />
         <LocationMarker reactLeaflet={reactLeaflet} />
+
         {showForm && (
           <CreateLibrary reactLeaflet={reactLeaflet} onClose={() => setShowForm(false)} coordinate={formCoordinate} />
       )}
