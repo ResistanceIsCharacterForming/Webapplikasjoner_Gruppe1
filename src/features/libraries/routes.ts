@@ -38,18 +38,12 @@ export const librariesRoutes = [
         }
     }]),
     route("libraries/:id", [
-        async (ctx) => {
+    async (ctx) => {
         const method = ctx.request.method.toLowerCase()
         const id = ctx.params?.id ?? undefined
         if (id && method === "get") {
            return libraryController.getLibraryById(id)
         }
-        if (id && method === "post") {
-           const data: postLibraryData = await ctx.request.json()
-           const result = await libraryController.createLibrary(data)
-           return result
-        }
-        return new Response(null, { status: 405 })
     },
     async(ctx) => {
             const method = ctx.request.method.toLowerCase()

@@ -8,6 +8,7 @@ export const reportsRoutes = [
  
     route("reports", [
          async(ctx) => {
+            
             const method = ctx.request.method.toLowerCase()
              if (method === "get") {
                 const result = await reportController.listReports()
