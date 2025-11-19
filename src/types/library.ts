@@ -8,9 +8,19 @@ export interface postLibraryData {
   cordlon: number,
   cordlat: number,
   books: string
+  files:File[] | null
 }
 
-export type databaseLibraryData = postLibraryData & {
+
+
+
+export type databaseLibraryData =  {
+  userId: string,
+  name: string,
+  text: string,
+  cordlon: number,
+  cordlat: number,
+  books: string
   photos: string,
   isVisible: boolean,
   createdAt: string
@@ -22,7 +32,7 @@ export interface libraryRepository {
   editLibrary(id: string, data: Partial<library>): Promise<apiResponse<library[]>>;
   getLibraryById(id: string): Promise<apiResponse<library[]>>;
   getLibraryByUserId(id: string): Promise<apiResponse<library[]>>;
-  getLibraryByCords(data: any): Promise<apiResponse<library[]>>;
+  getLibraryByCords(lat:number,long:number): Promise<apiResponse<library[]>>;
   deleteLibraryById(id: string): Promise<apiResponse<void>>;
   deleteLibrariesByUserId(id: string): Promise<apiResponse<void>>;
 }
@@ -31,7 +41,7 @@ export interface libraryService{
   listLibraries(): Promise<apiResponse<library[]>>;
   getLibraryWithId(id:string): Promise<apiResponse<library[]>>;
   listLibraryWithUserId(id:string): Promise<apiResponse<library[]>>;
-  listLibraryWithCords(data: any): Promise<apiResponse<library[]>>;
+  listLibraryWithCords(lat:number,long:number): Promise<apiResponse<library[]>>;
   createLibrary(data: postLibraryData): Promise<apiResponse<library[]>>;
   editlibrary(id:string,data:Partial<library>): Promise<apiResponse<library[]>>;
   deletelibraryWithId(id:string): Promise<apiResponse<void>>;

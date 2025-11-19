@@ -3,7 +3,7 @@ import { apiResponse } from "./api"
 import { admin } from "@/db/schema"
 
 
-export interface postUserData {
+export interface postUserData  {
   name: string,
   email: string,
   password: string,

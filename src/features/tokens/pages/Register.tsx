@@ -28,7 +28,7 @@ export default function RegisterScreen() {
         },
         body: JSON.stringify(user),
       })
-      console.log(result)
+      console.log(await result)
     } catch (error) {
       console.error(error)
     }

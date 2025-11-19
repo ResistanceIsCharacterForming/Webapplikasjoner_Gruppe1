@@ -29,12 +29,8 @@ export function createLibraryController(libraryService: libraryService) {
         }
       );
     },
-    async listLibraryWithCords(
-      data: any
-    ): Promise<Response> {
-      const result = await libraryService.listLibraryWithCords(
-        data
-      )
+    async getLibraryByUserId(id: string): Promise<Response> {
+      const result = await libraryService.listLibraryWithUserId(id)
       return new Response(
         JSON.stringify({
           data: result.data,
@@ -46,9 +42,20 @@ export function createLibraryController(libraryService: libraryService) {
         }
       );
     },
-    async createLibrary(
-      data: postLibraryData
-    ) {
+    async listLibraryWithCords(lat:number,long:number): Promise<Response> {
+      const result = await libraryService.listLibraryWithCords(lat,long)
+      return new Response(
+        JSON.stringify({
+          data: result.data,
+          success: result.success,
+        }),
+        {
+          status: 201,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    },
+    async createLibrary(data: postLibraryData) {
       const result = await libraryService.createLibrary(data)
       return new Response(
         JSON.stringify({
@@ -61,11 +68,12 @@ export function createLibraryController(libraryService: libraryService) {
         }
       )
     },
-    async editLibrary(id: string, text: string, books: string) {
+    async editLibrary(id: string, data:any) {
+       const result = await libraryService.editlibrary(id,data)
       return new Response(
         JSON.stringify({
-          data: `editBookshelf  ${id} ${text} ${books}`,
-          success: true,
+         data: result.data,
+          success: result.success,
         }),
         {
           status: 201,
@@ -74,10 +82,23 @@ export function createLibraryController(libraryService: libraryService) {
       );
     },
     async deleteLibrary(id: string) {
+      const result = await libraryService.deletelibraryWithId(id)
       return new Response(
         JSON.stringify({
-          data: `deleteLibrary ${id}`,
-          success: true,
+          data: result.data,
+          success: result.success,
+        }),
+        {
+          status: 201,
+          headers: { "Content-Type": "application/json" },
+        })
+  },
+     async deleteLibraryByUserId(id: string) {
+      const result = await libraryService.deletelibraryWithUserId(id)
+      return new Response(
+        JSON.stringify({
+          data: result.data,
+          success: result.success,
         }),
         {
           status: 201,

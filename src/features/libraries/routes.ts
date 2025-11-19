@@ -5,30 +5,69 @@ import { postLibraryData } from "@/types/library"
 const libraryController = singletonMaster.libraryController
 
 export const librariesRoutes = [
-    route("libraries", async (ctx) => {
+    route("libraries",[ 
+        async (ctx) => {
+              //add alle kan bruke 
+            const method = ctx.request.method.toLowerCase()
+            if (method === "get") {
+                return libraryController.listLibraries()
+            }
+    },
+     async(ctx) => {
+            const method = ctx.request.method.toLowerCase()
+             if (method === "post") {
+                try {
+                    const data: any = await ctx.request.formData()
+                    const result = await libraryController.createLibrary(data)
+                    return result
+                } catch (error) {
+                    new Response(JSON.stringify({success: false,error:"400 check formdata"}),
+                    {status: 400, headers: {"Content-Type": "application/json"}})
+                }
+            }
+    },
+    ]),
+    route("libraries/:lat/:long", [
+        async (ctx) => {
         const method = ctx.request.method.toLowerCase()
         if (method === "get") {
-            return libraryController.listLibraries()
+            const lat =ctx.params?.lat ?? undefined
+            const long = ctx.params?.long ?? undefined
+            const result = await libraryController.listLibraryWithCords(lat,long)
+            return result
         }
-        return new Response(null, { status: 405 })
-    }),
-    route("libraries/:id", async (ctx) => {
+    }]),
+    route("libraries/:id", [
+    async (ctx) => {
         const method = ctx.request.method.toLowerCase()
         const id = ctx.params?.id ?? undefined
         if (id && method === "get") {
            return libraryController.getLibraryById(id)
         }
-        if (id && method === "post") {
-           const data: postLibraryData = await ctx.request.json()
-           const result = await libraryController.createLibrary(data)
-           return result
-        }
-        return new Response(null, { status: 405 })
-    })/*
-    route("libraries?cords=:cordOne;:cordTwo", async (ctx) => {
-        const method = ctx.request.method.toLowerCase()
-        if (ctx.params && method === "get") {
-            return libraryController.listLibraryWithCords({cordOne: ctx.params.cordOne, cordTwo: ctx.params.cordTwo})
-        }
-    })*/
+    },
+    async(ctx) => {
+            const method = ctx.request.method.toLowerCase()
+             if (method === "put") {
+               try {
+                 const id = ctx.params?.id ?? undefined
+                 const data: any = await ctx.request.formData()
+                 const result = await libraryController.editLibrary(id,data)
+                 return result
+               } catch (error) {
+                new Response(JSON.stringify({success: false,error:"400 check formdata"}),
+                    {status: 400, headers: {"Content-Type": "application/json"}})
+               }
+            }
+    },
+    async(ctx) => {
+            const method = ctx.request.method.toLowerCase()
+             if (method === "delete") {
+                const id = ctx.params?.id ?? undefined
+                const result = await libraryController.deleteLibrary(id)
+                return result
+            }
+    },
+    
+
+]),
 ]
