@@ -35,67 +35,29 @@ export default function RegisterScreen() {
   }
 
   return (
-    <>
-    <Form
-      className="mx-auto mt-5 p-4 border rounded"
-      style={{ maxWidth: '400px' }}
-      onSubmit={async (e) => {
-        const formdata= new FormData()
-        formdata.append("name",user.name)
-        formdata.append("password",user.password)
-        formdata.append("email",user.email)
-      e.preventDefault()
-        try {
-          const result = await fetch("/api/v1/users", {
-            method: "POST",
-            body: formdata,
-          })
-          console.log( result)
-          updateUser({name: "", password: "", email: ""})
-        } catch (error) {
-          console.error(error)
-        }
-      }}
-    >
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Name:</Form.Label>
-        <Form.Control 
-          type="name"
-          name="name"
-          value={user.name}
-          onChange={(e) =>
-            updateUser({...user, name: e.target.value 
-          })}
-          placeholder="Enter name" />
-      </Form.Group>
-
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label>Password:</Form.Label>
-        <Form.Control
-          type="password"
-          name="password"
-          value={user.password}
-          onChange={(e) =>
-            updateUser({...user, password: e.target.value 
-          })}
-          placeholder="Password" />
-      </Form.Group>
-
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label>Email:</Form.Label>
-        <Form.Control
-          type="email"
-          name="email"
-          value={user.email}
-          onChange={(e) =>
-            updateUser({...user, email: e.target.value 
-          })}
-          placeholder="Email" />
-      </Form.Group>
-      <Button variant="primary" type="submit">
-        Login
-      </Button>
-    </Form>
-    </>
+    <form onSubmit={onCreateUser}>
+      <div>
+        <label htmlFor="name">Name:</label>
+        <input
+          id="name"
+          type="text"
+           onChange={(e) => updateUser({...user, name: e.target.value })}
+        />
+      </div>
+      <div>
+        <label htmlFor="password">Password:</label>
+        <input
+        id="password"
+        onChange={(e) => updateUser({...user, password: e.target.value })}
+        />
+      </div>
+      <div>
+        <label htmlFor="email">Email:</label>
+        <input
+           id="email"onChange={(e) => updateUser({...user, email: e.target.value })}
+        />
+      </div>
+      <button type="submit">Create new user</button>
+    </form>
   )
 }
