@@ -1,10 +1,16 @@
 "use client"
 
-export default function LibrariesContainer() {
-    return (
-            <article className="bg-lotion w-[30%] h-[30%] absolute items-center z-10">
-                <h2>Test</h2>
+import { ReactNode } from "react"
 
-            </article>
+interface LibrariesContainerInterface {
+    children: ReactNode | ReactNode[]
+}
+
+export default function LibrariesContainer({ children }: LibrariesContainerInterface) {
+
+    return (
+        <section className="bg-lotion w-[75%] h-[90%] absolute z-10 border border-blackChocolate rounded-lg">
+            {children}
+        </section>
     )
 }
