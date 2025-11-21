@@ -17,6 +17,7 @@ import LoginScreen from "./features/tokens/pages/Login"
 import DashboardScreen from "./features/reports/pages/dashboard"
 import { FrontLayout } from "./features/tokens/layouts/FrontLayout"
 import { databasescreen } from "./test"
+import Landing from "./features/libraries/pages/Landing"
 
 export interface Env {
   bokkroken: D1Database;
@@ -35,8 +36,10 @@ export default defineApp([
   prefix("/api/v1/", APIv1),
 
   render(Document, [
+
+    route("/", Landing),
+
     layout(FrontLayout, [
-      route("/", LoginScreen),
       route("/login", LoginScreen),
       route("/register", RegisterScreen)
     ]),
