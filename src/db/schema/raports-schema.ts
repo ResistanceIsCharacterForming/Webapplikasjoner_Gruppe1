@@ -6,9 +6,10 @@ import { reviews } from "./reviews-schema";
 
 export const reports = sqliteTable("reports", {
     id: int().primaryKey({ autoIncrement: true }),
+    submitterUserId:text("submitterUserId").references(() => users.id,{ onDelete: 'cascade' }).notNull(),
     userId:text("userId").references(() => users.id,{ onDelete: 'cascade' }),
     libaryId:text("libaryId").references(() => libraries.id,{ onDelete: 'cascade' }),
-    reviewId:text("reviewId").references(() => reviews.id,{ onDelete: 'cascade' }),
+    reviewId:int("reviewId").references(() => reviews.id,{ onDelete: 'cascade' }),
     raportType: text().notNull(),
     raportLevel: int().notNull(),
     text: text(),

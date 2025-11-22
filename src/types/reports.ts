@@ -29,11 +29,15 @@ export interface reportService{
 
 export type report =typeof reports.$inferSelect
 
+export type responeReport ={
+  data:[report]
+}
 export type uploadreport ={
+    submitterUserId: string;
     text: string | null;
     userId: string | null;
     createdAt: string | null;
-    libaryId: string | null;
+    libaryId: number | null;
     reviewId: string | null;
     raportType: string;
     raportLevel: number;

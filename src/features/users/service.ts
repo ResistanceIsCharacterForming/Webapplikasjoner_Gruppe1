@@ -58,6 +58,8 @@ export function createUserService(repository: userRepository ,imagehandler:image
         async editUserById(id:string,formdata:FormData){
             const dataObject  = Object.fromEntries(formdata.entries());
             const data =dataObject as unknown as postUserData
+            const hashedPassword = await hashPassword(data.password)
+            data.password = hashedPassword
             const result = await repository.editUser(id,data)
             return result
         },
