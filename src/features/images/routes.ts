@@ -6,6 +6,7 @@ export const imageRoutes = [
         const method = ctx.request.method.toLowerCase()
         const controller = singletonMaster.ImageController
         const imageKey = ctx.params?.id ?? undefined
+        if (imageKey === undefined) return new Response("No Id", {status: 401})
           if (method ===  "get"){
           const response=await controller.getImage(imageKey)
             if (response.data){

@@ -1,3 +1,5 @@
+import { RequestInfo } from "rwsdk/worker"
+
 /* Hente singletonMaster for å få tilgang til service laget til tokens. */
 import { verifyToken } from "@/features/tokens/hooks/handleToken"
 import { singletonMaster } from "@/utils/singletonBuilder"
@@ -46,8 +48,7 @@ export const authCheck = async (ctx: any) => {
 }
 
 /* Middleware for å undersøke om brukeren er admin. Tar ikke høyde for admin-nivå. */
-export const isAdmin = async (ctx: any) => {
-
+export const isAdmin = async (ctx: RequestInfo["ctx"]) => {
     // temp fix to let it run for now obv should be better and type checks but just to check runs ^^
     let cookieArray = ctx.request.headers.get("cookie").split(";")
     let singleCookie = cookieArray.filter(x => x.includes("jwtToken"))[0]

@@ -7,8 +7,7 @@ const reportController = singletonMaster.reportController
 export const reportsRoutes = [
  
     route("reports", [
-         async(ctx) => {
-            
+        async(ctx) => {
             const method = ctx.request.method.toLowerCase()
              if (method === "get") {
                 const result = await reportController.listReports()
@@ -19,13 +18,15 @@ export const reportsRoutes = [
             //trenger ikke admin på post
             const method = ctx.request.method.toLowerCase()
             if (method === "post") {
+                const data: any = await ctx.request.formData()
+                const result = reportController.postReport(data)
+                return result
                 try {
                     const data: any = await ctx.request.formData()
                     const result = reportController.postReport(data)
                     return result
                 } catch (error) {
-                 new Response(JSON.stringify({success: false,error:"400 check formdata"}),
-                    {status: 400, headers: {"Content-Type": "application/json"}})   
+                  return new Response("No formdata", {status: 401})  
                 }
             }
         }
@@ -33,30 +34,32 @@ export const reportsRoutes = [
        route("reports/:id", [
          async(ctx) => {
             const method = ctx.request.method.toLowerCase()
+            const id = ctx.params?.id ?? undefined
+            if (id === undefined) return new Response("No Id", {status: 401})
              if (method === "get") {
-                const id = ctx.params?.id ?? undefined
                 const result = await reportController.getReportById(id)
                 return result
             }
         },
         async (ctx) => {
             const method = ctx.request.method.toLowerCase()
+            const id = ctx.params?.id ?? undefined
+            if (id === undefined) return new Response("No Id", {status: 401})
             if (method === "put") {
+                //add type to json here
                 try {
-                    const id = ctx.params?.id ?? undefined
                     const data: any = await ctx.request.formData()
                     const result = reportController.editReport(id,data)
                     return result
                 } catch (error) {
-                    new Response(JSON.stringify({success: false,error:"400 check formdata"}),
-                    {status: 400, headers: {"Content-Type": "application/json"}})
+                    return new Response("No formdata", {status: 401})
                 }
-            }
         },
         async (ctx) => {
             const method = ctx.request.method.toLowerCase()
+            const id = ctx.params?.id ?? undefined
+            if (id === undefined) return new Response("No Id", {status: 401})
             if (method === "delete") {
-                const id = ctx.params?.id ?? undefined
                 const result = reportController.deleteReport(id)
                 return result
             }
