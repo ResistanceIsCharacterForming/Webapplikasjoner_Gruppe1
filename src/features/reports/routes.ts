@@ -7,7 +7,7 @@ const reportController = singletonMaster.reportController
 export const reportsRoutes = [
  
     route("reports", [
-         async(ctx) => {
+        async(ctx) => {
             const method = ctx.request.method.toLowerCase()
              if (method === "get") {
                 const result = await reportController.listReports()
@@ -21,6 +21,13 @@ export const reportsRoutes = [
                 const data: any = await ctx.request.formData()
                 const result = reportController.postReport(data)
                 return result
+                try {
+                    const data: any = await ctx.request.formData()
+                    const result = reportController.postReport(data)
+                    return result
+                } catch (error) {
+                  return new Response("No formdata", {status: 401})  
+                }
             }
         }
     ]),
@@ -40,10 +47,13 @@ export const reportsRoutes = [
             if (id === undefined) return new Response("No Id", {status: 401})
             if (method === "put") {
                 //add type to json here
-                const data: any = await ctx.request.json()
-                const result = reportController.editReport(id,data)
-                return result
-            }
+                try {
+                    const data: any = await ctx.request.formData()
+                    const result = reportController.editReport(id,data)
+                    return result
+                } catch (error) {
+                    return new Response("No formdata", {status: 401})
+                }
         },
         async (ctx) => {
             const method = ctx.request.method.toLowerCase()

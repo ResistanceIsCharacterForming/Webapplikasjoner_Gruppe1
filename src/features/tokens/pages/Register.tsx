@@ -28,7 +28,7 @@ export default function RegisterScreen() {
         method: "POST",
         body: userFormData,
       })
-      console.log(result)
+      console.log(await result)
     } catch (error) {
       console.error(error)
     }

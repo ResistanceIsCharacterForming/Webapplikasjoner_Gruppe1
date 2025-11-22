@@ -13,9 +13,13 @@ export const usersRoutes = [
          async(ctx) => {
             const method = ctx.request.method.toLowerCase()
              if (method === "post") {
-                const data = await ctx.request.formData()
-                const result = await userController.createUser(data)
-                return result
+                try {
+                    const data: postUserData = await ctx.request.formData()
+                    const result = await userController.createUser(data)
+                    return result   
+                } catch (error) {
+                  return new Response("No formdata", {status: 401})
+                }
             }
         },
         isAdmin,
@@ -41,15 +45,19 @@ export const usersRoutes = [
             const id = ctx.params?.id ?? undefined
             if (id === undefined) return new Response("No Id", {status: 401})
             if (method === "put") {
-                const data: any = await ctx.request.formData()
-                const result = await userController.editUser(id,data)
-                return result
+                 try {
+                    const data: any = await ctx.request.formData()
+                    const result = await userController.editUser(id,data)
+                    return result
+                } catch (error) {
+                    return new Response("No formdata", {status: 401})
+                }
         }},
         async (ctx) => {
             const method = ctx.request.method.toLowerCase()
             const id = ctx.params?.id ?? undefined
             if (id === undefined) return new Response("No Id", {status: 401})
-            if (method === "delete") {
+            if (method === "delete")
                 const result = await userController.deleteUser(id)
                 return result
         }},
@@ -57,13 +65,22 @@ export const usersRoutes = [
     route("users/:id/admin", [
         async (ctx) => {
             const method = ctx.request.method.toLowerCase()
-            const id = ctx.params?.id ?? undefined
-            if (id === undefined) return new Response("No Id", {status: 401})
             if (method === "get") {
+                const id = ctx.params?.id ?? undefined
                 const result = await userController.getAdminById(id)
                 return result
         }},
         async (ctx) => {
+            const method = ctx.request.method.toLowerCase()
+            if (method === "delete") {
+                const id = ctx.params?.id ?? undefined
+                if (id === undefined) return new Response("No Id", {status: 401})
+                const result = await userController.deleteAdmin(id)
+                return result
+        }},
+        ]),
+    route("users/:id/admin/:level",[
+         async (ctx) => {
             const method = ctx.request.method.toLowerCase()
             const id = ctx.params?.id ?? undefined
             if (id === undefined) return new Response("No Id", {status: 401})
@@ -185,9 +202,14 @@ export const usersRoutes = [
             const id = ctx.params?.id ?? undefined
             if (id === undefined) return new Response("No Id", {status: 401})
             if (method === "put") {
-                const data: any = await ctx.request.formData()
-                const result =await userController.editfavoritLibrary(id,data)
-                return result
-        }},
+               try {
+                    const data: any = await ctx.request.formData()
+                    const result =await userController.editfavoritLibrary(id,data)
+                    return result
+                } catch (error) {
+                  return new Response("No formdata", {status: 401})
+                }
+        }
+         },
     ]),
 ]

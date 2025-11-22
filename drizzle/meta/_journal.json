@@ -71,6 +71,27 @@
       "when": 1762169832565,
       "tag": "0009_aromatic_ken_ellis",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "6",
+      "when": 1763747897197,
+      "tag": "0010_hard_red_hulk",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "6",
+      "when": 1763748064849,
+      "tag": "0011_bumpy_venom",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "6",
+      "when": 1763749103563,
+      "tag": "0012_ambiguous_spyke",
+      "breakpoints": true
     }
   ]
 }

@@ -9,10 +9,14 @@ export const reviewsRoutes = [
          async(ctx) => {
             const method = ctx.request.method.toLowerCase()
              if (method === "post") {
-                //add type to form here
-                const data: any = await ctx.request.formData()
-                const result = await reviewController.createReview(data)
-                return result
+                try {
+                    const data: any = await ctx.request.formData()
+                    const result = await reviewController.createReview(data)
+                    return result
+                } catch (error) {
+                    new Response(JSON.stringify({success: false,error:"400 check formdata"}),
+                    {status: 400, headers: {"Content-Type": "application/json"}})
+                }
             }
         },
         async (ctx) => {
@@ -27,9 +31,8 @@ export const reviewsRoutes = [
      route("reviews/:id", [
          async(ctx) => {
             const method = ctx.request.method.toLowerCase()
-            const id = ctx.params?.id ?? undefined
-            if (id === undefined) return new Response("No Id", {status: 401})
              if (method === "get") {
+                const id = ctx.params?.id ?? undefined
                 const result = await reviewController.getReviewById(id)
                 return result
             }
@@ -40,10 +43,13 @@ export const reviewsRoutes = [
             if (id === undefined) return new Response("No Id", {status: 401})
              if (method === "put") {
                 //add type to form here
-                const data: any = await ctx.request.formData()
-                const result = await reviewController.editReview(id,data)
-                return result
-            }
+                 try {
+                    const data: any = await ctx.request.formData()
+                    const result = await reviewController.editReview(id,data)
+                    return result
+                } catch (error) {
+                   return new Response("No formdata", {status: 401})
+                }
         },
         async (ctx) => {
             const method = ctx.request.method.toLowerCase()
@@ -79,9 +85,13 @@ export const reviewsRoutes = [
            async(ctx) => {
             const method = ctx.request.method.toLowerCase()
              if (method === "post") {
-                const data: any = await ctx.request.formData()
-                const result =await reviewController.createEndorsment(data)
-                return result
+                 try {
+                    const data: any = await ctx.request.formData()
+                    const result =await reviewController.createEndorsment(data)
+                    return result 
+                } catch (error) {
+                    return new Response("No formdata", {status: 401})
+                }
             }
         }
     ]),
@@ -100,10 +110,13 @@ export const reviewsRoutes = [
             const id = ctx.params?.id ?? undefined
             if (id === undefined) return new Response("No Id", {status: 401})
              if (method === "put") {
-                const data: any = await ctx.request.formData()
-                const result = await reviewController.editEndorsment(id,data)
-                return result
-            }
+                 try {
+                    const data: any = await ctx.request.formData()
+                    const result = await reviewController.editEndorsment(id,data)
+                    return result
+                } catch (error) {
+                    return new Response("No formdata", {status: 401})
+                }
         },
         async(ctx) => {
             const method = ctx.request.method.toLowerCase()

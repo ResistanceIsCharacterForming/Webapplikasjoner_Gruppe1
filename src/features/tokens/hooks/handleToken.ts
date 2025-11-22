@@ -17,7 +17,7 @@ export const createToken = async (id: string) => {
     .setIssuedAt()
     .setIssuer('urn:example:issuer')
     .setAudience('urn:example:audience')
-    .setExpirationTime('30min')
+    .setExpirationTime('300min')
     .sign(secret)
 
     return jwt
