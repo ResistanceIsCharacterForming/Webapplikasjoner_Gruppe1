@@ -1,12 +1,17 @@
 "use client"
 
 import { useEffect, useState } from "react"
+
+import { MapContainer, TileLayer } from "react-leaflet"
+
+
 import "leaflet/dist/leaflet.css"
 
-import { LocationMarker } from "@/features/libraries/hooks/markerPlacer"
+/* import { LocationMarker } from "@/features/libraries/hooks/markerPlacer" */
+
 import { CreateLibrary } from "./createLibrary"
 import { LatLng } from "leaflet"
-import LibrariesContainer from "@/components/shared/LibrariesContainer"
+import ModalContainer from "@/components/shared/ModalContainer"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons"
@@ -16,6 +21,8 @@ function isClient() {
   return typeof window !== "undefined"
 }
 
+import LocationMarker from "./LocationMarker"
+
 function getInitialCenter() {
   const params = new URLSearchParams(window.location.search)
   const lat = parseFloat(params.get("lat") || "59.12183")
@@ -23,15 +30,42 @@ function getInitialCenter() {
   return [lat, lng] as [number, number]
 }
 
-export function MapGenerator() {
+export default function MapGenerator() {
+  /*
   const [reactLeaflet, setReactLeaflet] = useState<any>(null)
   const [mapControls, setMapControls] = useState<any>(null)
   const [showForm, setShowForm] = useState(false)
   const [formCoordinate, setFormCoordinate] = useState<LatLng | null>(null)
+*/
+/*
+  const [mapLoaded, setMapLoaded] = useState<boolean>(false)
+
+  const [mapComponents, setMapComponents] = useState<any>(null)
 
   useEffect(() => {
     if (!isClient()) return
 
+    import("react-leaflet").then(( module ) => {
+      setMapComponents({
+        MapContainer: module.MapContainer,
+        TileLayer: module.TileLayer
+      })
+    })
+  }, [])
+
+  if (!mapComponents) {
+    return <section>Laster kart ...</section>
+  }
+
+  const { MapContainer, TileLayer } = mapComponents*/
+
+
+  /*
+  useEffect(() => {
+    if (!isClient()) return
+
+
+    
     import("react-leaflet").then((module) => {
       setReactLeaflet(module)
     })
@@ -39,14 +73,15 @@ export function MapGenerator() {
     import("@/features/libraries/hooks/mapControls").then((module) => {
       setMapControls(module)
     })
-  }, [])
-
+  }, [])*/
+/*
   if (!reactLeaflet || !mapControls) {
-    return <div>Loading map...</div>
+    return <section>Laster kart ...</section>
   }
 
   const { MapContainer, TileLayer } = reactLeaflet
   const { MapControls } = mapControls
+*/
 
   return (
     <div className=" w-full h-screen flex justify-center items-center">
@@ -77,7 +112,8 @@ export function MapGenerator() {
       </LibrariesContainer>
       */}
 
-      <LibrariesContainer>
+      {/*
+      <ModalContainer>
         <article className="flex flex-wrap py-2 px-2 h-full overflow-scroll">
           <section className="basis-4/5">
             <h2 className="font-prata text-xl">Bokhylle ved festningen</h2>
@@ -130,7 +166,8 @@ export function MapGenerator() {
             <span className="block text-center text-lg text-lotion hover:text-darkVanilla! bg-oldRose h-auto m-auto p-3"><a href="#">Les alle anmeldelser her</a></span>
           </section>
         </article>
-      </LibrariesContainer>
+      </ModalContainer>
+      */}
  
       <MapContainer
         center={getInitialCenter()}
@@ -143,12 +180,23 @@ export function MapGenerator() {
           attribution='&copy <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <MapControls reactLeaflet={reactLeaflet} setShowForm={setShowForm} setFormCoordinate={setFormCoordinate} />
-        <LocationMarker reactLeaflet={reactLeaflet} />
+        {/*
+        <MapControls reactLeaflet={reactLeaflet} setShowForm={setShowForm} setFormCoordinate={setFormCoordinate} />*/}
+
+        { /*<LocationMarker reactLeaflet={reactLeaflet} /> 
 
         {showForm && (
           <CreateLibrary reactLeaflet={reactLeaflet} onClose={() => setShowForm(false)} coordinate={formCoordinate} />
-      )}
+      )}*/}
+
+      
+
+        {/*mapLoaded ? <LocationMarker /> : null*/}
+
+        {/*!!mapLoaded && <LocationMarker/>*/}
+
+          <LocationMarker/>
+
       </MapContainer>
       
     </div>

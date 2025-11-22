@@ -1,3 +1,5 @@
+"use client"
+
 import { library } from "@/types/library"
 import {
   LatLng,
@@ -9,6 +11,8 @@ import {
 } from "leaflet"
 
 import { MouseEvent, useState } from "react"
+
+import { manipulateUrl } from "./manipulateUrl"
 
 async function getLibrariesInView(bounds: LatLngBounds): Promise<library[]> {
   const res = await fetch("api/v1/libraries/")
@@ -88,8 +92,8 @@ export function LocationMarker({ reactLeaflet }: { reactLeaflet: any }) {
   return (
   <>
   {position && (
-    <Marker position={position}>
-      <Popup>You are here</Popup>
+    <Marker position={position} onClick = {() => console.log("true")}>
+      {/*<Popup>You are here</Popup>*/}
     </Marker>
   )}
   {libraries.map((library) => (

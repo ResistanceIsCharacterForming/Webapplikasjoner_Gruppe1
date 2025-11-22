@@ -18,6 +18,7 @@ import DashboardScreen from "./features/reports/pages/dashboard"
 import { FrontLayout } from "./features/tokens/layouts/FrontLayout"
 import { databasescreen } from "./test"
 import Landing from "./features/libraries/pages/Landing"
+import MapSafeGuard from "./features/libraries/pages/mapSafeguard"
 
 export interface Env {
   bokkroken: D1Database;
@@ -45,7 +46,7 @@ export default defineApp([
     ]),
 
     /*layout(MainLayout, [*/
-      route("/home", MapScreen),
+      route("/home", MapSafeGuard),
       route("/db",databasescreen),
       route("/dashboard", [isAdmin, DashboardScreen])
     /*])*/
