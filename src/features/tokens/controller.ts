@@ -27,8 +27,8 @@ export function createTokensController(tokensService: any) {
 
         },
         async handleLogin(data: any) {
-            const result = await tokensService.handleLogin(data)
-
+            const dataObject  = Object.fromEntries(data.entries());
+            const result = await tokensService.handleLogin(dataObject)
             if (result.success === true) {
             
                 return new Response("Logged in", {

@@ -4,7 +4,10 @@ import { JSX, useEffect, useState } from "react";
 import { responeReport } from "@/types/reports";
 import { getReports } from "../hooks/getRapports";
 import { deleteReport } from "../hooks/adminActions";
- const buttonstyle="bg-violet-500 hover:bg-violet-600 focus:outline-2 focus:outline-offset-2 focus:outline-violet-500 active:bg-violet-700 ..."
+import AdminNav from "../components/adminNav";
+
+
+ const buttonstyle="text-lg italic text-blackChocolate! hover:text-darkVanilla! bg-oldLace grow "
 export default  function DashboardScreen() {
     const [reports, setReports] = useState<responeReport["data"]>()
     const [showcare,setshowcase] = useState<JSX.Element[]>()
@@ -74,18 +77,22 @@ const HandleClick4 = () => {
   };
 
     return(
-         
-<div className="grid grid-cols-5 grid-rows-10 gap-1">
-    <div className="col-span-5">1 naaaaaaaaaav</div>
-    <div className="row-start-2">5 <button onClick={HandleClick } className={buttonstyle}> review</button></div>
-    <div className="row-start-2">6 <button onClick={HandleClick2} className={buttonstyle}> user</button></div>
-    <div className="col-start-4 row-start-2">7 <button onClick={HandleClick3} className={buttonstyle}> libary</button></div>
-    <div className="col-start-3 row-start-2">8 <button onClick={HandleClick11} className={buttonstyle}> all</button></div>
-    <div className="row-start-2">9</div>
-    <div className="col-span-5">10 <button onClick={HandleClick4} className={buttonstyle}> sort</button></div>
-    <div className="col-span-5 row-span-6 row-start-4">11 {showcare}</div>
-    <div className="col-span-5 row-start-10">12 foooooooooooooooooooooter</div>
-</div>
+
+<main className="grid grid-cols-5 grid-rows-10 gap-0">
+   <AdminNav/>
+   <div className="col-span-5 row-start-2 content-center">
+      <div className="flex space-x-4">
+         <button onClick={HandleClick } className={buttonstyle}> review</button>
+         <button onClick={HandleClick2} className={buttonstyle}> user</button>
+         <button onClick={HandleClick3} className={buttonstyle}> libary</button>
+         <button onClick={HandleClick11} className={buttonstyle}> all</button>   
+         <button className={buttonstyle}> idk</button>
+      </div>
+   </div>
+   <div className="col-span-5 col-start-1 row-start-3">10 <button onClick={HandleClick4} className={buttonstyle}> sort</button></div>
+   <div className="col-span-5 row-span-6 col-start-1 row-start-4">11 {showcare}</div>
+   <div className="col-span-5 col-start-1 row-start-10">12 foooooooooooooooooooooter</div>
+</main>
     
       
     )

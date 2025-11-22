@@ -54,7 +54,7 @@ export const reportsRoutes = [
                 } catch (error) {
                     return new Response("No formdata", {status: 401})
                 }
-        },
+        }},
         async (ctx) => {
             const method = ctx.request.method.toLowerCase()
             const id = ctx.params?.id ?? undefined

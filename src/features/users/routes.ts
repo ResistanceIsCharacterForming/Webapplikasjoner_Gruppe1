@@ -57,7 +57,7 @@ export const usersRoutes = [
             const method = ctx.request.method.toLowerCase()
             const id = ctx.params?.id ?? undefined
             if (id === undefined) return new Response("No Id", {status: 401})
-            if (method === "delete")
+            if (method === "delete"){
                 const result = await userController.deleteUser(id)
                 return result
         }},
