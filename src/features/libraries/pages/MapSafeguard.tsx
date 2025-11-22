@@ -8,7 +8,7 @@ export default function MapSafeGuard() {
         return typeof window !== "undefined"
     }
 
-     useEffect(() => {
+    useEffect(() => {
         if (!isClient()) return
 
         import("./mapGenerator").then((module) => {
@@ -18,7 +18,7 @@ export default function MapSafeGuard() {
     }, [])
 
     const [mapLoaded, setMapLoaded] = useState<boolean>(false)
-    const [dynamicImport, setDynamicImport] = useState<any>(null)
+    const [dynamicImport, setDynamicImport] = useState<any>()
 
     if (!mapLoaded && !dynamicImport) {
         return <section>Laster kart ...</section>

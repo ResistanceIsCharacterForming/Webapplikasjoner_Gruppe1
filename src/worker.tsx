@@ -18,7 +18,7 @@ import DashboardScreen from "./features/reports/pages/dashboard"
 import { FrontLayout } from "./features/tokens/layouts/FrontLayout"
 import { databasescreen } from "./test"
 import Landing from "./features/libraries/pages/Landing"
-import MapSafeGuard from "./features/libraries/pages/mapSafeguard"
+import MapSafeGuard from "./features/libraries/pages/MapSafeguard"
 
 export interface Env {
   bokkroken: D1Database;
@@ -32,7 +32,7 @@ export type AppContext = {
 export default defineApp([
   setCommonHeaders(),
 
-  authCheck,
+  /*authCheck,*/
 
   prefix("/api/v1/", APIv1),
 
@@ -47,8 +47,8 @@ export default defineApp([
 
     /*layout(MainLayout, [*/
       route("/home", MapSafeGuard),
-      route("/db",databasescreen),
-      route("/dashboard", [isAdmin, DashboardScreen])
+      route("/db", databasescreen)/*,
+      route("/dashboard", [isAdmin, DashboardScreen])*/
     /*])*/
   ])
 ])

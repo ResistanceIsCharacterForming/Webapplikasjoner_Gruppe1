@@ -30,7 +30,7 @@ export const usersRoutes = [
                 return result
             }
         }
-    ]),
+    ])/*,
     route("users/:id", [
         async (ctx) => {
             const method = ctx.request.method.toLowerCase()
@@ -211,5 +211,5 @@ export const usersRoutes = [
                 }
         }
          },
-    ]),
+    ])*/
 ]
