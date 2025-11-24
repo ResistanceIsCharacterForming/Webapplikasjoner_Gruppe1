@@ -45,7 +45,7 @@ async getReportById(id: number){
 
 async getReportByType(type: string){
   try {
-    const result : report[] = await db.select().from(reports).where(eq(reports.raportType, type));
+    const result : report[] = await db.select().from(reports).where(eq(reports.reportType, type));
     return { success: true, data: result }
   } catch (error) {
     return { success: false, error: 'Failed getting report by type' }
@@ -56,8 +56,8 @@ async getReportByType(type: string){
   try {
     const result : report[] = await db.select().from(reports).where(
         and(
-            eq(reports.raportType, type),
-            eq(reports.raportLevel, level)
+            eq(reports.reportType, type),
+            eq(reports.reportLevel, level)
         )
     );
     return { success: true, data: result }
@@ -68,7 +68,7 @@ async getReportByType(type: string){
 
  async getReportByLevel(level: number){
   try {
-    const result : report[] = await db.select().from(reports).where(eq(reports.raportLevel, level), );
+    const result : report[] = await db.select().from(reports).where(eq(reports.reportLevel, level), );
     return { success: true, data: result }
   } catch (error) {
     return { success: false, error: 'Failed getting report by level' }

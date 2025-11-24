@@ -27,13 +27,13 @@ export function createLibraryService(repository: libraryRepository,imagehandler:
             const files=formdata.getAll("files")
             formdata.delete("files")
             const dataObject  = Object.fromEntries(formdata.entries());
-            const libarydata =dataObject as unknown as postLibraryData
+            const librarydata =dataObject as unknown as postLibraryData
             let photos="0"
             if(files !==null){
                photos=files.length.toString()
             }
             const createdAt = new Date().toString()
-            const result = await repository.createLibrary({...libarydata, createdAt: createdAt, isVisible: true, photos: ""})
+            const result = await repository.createLibrary({...librarydata, createdAt: createdAt, isVisible: true, photos: ""})
             if(files !==null){
                 if (result.success && result.data){
                     for (let index = 0; index < files.length; index++) {
@@ -48,12 +48,12 @@ export function createLibraryService(repository: libraryRepository,imagehandler:
             const files=formdata.getAll("files")
             formdata.delete("files")
             const dataObject  = Object.fromEntries(formdata.entries());
-            const libarydata =dataObject as unknown as postLibraryData
+            const librarydata =dataObject as unknown as postLibraryData
             let photos="0"
             if(files !==null){
                photos=files.length.toString()
             }
-            const result=await repository.editLibrary(id,libarydata)
+            const result=await repository.editLibrary(id,librarydata)
             if(files !==null){
                 if (result.success && result.data){
                     for (let index = 0; index < files.length; index++) {

@@ -86,6 +86,7 @@ export const reviewsRoutes = [
             const method = ctx.request.method.toLowerCase()
              if (method === "post") {
                  try {
+                    console.log("????????")
                     const data: any = await ctx.request.formData()
                     const result =await reviewController.createEndorsment(data)
                     return result 

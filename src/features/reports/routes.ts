@@ -18,9 +18,6 @@ export const reportsRoutes = [
             //trenger ikke admin på post
             const method = ctx.request.method.toLowerCase()
             if (method === "post") {
-                const data: any = await ctx.request.formData()
-                const result = reportController.postReport(data)
-                return result
                 try {
                     const data: any = await ctx.request.formData()
                     const result = reportController.postReport(data)
