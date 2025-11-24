@@ -24,7 +24,7 @@ export const databasescreen = async () => {
     <td>  {user.password}  </td>
     <td>  {user.createdAt}  </td>
     <td>  {user.lastLoginAt}  </td>
-    <td>  {user.isVisible}  </td>
+    <td>  {user.is_visible}  </td>
     <td>  {user.profileImage}  </td>
     <td>  {user.settings}  </td>
     </tr>

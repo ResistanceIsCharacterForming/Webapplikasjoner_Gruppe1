@@ -5,57 +5,58 @@ import { drizzle } from "drizzle-orm/d1";
 
 import { users,reviews,reviewsEndorsements,reports,libraries,favoriteLibraries,admins, user, library } from "./schema";
 import { singletonMaster } from "@/utils/singletonBuilder";
-import { scrypt } from "crypto";
+import { hashPassword } from "@/features/users/service";
 const db = singletonMaster.dbConnection
-export  const seed = async () =>{
+
   try { 
     //make sure the tables are empty
     await db.delete(admins);
-    await db.delete(users);
     await db.delete(libraries);
     await db.delete(reviews);
     await db.delete(reviewsEndorsements);
     await db.delete(favoriteLibraries);
     await db.delete(reports); 
+    await db.delete(users);
 
     //partial do id is made in the db
+    const password =await hashPassword("passowrd@1")
     const madsuser:Partial<user> ={
         name: "madsuser",
         email: "mads.soyland@gmail.com",
-        password: "tempnothashed",
+        password:password,
         settings: "{}",
         createdAt: new Date().toISOString(),
         lastLoginAt: new Date().toISOString(),
-        profileImage:"",
+        profileImage:"0",
         isVisible:true
       };
 
      const madsuser2:Partial<user> ={
         name: "madsuser2",
         email: "mjsoylan@hiof.no",
-        password: "tempnothashed",
+        password: password,
         settings: "{}",
         createdAt: new Date().toISOString(),
         lastLoginAt: new Date().toISOString(),
-        profileImage:"",
+        profileImage:"0",
         isVisible:true
       };
 
      const nikolaiuser:Partial<user> ={
       name: "nikolaiuser",
       email: "nikol.lysebraate@hiof.no",
-      password: "tempnothashed",
+      password: password,
       settings: "{}",
       createdAt: new Date().toISOString(),
       lastLoginAt: new Date().toISOString(),
-      profileImage:"",
+      profileImage:"0",
       isVisible:true
       };
 
      const mathias:Partial<user> ={  
         name: "mathias",
         email: "mathias.hem@hiof.no",
-        password: "tempnothashed",
+        password: password,
         settings: "{}",
         createdAt: new Date().toISOString(),
         lastLoginAt: new Date().toISOString(),
@@ -64,13 +65,13 @@ export  const seed = async () =>{
       };
 
       // Insert a user
-    await db.insert(users).values({madsuser});
+    await db.insert(users).values(madsuser);
 
-    await db.insert(users).values({madsuser2});
+    await db.insert(users).values(madsuser2);
 
-    await db.insert(users).values({nikolaiuser})
+    await db.insert(users).values(nikolaiuser)
 
-    await db.insert(users).values({mathias});
+    await db.insert(users).values(mathias);
    
     const newUserId = await db.select({id: users.id}).from(users)
     // 0 er mads,1 er mads2,2 er nikolai,3 er mathias
@@ -123,13 +124,13 @@ export  const seed = async () =>{
       isVisible:true
     }
     // Insert a library
-    await db.insert(libraries).values({halden_skole});
+    await db.insert(libraries).values(halden_skole);
 
-    await db.insert(libraries).values({halden_brannstasjon});
+    await db.insert(libraries).values(halden_brannstasjon);
 
-    await db.insert(libraries).values({hiof_studenleiligheter});
+    await db.insert(libraries).values(hiof_studenleiligheter);
 
-    await db.insert(libraries).values({solbergtårnet});
+    await db.insert(libraries).values(solbergtårnet);
 
     
     // Insert an admin
@@ -215,22 +216,14 @@ export  const seed = async () =>{
     // Insert a report
     await db.insert(reports).values({
         userId: newUserId[0].id,  
+        submitterUserId:newUserId[2].id,
         reportType: "User",
         reportLevel: 1,
         text: "dette er en test rapport",
         createdAt: new Date().toISOString(),
     });
     console.log("finished seeding")
-    return Response.json({
-      success: true,
-      error: "seeded database",
-    });
-
   } catch (error) {
     console.error("Error seeding database:", error);
-    return Response.json({
-      success: false,
-      error: "Failed to seed database",
-    });
   }
-};
+
