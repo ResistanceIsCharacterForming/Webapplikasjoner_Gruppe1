@@ -1,5 +1,5 @@
 "use client"
-import { Reports } from "../components/rapports";
+import { Reports } from "../components/reports";
 import { JSX, useEffect, useState } from "react";
 import { report, responeReport } from "@/types/reports";
 import { getReports } from "../hooks/getReports";

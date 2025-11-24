@@ -11,7 +11,7 @@ export const Reports = (report:report) => {
         if (report.reportType=="User")
             if (report.userId)
                 deleteUserFromReport(report.userId)
-        if (report.reportType=="libary")
+        if (report.reportType=="library")
              if (report.libraryId)
                 deleteLibraryFromReport(report.libraryId)
         if (report.reportType=="review")
@@ -22,12 +22,12 @@ export const Reports = (report:report) => {
         if (report.reportType=="User")
             if (report.userId)
                 setNotVisibleUserFromReport(report.userId)
-        if (report.reportType=="libary")
+        if (report.reportType=="library")
              if (report.libraryId)
                 setNotVisibleLibraryFromReport(report.libraryId)
     };
     let notVisibleButton 
-    if (report.reportType == "User" || report.reportType=="libary"){
+    if (report.reportType == "User" || report.reportType=="library"){
        notVisibleButton = (<button onClick={HandleSettNotVisableOwner}>[notvisible]</button>)
     }
   
