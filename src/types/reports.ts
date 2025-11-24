@@ -37,8 +37,8 @@ export type uploadreport ={
     text: string | null;
     userId: string | null;
     createdAt: string | null;
-    libaryId: number | null;
+    libraryId: number | null;
     reviewId: string | null;
-    raportType: string;
-    raportLevel: number;
+    reportType: string;
+    reportLevel: number;
 }

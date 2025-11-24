@@ -62,7 +62,7 @@ export function createReviewController (reviewService: reviewService) {
                 headers: {"Content-Type": "application/json"}
             })
         },
-         async getEndorsmentByReviewId(id: number) {
+         async getEndorsementByReviewId(id: number) {
             const result=await reviewService.getReviewEndorsementByReviewId(id)
             return new Response(
                 JSON.stringify({
@@ -74,7 +74,7 @@ export function createReviewController (reviewService: reviewService) {
                 headers: {"Content-Type": "application/json"}
             })
         },
-         async getEndorsmentById(id: number) {
+         async getEndorsementById(id: number) {
             const result=await reviewService.getReviewEndorsementById(id)
             return new Response(
                 JSON.stringify({
@@ -86,7 +86,7 @@ export function createReviewController (reviewService: reviewService) {
                 headers: {"Content-Type": "application/json"}
             })
         },
-        async getEndorsmentByUserId(id: string) {
+        async getEndorsementByUserId(id: string) {
             const result=await reviewService.getReviewByUserId(id)
             return new Response(
                 JSON.stringify({
@@ -98,7 +98,7 @@ export function createReviewController (reviewService: reviewService) {
                 headers: {"Content-Type": "application/json"}
             })
         },
-         async deleteEndorsment(id: number) {
+         async deleteEndorsement(id: number) {
             const result=await reviewService.deleteReviewEndorsementById(id)
             return new Response(
                 JSON.stringify({
@@ -110,7 +110,7 @@ export function createReviewController (reviewService: reviewService) {
                 headers: {"Content-Type": "application/json"}
             })
         },
-        async getEndorsments() {
+        async getEndorsements() {
             const result=await reviewService.getReviewsEndorsements()
             return new Response(
                 JSON.stringify({
@@ -122,7 +122,7 @@ export function createReviewController (reviewService: reviewService) {
                 headers: {"Content-Type": "application/json"}
             })
         },
-        async createEndorsment(data: any) {
+        async createEndorsement(data: any) {
             const result=await reviewService.createReviewEndorsement(data)
             return new Response(
                 JSON.stringify({
@@ -134,7 +134,7 @@ export function createReviewController (reviewService: reviewService) {
                 headers: {"Content-Type": "application/json"}
             })
         },
-        async editEndorsment(id: number,data:any) {
+        async editEndorsement(id: number,data:any) {
             const result=await reviewService.editReviewEndorsement(id,data)
             return new Response(
                 JSON.stringify({

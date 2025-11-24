@@ -1,8 +1,8 @@
 "use client"
-import { Rapports } from "../components/rapports";
+import { Reports } from "../components/rapports";
 import { JSX, useEffect, useState } from "react";
 import { report, responeReport } from "@/types/reports";
-import { getReports } from "../hooks/getRapports";
+import { getReports } from "../hooks/getReports";
 import { deleteReport } from "../hooks/adminActions";
 import AdminNav from "../components/adminNav";
 
@@ -69,13 +69,13 @@ export default  function DashboardScreen() {
    async function showReports(reportslist?: report[]) {
       if (reportslist) {
          const listreports = reportslist.map(report =>
-            <Rapports {...report} />
+            <Reports {...report} />
          )
          setshowcase(listreports)
       }
       else if (reports) {
          const listreports = reports.map(report =>
-            <Rapports {...report} />
+            <Reports {...report} />
          )
          setshowcase(listreports)
       }
@@ -91,7 +91,7 @@ export default  function DashboardScreen() {
             const filteredItems = reports.filter(reports => reports.reportLevel == Number(level));
             const listreports = filteredItems.map(report =>
                <div key={report.id}>
-                  <Rapports {...report} />
+                  <Reports {...report} />
                </div>
             )
             setshowcase(listreports)

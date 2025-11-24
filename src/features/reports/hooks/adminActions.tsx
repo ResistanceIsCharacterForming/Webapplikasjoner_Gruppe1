@@ -22,7 +22,7 @@ export async function deleteReviewFromReport(id: number) {
 
 }
 
-export async function deleteLibaryFromReport(id: string) {
+export async function deleteLibraryFromReport(id: string) {
     const result = await fetch("http://localhost:5173/api/v1/libraries/" + id, {
         method: "delete",
     })
@@ -30,7 +30,7 @@ export async function deleteLibaryFromReport(id: string) {
 
 }
 
-export async function setNotVisableLibaryFromReport(id: string) {
+export async function setNotVisibleLibraryFromReport(id: string) {
     const data = new FormData
     data.append("isVisible", "1")
 
@@ -42,7 +42,7 @@ export async function setNotVisableLibaryFromReport(id: string) {
 
 }
 
-export async function setNotVisableUserFromReport(id: string) {
+export async function setNotVisibleUserFromReport(id: string) {
     const data = new FormData
     data.append("isVisible", "1")
 

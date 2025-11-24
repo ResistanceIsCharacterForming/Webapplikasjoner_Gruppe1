@@ -32,7 +32,7 @@ export const imageRoutes = [
           if (method === "delete"){
             if (imageKey!== "") {
                 try {
-                    const response=await controller.delimage(imageKey)
+                    const response=await controller.deleteImage(imageKey)
                     return new Response("deleted img: "+ imageKey.toString(), {status: 404})
                 } catch {
                     return new Response("failed Request to delete "+ imageKey.toString(), {status: 404})

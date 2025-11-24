@@ -1,5 +1,5 @@
 import { review, reviewEndorsement } from "@/db/schema"
-import { postEndorsmentData, postReviewData } from "@/types/reviews"
+import { postEndorsementData, postReviewData } from "@/types/reviews"
 import { imagehandler } from "@/types/image";
 import { an } from "vitest/dist/chunks/reporters.d.BFLkQcL6.js";
 
@@ -37,8 +37,8 @@ export function createReviewService(repository: any,imagehandler:imagehandler) {
             const result=await repository.getReviewByUserId(id)
             return result
         },
-         async getReviewByLibaryId(id:string){
-            const result=await repository.getReviewByLibaryId(id)
+         async getReviewByLibraryId(id:string){
+            const result=await repository.getReviewByLibraryId(id)
             return result
         },
          async editReview(id:number,formdata :any){
@@ -47,7 +47,7 @@ export function createReviewService(repository: any,imagehandler:imagehandler) {
             const dataObject  = Object.fromEntries(formdata.entries());
             const data = dataObject as unknown  as Partial<review>
             if(file !==null){
-                data.Photo="1"
+                data.photo="1"
                 const key= id+"@reviewPicture.png"
                 await imagehandler.putImage(key,file)
             }
@@ -62,8 +62,8 @@ export function createReviewService(repository: any,imagehandler:imagehandler) {
             const result=await repository.deleteReviewByUserId(id)
             return result
         },
-         async deleteReviewByLibaryId(id:string){
-            const result=await repository.deleteReviewByLibaryId(id)
+         async deleteReviewByLibraryId(id:string){
+            const result=await repository.deleteReviewByLibraryId(id)
             return result
         },
 
@@ -74,7 +74,7 @@ export function createReviewService(repository: any,imagehandler:imagehandler) {
         },
          async createReviewEndorsement(formdata:any){
             const dataObject  = Object.fromEntries(formdata.entries());
-            const data = dataObject as unknown  as postEndorsmentData
+            const data = dataObject as unknown  as postEndorsementData
            
             const result=await repository.createReviewEndorsement(data)
             return result
@@ -93,7 +93,7 @@ export function createReviewService(repository: any,imagehandler:imagehandler) {
         },
          async editReviewEndorsement(id:number,formdata:any){
             const dataObject  = Object.fromEntries(formdata.entries());
-            const data = dataObject as unknown  as Partial<postEndorsmentData>
+            const data = dataObject as unknown  as Partial<postEndorsementData>
             const result=await repository.editReviewEndorsement(id,data)
             return result
         },

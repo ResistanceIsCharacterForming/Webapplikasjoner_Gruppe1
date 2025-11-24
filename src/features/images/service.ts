@@ -3,17 +3,17 @@ import { error } from "console"
 
 export function createImageService(repository:imageRepository):imageService{
     return{
-        async getimg(key:string){
-            const result= await repository.getimg(key)
+        async getImage(key:string){
+            const result= await repository.getImage(key)
             return { success: result.success, data: result.data }
             
         },
-        async putimg(key:string,img:any){
-            const result= await repository.putimg(key,img)
+        async putImage(key:string,img:any){
+            const result= await repository.putImage(key,img)
             return { success: result.success, data: result.data }
         },
-        async deleteimg(key:string){
-            const result=await repository.deleteimg(key)
+        async deleteImage(key:string){
+            const result=await repository.deleteImage(key)
             return { success: result.success}
         }
     }

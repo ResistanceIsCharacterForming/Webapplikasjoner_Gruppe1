@@ -5,10 +5,10 @@ import { apiResponse } from "./api";
 export interface postReviewData  {
     text: string | null;
     userId: string;
-    libaryId: string;
+    libraryId: string;
     file:File|null;
 }
-export interface postEndorsmentData  {
+export interface postEndorsementData  {
     userId: string;
     reviewId: number;
 }
@@ -18,12 +18,12 @@ export interface reviewRepository {
   createReview(data : any): Promise<apiResponse<review[]>>;
   getReviewById(id:number): Promise<apiResponse<review[]>>;
   getReviewByUserId(id: string): Promise<apiResponse<review[]>>;
-  getReviewByLibaryId(id: string): Promise<apiResponse<review[]>>;
+  getReviewByLibraryId(id: string): Promise<apiResponse<review[]>>;
   editReview(id:number,data:Partial<review>): Promise<apiResponse<review[]>>;
   deleteReviewById(id: number): Promise<apiResponse<void>>;
   deleteReviewByUserId(id: string): Promise<apiResponse<void>>;
-  deleteReviewByLibaryId(id: string): Promise<apiResponse<void>>;
-  // reviews endorsments
+  deleteReviewByLibraryId(id: string): Promise<apiResponse<void>>;
+  // reviews endorsements
   getReviewsEndorsements(): Promise<apiResponse<reviewEndorsement[]>>;
   createReviewEndorsement(data : any): Promise<apiResponse<reviewEndorsement[]>>;
   getReviewEndorsementById(id: number): Promise<apiResponse<reviewEndorsement[]>>;
@@ -38,11 +38,11 @@ export interface reviewService {
   createReview(data:any): Promise<apiResponse<review[]>>;
   getReviewById(id:number): Promise<apiResponse<review[]>>;
   getReviewByUserId(id: string): Promise<apiResponse<review[]>>;
-  getReviewByLibaryId(id: string): Promise<apiResponse<review[]>>;
+  getReviewByLibraryId(id: string): Promise<apiResponse<review[]>>;
   editReview(id:number,data:any): Promise<apiResponse<review[]>>;
   deleteReviewById(id: number): Promise<apiResponse<void>>;
   deleteReviewByUserId(id: string): Promise<apiResponse<void>>;
-  deleteReviewByLibaryId(id: string): Promise<apiResponse<void>>;
+  deleteReviewByLibraryId(id: string): Promise<apiResponse<void>>;
   // reviews endorsments
   getReviewsEndorsements(): Promise<apiResponse<reviewEndorsement[]>>;
   createReviewEndorsement(data:any): Promise<apiResponse<reviewEndorsement[]>>;

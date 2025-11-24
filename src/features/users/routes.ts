@@ -116,11 +116,11 @@ export const usersRoutes = [
             const id = ctx.params?.id ?? undefined
             if (id === undefined) return new Response("No Id", {status: 401})
             if (method === "get") {
-                const result =reviewController.getEndorsmentByUserId(id)
+                const result =reviewController.getEndorsementByUserId(id)
                 return result
         }},
     ]),
-    route("users/:id/Libraries",[
+    route("users/:id/libraries",[
         async (ctx) => {
             //add controler for theese
             const method = ctx.request.method.toLowerCase()
@@ -140,14 +140,14 @@ export const usersRoutes = [
                 return result
         }},
     ]),
-    route("users/:id/favoritLibaries",[
+    route("users/:id/favoriteLibraries",[
         async (ctx) => {
             //add controler for theese
             const method = ctx.request.method.toLowerCase()
             const id = ctx.params?.id ?? undefined
             if (id === undefined) return new Response("No Id", {status: 401})
             if (method === "get") {
-                const result =userController.getfavoritLibrariesFromUser(id)
+                const result =userController.getFavoriteLibrariesFromUser(id)
                 return result
         }},
         async (ctx) => {
@@ -155,38 +155,38 @@ export const usersRoutes = [
             const id = ctx.params?.id ?? undefined
             if (id === undefined) return new Response("No Id", {status: 401})
             if (method === "delete") {
-                const result =userController.deletefavoritLibrariesByUser(id)
+                const result =userController.deleteFavoriteLibrariesByUser(id)
                 return result
         }},
     ]),
-    route("users/:id/favoritLibaries/:libaryid",[
+    route("users/:id/favoriteLibraries/:libraryid",[
         async (ctx) => {
             const method = ctx.request.method.toLowerCase()
             const id = ctx.params?.id ?? undefined
             if (id === undefined) return new Response("No Id", {status: 401})
             if (method === "post") {
-                const libaryid = ctx.params?.libaryid ?? undefined
-                const result =userController.createfavoritLibrary(id,libaryid)
+                const libraryid = ctx.params?.libaryid ?? undefined
+                const result =userController.createFavoriteLibrary(id,libraryid)
                 return result
         }}, 
     ]),
-    route("favoritLibaries",[
+    route("favoriteLibraries",[
         async (ctx) => {
             const method = ctx.request.method.toLowerCase()
             const id = ctx.params?.id ?? undefined
             if (id === undefined) return new Response("No Id", {status: 401})
             if (method === "get") {
-                const result = await userController.getfavoritLibraries()
+                const result = await userController.getFavoriteLibraries()
                 return result
         }},
     ]),
-    route("favoritLibaries/:id",[
+    route("favoriteLibraries/:id",[
         async (ctx) => {
             const method = ctx.request.method.toLowerCase()
             const id = ctx.params?.id ?? undefined
             if (id === undefined) return new Response("No Id", {status: 401})
             if (method === "get") {
-                const result =await userController.getfavoritLibrary(id)
+                const result =await userController.getFavoriteLibrary(id)
                 return result
         }},
          async (ctx) => {
@@ -194,7 +194,7 @@ export const usersRoutes = [
             const id = ctx.params?.id ?? undefined
             if (id === undefined) return new Response("No Id", {status: 401})
             if (method === "delete") {
-                const result =await userController.deletefavoritLibrary(id)
+                const result =await userController.deleteFavoriteLibrary(id)
                 return result
         }},
          async (ctx) => {
@@ -204,7 +204,7 @@ export const usersRoutes = [
             if (method === "put") {
                try {
                     const data: any = await ctx.request.formData()
-                    const result =await userController.editfavoritLibrary(id,data)
+                    const result =await userController.editFavoriteLibrary(id,data)
                     return result
                 } catch (error) {
                   return new Response("No formdata", {status: 401})

@@ -1,4 +1,4 @@
-import { favoritLibrary, user } from "@/db/schema"
+import { favoriteLibrary, user } from "@/db/schema"
 import { apiResponse } from "./api"
 import { admin } from "@/db/schema"
 
@@ -36,15 +36,15 @@ export interface userRepository {
 
   //favoritlibaries
 
-  getfavoritLibraries(): Promise<apiResponse<favoritLibrary[]>>
-  createfavoritLibrary(data:any): Promise<apiResponse<favoritLibrary[]>>
-  editfavoritLibrary(id:number,data:Partial<favoritLibrary>): Promise<apiResponse<favoritLibrary[]>>
-  getfavoritLibraryById(id:number): Promise<apiResponse<favoritLibrary[]>>
-  getfavoritLibrariesByUserId(id:string): Promise<apiResponse<favoritLibrary[]>>
-  getfavoritLibrariesByLibaryId(id:string): Promise<apiResponse<favoritLibrary[]>>
-  deletefavoritLibraryById(id:number): Promise<apiResponse<void>>
-  deletefavoritLibrariesByUserId(id:string): Promise<apiResponse<void>>
-  deletefavoritLibrariesByLibaryId(id:string): Promise<apiResponse<void>>
+  getFavoriteLibraries(): Promise<apiResponse<favoriteLibrary[]>>
+  createFavoriteLibrary(data:any): Promise<apiResponse<favoriteLibrary[]>>
+  editFavoriteLibrary(id:number,data:Partial<favoriteLibrary>): Promise<apiResponse<favoriteLibrary[]>>
+  getFavoriteLibraryById(id:number): Promise<apiResponse<favoriteLibrary[]>>
+  getFavoriteLibrariesByUserId(id:string): Promise<apiResponse<favoriteLibrary[]>>
+  getFavoriteLibrariesByLibraryId(id:string): Promise<apiResponse<favoriteLibrary[]>>
+  deleteFavoriteLibraryById(id:number): Promise<apiResponse<void>>
+  deleteFavoriteLibrariesByUserId(id:string): Promise<apiResponse<void>>
+  deleteFavoriteLibrariesByLibraryId(id:string): Promise<apiResponse<void>>
 
   getAdmins(): Promise<apiResponse<admin[]>>
   createAdmin(userId:string,createdAt:string,adminLevel:number): Promise<apiResponse<admin[]>>

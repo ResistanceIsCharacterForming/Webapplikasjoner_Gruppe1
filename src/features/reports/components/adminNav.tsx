@@ -8,7 +8,7 @@ export default function AdminNav() {
                 <a className="text-lg italic text-blackChocolate! hover:text-darkVanilla!" href="./register">Register</a>
                 <a className="text-lg italic text-blackChocolate! hover:text-darkVanilla!" href="./login">Login</a>
                 <a className="text-lg italic text-blackChocolate! hover:text-darkVanilla!" href="./home">Kart</a>
-                <a className="text-lg italic text-blackChocolate! hover:text-darkVanilla!" href="./dashboard">dashboard</a>
+                <a className="text-lg italic text-blackChocolate! hover:text-darkVanilla!" href="./dashboard">Dashboard</a>
             </section>
         </div>
     )

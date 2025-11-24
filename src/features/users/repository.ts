@@ -1,4 +1,4 @@
-import {admin, admins, users,user,favoritLibraries,favoritLibrary} from "../../db/schema"
+import {admin, admins, users,user,favoriteLibraries,favoriteLibrary} from "../../db/schema"
 import {eq} from "drizzle-orm"
 
 import { databaseUserData, userRepository } from "@/types/user"
@@ -63,18 +63,18 @@ export function createUserRepository(db: any):userRepository{
         }
     },
     // favrit libaraies
-    async getfavoritLibraries(){
+    async getFavoriteLibraries(){
       try {
-        const result: favoritLibrary[] = await db.select().from(favoritLibraries)
+        const result: favoriteLibrary[] = await db.select().from(favoriteLibraries)
         return { success: true, data: result }
       } catch (error) {
-        return { success: false, error: 'Failed getting favoritLibraries' }
+        return { success: false, error: 'Failed getting favoriteLibraries' }
       }
     },
 
-    async createfavoritLibrary(data : any){
+    async createFavoriteLibrary(data : any){
       try {
-        const result: favoritLibrary[] = await db.insert(favoritLibraries).values({
+        const result: favoriteLibrary[] = await db.insert(favoriteLibraries).values({
             userId: data.userId,
             libaryId:data.libaryId,
         }).returning()
@@ -84,66 +84,66 @@ export function createUserRepository(db: any):userRepository{
       }
     },
 
-    async editfavoritLibrary(id: number,data : Partial<favoritLibrary>){
+    async editFavoriteLibrary(id: number,data : Partial<favoriteLibrary>){
     try {
-        const result : favoritLibrary[]= await db.update(favoritLibraries).set(data).where(eq(favoritLibraries.id, id)).returning()
+        const result : favoriteLibrary[]= await db.update(favoriteLibraries).set(data).where(eq(favoriteLibraries.id, id)).returning()
         return { success: true, data: result }
       } catch (error) {
-        return { success: false, error: 'Failed edit favoritLibrary' }
+        return { success: false, error: 'Failed edit favoriteLibrary' }
       }
     },
 
-    async getfavoritLibraryById(id: number){
+    async getFavoriteLibraryById(id: number){
       try {
-        const result : favoritLibrary[] = await db.select().from(favoritLibraries).where(eq(favoritLibraries.id, id))
+        const result : favoriteLibrary[] = await db.select().from(favoriteLibraries).where(eq(favoriteLibraries.id, id))
         return { success: true, data: result }
       } catch (error) {
-        return { success: false, error: 'Failed getting favoritLibrary by id' }
+        return { success: false, error: 'Failed getting favoriteLibrary by id' }
       }
     },
 
-    async getfavoritLibrariesByUserId(id: string){
+    async getFavoriteLibrariesByUserId(id: string){
       try {
-        const result : favoritLibrary[] = await db.select().from(favoritLibraries).where(eq(favoritLibraries.userId, id))
+        const result : favoriteLibrary[] = await db.select().from(favoriteLibraries).where(eq(favoriteLibraries.userId, id))
         return { success: true, data: result }
       } catch (error) {
-        return { success: false, error: 'Failed getting favoritLibrary by user id' }
+        return { success: false, error: 'Failed getting favoriteLibrary by user id' }
       }
     },
 
-    async getfavoritLibrariesByLibaryId(id: string){
+    async getFavoriteLibrariesByLibraryId(id: string){
       try {
-        const result : favoritLibrary[] = await db.select().from(favoritLibraries).where(eq(favoritLibraries.libaryId, id))
+        const result : favoriteLibrary[] = await db.select().from(favoriteLibraries).where(eq(favoriteLibraries.libraryId, id))
         return { success: true, data: result }
       } catch (error) {
-        return { success: false, error: 'Failed getting favoritLibrary by libary id' }
+        return { success: false, error: 'Failed getting favoriteLibrary by libary id' }
       }
     },
 
-    async deletefavoritLibraryById(id:number){
+    async deleteFavoriteLibraryById(id:number){
       try {
-        await db.delete(favoritLibraries).where(eq(favoritLibraries.id,id)) 
+        await db.delete(favoriteLibraries).where(eq(favoriteLibraries.id,id)) 
         return { success: true }
         } catch (error) {
-        return { success: false, error: 'Failed deleting favoritLibrary by id' }
+        return { success: false, error: 'Failed deleting favoriteLibrary by id' }
         }
     },
 
-    async deletefavoritLibrariesByUserId(id:string){
+    async deleteFavoriteLibrariesByUserId(id:string){
       try {
-        await db.delete(favoritLibraries).where(eq(favoritLibraries.userId,id)) 
+        await db.delete(favoriteLibraries).where(eq(favoriteLibraries.userId,id)) 
         return { success: true }
         } catch (error) {
-        return { success: false, error: 'Failed deleting favoritLibrary by id' }
+        return { success: false, error: 'Failed deleting favoriteLibrary by id' }
         }
     },
 
-    async deletefavoritLibrariesByLibaryId(id:string){
+    async deleteFavoriteLibrariesByLibraryId(id:string){
       try {
-        await db.delete(favoritLibraries).where(eq(favoritLibraries.libaryId,id)) 
+        await db.delete(favoriteLibraries).where(eq(favoriteLibraries.libraryId,id)) 
         return { success: true }
         } catch (error) {
-        return { success: false, error: 'Failed deleting favoritLibrary by id' }
+        return { success: false, error: 'Failed deleting favoriteLibrary by id' }
         }
     },
 

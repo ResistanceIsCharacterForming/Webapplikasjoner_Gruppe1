@@ -43,9 +43,9 @@ export interface libraryService{
   listLibraryWithUserId(id:string): Promise<apiResponse<library[]>>;
   listLibraryWithCords(lat:number,long:number): Promise<apiResponse<library[]>>;
   createLibrary(data: postLibraryData): Promise<apiResponse<library[]>>;
-  editlibrary(id:string,data:Partial<library>): Promise<apiResponse<library[]>>;
-  deletelibraryWithId(id:string): Promise<apiResponse<void>>;
-  deletelibraryWithUserId(id:string): Promise<apiResponse<void>>;
+  editLibrary(id:string,data:Partial<library>): Promise<apiResponse<library[]>>;
+  deleteLibraryWithId(id:string): Promise<apiResponse<void>>;
+  deleteLibraryWithUserId(id:string): Promise<apiResponse<void>>;
 }
 
 export type library = typeof libraries.$inferSelect;

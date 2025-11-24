@@ -69,7 +69,7 @@ export function createLibraryController(libraryService: libraryService) {
       )
     },
     async editLibrary(id: string, data:any) {
-       const result = await libraryService.editlibrary(id,data)
+       const result = await libraryService.editLibrary(id,data)
       return new Response(
         JSON.stringify({
          data: result.data,
@@ -82,7 +82,7 @@ export function createLibraryController(libraryService: libraryService) {
       );
     },
     async deleteLibrary(id: string) {
-      const result = await libraryService.deletelibraryWithId(id)
+      const result = await libraryService.deleteLibraryWithId(id)
       return new Response(
         JSON.stringify({
           data: result.data,
@@ -94,7 +94,7 @@ export function createLibraryController(libraryService: libraryService) {
         })
   },
      async deleteLibraryByUserId(id: string) {
-      const result = await libraryService.deletelibraryWithUserId(id)
+      const result = await libraryService.deleteLibraryWithUserId(id)
       return new Response(
         JSON.stringify({
           data: result.data,

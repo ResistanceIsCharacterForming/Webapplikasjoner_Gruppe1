@@ -23,7 +23,7 @@ async createReview(data : any){
         text: data.text,
         reviewsPoints: data.reviewsPoints,
         createdAt: data.createdAt,
-        Photo: data.Photo,
+        photo: data.photo,
     }).returning();
     return { success: true, data: result }
   }
@@ -53,9 +53,9 @@ async getReviewByUserId(id:string){
   }
 },
 
-async getReviewByLibaryId(id:string){
+async getReviewByLibraryId(id:string){
   try {
-    const result : review[]  =  await db.select().from(reviews).where(eq(reviews.libaryId, id));
+    const result : review[]  =  await db.select().from(reviews).where(eq(reviews.libraryId, id));
     return{success: true,result}
   }
   catch (error){
@@ -69,7 +69,7 @@ async editReview(id:number,data:Partial<review>){
     return{success: true,result}
   }
   catch (error){
-    return{success:false,error:"failed to edit reveiw"}
+    return{success:false,error:"failed to edit review"}
   }
 },
 
@@ -93,9 +93,9 @@ async deleteReviewByUserId(id:string){
   }
 },
 
-async deleteReviewByLibaryId(id:string){
+async deleteReviewByLibraryId(id:string){
   try {
-    await db.delete(reviews).where(eq(reviews.libaryId,id));
+    await db.delete(reviews).where(eq(reviews.libraryId,id));
     return{success: true}
   }
   catch (error){
@@ -103,7 +103,7 @@ async deleteReviewByLibaryId(id:string){
   }
 },
 
-// reviews endorsments
+// reviews endorsements
 
 async getReviewsEndorsements(){
   try {

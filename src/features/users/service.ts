@@ -1,4 +1,4 @@
-import { favoritLibrary, user } from "@/db/schema"
+import { favoriteLibrary, user } from "@/db/schema"
 import { imagehandler } from "@/types/image";
 import { postUserData, userRepository } from "@/types/user"
 
@@ -89,42 +89,42 @@ export function createUserService(repository: userRepository ,imagehandler:image
 
         },
         //favlibs
-        async getfavoritLibraries() {
-            const result = await repository.getfavoritLibraries()
+        async getFavoriteLibraries() {
+            const result = await repository.getFavoriteLibraries()
             return result
         },
-        async createfavoritLibrary(data: any) {
-            const result = await repository.createfavoritLibrary(data)
+        async createFavoriteLibrary(data: any) {
+            const result = await repository.createFavoriteLibrary(data)
             return result
         },
-        async editfavoritLibrary(id: number,formdata:any) {
+        async editFavoriteLibrary(id: number,formdata:any) {
             const dataObject  = Object.fromEntries(formdata.entries());
-            const data =dataObject as unknown as Partial<favoritLibrary>
-            const result = await repository.editfavoritLibrary(id,data)
+            const data =dataObject as unknown as Partial<favoriteLibrary>
+            const result = await repository.editFavoriteLibrary(id,data)
             return result
         },
-        async getfavoritLibraryById(id: number) {
-            const result = await repository.getfavoritLibraryById(id)
+        async getFavoriteLibraryById(id: number) {
+            const result = await repository.getFavoriteLibraryById(id)
             return result
         },
-        async getfavoritLibrariesByUserId(id: string) {
-            const result = await repository.getfavoritLibrariesByUserId(id)
+        async getFavoriteLibrariesByUserId(id: string) {
+            const result = await repository.getFavoriteLibrariesByUserId(id)
             return result
         },
-        async getfavoritLibrariesByLibaryId(id: string) {
-            const result = await repository.getfavoritLibrariesByLibaryId(id)
+        async getFavoriteLibrariesByLibraryId(id: string) {
+            const result = await repository.getFavoriteLibrariesByLibraryId(id)
             return result
         },
-        async deletefavoritLibraryById(id: number) {
-            const result = await repository.deletefavoritLibraryById(id)
+        async deleteFavoriteLibraryById(id: number) {
+            const result = await repository.deleteFavoriteLibraryById(id)
             return result
         },
-        async deletefavoritLibrariesByUserId(id: string) {
-            const result = await repository.deletefavoritLibrariesByUserId(id)
+        async deleteFavoriteLibrariesByUserId(id: string) {
+            const result = await repository.deleteFavoriteLibrariesByUserId(id)
             return result
         },
-        async deletefavoritLibrariesByLibaryId(id: string) {
-            const result = await repository.deletefavoritLibrariesByLibaryId(id)
+        async deleteFavoriteLibrariesByLibraryId(id: string) {
+            const result = await repository.deleteFavoriteLibrariesByLibraryId(id)
             return result
         },
     }

@@ -4,7 +4,7 @@ import { singletonMaster } from "@/utils/singletonBuilder"
 export function ImageController(service:imageService):imagehandler{
     return{
         async getImage(key:string){
-            const result= await service.getimg(key)
+            const result= await service.getImage(key)
             if(result.success)
                 return { success: true, data: result.data }
             else
@@ -12,15 +12,15 @@ export function ImageController(service:imageService):imagehandler{
             
         },
         async putImage(key:string,img:any){
-            const result= await service.putimg(key,img)
+            const result= await service.putImage(key,img)
              if(result.success)
                 return { success: true, data: result.data }
             else
                 return { success: false, data: "failed to put img" }
             
         },
-        async delimage(key:string){
-             const result=await service.deleteimg(key)
+        async deleteImage(key:string){
+             const result=await service.deleteImage(key)
             if(result.success)
                 return { success: true, data: result.data }
             else

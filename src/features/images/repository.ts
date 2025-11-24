@@ -2,7 +2,7 @@ import { imageRepository } from "@/types/image"
 
 export function createImageRepository(r2db: any):imageRepository{
     return{
-        async getimg(key:string){
+        async getImage(key:string){
             try{
                 const result= await r2db.get(key)
             if(result)
@@ -13,7 +13,7 @@ export function createImageRepository(r2db: any):imageRepository{
                 return  { success: false}
             }
         },
-        async putimg(key:string,img:any){
+        async putImage(key:string,img:any){
             try{
                 const result= await r2db.put(key,img)
             if(result)
@@ -24,7 +24,7 @@ export function createImageRepository(r2db: any):imageRepository{
                 return  { success: false}
             }
         },
-        async deleteimg(key:string){
+        async deleteImage(key:string){
             try{
                 await r2db.delete(key)
                 return { success: true,}

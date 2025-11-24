@@ -44,7 +44,7 @@ export function createLibraryService(repository: libraryRepository,imagehandler:
             }
             return result
         },
-         async editlibrary(id:string,formdata:any) {
+         async editLibrary(id:string,formdata:any) {
             const files=formdata.getAll("files")
             formdata.delete("files")
             const dataObject  = Object.fromEntries(formdata.entries());
@@ -64,11 +64,11 @@ export function createLibraryService(repository: libraryRepository,imagehandler:
             }
             return result
         },
-         async deletelibraryWithId(id:string) {
+         async deleteLibraryWithId(id:string) {
             const result=await repository.deleteLibraryById(id)
             return result
         },
-         async deletelibraryWithUserId(id:string) {
+         async deleteLibraryWithUserId(id:string) {
             const result=await repository.deleteLibrariesByUserId(id)
             return result
         }

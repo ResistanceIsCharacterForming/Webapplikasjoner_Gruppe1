@@ -61,8 +61,8 @@ export function createUserController (userService: any) {
                 headers: {"Content-Type": "application/json"}
             })
         },
-          async getfavoritLibrariesFromUser(id:string) {
-             const result = await userService.getfavoritLibrariesByUserId(id)
+          async getFavoriteLibrariesFromUser(id:string) {
+             const result = await userService.getfavoriteLibrariesByUserId(id)
              return new Response(
                 JSON.stringify({
                 success: result.success
@@ -72,8 +72,8 @@ export function createUserController (userService: any) {
                 headers: {"Content-Type": "application/json"}
             })
         },
-          async deletefavoritLibrariesByUser(id: string) {
-             const result = await userService.deletefavoritLibrariesByUser(id)
+          async deleteFavoriteLibrariesByUser(id: string) {
+             const result = await userService.deletefavoriteLibrariesByUser(id)
              return new Response(
                 JSON.stringify({
                 success: result.success
@@ -83,8 +83,8 @@ export function createUserController (userService: any) {
                 headers: {"Content-Type": "application/json"}
             })
         },
-          async createfavoritLibrary(userid: string,libaryid:string) {
-             const result = await userService.createfavoritLibrary(userid,libaryid)
+          async createFavoriteLibrary(userid: string,libraryid:string) {
+             const result = await userService.createfavoriteLibrary(userid,libraryid)
              return new Response(
                 JSON.stringify({
                 success: result.success
@@ -94,8 +94,8 @@ export function createUserController (userService: any) {
                 headers: {"Content-Type": "application/json"}
             })
         },
-          async editfavoritLibrary(id: string,data:any) {
-             const result = await userService.editfavoritLibrary(id,data)
+          async editFavoriteLibrary(id: string,data:any) {
+             const result = await userService.editFavoriteLibrary(id,data)
              return new Response(
                 JSON.stringify({
                 success: result.success
@@ -105,8 +105,8 @@ export function createUserController (userService: any) {
                 headers: {"Content-Type": "application/json"}
             })
         },
-          async getfavoritLibraries() {
-             const result = await userService.getfavoritLibraries()
+          async getFavoriteLibraries() {
+             const result = await userService.getFavoriteLibraries()
              return new Response(
                 JSON.stringify({
                 success: result.success
@@ -116,8 +116,8 @@ export function createUserController (userService: any) {
                 headers: {"Content-Type": "application/json"}
             })
         },
-          async deletefavoritLibrary(id: string) {
-             const result = await userService.deletefavoritLibraryById(id)
+          async deleteFavoriteLibrary(id: string) {
+             const result = await userService.deleteFavoriteLibraryById(id)
              return new Response(
                 JSON.stringify({
                 success: result.success
@@ -127,8 +127,8 @@ export function createUserController (userService: any) {
                 headers: {"Content-Type": "application/json"}
             })
         },
-          async getfavoritLibrary(id: string) {
-             const result = await userService.getfavoritLibraryById(id)
+          async getFavoriteLibrary(id: string) {
+             const result = await userService.getFavoriteLibraryById(id)
              return new Response(
                 JSON.stringify({
                 success: result.success

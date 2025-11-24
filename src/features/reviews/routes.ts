@@ -68,7 +68,7 @@ export const reviewsRoutes = [
             if (id === undefined) return new Response("No Id", {status: 401})
              if (method === "get") {
                 //add type to form here
-                const result =await reviewController.getEndorsmentByReviewId(id)
+                const result =await reviewController.getEndorsementByReviewId(id)
                 return result
             }
         },
@@ -78,7 +78,7 @@ export const reviewsRoutes = [
          async(ctx) => {
             const method = ctx.request.method.toLowerCase()
              if (method === "get") {
-                const result = await reviewController.getEndorsments()
+                const result = await reviewController.getEndorsements()
                 return result
             }
         },
@@ -88,7 +88,7 @@ export const reviewsRoutes = [
                  try {
                     console.log("????????")
                     const data: any = await ctx.request.formData()
-                    const result =await reviewController.createEndorsment(data)
+                    const result =await reviewController.createEndorsement(data)
                     return result 
                 } catch (error) {
                     return new Response("No formdata", {status: 401})
@@ -102,7 +102,7 @@ export const reviewsRoutes = [
             const id = ctx.params?.id ?? undefined
             if (id === undefined) return new Response("No Id", {status: 401})
              if (method === "get") {
-                const result = await reviewController.getEndorsmentById(id)
+                const result = await reviewController.getEndorsementById(id)
                 return result
             }
         },
@@ -113,7 +113,7 @@ export const reviewsRoutes = [
              if (method === "put") {
                  try {
                     const data: any = await ctx.request.formData()
-                    const result = await reviewController.editEndorsment(id,data)
+                    const result = await reviewController.editEndorsement(id,data)
                     return result
                 } catch (error) {
                     return new Response("No formdata", {status: 401})
@@ -125,7 +125,7 @@ export const reviewsRoutes = [
             const id = ctx.params?.id ?? undefined
             if (id === undefined) return new Response("No Id", {status: 401})
              if (method === "delete") {
-                const result = await reviewController.deleteEndorsment(id)
+                const result = await reviewController.deleteEndorsement(id)
             }
         },
     ]),

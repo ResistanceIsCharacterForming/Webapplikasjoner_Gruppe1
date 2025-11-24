@@ -3,7 +3,7 @@
 import { defineScript } from "rwsdk/worker";
 import { drizzle } from "drizzle-orm/d1";
 
-import { users,reviews,reviewsEndorsements,reports,libraries,favoritLibraries,admins, user, library } from "./schema";
+import { users,reviews,reviewsEndorsements,reports,libraries,favoriteLibraries,admins, user, library } from "./schema";
 import { singletonMaster } from "@/utils/singletonBuilder";
 import { scrypt } from "crypto";
 const db = singletonMaster.dbConnection
@@ -15,7 +15,7 @@ export  const seed = async () =>{
     await db.delete(libraries);
     await db.delete(reviews);
     await db.delete(reviewsEndorsements);
-    await db.delete(favoritLibraries);
+    await db.delete(favoriteLibraries);
     await db.delete(reports); 
 
     //partial do id is made in the db
@@ -125,7 +125,7 @@ export  const seed = async () =>{
     // Insert a library
     await db.insert(libraries).values({halden_skole});
 
-     await db.insert(libraries).values({halden_brannstasjon});
+    await db.insert(libraries).values({halden_brannstasjon});
 
     await db.insert(libraries).values({hiof_studenleiligheter});
 
@@ -151,26 +151,26 @@ export  const seed = async () =>{
     
 
 
-    const newLibaryId = await db.select({id: libraries.id}).from(libraries)
+    const newLibraryId = await db.select({id: libraries.id}).from(libraries)
     // 0 er hiof,1 er brannstasjon halden,2 hiof studenleigheter,3 er solbergtårnet  
     // Insert a review
     await db.insert(reviews).values({
         userId: newUserId[0].id,
-        libaryId: newLibaryId[0].id,  
+        libraryId: newLibraryId[0].id,  
         text: "dette er en test anmeldelse",
         reviewsPoints: 5,
         createdAt: new Date().toISOString(),
     });
       await db.insert(reviews).values({
         userId: newUserId[2].id,
-        libaryId: newLibaryId[0].id,  
+        libraryId: newLibraryId[0].id,  
         text: "dette er en test anmeldelse",
         reviewsPoints: 3,
         createdAt: new Date().toISOString(),
     });
       await db.insert(reviews).values({
         userId: newUserId[3].id,
-        libaryId: newLibaryId[0].id,  
+        libraryId: newLibraryId[0].id,  
         text: "dette er en test anmeldelse",
         reviewsPoints: 4,
         createdAt: new Date().toISOString(),
@@ -195,28 +195,28 @@ export  const seed = async () =>{
     });
 
 
-    // Insert a favorit library
-    await db.insert(favoritLibraries).values({
+    // Insert a favorite library
+    await db.insert(favoriteLibraries).values({
         userId: newUserId[0].id,
-        libaryId: newLibaryId[0].id,  
+        libraryId: newLibraryId[0].id,  
     });
-     // Insert a favorit library
-    await db.insert(favoritLibraries).values({
+     // Insert a favorite library
+    await db.insert(favoriteLibraries).values({
         userId: newUserId[2].id,
-        libaryId: newLibaryId[2].id,  
+        libraryId: newLibraryId[2].id,  
     });
-     // Insert a favorit library
-    await db.insert(favoritLibraries).values({
+     // Insert a favorite library
+    await db.insert(favoriteLibraries).values({
         userId: newUserId[3].id,
-        libaryId: newLibaryId[3].id,  
+        libraryId: newLibraryId[3].id,  
     });
 
 
-    // Insert a rapport
+    // Insert a report
     await db.insert(reports).values({
         userId: newUserId[0].id,  
-        raportType: "User",
-        raportLevel: 1,
+        reportType: "User",
+        reportLevel: 1,
         text: "dette er en test rapport",
         createdAt: new Date().toISOString(),
     });
