@@ -85,7 +85,13 @@ export const singletonMaster = {
         }
         return this._userController
     },
-
+    _reportService: null as ReturnType<typeof createReportService> | null,
+    get reportService() {
+        if (!this._reportService) {
+            this._reportService = createReportService(createReportRepository(this.dbConnection))
+        }
+        return this._reportService
+    },
     _reportController: null as ReturnType<typeof createReportController> | null,
     get reportController() {
         if (!this._reportController) {

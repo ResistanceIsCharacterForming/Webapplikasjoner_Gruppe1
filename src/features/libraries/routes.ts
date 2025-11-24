@@ -16,14 +16,10 @@ export const librariesRoutes = [
      async(ctx) => {
             const method = ctx.request.method.toLowerCase()
              if (method === "post") {
-                try {
-                    const data: any = await ctx.request.formData()
-                    const result = await libraryController.createLibrary(data)
-                    return result
-                } catch (error) {
-                    new Response(JSON.stringify({success: false,error:"400 check formdata"}),
-                    {status: 400, headers: {"Content-Type": "application/json"}})
-                }
+                //add type to form here
+                const data: any = await ctx.request.formData()
+                const result = await libraryController.createLibrary(data)
+                return result
             }
     },
     ]),
@@ -38,31 +34,36 @@ export const librariesRoutes = [
         }
     }]),
     route("libraries/:id", [
-    async (ctx) => {
+        async (ctx) => {
         const method = ctx.request.method.toLowerCase()
         const id = ctx.params?.id ?? undefined
-        if (id && method === "get") {
+        if (id === undefined) return new Response("No Id", {status: 401})
+        if (method === "get") {
            return libraryController.getLibraryById(id)
         }
+        if (method === "post") {
+           const data: postLibraryData = await ctx.request.json()
+           const result = await libraryController.createLibrary(data)
+           return result
+        }
+        return new Response(null, { status: 405 })
     },
     async(ctx) => {
             const method = ctx.request.method.toLowerCase()
+            const id = ctx.params?.id ?? undefined
+            if (id === undefined) return new Response("No Id", {status: 401})
              if (method === "put") {
-               try {
-                 const id = ctx.params?.id ?? undefined
-                 const data: any = await ctx.request.formData()
-                 const result = await libraryController.editLibrary(id,data)
-                 return result
-               } catch (error) {
-                new Response(JSON.stringify({success: false,error:"400 check formdata"}),
-                    {status: 400, headers: {"Content-Type": "application/json"}})
-               }
+                //add type to form here
+                const data: any = await ctx.request.formData()
+                const result = await libraryController.editLibrary(id,data)
+                return result
             }
     },
     async(ctx) => {
             const method = ctx.request.method.toLowerCase()
+            const id = ctx.params?.id ?? undefined
+            if (id === undefined) return new Response("No Id", {status: 401})
              if (method === "delete") {
-                const id = ctx.params?.id ?? undefined
                 const result = await libraryController.deleteLibrary(id)
                 return result
             }

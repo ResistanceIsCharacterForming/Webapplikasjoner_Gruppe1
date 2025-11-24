@@ -26,7 +26,7 @@ export function createUserController (userService: any) {
                 headers: {"Content-Type": "application/json"}
             })
         },
-        async createUser(data: postUserData) {
+        async createUser(data: any) {
             const result = await userService.createUser(data)
              return new Response(
                 JSON.stringify({
@@ -188,3 +188,5 @@ export function createUserController (userService: any) {
         },
     }
 }
+
+export const userController = createUserController()

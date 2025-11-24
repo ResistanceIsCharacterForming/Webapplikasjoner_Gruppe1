@@ -10,7 +10,7 @@ export const tokensRoutes = [
             return result
         }
         if (method === "post") {
-            const data: any = await ctx.request.json()
+            const data: any = await ctx.request.formData()
             const result = await singletonMaster.tokensController.handleLogin(data)
             return result
         }

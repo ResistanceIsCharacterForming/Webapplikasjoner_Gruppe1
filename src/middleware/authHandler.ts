@@ -1,4 +1,7 @@
+import { RequestInfo } from "rwsdk/worker"
+
 /* Hente singletonMaster for å få tilgang til service laget til tokens. */
+import { verifyToken } from "@/features/tokens/hooks/handleToken"
 import { singletonMaster } from "@/utils/singletonBuilder"
 
 /* Middelware for å brytte tidlig hvis brukeren forsøker å få tilgang til en begrenset rute og de ikke er innlogget. */
@@ -45,9 +48,18 @@ export const authCheck = async (ctx: any) => {
 }
 
 /* Middleware for å undersøke om brukeren er admin. Tar ikke høyde for admin-nivå. */
-export const isAdmin = async (ctx: any) => {
+export const isAdmin = async (ctx: RequestInfo["ctx"]) => {
+    // temp fix to let it run for now obv should be better and type checks but just to check runs ^^
+    let cookieArray = ctx.request.headers.get("cookie").split(";")
+    let singleCookie = cookieArray.filter(x => x.includes("jwtToken"))[0]
+    let jwt = singleCookie.split(":")[1]
+    jwt = jwt.split("=")
+    let user = await verifyToken(jwt[1])
+    const result = await singletonMaster.userService.getAdminById(user.userId)
     /* Prøv å hent oppføring fra admins tabell med bruker sin ID.  */
-    const result = await singletonMaster.userService.getAdminById(ctx.user)
+    //temped commented over for now as does not work? 
+    //const result = await singletonMaster.userService.getAdminById(ctx.user)
+
     /* Hvis enten result.data ikke finnes, eller den har ingen data, da er ikke bruker admin. */
     if (result.data === undefined || result.data.length === 0) {
         /* Avbrytt forespørsel. */
