@@ -1,17 +1,22 @@
 import { isAdmin } from "@/middleware/authHandler"
+import { filterQueryParam } from "@/utils/queryParamsHandler.ts"
 import { singletonMaster } from "@/utils/singletonBuilder"
 import { route } from "rwsdk/router"
 
 const reportController = singletonMaster.reportController
 
 export const reportsRoutes = [
- 
+
     route("reports", [
-        async(ctx) => {
+        async (ctx) => {
             const method = ctx.request.method.toLowerCase()
-             if (method === "get") {
-                const result = await reportController.listReports()
-                return result
+            if (method === "get") {
+                const type = filterQueryParam(ctx, "type")
+                const level = Number(filterQueryParam(ctx, "level"))
+                if (type && level) return await reportController.listReportsByTypeAndLevel(type, level)
+                else if (type) return await reportController.listReportsByType(type)
+                else if (level) return await reportController.listReportsByLevel(level)
+                else return await reportController.listReports()
             }
         },
         async (ctx) => {
@@ -62,6 +67,7 @@ export const reportsRoutes = [
             }
         }
     ]),
+    // to be safly removed when changed to proper use
      route("reports/levels/:level", [
          async(ctx) => {
             const method = ctx.request.method.toLowerCase()
@@ -72,6 +78,7 @@ export const reportsRoutes = [
             }
         },
     ]),
+     // to be safly removed when changed to proper use
      route("reports/types/:type", [
          async(ctx) => {
             const method = ctx.request.method.toLowerCase()
@@ -82,7 +89,7 @@ export const reportsRoutes = [
             }
         },
     ]),
-    // ?level=:level&type=:type
+     // to be safly removed when changed to proper use
     route("reports/types/:type/level/:level", [
          async(ctx) => {
             const method = ctx.request.method.toLowerCase()
