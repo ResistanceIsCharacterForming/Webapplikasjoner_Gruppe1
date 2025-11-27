@@ -37,6 +37,7 @@ export function createUserRepository(db: any):userRepository{
     async getUserById(id: string){
       try {
         const result : user[] = await db.select().from(users).where(eq(users.id, id))
+        if (result.length===0)return { success: false, error: "no user by that id" }
         return { success: true, data: result }
       } catch (error) {
         return { success: false, error: 'Failed getting user by id' }

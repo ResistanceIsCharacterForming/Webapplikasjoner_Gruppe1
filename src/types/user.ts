@@ -2,7 +2,6 @@ import { favoriteLibrary, user } from "@/db/schema"
 import { apiResponse } from "./api"
 import { admin } from "@/db/schema"
 
-
 export interface postUserData  {
   name: string,
   email: string,
@@ -14,7 +13,6 @@ export interface UserData {
   email: string,
   password: string,
 }
-
 export type databaseUserData = UserData & {
   settings: string,
   createdAt: string,
@@ -22,7 +20,6 @@ export type databaseUserData = UserData & {
   profileImage: string
   isVisible: boolean
 }
-
 
 export interface userRepository {
   getUsers(): Promise<apiResponse<user[]>>

@@ -12,8 +12,6 @@ export const librariesRoutes = [
             if (method === "get") {
                 const lat = Number(filterQueryParam(ctx, "lat"))
                 const long = Number(filterQueryParam(ctx, "long"))
-                console.log(lat)
-                console.log(long)
                 if (lat && long) return await libraryController.listLibraryWithCords(lat,long)
                 else return await libraryController.listLibraries()
             }
@@ -48,7 +46,7 @@ export const librariesRoutes = [
            return libraryController.getLibraryById(id)
         }
         if (method === "post") {
-           const data: postLibraryData = await ctx.request.json()
+           const data: any = await ctx.request.formData()
            const result = await libraryController.createLibrary(data)
            return result
         }

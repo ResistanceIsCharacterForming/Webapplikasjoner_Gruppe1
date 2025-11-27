@@ -19,6 +19,7 @@ export function createReportRepository(db: any): reportRepository{
   async createReport(data :any){
   try {
     const result: report[] = await db.insert(reports).values(data).returning();
+    console.log(data)
     return { success: true, data: result }
   } catch (error) {
     return { success: false, error: 'Failed creating report' }

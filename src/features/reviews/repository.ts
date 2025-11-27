@@ -1,7 +1,7 @@
 import {eq} from "drizzle-orm";
 import {review,reviews,reviewEndorsement,reviewsEndorsements} from "../../db/schema";
 import { singletonMaster } from "@/utils/singletonBuilder"
-import { reviewRepository } from "@/types/reviews";
+import { postReviewData, reviewRepository } from "@/types/reviews";
 
 export function createReviewRepository(db:any):reviewRepository{
   return{
@@ -15,16 +15,9 @@ async getReviews(){
   }
 },
 
-async createReview(data : any){
+async createReview(data : postReviewData){
   try {
-    const result : review[]  = await db.insert(reviews).values({
-        userId: data.userId,
-        libaryId: data.libaryId,
-        text: data.text,
-        reviewsPoints: data.reviewsPoints,
-        createdAt: data.createdAt,
-        photo: data.photo,
-    }).returning();
+    const result : review[]  = await db.insert(reviews).values(data).returning();
     return { success: true, data: result }
   }
     catch (error) {
@@ -34,8 +27,8 @@ async createReview(data : any){
 
 async getReviewById(id:number){
   try {
-    const result : review[]  =  await db.select().from(reviews).where(eq(reviews.id, id));
-    return{success: true,result}
+    const result : review[]  =  await db.select().from(reviews).where(eq(reviews.id, id))
+    return{success: true,data:result}
   }
   catch (error){
     return{success:false,error:"failed getting review by id"}

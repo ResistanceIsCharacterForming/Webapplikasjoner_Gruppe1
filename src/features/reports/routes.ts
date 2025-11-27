@@ -25,7 +25,7 @@ export const reportsRoutes = [
             if (method === "post") {
                 try {
                     const data: any = await ctx.request.formData()
-                    const result = reportController.postReport(data)
+                    const result = await reportController.postReport(data)
                     return result
                 } catch (error) {
                   return new Response("No formdata", {status: 401})  

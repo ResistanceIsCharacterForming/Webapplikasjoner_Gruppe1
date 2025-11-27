@@ -3,7 +3,7 @@ import { singletonMaster } from "./utils/singletonBuilder";
 import { createUserService } from "./features/users/service";
 import { createUserRepository } from "./features/users/repository";
 
-import FileUploadComponent, { ImgboxComponent } from "./form";
+import FileUploadComponent, { Getlibraryuser, Getreviewsingle, Getsingleuser, ImgboxComponent } from "./form";
 
 import { createLibraryService } from "./features/libraries/service";
 import { createLibraryRepository } from "./features/libraries/repository";
@@ -73,8 +73,10 @@ export const databasescreen = async () => {
           {listlibary}
       </table>
       <FileUploadComponent/>
-      <ImgboxComponent imgelement={test2.data.img?.key}/>
-                
+      <ImgboxComponent />
+      <Getsingleuser id = "c99f5430-c3a5-42ca-8f77-f3bb0b369e7e"/>
+      <Getlibraryuser id="de30cd53-b310-477f-b592-fb9c3e468a6e"/>
+      <Getreviewsingle id="12"/>
           </div>
       )
 } 

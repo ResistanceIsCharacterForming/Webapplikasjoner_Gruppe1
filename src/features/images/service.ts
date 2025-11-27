@@ -1,5 +1,5 @@
 import { imageRepository, imageService } from "@/types/image"
-import { error } from "console"
+
 
 export function createImageService(repository:imageRepository):imageService{
     return{
@@ -10,6 +10,7 @@ export function createImageService(repository:imageRepository):imageService{
         },
         async putImage(key:string,img:any){
             const result= await repository.putImage(key,img)
+            
             return { success: result.success, data: result.data }
         },
         async deleteImage(key:string){

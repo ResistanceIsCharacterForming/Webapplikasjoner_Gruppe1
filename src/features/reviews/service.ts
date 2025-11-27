@@ -1,9 +1,9 @@
 import { review, reviewEndorsement } from "@/db/schema"
 import { postEndorsementData, postReviewData } from "@/types/reviews"
-import { imagehandler } from "@/types/image";
+import {  imageService } from "@/types/image";
 import { an } from "vitest/dist/chunks/reporters.d.BFLkQcL6.js";
 
-export function createReviewService(repository: any,imagehandler:imagehandler) {
+export function createReviewService(repository: any,imagehandler:imageService) {
 
     return {
         async getReviews(){
@@ -11,16 +11,15 @@ export function createReviewService(repository: any,imagehandler:imagehandler) {
              return result
         },
          async createReview(formdata:any){
-            const file=formdata.getAll("file")
+            const file=formdata.get("file")
             formdata.delete("file")
             const dataObject  = Object.fromEntries(formdata.entries());
             const data = dataObject as unknown  as postReviewData
-            let photos="0"
-            if(file !==null){
-               photos="1"
-            }
-            const createdAt = new Date().toUTCString()
-            const result=await repository.createReview({data,photos,createdAt})
+            if(file !==null)data.photo="1"
+            else data.photo="0"
+            data.createdAt = new Date().toUTCString()
+            const result=await repository.createReview(data)
+            console.log(result)
             if(file !==null){
                 if (result.success && result.data){
                     const key= result.data[0].id+"@reviewPicture.png"
@@ -31,6 +30,19 @@ export function createReviewService(repository: any,imagehandler:imagehandler) {
         },
          async getReviewById(id:number){
             const result=await repository.getReviewById(id)
+             if (result.data && result.data.length !== 0) {
+                if (result.data[0].photo == undefined || result.data[0].photo == "0") {
+                    const img = ""
+                    const returnData = { img: img, ...result.data }
+                    return { succes: true, data: returnData }
+                }
+                if (result.data[0].photo == "1") {
+                   
+                    const img = await imagehandler.getImage(result.data[0].id + "@reviewPicture.png")
+                    const returnData = { img: img.data, ...result.data }
+                    return { succes: true, data: returnData }
+                }
+            } console.log("asd")
             return result
         },
          async getReviewByUserId(id:string){
@@ -42,7 +54,7 @@ export function createReviewService(repository: any,imagehandler:imagehandler) {
             return result
         },
          async editReview(id:number,formdata :any){
-            const file=formdata.getAll("file")
+            const file=formdata.get("file")
             formdata.delete("file")
             const dataObject  = Object.fromEntries(formdata.entries());
             const data = dataObject as unknown  as Partial<review>

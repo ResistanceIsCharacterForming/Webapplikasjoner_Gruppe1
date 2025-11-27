@@ -1,9 +1,9 @@
 
-import { imagehandler } from "@/types/image";
+import { imageService } from "@/types/image";
 import { libraryService, libraryRepository, postLibraryData } from "@/types/library"
 
 
-export function createLibraryService(repository: libraryRepository,imagehandler:imagehandler): libraryService {
+export function createLibraryService(repository: libraryRepository,imagehandler:imageService): libraryService {
 
     return {
         async listLibraries() {
@@ -12,6 +12,18 @@ export function createLibraryService(repository: libraryRepository,imagehandler:
         },
         async getLibraryWithId(id:string) {
             const result=await repository.getLibraryById(id)
+            if (result.data && result.data.length !== 0) {
+                if (result.data[0].photos == undefined || result.data[0].photos == "0") {
+                    const img = ""
+                    const returnData = { img: img, ...result.data }
+                    return { success: result.success, data: returnData }
+                }
+                if (result.data[0].photos == "1") {
+                    const img = await imagehandler.getImage(result.data[0].id + "@libaryPicture.png")
+                    const returnData = { img: img.data, ...result.data }
+                    return { success: result.success, data: returnData }
+                }
+            }
             return result
         },
         async listLibraryWithUserId(id:string) {
@@ -24,44 +36,45 @@ export function createLibraryService(repository: libraryRepository,imagehandler:
         },
         async createLibrary( formdata: any ) {
             //add zod here
-            const files=formdata.getAll("files")
-            formdata.delete("files")
+            const file=formdata.get("file")
+            formdata.delete("file")
             const dataObject  = Object.fromEntries(formdata.entries());
             const librarydata =dataObject as unknown as postLibraryData
-            let photos="0"
-            if(files !==null){
-               photos=files.length.toString()
+            if(file !==null){
+               librarydata.photos="1"
             }
             const createdAt = new Date().toString()
-            const result = await repository.createLibrary({...librarydata, createdAt: createdAt, isVisible: true, photos: ""})
-            if(files !==null){
+            const result = await repository.createLibrary({...librarydata, createdAt: createdAt, isVisible: true})
+            if(file !==null){
                 if (result.success && result.data){
-                    for (let index = 0; index < files.length; index++) {
-                        const key= result.data[0].id+"@libaryPicture"+index.toString()+".png"
-                        await imagehandler.putImage(key,files[index])
-                    }   
+
+                        const key= result.data[0].id+"@libaryPicture.png"
+                        await imagehandler.putImage(key,file)
+                        
                 }
             }
             return result
         },
          async editLibrary(id:string,formdata:any) {
-            const files=formdata.getAll("files")
-            formdata.delete("files")
+            const file=formdata.get("file")
+            formdata.delete("file")
             const dataObject  = Object.fromEntries(formdata.entries());
             const librarydata =dataObject as unknown as postLibraryData
-            let photos="0"
-            if(files !==null){
-               photos=files.length.toString()
-            }
+            if(file !==null)librarydata.photos="1"
             const result=await repository.editLibrary(id,librarydata)
-            if(files !==null){
+            if(file !==null){
                 if (result.success && result.data){
-                    for (let index = 0; index < files.length; index++) {
-                        const key= result.data[0].id+"@libaryPicture"+index.toString()+".png"
-                        await imagehandler.putImage(key,files[index])
-                    }   
+                    const key= result.data[0].id+"@libaryPicture.png"
+                    await imagehandler.putImage(key,file)
                 }
             }
+            // just incase it will alwayst try to delete the photo here if photos is = 0
+            else if(librarydata.photos)if(librarydata.photos=="0"){
+                if (result.success && result.data){
+                    const key= result.data[0].id+"@libaryPicture.png"
+                    await imagehandler.deleteImage(key)
+                }
+            } 
             return result
         },
          async deleteLibraryWithId(id:string) {

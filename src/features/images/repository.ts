@@ -5,19 +5,24 @@ export function createImageRepository(r2db: any):imageRepository{
         async getImage(key:string){
             try{
                 const result= await r2db.get(key)
-            if(result)
-                return { success: true, data: result }
-            else
-                return { success: false}
+            if(!result)  return { success: false}
+            else{
+                const arrayBuffer = await result.arrayBuffer();
+                const base64 = Buffer.from(arrayBuffer).toString("base64");
+                return { success: true, data: base64 }
+            }
+                 
             }catch(error){
                 return  { success: false}
             }
         },
         async putImage(key:string,img:any){
             try{
+                //img = await img.arrayBuffer()
                 const result= await r2db.put(key,img)
-            if(result)
-                return { success: true, data: result }
+            if(result){
+                return { success: true}
+            }
             else
                 return { success: false}
             }catch(error){

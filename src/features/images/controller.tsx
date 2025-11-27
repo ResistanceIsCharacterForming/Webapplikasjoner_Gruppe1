@@ -1,30 +1,43 @@
-import { imagehandler, imageService } from "@/types/image"
-import { singletonMaster } from "@/utils/singletonBuilder"
+import { imageService } from "@/types/image"
 
-export function ImageController(service:imageService):imagehandler{
-    return{
-        async getImage(key:string){
-            const result= await service.getImage(key)
-            if(result.success)
-                return { success: true, data: result.data }
-            else
-                return { success: false, data: "failed to get img" }
-            
+
+export function createImageController(service: imageService) {
+    return {
+        async getImage(key: string) {
+            const result = await service.getImage(key)
+            return new Response(
+                JSON.stringify({
+                    data: result.data,
+                    success: result.success,
+                }),
+                {
+                    status: 201,
+                    headers: { "Content-Type": "application/json" }
+                })
         },
-        async putImage(key:string,img:any){
-            const result= await service.putImage(key,img)
-             if(result.success)
-                return { success: true, data: result.data }
-            else
-                return { success: false, data: "failed to put img" }
-            
+        async putImage(key: string, img: any) {
+            const result = await service.putImage(key, img)
+            return new Response(
+                JSON.stringify({
+                    data: result.data,
+                    success: result.success,
+                }),
+                {
+                    status: 201,
+                    headers: { "Content-Type": "application/json" }
+                })
         },
-        async deleteImage(key:string){
-             const result=await service.deleteImage(key)
-            if(result.success)
-                return { success: true, data: result.data }
-            else
-                return { success: false, data: "failed to delete img"}
+        async deleteImage(key: string) {
+            const result = await service.deleteImage(key)
+            return new Response(
+                JSON.stringify({
+                    data: result.data,
+                    success: result.success,
+                }),
+                {
+                    status: 201,
+                    headers: { "Content-Type": "application/json" }
+                })
         }
     }
 

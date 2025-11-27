@@ -29,7 +29,8 @@ import { createDbConnection, createR2Connection } from "@/db/index"
 /* image handler*/ 
 import { createImageService } from "@/features/images/service"
 import { createImageRepository } from "@/features/images/repository"
-import { ImageController } from "@/features/images/controller"
+import { createImageController } from "@/features/images/controller"
+
 
 /* Lazy loader for alle singletons. */
 export const singletonMaster = {
@@ -53,19 +54,27 @@ export const singletonMaster = {
         return this._r2Connection
     },
 
-    _ImageController: null as ReturnType<typeof ImageController> | null,
+    _ImageController: null as ReturnType<typeof createImageController> | null,
     get ImageController(){
         if (!this._ImageController){
-            this._ImageController = ImageController(createImageService(createImageRepository(this.r2Connection)))
+            this._ImageController = createImageController(createImageService(createImageRepository(this.r2Connection)))
         }
         return this._ImageController
+    }
+    ,
+    _ImageService: null as ReturnType<typeof createImageService> | null,
+    get ImageService(){
+        if (!this._ImageService){
+            this._ImageService = createImageService(createImageRepository(this.r2Connection))
+        }
+        return this._ImageService
     }
     ,
 
     _libraryController: null as ReturnType<typeof createLibraryController> | null,
     get libraryController() {
         if (!this._libraryController) {
-            this._libraryController = createLibraryController(createLibraryService(createLibraryRepository(this.dbConnection),this.ImageController))
+            this._libraryController = createLibraryController(createLibraryService(createLibraryRepository(this.dbConnection),this.ImageService))
         }
         return this._libraryController
     },
@@ -73,7 +82,7 @@ export const singletonMaster = {
     _userService: null as ReturnType<typeof createUserService> | null,
     get userService() {
         if (!this._userService) {
-            this._userService = createUserService(createUserRepository(this.dbConnection),this.ImageController)
+            this._userService = createUserService(createUserRepository(this.dbConnection),this.ImageService)
         }
         return this._userService
     },
@@ -103,7 +112,7 @@ export const singletonMaster = {
     _reviewController: null as ReturnType<typeof createReviewController> | null,
     get reviewController() {
         if (!this._reviewController) {
-            this._reviewController = createReviewController(createReviewService(createReviewRepository(this.dbConnection),this.ImageController))
+            this._reviewController = createReviewController(createReviewService(createReviewRepository(this.dbConnection),this.ImageService))
         }
         return this._reviewController
     },

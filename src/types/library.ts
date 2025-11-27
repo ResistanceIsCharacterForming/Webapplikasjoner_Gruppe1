@@ -8,20 +8,20 @@ export interface postLibraryData {
   cordlon: number,
   cordlat: number,
   books: string
-  files:File[] | null
+  photos: string 
 }
 
 
 
 
 export type databaseLibraryData =  {
-  userId: string,
+  userId: string | null,
   name: string,
   text: string,
   cordlon: number,
   cordlat: number,
-  books: string
-  photos: string,
+  books: string |null,
+  photos: string |null,
   isVisible: boolean,
   createdAt: string
 }

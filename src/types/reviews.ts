@@ -1,4 +1,4 @@
-import { review, reviewEndorsement } from "@/db/schema";
+import {  reviewEndorsement, reviews } from "@/db/schema";
 import { apiResponse } from "./api";
 
 
@@ -6,7 +6,10 @@ export interface postReviewData  {
     text: string | null;
     userId: string;
     libraryId: string;
+    reviewsPoints: number;
+    createdAt:string|null
     file:File|null;
+    photo:string|null
 }
 export interface postEndorsementData  {
     userId: string;
@@ -52,3 +55,5 @@ export interface reviewService {
   editReviewEndorsement(id: number,data:Partial<reviewEndorsement>): Promise<apiResponse<reviewEndorsement[]>>;
   deleteReviewEndorsementById(id: number): Promise<apiResponse<void>>;
 }
+
+export type review = typeof reviews.$inferSelect;

@@ -21,7 +21,6 @@ export function createLibraryRepository(db:any):libraryRepository{
       const result: library[] = await db.insert(libraries).values(data).returning();
       return { success: true, data: result }
     } catch (error) {
-      console.error("createLibrary error: ", error)
       return { success: false, error: 'Failed creating library' }
     }
   },

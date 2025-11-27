@@ -1,70 +1,91 @@
 import { favoriteLibrary, user } from "@/db/schema"
-import { imagehandler } from "@/types/image";
-import { postUserData, userRepository } from "@/types/user"
+import { imageService } from "@/types/image";
+import { databaseUserData, postUserData, UserData, userRepository } from "@/types/user"
 
 import {
-  hashPassword as hash,
-  verifyPassword as verify,
+    hashPassword as hash,
+    verifyPassword as verify,
 } from "better-auth/crypto"
+import { error } from "console";
 import { and } from "drizzle-orm";
+import { arrayBuffer } from "stream/consumers";
 
 export async function hashPassword(password: string): Promise<string> {
-  try {
-    return await hash(password);
-  } catch (error) {
-    console.error("Password hashing error:", error);
-    throw new Error("Failed to hash password");
-  }
+    try {
+        return await hash(password);
+    } catch (error) {
+        console.error("Password hashing error:", error);
+        throw new Error("Failed to hash password");
+    }
 }
 
-export function createUserService(repository: userRepository ,imagehandler:imagehandler) {
+export function createUserService(repository: userRepository, imagehandler: imageService) {
     return {
-         async listUsers() { 
+        async listUsers() {
             const result = await repository.getUsers()
             return result
         },
-        async getUserById(id: string) { 
+        async getUserById(id: string) {
             const result = await repository.getUserById(id)
-            const img =await imagehandler.getImage("defualtProfile.png")
-            //const test=result.data[0]["img"]=img
-            const returnData ={img:img.data,...result.data}
-            return {succes:true,data:returnData}
+            if (result.data && result.data.length !== 0) {
+                if (result.data[0].profileImage == undefined || result.data[0].profileImage == "0") {
+                    const img = await imagehandler.getImage("defualtProfile.png")
+                    const returnData = { img: img.data, ...result.data }
+                    return { succes: true, data: returnData }
+                }
+                if (result.data[0].profileImage == "1") {
+                    const img = await imagehandler.getImage(result.data[0].id + "@profilePicture.png")
+                    const returnData = { img: img.data, ...result.data }
+                    return { succes: true, data: returnData }
+                }
+            }
+            return { succes: false, error:"failed to get user" }
         },
-        async getUserByEmail(email: string) { 
+        async getUserByEmail(email: string) {
             const result = await repository.getUserByEmail(email)
             return result
         },
         async createUser(formdata: FormData) {
-            const dataObject  = Object.fromEntries(formdata.entries());
-            const data =dataObject as unknown as postUserData
-            let profileImage="0"
-            const {image,...userdata}=data
-             if(image !==null){
-                 profileImage="1"
-             }
-            const hashedPassword = await hashPassword(userdata.password)
-            userdata.password = hashedPassword
-            const createdAt = new Date().toString()
-            const result = await repository.createUser({...userdata,settings:"", createdAt: createdAt, lastLoginAt: "", profileImage: profileImage, isVisible: true})
-            if (result.success && result.data){
-                const key= result.data[0].id+"@profilePicture.png"
-                if(data.image !==null){
-                await imagehandler.putImage(key,image)
+            const file=formdata.get("file")
+            formdata.delete("file")
+            const dataObject = Object.fromEntries(formdata.entries());
+            const data = dataObject as unknown as UserData
+            let profileImage = "0"
+            if (file !== null) {
+                profileImage = "1"
             }
-            
-            }
-            return result
-        },
-        async editUserById(id:string,formdata:FormData){
-            const dataObject  = Object.fromEntries(formdata.entries());
-            const data =dataObject as unknown as postUserData
-            //check if it has password?
             const hashedPassword = await hashPassword(data.password)
             data.password = hashedPassword
-            const result = await repository.editUser(id,data)
+            const createdAt = new Date().toString()
+            const result = await repository.createUser({ ...data, settings: "", createdAt: createdAt, lastLoginAt: "", profileImage: profileImage, isVisible: true })
+            if (result.success && result.data) {
+                const key = result.data[0].id + "@profilePicture.png"
+                if (file !== null) {
+                    const imgresutl = await imagehandler.putImage(key, file)
+                }
+
+            }
             return result
         },
-         async deleteUserByid(id: string) {
+        async editUserById(id: string, formdata: FormData) {
+            const file=formdata.get("file")
+            formdata.delete("file")
+            const dataObject = Object.fromEntries(formdata.entries());
+            const data = dataObject as unknown as Partial<databaseUserData>
+            //check if it has password?
+            if (data.password) {
+                const hashedPassword = await hashPassword(data.password)
+                data.password = hashedPassword
+            }
+             if(file){
+                data.profileImage="1"
+                const key= id+"@profilePicture.png"
+                await imagehandler.putImage(key,file)
+            }
+            const result = await repository.editUser(id, data)
+            return result
+        },
+        async deleteUserByid(id: string) {
             const result = await repository.deleteUserById(id)
             return result
         },
@@ -72,16 +93,16 @@ export function createUserService(repository: userRepository ,imagehandler:image
             const result = await repository.getAdminById(id)
             return result
         },
-        async createAdmin(userId:string,adminLevel:number) {
-             const createdAt = new Date().toString()
+        async createAdmin(userId: string, adminLevel: number) {
+            const createdAt = new Date().toString()
             const result = await repository.createAdmin(userId, createdAt, adminLevel)
             return result
         },
-        async editAdmin(userId:string,adminLevel:number){
-            const result = await repository.editAdmin(userId,adminLevel)
+        async editAdmin(userId: string, adminLevel: number) {
+            const result = await repository.editAdmin(userId, adminLevel)
             return result
         },
-        async deleteAdmin(userId:string){
+        async deleteAdmin(userId: string) {
             const result = await repository.deleteAdminById(userId)
             return result
         },
@@ -97,10 +118,10 @@ export function createUserService(repository: userRepository ,imagehandler:image
             const result = await repository.createFavoriteLibrary(data)
             return result
         },
-        async editFavoriteLibrary(id: number,formdata:any) {
-            const dataObject  = Object.fromEntries(formdata.entries());
-            const data =dataObject as unknown as Partial<favoriteLibrary>
-            const result = await repository.editFavoriteLibrary(id,data)
+        async editFavoriteLibrary(id: number, formdata: any) {
+            const dataObject = Object.fromEntries(formdata.entries());
+            const data = dataObject as unknown as Partial<favoriteLibrary>
+            const result = await repository.editFavoriteLibrary(id, data)
             return result
         },
         async getFavoriteLibraryById(id: number) {
