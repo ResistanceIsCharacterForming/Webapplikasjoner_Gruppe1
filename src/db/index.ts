@@ -11,3 +11,12 @@ export const createDbConnection = (): drizzle => {
 export const createR2Connection =():R2Bucket =>{
     return env.R2
 }
+
+
+export const createTestDbConnection = ():drizzle => {
+    return drizzle(env.testing_bokkroken, {schema})
+}
+
+export const createTestR2Connection =():R2Bucket =>{
+    return env.R2Test
+}

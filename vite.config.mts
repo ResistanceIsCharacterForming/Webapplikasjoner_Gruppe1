@@ -12,6 +12,9 @@ const __dirname = dirname(__filename);
 export default defineConfig({
   test: {
     // ...
+    env: {
+          AAAA: 'test_value',
+        }
   },
   environments: {
     ssr: {},

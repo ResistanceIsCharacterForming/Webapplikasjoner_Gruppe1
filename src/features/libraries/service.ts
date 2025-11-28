@@ -14,17 +14,14 @@ export function createLibraryService(repository: libraryRepository,imagehandler:
             const result=await repository.getLibraryById(id)
             if (result.data && result.data.length !== 0) {
                 if (result.data[0].photos == undefined || result.data[0].photos == "0") {
-                    const img = ""
-                    const returnData = { img: img, ...result.data }
-                    return { success: result.success, data: returnData }
+                    return { success: result.success, data: { img: "deafult img?", data:result.data[0] } }
                 }
                 if (result.data[0].photos == "1") {
                     const img = await imagehandler.getImage(result.data[0].id + "@libaryPicture.png")
-                    const returnData = { img: img.data, ...result.data }
-                    return { success: result.success, data: returnData }
+                    if(img.data != undefined)return { success: result.success, data:{ img: img.data,data:result.data[0] } }
                 }
             }
-            return result
+            return { success: false}
         },
         async listLibraryWithUserId(id:string) {
             const result=await repository.getLibraryByUserId(id)

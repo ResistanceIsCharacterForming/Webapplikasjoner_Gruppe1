@@ -1,9 +1,8 @@
 import { review, reviewEndorsement } from "@/db/schema"
-import { postEndorsementData, postReviewData } from "@/types/reviews"
+import { postEndorsementData, postReviewData, reviewService } from "@/types/reviews"
 import {  imageService } from "@/types/image";
-import { an } from "vitest/dist/chunks/reporters.d.BFLkQcL6.js";
 
-export function createReviewService(repository: any,imagehandler:imageService) {
+export function createReviewService(repository: any,imagehandler:imageService) :reviewService{
 
     return {
         async getReviews(){
@@ -33,17 +32,14 @@ export function createReviewService(repository: any,imagehandler:imageService) {
              if (result.data && result.data.length !== 0) {
                 if (result.data[0].photo == undefined || result.data[0].photo == "0") {
                     const img = ""
-                    const returnData = { img: img, ...result.data }
-                    return { succes: true, data: returnData }
+                    return { success: true, data: { img: img, data:result.data } }
                 }
                 if (result.data[0].photo == "1") {
-                   
                     const img = await imagehandler.getImage(result.data[0].id + "@reviewPicture.png")
-                    const returnData = { img: img.data, ...result.data }
-                    return { succes: true, data: returnData }
+                    if(img.data != undefined) return { success: true, data: { img: img.data, data:result.data } }
                 }
-            } console.log("asd")
-            return result
+            }
+            return {success:false}
         },
          async getReviewByUserId(id:string){
             const result=await repository.getReviewByUserId(id)

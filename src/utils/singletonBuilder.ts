@@ -41,6 +41,9 @@ export const singletonMaster = {
         /* Er den private property "initaiswert" */
         if (!this._dbConnection) {
             /* Lag ny singleton */
+            if (process.env.NODE_ENV === 'test'){
+                console.log("woooooooo")
+            }
             this._dbConnection = createDbConnection()
         }
         /* Send tilbake privat property */
@@ -114,7 +117,13 @@ export const singletonMaster = {
         }
         return this._reportController
     },
-
+      _reviewService: null as ReturnType<typeof createReviewService> | null,
+    get reviewService() {
+        if (!this._reviewService) {
+            this._reviewService = createReviewService(createReviewRepository(this.dbConnection),this.ImageService)
+        }
+        return this._reviewService
+    },
     _reviewController: null as ReturnType<typeof createReviewController> | null,
     get reviewController() {
         if (!this._reviewController) {

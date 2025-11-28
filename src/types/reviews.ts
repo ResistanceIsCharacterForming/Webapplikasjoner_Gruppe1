@@ -39,7 +39,7 @@ export interface reviewRepository {
 export interface reviewService {
   getReviews(): Promise<apiResponse<review[]>>;
   createReview(data:any): Promise<apiResponse<review[]>>;
-  getReviewById(id:number): Promise<apiResponse<review[]>>;
+  getReviewById(id:number): Promise<apiResponse<{img:string,data:review}>>;
   getReviewByUserId(id: string): Promise<apiResponse<review[]>>;
   getReviewByLibraryId(id: string): Promise<apiResponse<review[]>>;
   editReview(id:number,data:any): Promise<apiResponse<review[]>>;

@@ -30,12 +30,12 @@ export function createUserService(repository: userRepository, imagehandler: imag
             if (result.data && result.data.length !== 0) {
                 if (result.data[0].profileImage == undefined || result.data[0].profileImage == "0") {
                     const img = await imagehandler.getImage("defualtProfile.png")
-                    const returnData = { img: img.data, ...result.data }
+                    const returnData = { img: img.data, data:result.data[0] }
                     return { succes: true, data: returnData }
                 }
                 if (result.data[0].profileImage == "1") {
                     const img = await imagehandler.getImage(result.data[0].id + "@profilePicture.png")
-                    const returnData = { img: img.data, ...result.data }
+                    const returnData = { img: img.data, data:result.data[0] }
                     return { succes: true, data: returnData }
                 }
             }

@@ -16,17 +16,25 @@
 	"vars": {},
 	"d1_databases": [
 		{
-			
 			"binding": "bokkroken",
 			"database_name": "bokkroken",
 			"database_id": "df105785-a5b7-409b-b053-fa135166fa7c",
 			"migrations_dir": "drizzle/"
+		},
+		{
+			"binding": "testing_bokkroken",
+			"database_name": "testing-bokkroken",
+			"database_id": "4260a464-1db8-43da-87b9-ae33894beb46"
 		}
 	],
 	"r2_buckets": [
 		{
 			"binding": "R2",
 			"bucket_name": "bokkrokenbucket"
+		},
+		{
+			"bucket_name": "test-bokkrokenbucket",
+			"binding": "R2Test"
 		}
 	]
 }
