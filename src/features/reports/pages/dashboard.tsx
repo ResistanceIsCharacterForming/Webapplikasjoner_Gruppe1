@@ -1,10 +1,10 @@
 "use client"
 import { Reports } from "../components/reports"
 import { JSX, useEffect, useState } from "react"
-import { report, responeReport } from "@/types/reports"
-import { getReports } from "../hooks/getReports"
-import { deleteReport } from "../hooks/adminActions"
+import { report} from "@/types/reports"
+
 import AdminNav from "../components/adminNav"
+import { getReports } from "../hooks/adminActions"
 
 type inputFields = {
    label: string, name: string, type: string
@@ -35,10 +35,11 @@ const field: inputFields = { label: "search", name: "search", type: "search" }
 
 export default  function DashboardScreen() {
    const [reports, setReports] = useState<report[]>()
-   const [showcare, setshowcase] = useState<JSX.Element[]>()
+   const [showcase, setShowcase] = useState<JSX.Element[]>()
    const [reportlevel, settreportlevel] = useState(levelOptions[0].value)
    const [sort, settsort] = useState(sortOptions[0].value)
    const [serachSetting, settSerachSetting] = useState(serachOptions[0].value)
+
    useEffect(() => {
       if (reports) {
          settSorting(sort)
@@ -58,20 +59,20 @@ export default  function DashboardScreen() {
 
    async function listReports(type:string|void,level:number|void)  {
       if (type && level){
-         const reportres: responeReport = await getReports(type,level)
-         setReports(reportres.data)
+         const reports = await getReports(type,level)
+         setReports(reports)
       }
       else if (type){
-         const reportres: responeReport = await getReports(type)
-         setReports(reportres.data)
+         const reports = await getReports(type)
+         setReports(reports)
       }
       else if (level){
-         const reportres: responeReport = await getReports(undefined,level)
-         setReports(reportres.data)
+         const reports = await getReports(undefined,level)
+         setReports(reports)
       }
       else{
-         const reportres: responeReport = await getReports()
-         setReports(reportres.data)
+         const reports = await getReports()
+         setReports(reports)
       }
    }
    async function showReports(reportslist?: report[]) {
@@ -79,13 +80,13 @@ export default  function DashboardScreen() {
          const listreports = reportslist.map(report =>
             <Reports  key={report.id}{...report} />
          )
-         setshowcase(listreports)
+         setShowcase(listreports)
       }
       else if (reports) {
          const listreports = reports.map(report =>
             <Reports  key={report.id}{...report} />
          )
-         setshowcase(listreports)
+         setShowcase(listreports)
       }
    }
    async function sortbylevel(level: string) {
@@ -101,7 +102,7 @@ export default  function DashboardScreen() {
                <Reports key={report.id}{...report} />
              
             )
-            setshowcase(listreports)
+            setShowcase(listreports)
          }
       }
    }
@@ -155,27 +156,16 @@ export default  function DashboardScreen() {
          }
       }
    }
-   const getallreports = () => {
-      listReports()
-   }
-   const getAllReportsAboutReviews = () => {
-      listReports("review")
-   }
-   const getAllReportsAboutUsers = () => {
-      listReports("User")
-   }
-   const getAllReportsAboutLibaries = () => {
-      listReports("libary")
-   }
+ 
 
    return (
       <main className="grid grid-cols-5 grid-rows-17 gap-0 bg-oldRose h-screen">
          <AdminNav />
          <article className=" col-span-5 row-start-2 col-span-2 bg-oldRose flex h-100%">
-            <button onClick={getallreports} className={buttonstyle}> all</button>
-            <button onClick={getAllReportsAboutReviews} className={buttonstyle}> review</button>
-            <button onClick={getAllReportsAboutUsers} className={buttonstyle}> user</button>
-            <button onClick={getAllReportsAboutLibaries} className={buttonstyle}> libary</button>
+            <button onClick={()=>listReports()} className={buttonstyle}> all</button>
+            <button onClick={()=>listReports("review")} className={buttonstyle}> review</button>
+            <button onClick={()=>listReports("User")} className={buttonstyle}> user</button>
+            <button onClick={()=>listReports("libary")} className={buttonstyle}> libary</button>
          </article>
          <article className="bg-oldRose grid grid-cols-10  row-start-3 row-span-1 col-span-5 border-blackChocolate border-1">
             <article className="w-full bg-lotion border-blackChocolate border-1 p-1 focus:outline-none focus:shadow focus:border-darkVanilla rounded-md col-span-4 ml-2 grid 10">
@@ -220,7 +210,7 @@ export default  function DashboardScreen() {
                   <p className="col-span-5">submitterUserId</p>
                   <p className="col-span-5">reportedId</p>
                </div>
-           {showcare}
+           {showcase}
            
          </article>
          <footer className="col-span-5 col-start-1 row-start-18 bg-lotion">

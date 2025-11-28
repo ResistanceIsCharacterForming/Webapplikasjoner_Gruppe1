@@ -43,7 +43,7 @@ export interface libraryService{
   listLibraryWithUserId(id:string): Promise<apiResponse<library[]>>;
   listLibraryWithCords(lat:number,long:number): Promise<apiResponse<library[]>>;
   createLibrary(data: postLibraryData): Promise<apiResponse<library[]>>;
-  editLibrary(id:string,data:Partial<library>): Promise<apiResponse<library[]>>;
+  editLibrary(id:string,formdata:any): Promise<apiResponse<library[]>>;
   deleteLibraryWithId(id:string): Promise<apiResponse<void>>;
   deleteLibraryWithUserId(id:string): Promise<apiResponse<void>>;
 }

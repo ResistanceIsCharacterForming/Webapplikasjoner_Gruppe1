@@ -70,7 +70,13 @@ export const singletonMaster = {
         return this._ImageService
     }
     ,
-
+    _libraryService: null as ReturnType<typeof createLibraryService> | null,
+    get libraryService() {
+        if (!this._libraryService) {
+            this._libraryService = createLibraryService(createLibraryRepository(this.dbConnection),this.ImageService)
+        }
+        return this._libraryService
+    },
     _libraryController: null as ReturnType<typeof createLibraryController> | null,
     get libraryController() {
         if (!this._libraryController) {

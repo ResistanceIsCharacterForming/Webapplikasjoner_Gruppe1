@@ -1,95 +1,76 @@
 "use client"
 import { report } from "@/types/reports"
-import { deleteLibraryFromReport, deleteReport, deleteReviewFromReport, deleteUserFromReport, RemoveLibraryImage, setNotVisibleLibraryFromReport, setNotVisibleUserFromReport, settUserProfileToBasic } from "../hooks/adminActions"
 import { useState } from "react"
+import { deleteLibraryFromReport, deleteReport, deleteReviewFromReport, deleteUserFromReport, RemoveLibraryImage, setNotVisibleLibraryFromReport, setNotVisibleUserFromReport, settUserProfileToBasic } from "../hooks/adminActions"
 
-   const buttonstyle="text-lg italic text-blackChocolate! hover:text-darkVanilla! bg-oldLace grow  border-blackChocolate border-1 p-1 focus:outline-none focus:shadow focus:border-darkVanilla rounded-md"
 
-export const Reports = (report:report) => {
-     const [ishidden, setIsHidden] = useState<boolean>(false)
-     const [expand, setexpand] = useState("expand")
+const buttonstyle = "text-lg italic text-blackChocolate! hover:text-darkVanilla! bg-oldLace grow  border-blackChocolate border-1 p-1 focus:outline-none focus:shadow focus:border-darkVanilla rounded-md"
 
-    const HandleDelete = () => {
-        deleteReport(report.id)
-    }
-    const HandleDeleteOwner = () => {
-        if (report.reportType=="User")
-            if (report.userId)
-                deleteUserFromReport(report.userId)
-        if (report.reportType=="library")
-             if (report.libraryId)
-                deleteLibraryFromReport(report.libraryId)
-        if (report.reportType=="review")
-             if (report.reviewId)
-                deleteReviewFromReport(report.reviewId)
-    }
-    const HandleSettNotVisableOwner = () => {
-        if (report.reportType=="User")
-            if (report.userId)
-                setNotVisibleUserFromReport(report.userId)
-        if (report.reportType=="library")
-             if (report.libraryId)
-                setNotVisibleLibraryFromReport(report.libraryId)
-    }
-    const HandleSettUserProfileToBasic = () => {
-        if (report.userId) settUserProfileToBasic(report.userId)
-    }
-    const handleRemoveLibraryImage=() => {
-        if(report.libraryId) RemoveLibraryImage(report.libraryId)
-    }
+export const Reports = (report: report) => {
+    const [ishidden, setIsHidden] = useState<boolean>(false)
+    const [expand, setexpand] = useState("expand")
+
+
     let typebuttons
-    let targetid
-    if (report.reportType == "User") {
-        targetid = report.userId
+    let typeid
+    if (report.reportType == "User" && report.userId != null) {
+        const targetid = report.userId
+        typeid = targetid
         typebuttons = (
             <>
-                <button className={buttonstyle} onClick={HandleSettNotVisableOwner}>sett target not visable</button>
-                <button className={buttonstyle} onClick={HandleSettUserProfileToBasic}>nullstill bruker navn og bilde</button>
+                <button className={buttonstyle} onClick={() => deleteUserFromReport(targetid)}>delete reported user</button>
+                <button className={buttonstyle} onClick={() => setNotVisibleUserFromReport(targetid)}>sett reported user not visable</button>
+                <button className={buttonstyle} onClick={() => settUserProfileToBasic(targetid)}>nullstill bruker navn og bilde</button>
             </>
         )
     }
-    if (report.reportType == "library") {
-        targetid = report.libraryId
+    if (report.reportType == "library" && report.libraryId != null) {
+        const targetid = report.libraryId
+        typeid = targetid
         typebuttons = (
             <>
-            <button className={buttonstyle} onClick={HandleSettNotVisableOwner}>sett target not visable</button>
-            <button className={buttonstyle} onClick={handleRemoveLibraryImage}>remove image</button>
+                <button className={buttonstyle} onClick={() => deleteLibraryFromReport(targetid)}>delete reported library</button>
+                <button className={buttonstyle} onClick={() => setNotVisibleLibraryFromReport(targetid)}>sett reported library not visable</button>
+                <button className={buttonstyle} onClick={() => RemoveLibraryImage(targetid)}>remove image</button>
             </>
         )
     }
-    if (report.reportType == "review") {
-        targetid = report.reviewId
+    if (report.reportType == "review" && report.reviewId != null) {
+        const targetid = report.reviewId
+        typeid = targetid
         typebuttons = (
-            ""
+            <>
+                <button className={buttonstyle} onClick={() => deleteReviewFromReport(targetid)}>delete reported review</button>
+            </>
         )
     }
-    
-     const handleExpand = () => {
+
+    const handleExpand = () => {
         setIsHidden(!ishidden)
         if (ishidden) setexpand("expand")
         else setexpand("close")
     }
-    return( 
+
+    return (
         <article className="h-2em w-full grid grid-cols-18  border-blackChocolate border-1 p-1">
-        <p className="col-span-1 col-start-2">{report.id}</p>
-        <p className="col-span-1">{report.reportLevel}</p>
-        <p className="col-span-1">{report.reportType}</p>
-        <p className="col-span-3">{report.createdAt}</p>
-        <p className="col-span-5">{report.submitterUserId}</p>
-        <p className="col-span-5">{targetid}</p>
-         <button className="col-start-18" onClick={handleExpand}>{expand}</button>
-         {ishidden && (
-                    <div className="col-start-6 col-span-8">
-                        <p>report:text</p> 
-                        <p>{report.text}</p> 
-                        <label>admin actions:</label> 
-                        <button className={buttonstyle} onClick={HandleDelete}>delete Report</button>
-                        <button className={buttonstyle} onClick={HandleDeleteOwner}>delete reported target</button>
-                        {typebuttons}
+            <p className="col-span-1 col-start-2">{report.id}</p>
+            <p className="col-span-1">{report.reportLevel}</p>
+            <p className="col-span-1">{report.reportType}</p>
+            <p className="col-span-3">{report.createdAt}</p>
+            <p className="col-span-5">{report.submitterUserId}</p>
+            <p className="col-span-5">{typeid}</p>
+            <button className="col-start-18" onClick={() => handleExpand()}>{expand}</button>
+            {ishidden && (
+                <div className="col-start-6 col-span-8">
+                    <p>report:text</p>
+                    <p>{report.text}</p>
+                    <label>admin actions:</label>
+                    {typebuttons}
+                    <button className={buttonstyle} onClick={() => deleteReport(report.id)}>delete Report</button>
                 </div>)}
-         </article>               
-               
-       
+        </article>
+
+
     )
 
 
