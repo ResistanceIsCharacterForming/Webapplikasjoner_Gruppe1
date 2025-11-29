@@ -3,7 +3,12 @@
 import { useState } from "react"
 import { Marker, Popup, Tooltip, useMapEvents } from "react-leaflet"
 
-export default function AddLibraryLogic({onAdd}: any) {
+interface CreateLibraryLogicProps {
+  onAddAction: (position: any) => void
+}
+
+
+export default function CreateLibraryLogic({onAddAction}: CreateLibraryLogicProps) {
 
   const [position, setPosition] = useState(null)
 
@@ -13,14 +18,18 @@ export default function AddLibraryLogic({onAdd}: any) {
     }
   })
 
+    console.log(position)
+
+
   return position === null ? null : (
+
+
     <Marker
       position={position}
       eventHandlers={{
-        click: () => {
-          onAdd(position)
-        },
-      }}>
+        click: (e) => onAddAction(position)
+      }}
+    >
       <Tooltip direction="right" offset={[0, 0]} opacity={1} permanent>Trykk på denne nålen<br/>for å bekrefte plassering</Tooltip>
     </Marker>
   )

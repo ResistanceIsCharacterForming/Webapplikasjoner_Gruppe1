@@ -4,9 +4,16 @@ import { postLibraryData } from "@/types/library"
 
 const libraryController = singletonMaster.libraryController
 
+import { loadSearchParams } from "@/utils/searchParams"
+
 export const librariesRoutes = [
     route("libraries",[ 
         async (ctx) => {
+
+            const { test } = loadSearchParams(ctx.request.url)
+
+            console.log(test)
+
               //add alle kan bruke 
             const method = ctx.request.method.toLowerCase()
             if (method === "get") {

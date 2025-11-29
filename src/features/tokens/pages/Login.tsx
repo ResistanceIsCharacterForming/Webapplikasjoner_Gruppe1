@@ -47,8 +47,8 @@ export default function LoginScreen() {
     label: string, name: string, type: string
   }
   const fields: inputFields[] = [
-    { label: "Password", name: "password", type: "password" },
-    { label: "Epost", name: "email", type: "email" }
+    { label: "Epost", name: "email", type: "email" },
+    { label: "Password", name: "password", type: "password" }
   ]
 
   return (

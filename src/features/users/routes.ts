@@ -22,7 +22,7 @@ export const usersRoutes = [
                 }
             }
         },
-        isAdmin,
+        /*isAdmin,*/
         async (ctx) => {
             const method = ctx.request.method.toLowerCase()
             if (method === "get") {
@@ -30,38 +30,41 @@ export const usersRoutes = [
                 return result
             }
         }
-    ])/*,
-    route("users/:id", [
-        async (ctx) => {
-            const method = ctx.request.method.toLowerCase()
-            const id = ctx.params?.id ?? undefined
-            if (id === undefined) return new Response("No Id", {status: 401})
-            if (method === "get") {
-                const result = await userController.getUserById(id)
-                return result
-        }},
-        async (ctx) => {
-            const method = ctx.request.method.toLowerCase()
-            const id = ctx.params?.id ?? undefined
-            if (id === undefined) return new Response("No Id", {status: 401})
-            if (method === "put") {
-                 try {
-                    const data: any = await ctx.request.formData()
-                    const result = await userController.editUser(id,data)
-                    return result
-                } catch (error) {
-                    return new Response("No formdata", {status: 401})
-                }
-        }},
-        async (ctx) => {
-            const method = ctx.request.method.toLowerCase()
-            const id = ctx.params?.id ?? undefined
-            if (id === undefined) return new Response("No Id", {status: 401})
-            if (method === "delete")
-                const result = await userController.deleteUser(id)
-                return result
-        }},
-        ]),
+    ]),
+   route("users/:id", [
+    async (ctx) => {
+        const method = ctx.request.method.toLowerCase()
+        const id = ctx.params?.id
+        if (!id) return new Response("No Id", { status: 401 })
+        if (method === "get") {
+            return await userController.getUserById(id)
+        }
+    },
+
+    async (ctx) => {
+        const method = ctx.request.method.toLowerCase()
+        const id = ctx.params?.id
+        if (!id) return new Response("No Id", { status: 401 })
+        if (method === "put") {
+            try {
+                const data = await ctx.request.formData()
+                return await userController.editUser(id, data)
+            } catch {
+                return new Response("No formdata", { status: 401 })
+            }
+        }
+    },
+
+    async (ctx) => {
+        const method = ctx.request.method.toLowerCase()
+        const id = ctx.params?.id
+        if (!id) return new Response("No Id", { status: 401 })
+        if (method === "delete") {
+            return await userController.deleteUser(id)
+        }
+    }
+]),
+
     route("users/:id/admin", [
         async (ctx) => {
             const method = ctx.request.method.toLowerCase()
@@ -211,5 +214,5 @@ export const usersRoutes = [
                 }
         }
          },
-    ])*/
+    ])
 ]

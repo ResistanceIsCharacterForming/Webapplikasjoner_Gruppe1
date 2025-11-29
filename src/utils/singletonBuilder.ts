@@ -40,11 +40,16 @@ export const singletonMaster = {
         /* Er den private property "initaiswert" */
         if (!this._dbConnection) {
             /* Lag ny singleton */
-            this._dbConnection = createDbConnection()
+            if (process.env.ENVIRONMENT == "LIVE") {
+                this._dbConnection = createDbConnection()
+            } else {
+
+            }
         }
         /* Send tilbake privat property */
         return this._dbConnection
     },
+    
     _r2Connection:null as ReturnType<typeof createR2Connection> |null,
     get r2Connection(){
         if(!this._r2Connection){
@@ -59,13 +64,20 @@ export const singletonMaster = {
             this._ImageController = ImageController(createImageService(createImageRepository(this.r2Connection)))
         }
         return this._ImageController
-    }
-    ,
+    },
+
+    _libraryService: null as ReturnType<typeof createLibraryService> | null,
+    get libraryService() {
+        if (!this._libraryService) {
+            this._libraryService = createLibraryService(createLibraryRepository(this.dbConnection),this.ImageController)
+        }
+        return this._libraryService
+    },
 
     _libraryController: null as ReturnType<typeof createLibraryController> | null,
     get libraryController() {
         if (!this._libraryController) {
-            this._libraryController = createLibraryController(createLibraryService(createLibraryRepository(this.dbConnection),this.ImageController))
+            this._libraryController = createLibraryController(this.libraryService)
         }
         return this._libraryController
     },

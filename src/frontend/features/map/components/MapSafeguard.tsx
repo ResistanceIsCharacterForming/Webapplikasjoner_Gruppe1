@@ -2,7 +2,12 @@
 
 import { useEffect, useState } from "react"
 
+import { NuqsAdapter } from 'nuqs/adapters/react'
+
 export default function MapSafeGuard() {
+
+    const [mapLoaded, setMapLoaded] = useState<boolean>(false)
+    const [dynamicImport, setDynamicImport] = useState<any>()
 
     const isClient = () => {
         return typeof window !== "undefined"
@@ -11,19 +16,18 @@ export default function MapSafeGuard() {
     useEffect(() => {
         if (!isClient()) return
 
-        import("./mapGenerator").then((module) => {
+        import("./MapManager").then((module) => {
             setDynamicImport((() => module.default))
             setMapLoaded(true)
         })
     }, [])
 
-    const [mapLoaded, setMapLoaded] = useState<boolean>(false)
-    const [dynamicImport, setDynamicImport] = useState<any>()
+ 
 
     if (!mapLoaded && !dynamicImport) {
         return <section>Laster kart ...</section>
     }
 
     const MapGeneratorComponent = dynamicImport;
-    return <MapGeneratorComponent />
+    return <NuqsAdapter><MapGeneratorComponent /></NuqsAdapter>
 }

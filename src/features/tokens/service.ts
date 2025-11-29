@@ -1,8 +1,8 @@
 import { singletonMaster } from "@/utils/singletonBuilder"
 
-import { verifyPassword } from "./hooks/password"
+import { verifyPassword } from "./utils/password"
 
-import { createToken, verifyToken } from "./hooks/handleToken"
+import { createToken, verifyToken } from "./utils/handleToken"
 
 export function createTokensService() {
     return {
@@ -36,8 +36,12 @@ export function createTokensService() {
 
             return result
         },
+        
         async handleLogin(data: any) {
-            const { email, password } = data
+            
+            const password = data.get("password")
+            const email = data.get("email")
+
             const user = await singletonMaster.userService.getUserByEmail(email)
             if (user.data?.password === undefined) {
                 return false
