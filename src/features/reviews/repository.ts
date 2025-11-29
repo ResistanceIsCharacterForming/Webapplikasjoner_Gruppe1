@@ -39,7 +39,7 @@ async getReviewById(id:number){
 async getReviewByUserId(id:string){
   try {
     const result : review[]  =  await db.select().from(reviews).where(eq(reviews.userId, id));
-    return{success: true,result}
+    return{success: true,data:result}
   }
   catch (error){
     return{success:false,error:"failed getting review by user id"}
@@ -49,7 +49,7 @@ async getReviewByUserId(id:string){
 async getReviewByLibraryId(id:string){
   try {
     const result : review[]  =  await db.select().from(reviews).where(eq(reviews.libraryId, id));
-    return{success: true,result}
+    return{success: true,data:result}
   }
   catch (error){
     return{success:false,error:"failed getting review by libary id"}
@@ -59,7 +59,7 @@ async getReviewByLibraryId(id:string){
 async editReview(id:number,data:Partial<review>){
   try {
     const result: review[] = await db.update(reviews).set(data).where(eq(reviews.id, id)).returning();
-    return{success: true,result}
+    return{success: true,data:result}
   }
   catch (error){
     return{success:false,error:"failed to edit review"}
@@ -101,7 +101,7 @@ async deleteReviewByLibraryId(id:string){
 async getReviewsEndorsements(){
   try {
     const result:reviewEndorsement[] = await db.select().from(reviewsEndorsements);
-    return { success: true, result: reviewsEndorsements }
+    return { success: true, data:result }
   } catch (error) {
     return { success: false, error: 'Failed getting reviewsEndorsements' }
   }
@@ -123,7 +123,7 @@ async createReviewEndorsement(data : any){
 async getReviewEndorsementById(id:number){
   try {
     const result : reviewEndorsement[] =  await db.select().from(reviewsEndorsements).where(eq(reviewsEndorsements.id, id));
-    return{success: true,result}
+    return{success: true,data:result}
   }
   catch (error){
     return{success:false,error:"failed getting reviewEndorsement by id"}
@@ -133,7 +133,7 @@ async getReviewEndorsementById(id:number){
 async getReviewEndorsementByUserId(id:string){
   try {
     const result : reviewEndorsement[] =  await db.select().from(reviewsEndorsements).where(eq(reviewsEndorsements.userId, id));
-    return{success: true,result}
+    return{success: true,data:result}
   }
   catch (error){
     return{success:false,error:"failed getting reviewEndorsement by user id"}
@@ -143,7 +143,7 @@ async getReviewEndorsementByUserId(id:string){
 async getReviewEndorsementByReviewId(id:number){
   try {
     const result : reviewEndorsement[] =  await db.select().from(reviewsEndorsements).where(eq(reviewsEndorsements.reviewId, id));
-    return{success: true,result}
+    return{success: true,data:result}
   }
   catch (error){
     return{success:false,error:"failed getting reviewEndorsement by review id"}
@@ -153,7 +153,7 @@ async getReviewEndorsementByReviewId(id:number){
 async editReviewEndorsement(id:number,data:Partial<reviewEndorsement>){
   try {
     const result : reviewEndorsement[] = await db.update(reviewsEndorsements).set(data).where(eq(reviewsEndorsements.id, id)).returning();
-    return{success: true,result}
+    return{success: true,data:result}
   }
   catch (error){
     return{success:false,error:"failed to edit reviewEndorsement"}

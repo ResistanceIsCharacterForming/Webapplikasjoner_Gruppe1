@@ -1,4 +1,5 @@
 "use server";
+
 export function useRandomNameGenerator() {
     const randomNamePartOne = ["bubbel", "nice", "reader", "sweet", "free", "wild", "happy"];
     const randomNamePartTwo = ["pants", "book", "user", "grass", "rock", "farm", "bee"];

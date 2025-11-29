@@ -3,6 +3,7 @@ import { getRandomValues } from 'crypto';
 import React, { JSX, useEffect, useState } from 'react';
 import { apiuserdataRespone } from './types/user';
 import { libraries, library, review, user } from './db/schema';
+import { useGetReviewsFromLibraries } from "./features/reports/hooks/universal/useGetReviewsFromLibraries";
 
 const FileUploadComponent =  () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -130,7 +131,7 @@ export const Getlibraryuser = ({id})=>{
 export const Getreviewsingle = (props: { id: any; })=>{
   let id = props.id
   const [imghref, setimghref] = useState("null");
-   const [text, settText] = useState<JSX.Element>()
+   const [text, settText] = useState<JSX.Element[]>()
     const getuser = async () => {
     const url="http://localhost:5173/api/v1/reviews/"+id
     const test =await fetch(url,{
@@ -138,10 +139,15 @@ export const Getreviewsingle = (props: { id: any; })=>{
     })
     const json :any= await test.json()
     const data :review = json.data[0]
-    const text = <p>{data.id} {data.text}</p>
-    if(data.photo == "1" )setimghref("data:image/png;base64,"+json.data.img)
-  
-    settText(text)
+    const testcase=await useGetReviewsFromLibraries("03a949bd-f33e-4088-a8f9-189f935bccb0")
+    const newdata=testcase
+    console.log(testcase)
+    const asdadas=newdata.map(value=>
+      <IDK {...value}/>
+    )
+    console.log(asdadas)
+    settText(asdadas)
+    
   }
   useEffect(() =>{
    getuser()
@@ -153,4 +159,13 @@ export const Getreviewsingle = (props: { id: any; })=>{
       <img src={imghref} alt="img" width="100px" height="100px"/>
     </div>
    )
+}
+
+const IDK = (review: review)=>{
+  let img =(<p>no img</p>)
+  if(review.photo) img=(<img src={"data:image/png;base64,"+review.photo}></img>)
+  else img=(<p>no img</p>)
+  return (
+    <> {img}</>
+  )
 }

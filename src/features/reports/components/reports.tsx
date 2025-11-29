@@ -64,7 +64,7 @@ export const Reports = (report: report) => {
                 <div className="col-start-6 col-span-8">
                     <p>rapport tekst:</p>
                     <p>{report.text}</p>
-                    <label>adminhandlinger:</label>
+                    <label>adminhandlinger: <br /></label>
                     {typebuttons}
                     <button className={buttonstyle} onClick={() => deleteReport(report.id)}>delete rapport</button>
                 </div>)}

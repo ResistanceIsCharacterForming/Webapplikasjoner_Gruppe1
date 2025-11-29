@@ -1,9 +1,7 @@
 "use server";
 import { singletonMaster } from "@/utils/singletonBuilder";
-const review = singletonMaster.reviewService;
 
-
-export async function getReview(id: number) {
-    const result = await review.getReviewById(id);
+export async function useGetReview(id: number) {
+    const result = await singletonMaster.reviewService.getReviewById(id);
     return result;
 }

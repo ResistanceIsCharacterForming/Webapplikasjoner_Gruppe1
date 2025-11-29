@@ -7,8 +7,4 @@ export async function useGetLibrary(id: string) {
 }
 
 
-export async function useDeleteLibrary(id: string) {
-    const result = await singletonMaster.libraryService.deleteLibraryWithId(id);
-    return result;
-}
 

@@ -5,7 +5,6 @@ import { validatePostLibrary } from "@/utils/valueValidation";
 
 
 export function createLibraryService(repository: libraryRepository,imagehandler:imageService): libraryService {
-
     return {
         async listLibraries() {
             const result=await repository.getLibraries()
@@ -47,7 +46,6 @@ export function createLibraryService(repository: libraryRepository,imagehandler:
             const result = await repository.createLibrary({...librarydata, createdAt: createdAt, isVisible: true})
             if(file !==null){
                 if (result.success && result.data){
-
                         const key= result.data[0].id+"@libaryPicture.png"
                         await imagehandler.putImage(key,file)
                         

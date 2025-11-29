@@ -212,9 +212,6 @@ export default  function DashboardScreen() {
            {showcase}
            
          </article>
-         <footer className="col-span-5 col-start-1 row-start-18 bg-lotion">
-            foooooooooooooooooooooter
-         </footer>
       </main>
 
 
