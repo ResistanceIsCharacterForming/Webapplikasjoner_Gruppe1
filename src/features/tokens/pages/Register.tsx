@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useRandomNameGenerator } from "../useRandomNameGenerator";
 
 export default function RegisterScreen() {
 
@@ -42,18 +43,23 @@ export default function RegisterScreen() {
     ...prevUser,
     [key]: value
     }))
-    
   }
 
   type inputFields = {
     label: string, name: string, type: string
   }
+
   const fields: inputFields[] = [
     { label: "Navn", name: "name", type: "text" },
     { label: "Password", name: "password", type: "password" },
     { label: "Epost", name: "email", type: "email" },
   ]
-
+  
+  useEffect(() => {
+    const initialName = useRandomNameGenerator()
+    callbackForUser(initialName, "name")
+  },[])
+  
   return (
     <article className="bg-lotion shadow-md border-darkVanilla border-1 rounded-bl-lg rounded-tr-lg m-auto w-auto row-span-2 p-3 sm:p-5 sm:w-lg">
         <h2 className="text-oldRose text-2xl font-prata pb-3">Registrer en ny bruker</h2>
@@ -66,10 +72,12 @@ export default function RegisterScreen() {
                   className = "w-full border-blackChocolate border-1 p-1 focus:outline-none focus:shadow focus:border-darkVanilla rounded-md"
                   placeholder= "Skriv her ..."
                   required
+                  key={field.name}
                   type={field.type}
                   id={field.type}
                   name={field.type}
-                  onChange={(e) => callbackForUser(e.target.value, field.type)}
+                  value={user[field.name as keyof userForm]}
+                  onChange={(e) => callbackForUser(e.target.value, field.name)}
                 />
               </article>
             ))}

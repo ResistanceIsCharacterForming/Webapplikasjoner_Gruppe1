@@ -1,7 +1,7 @@
 "use server"
 
 import { singletonMaster } from "@/utils/singletonBuilder"
-import { useRandomNameGenerator } from "./universal/useRandomNameGenerator"
+import { useRandomNameGenerator } from "../../tokens/useRandomNameGenerator"
 
 const report = singletonMaster.reportService
 const user = singletonMaster.userService
@@ -15,7 +15,7 @@ export async function deleteReport(id: number) {
    const result = await report.deleteReport(id)
 }
 
-export async function deleteUserFromReport(id: string) {
+export async function deleteUser(id: string) {
     const result = await user.deleteUserByid(id)
 }
 
@@ -29,12 +29,17 @@ export async function setNotVisibleLibraryFromReport(id: string) {
     const result = await library.editLibrary(id,data)
 }
 
-export async function setNotVisibleUserFromReport(id: string) {
+export async function setNotVisibleUser(id: string) {
     const data = new FormData
     data.append("isVisible", "0")
     const result = await user.editUserById(id,data)
 }
 
+export async function setVisibleUser(id: string) {
+    const data = new FormData
+    data.append("isVisible", "1")
+    const result = await user.editUserById(id,data)
+}
 
 export async function settUserProfileToBasic(id: string) {
     const data = new FormData
@@ -48,6 +53,16 @@ export async function RemoveLibraryImage(id: string) {
     data.append("photos", "0")
     library.editLibrary(id,data)
 
+}
+
+export async function makeUserAdmin(id:string) {
+    user.createAdmin(id,2)
+    
+}
+
+export async function removeAdminFromUser(id:string) {
+    user.deleteAdmin(id)
+    
 }
 
 export async function getReports(type?:string,level?:number) {

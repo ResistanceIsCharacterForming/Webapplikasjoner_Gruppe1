@@ -1,6 +1,7 @@
-import { favoriteLibrary, user } from "@/db/schema"
+import { favoriteLibrary } from "@/db/schema"
 import { apiResponse } from "./api"
 import { admin } from "@/db/schema"
+import { users } from "@/db/schema/users-schema"
 
 export interface postUserData  {
   name: string,
@@ -49,3 +50,4 @@ export interface userRepository {
   getAdminById(id: string): Promise<apiResponse<admin[]>>
   deleteAdminById(id: string): Promise<apiResponse<void>>
 }
+export type user = typeof users.$inferSelect;

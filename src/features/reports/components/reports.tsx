@@ -1,7 +1,7 @@
 "use client"
 import { report } from "@/types/reports"
 import { useState } from "react"
-import { deleteLibraryFromReport, deleteReport, deleteReviewFromReport, deleteUserFromReport, RemoveLibraryImage, setNotVisibleLibraryFromReport, setNotVisibleUserFromReport, settUserProfileToBasic } from "../hooks/adminActions"
+import { deleteLibraryFromReport, deleteReport, deleteReviewFromReport, deleteUser, RemoveLibraryImage, setNotVisibleLibraryFromReport, setNotVisibleUser, settUserProfileToBasic } from "../hooks/adminActions"
 
 
 const buttonstyle = "text-lg italic text-blackChocolate! hover:text-darkVanilla! bg-oldLace grow  border-blackChocolate border-1 p-1 focus:outline-none focus:shadow focus:border-darkVanilla rounded-md"
@@ -18,8 +18,8 @@ export const Reports = (report: report) => {
         typeid = targetid
         typebuttons = (
             <>
-                <button className={buttonstyle} onClick={() => deleteUserFromReport(targetid)}>slett rapportert bruker</button>
-                <button className={buttonstyle} onClick={() => setNotVisibleUserFromReport(targetid)}>sett rapportert bruker som usynlig</button>
+                <button className={buttonstyle} onClick={() => deleteUser(targetid)}>slett rapportert bruker</button>
+                <button className={buttonstyle} onClick={() => setNotVisibleUser(targetid)}>sett rapportert bruker som usynlig</button>
                 <button className={buttonstyle} onClick={() => settUserProfileToBasic(targetid)}>nullstill brukernavn og bilde</button>
             </>
         )

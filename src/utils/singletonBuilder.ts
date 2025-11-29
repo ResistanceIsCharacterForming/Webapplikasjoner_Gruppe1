@@ -31,7 +31,6 @@ import { createImageService } from "@/features/images/service"
 import { createImageRepository } from "@/features/images/repository"
 import { createImageController } from "@/features/images/controller"
 
-
 /* Lazy loader for alle singletons. */
 export const singletonMaster = {
     /* Privat property. Set som null, altså blank når objektet lages. Bruk ReturnType for å matche typen til hva createDbConnection gir oss. */
@@ -41,9 +40,6 @@ export const singletonMaster = {
         /* Er den private property "initaiswert" */
         if (!this._dbConnection) {
             /* Lag ny singleton */
-            if (process.env.NODE_ENV === 'test'){
-                console.log("woooooooo")
-            }
             this._dbConnection = createDbConnection()
         }
         /* Send tilbake privat property */
