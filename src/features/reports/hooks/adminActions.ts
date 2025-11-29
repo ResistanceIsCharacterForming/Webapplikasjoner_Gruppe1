@@ -1,23 +1,14 @@
 "use server"
 
 import { singletonMaster } from "@/utils/singletonBuilder"
-import { getLibrary } from "./serverActions"
+import { useRandomNameGenerator } from "./universal/useRandomNameGenerator"
 
 const report = singletonMaster.reportService
 const user = singletonMaster.userService
 const library = singletonMaster.libraryService
 
-function randomNameGenerator(){
-    const randomNamePartOne=["bubbel","nice","reader","sweet","free","wild","happy"]
-    const randomNamePartTwo=["pants","book","user","grass","rock","farm","bee"]
-    const randomNamePartOneRandomIndex = Math.floor(Math.random() * randomNamePartOne.length)
-    const randomNamePartTwoRandomIndex = Math.floor(Math.random() * randomNamePartTwo.length)
-    return randomNamePartOne[randomNamePartOneRandomIndex]+"_"+randomNamePartTwo[randomNamePartTwoRandomIndex]
-}
-
 export async function deleteReviewFromReport(id: number) {
     const result = await report.deleteReport(id)
-
 }
 
 export async function deleteReport(id: number) {
@@ -47,7 +38,7 @@ export async function setNotVisibleUserFromReport(id: string) {
 
 export async function settUserProfileToBasic(id: string) {
     const data = new FormData
-    data.append("name", randomNameGenerator() )
+    data.append("name", useRandomNameGenerator() )
     data.append("profileImage", "0")
     const result = await user.editUserById(id,data)
 }
@@ -58,7 +49,6 @@ export async function RemoveLibraryImage(id: string) {
     library.editLibrary(id,data)
 
 }
-
 
 export async function getReports(type?:string,level?:number) {
     if (type && level){
