@@ -1,6 +1,7 @@
 
 import { imageService } from "@/types/image";
 import { libraryService, libraryRepository, postLibraryData } from "@/types/library"
+import { validatePostLibrary } from "@/utils/valueValidation";
 
 
 export function createLibraryService(repository: libraryRepository,imagehandler:imageService): libraryService {
@@ -33,6 +34,8 @@ export function createLibraryService(repository: libraryRepository,imagehandler:
         },
         async createLibrary( formdata: any ) {
             //add zod here
+            if (!validatePostLibrary(formdata)) return Promise.reject("Failed to validate library.")
+
             const file=formdata.get("file")
             formdata.delete("file")
             const dataObject  = Object.fromEntries(formdata.entries());

@@ -1,5 +1,6 @@
 import { report } from "@/db/schema";
 import { reportRepository, reportService, uploadreport } from "@/types/reports"
+import { validatePostReport } from "@/utils/valueValidation";
 
 export function createReportService(repository:reportRepository):reportService {
 
@@ -31,6 +32,8 @@ export function createReportService(repository:reportRepository):reportService {
             return result
         },
          async createReports(formdata:any){
+            if (!validatePostReport(formdata)) return Promise.reject("Failed to validate report.")
+
             const dataObject  = Object.fromEntries(formdata.entries());
             // implement zod here for it
             const data =dataObject as unknown as uploadreport
