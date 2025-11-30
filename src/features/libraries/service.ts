@@ -1,7 +1,7 @@
 
 import { imageService } from "@/types/image";
 import { libraryService, libraryRepository, postLibraryData } from "@/types/library"
-import { validatePostLibrary } from "@/utils/valueValidation";
+import { validateEditLibrary, validateId, validateLatitude, validateLongitude, validatePostLibrary } from "@/utils/valueValidation";
 
 
 export function createLibraryService(repository: libraryRepository,imagehandler:imageService): libraryService {
@@ -11,6 +11,8 @@ export function createLibraryService(repository: libraryRepository,imagehandler:
             return result
         },
         async getLibraryWithId(id:string) {
+            if (!validateId.safeParse(id)) return Promise.reject("Failed to validate library id.")
+
             const result=await repository.getLibraryById(id)
             if (result.data && result.data.length !== 0) {
                 if (result.data[0].photos == undefined || result.data[0].photos == "0") {
@@ -24,15 +26,19 @@ export function createLibraryService(repository: libraryRepository,imagehandler:
             return { success: false}
         },
         async listLibraryWithUserId(id:string) {
+            if (!validateId.safeParse(id)) return Promise.reject("Failed to validate user id.")
+
             const result=await repository.getLibraryByUserId(id)
             return result
         },
         async listLibraryWithCords(lat:number,long:number) {
+            if (!validateLatitude.safeParse(lat)) return Promise.reject("Failed to validate latitude.")
+            if (!validateLongitude.safeParse(long)) return Promise.reject("Failed to validate longitude.")
+
             const result=await repository.getLibraryByCords(lat,long)
             return result
         },
         async createLibrary( formdata: any ) {
-            //add zod here
             if (!validatePostLibrary(formdata)) return Promise.reject("Failed to validate library.")
 
             const file=formdata.get("file")
@@ -54,6 +60,8 @@ export function createLibraryService(repository: libraryRepository,imagehandler:
             return result
         },
          async editLibrary(id:string,formdata:any) {
+            if (!validateEditLibrary(id, formdata)) return Promise.reject("Failed to validate library.")
+
             const file=formdata.get("file")
             formdata.delete("file")
             const dataObject  = Object.fromEntries(formdata.entries());
@@ -76,10 +84,14 @@ export function createLibraryService(repository: libraryRepository,imagehandler:
             return result
         },
          async deleteLibraryWithId(id:string) {
+            if (!validateId.safeParse(id)) return Promise.reject("Failed to validate library id.")
+
             const result=await repository.deleteLibraryById(id)
             return result
         },
          async deleteLibraryWithUserId(id:string) {
+            if (!validateId.safeParse(id)) return Promise.reject("Failed to validate user id.")
+
             const result=await repository.deleteLibrariesByUserId(id)
             return result
         }

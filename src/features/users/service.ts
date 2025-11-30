@@ -75,7 +75,7 @@ export function createUserService(repository: userRepository, imagehandler: imag
             return result
         },
         async editUserById(id: string, formdata: FormData) {
-            if (!validateEditUserData(id, formdata)) return Promise.reject("Failed to validate user id.")
+            if (!validateEditUserData(id, formdata)) return Promise.reject("Failed to validate user data.")
 
             const file=formdata.get("file")
             formdata.delete("file")

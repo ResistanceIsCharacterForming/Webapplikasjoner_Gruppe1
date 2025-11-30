@@ -4,6 +4,10 @@ export const validateId = z.uuid()
     .refine(value => value !== null, { error: "Cannot be null.", abort: true })
     .refine(value => value.length > 0 && value.trim().length > 0, { error: "Cannot be empty.", abort: true })
 
+export const validateNumberId = z.number()
+    .refine(value => value !== null, { error: "Cannot be null.", abort: true })
+    .refine(value => value >= 0, { error: "Cannot be negative.", abort: true })
+
 export const validateEmail = z.email()
     .refine(value => value !== null, { error: "Cannot be null.", abort: true })
 
@@ -42,6 +46,11 @@ export const validateAdminLevel = z.number()
     .refine(value => value >= 0, { error: "Cannot be negative.", abort: true })
     .refine(value => value <= 3, { error: "Cannot be a higher level than 3.", abort: true })
 
+export const validateReviewPoints = z.number()
+    .refine(value => value !== null, { error: "Cannot be null.", abort: true })
+    .refine(value => value >= 0, { error: "Cannot be negative.", abort: true })
+    .refine(value => value <= 5, { error: "Cannot be a higher than 5.", abort: true })
+
 
 // export interface postLibraryData {
 //   userId: string,
@@ -76,6 +85,14 @@ export const validatePostLibrary = function(formdata: any) {
     return true
 }
 
+export const validateEditLibrary = function(id: string, formdata: any) {
+    if (!validateId.safeParse(id) || !(formdata instanceof FormData)) return false
+
+    if (formdata.get("id") !== id) return false
+
+    return validatePostLibrary(formdata)
+}
+
 // export type uploadreport ={
 //     submitterUserId: string;
 //     text: string | null;
@@ -104,6 +121,14 @@ export const validatePostReport = function(formdata: any) {
     }
 
     return true
+}
+
+export const validateEditReport = function(id: number, formdata: any) {
+    if (!validateNumberId.safeParse(id) || !(formdata instanceof FormData)) return false
+
+    if (formdata.get("id") !== id.toString()) return false
+
+    return validatePostReport(formdata)
 }
 
 
@@ -160,4 +185,72 @@ export const validateEditUserData = function(id: string, formdata: any) {
     }
 
     return true
+}
+
+// export interface postReviewData  {
+//     text: string | null;
+//     userId: string;
+//     libraryId: string;
+//     reviewsPoints: number;
+//     createdAt:string|null
+//     file:File|null;
+//     photo:string|null
+// }
+
+export const validatePostReview = function(formdata: any) {
+    if (!(formdata instanceof FormData)) return false
+
+    const validations = [
+        validateId.safeParse(formdata.get("userId")),
+        validateId.safeParse(formdata.get("libraryId")),
+        validateReviewPoints.safeParse(formdata.get("reviewsPoints")),
+    ]
+
+    for (const validation of validations) {
+        if (!validation.success) {
+            console.error("Review data validation error issues:", validation.error.issues)
+            return false
+        } 
+    }
+
+    return true
+}
+
+export const validateEditReview = function(id: number, formdata: any) {
+    if (!validateNumberId.safeParse(id) || !(formdata instanceof FormData)) return false
+
+    if (formdata.get("id") !== id.toString()) return false
+
+    return validatePostReview(formdata)
+}
+
+// export interface postEndorsementData  {
+//     userId: string;
+//     reviewId: number;
+// }
+
+export const validatePostEndorsement = function(formdata: any) {
+    if (!(formdata instanceof FormData)) return false
+
+    const validations = [
+        validateId.safeParse(formdata.get("userId")),
+        validateNumberId.safeParse(formdata.get("reviewId"))
+    ]
+
+    for (const validation of validations) {
+        if (!validation.success) {
+            console.error("Endorsement data validation error issues:", validation.error.issues)
+            return false
+        } 
+    }
+
+    return true
+}
+
+export const validateEditEndorsement = function(id: number, formdata: any) {
+    if (!validateNumberId.safeParse(id) || !(formdata instanceof FormData)) return false
+
+    if (formdata.get("id") !== id.toString()) return false
+
+    return validatePostEndorsement(formdata)
 }
