@@ -72,14 +72,14 @@ export const singletonMaster = {
     _libraryService: null as ReturnType<typeof createLibraryService> | null,
     get libraryService() {
         if (!this._libraryService) {
-            this._libraryService = createLibraryService(createLibraryRepository(this.dbConnection),this.ImageService)
+            this._libraryService = createLibraryService(createLibraryRepository(this.dbConnection))
         }
         return this._libraryService
     },
     _libraryController: null as ReturnType<typeof createLibraryController> | null,
     get libraryController() {
         if (!this._libraryController) {
-            this._libraryController = createLibraryController(createLibraryService(createLibraryRepository(this.dbConnection),this.ImageService))
+            this._libraryController = createLibraryController(createLibraryService(createLibraryRepository(this.dbConnection)))
         }
         return this._libraryController
     },
@@ -87,7 +87,7 @@ export const singletonMaster = {
     _userService: null as ReturnType<typeof createUserService> | null,
     get userService() {
         if (!this._userService) {
-            this._userService = createUserService(createUserRepository(this.dbConnection),this.ImageService)
+            this._userService = createUserService(createUserRepository(this.dbConnection))
         }
         return this._userService
     },
@@ -116,14 +116,14 @@ export const singletonMaster = {
       _reviewService: null as ReturnType<typeof createReviewService> | null,
     get reviewService() {
         if (!this._reviewService) {
-            this._reviewService = createReviewService(createReviewRepository(this.dbConnection),this.ImageService)
+            this._reviewService = createReviewService(createReviewRepository(this.dbConnection))
         }
         return this._reviewService
     },
     _reviewController: null as ReturnType<typeof createReviewController> | null,
     get reviewController() {
         if (!this._reviewController) {
-            this._reviewController = createReviewController(createReviewService(createReviewRepository(this.dbConnection),this.ImageService))
+            this._reviewController = createReviewController(createReviewService(createReviewRepository(this.dbConnection)))
         }
         return this._reviewController
     },

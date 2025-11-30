@@ -6,8 +6,7 @@ import { reviews } from "./reviews-schema";
 
 export const reviewsEndorsements = sqliteTable("reviewsEndorsements", {
     id: int().primaryKey({ autoIncrement: true }),
-    reviewId:int("reviewId").references(() => reviews.id,{ onDelete: 'cascade' }).notNull(),
-    userId:text("userId").references(() => users.id,{ onDelete: 'cascade' }).notNull(),
+    reviewId: int("reviewId").references(() => reviews.id, { onDelete: 'cascade' }).notNull(),
+    userId: text("userId").references(() => users.id, { onDelete: 'cascade' }).notNull(),
 });
 
-export type reviewEndorsement = typeof reviewsEndorsements.$inferSelect;

@@ -19,7 +19,6 @@ export function createUserRepository(db: any):userRepository{
         const result: user[] = await db.insert(users).values(data).returning()
         return { success: true, data: result }
       } catch (error) {
-        console.log("createUser: " + error)
         return { success: false, error: 'Failed creating user' }
       }
     },
@@ -49,7 +48,6 @@ export function createUserRepository(db: any):userRepository{
         const user = result[0] ?? null
         return { success: true, data: user }
       } catch (error) {
-        console.log("getUserByEmail: " + error)
         return { success: false, error: 'Failed getting user by email' }
       }
     },
@@ -193,7 +191,6 @@ export function createUserRepository(db: any):userRepository{
       await db.delete(admins).where(eq(admins.userId,id)) 
       return { success: true }
       } catch (error) {
-        console.log(error)
       return { success: false, error: 'Failed deleting admin by id' }
       }
   },

@@ -1,7 +1,7 @@
-import { favoriteLibrary } from "@/db/schema"
 import { apiResponse } from "./api"
-import { admin } from "@/db/schema"
 import { users } from "@/db/schema/users-schema"
+import { admins } from "@/db/schema/admins-schema"
+import { favoriteLibrary } from "./library"
 
 export interface postUserData  {
   name: string,
@@ -33,7 +33,6 @@ export interface userRepository {
   isUserOwner(ctx: any): Promise<boolean>
 
   //favoritlibaries
-
   getFavoriteLibraries(): Promise<apiResponse<favoriteLibrary[]>>
   createFavoriteLibrary(data:any): Promise<apiResponse<favoriteLibrary[]>>
   editFavoriteLibrary(id:number,data:Partial<favoriteLibrary>): Promise<apiResponse<favoriteLibrary[]>>
@@ -51,3 +50,4 @@ export interface userRepository {
   deleteAdminById(id: string): Promise<apiResponse<void>>
 }
 export type user = typeof users.$inferSelect;
+export type admin = typeof admins.$inferSelect;

@@ -1,5 +1,7 @@
-import {  reviewEndorsement, reviews } from "@/db/schema";
+
+import { reviews } from "@/db/schema";
 import { apiResponse } from "./api";
+import { reviewsEndorsements } from "@/db/schema/reviewsEndorsement-schema";
 
 
 export interface postReviewData  {
@@ -61,7 +63,7 @@ export interface reviewService {
 }
 
 export type review = typeof reviews.$inferSelect;
-
+export type reviewEndorsement = typeof reviewsEndorsements.$inferSelect
 
 export type reviewComponentData =  review & {
     reviewPhotos:string,
@@ -69,3 +71,6 @@ export type reviewComponentData =  review & {
     userName:string,
     userProfilePhoto:string,
 }
+
+
+export const reviewPhotoName="@reviewPicture.png"

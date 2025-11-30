@@ -1,5 +1,6 @@
 import { libraries} from "@/db/schema";
 import { apiResponse } from "./api";
+import { favoriteLibraries } from "@/db/schema/favoriteLibraries-schema";
 
 export interface postLibraryData {
   userId: string,
@@ -10,9 +11,6 @@ export interface postLibraryData {
   books: string
   photos: string 
 }
-
-
-
 
 export type databaseLibraryData =  {
   userId: string | null,
@@ -48,4 +46,12 @@ export interface libraryService{
   deleteLibraryWithUserId(id:string): Promise<apiResponse<void>>;
 }
 
-export type library = typeof libraries.$inferSelect;
+export type library = typeof libraries.$inferSelect
+
+export type favoriteLibrary = typeof favoriteLibraries.$inferSelect
+
+export const LibaryPhotoName="@libaryPicture.png"
+
+export const deafultLibaryPhotoName="defualtLibary.png"
+
+

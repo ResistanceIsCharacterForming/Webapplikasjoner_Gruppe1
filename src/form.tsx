@@ -5,7 +5,7 @@ import { apiuserdataRespone } from './types/user';
 import { libraries, library, review, user } from './db/schema';
 import { useGetReviewsFromLibraries } from "./features/reports/hooks/universal/useGetReviewsFromLibraries";
 import { reviewComponentData } from './types/reviews';
-
+// REMOVE THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const FileUploadComponent =  () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [imghref, setimghref] = useState("null"); // For single file
@@ -142,11 +142,9 @@ export const Getreviewsingle = (props: { id: any; })=>{
     const data :review = json.data[0]
     const testcase=await useGetReviewsFromLibraries("03a949bd-f33e-4088-a8f9-189f935bccb0","c99f5430-c3a5-42ca-8f77-f3bb0b369e7e")
     const newdata=testcase
-    console.log(testcase)
     const asdadas=newdata.map(value=>
       <IDK {...value}/>
     )
-    console.log(asdadas)
     settText(asdadas)
     
   }

@@ -2,16 +2,15 @@
 import { report } from "@/types/reports"
 import { useState } from "react"
 import { deleteLibraryFromReport, deleteReport, deleteReviewFromReport, deleteUser, RemoveLibraryImage, setNotVisibleLibraryFromReport, setNotVisibleUser, settUserProfileToBasic } from "../hooks/adminActions"
+import { adminButtonStyle } from "@/styles/tailwind"
 
-
-const buttonstyle = "text-lg italic text-blackChocolate! hover:text-darkVanilla! bg-oldLace grow  border-blackChocolate border-1 p-1 focus:outline-none focus:shadow focus:border-darkVanilla rounded-md"
 
 export const Reports = (report: report) => {
     const [isExpanded, setIsExpanded] = useState<boolean>(false)
     const [expand, setexpand] = useState("utvid")
     const [hidden, setHiden] = useState("")
 
-
+    // buttons for each type of report there is as they each have their own actions
     let typebuttons
     let typeid
     if (report.reportType.toLowerCase() == "user" && report.userId != null) {
@@ -19,9 +18,9 @@ export const Reports = (report: report) => {
         typeid = targetid
         typebuttons = (
             <>
-                <button className={buttonstyle} onClick={() => deleteUser(targetid)}>slett rapportert bruker</button>
-                <button className={buttonstyle} onClick={() => setNotVisibleUser(targetid)}>sett rapportert bruker som usynlig</button>
-                <button className={buttonstyle} onClick={() => settUserProfileToBasic(targetid)}>nullstill brukernavn og bilde</button>
+                <button className={adminButtonStyle} onClick={() => { deleteUser(targetid); setHiden("hidden") }}>slett rapportert bruker</button>
+                <button className={adminButtonStyle} onClick={() => setNotVisibleUser(targetid)}>sett rapportert bruker som usynlig</button>
+                <button className={adminButtonStyle} onClick={() => settUserProfileToBasic(targetid)}>nullstill brukernavn og bilde</button>
             </>
         )
     }
@@ -30,9 +29,9 @@ export const Reports = (report: report) => {
         typeid = targetid
         typebuttons = (
             <>
-                <button className={buttonstyle} onClick={() => deleteLibraryFromReport(targetid)}>slett rapportert Bibliotek</button>
-                <button className={buttonstyle} onClick={() => setNotVisibleLibraryFromReport(targetid)}>sett rapportert Bibliotek usynlig</button>
-                <button className={buttonstyle} onClick={() => RemoveLibraryImage(targetid)}>fjern bilde</button>
+                <button className={adminButtonStyle} onClick={() => { deleteLibraryFromReport(targetid); setHiden("hidden") }}>slett rapportert Bibliotek</button>
+                <button className={adminButtonStyle} onClick={() => setNotVisibleLibraryFromReport(targetid)}>sett rapportert Bibliotek usynlig</button>
+                <button className={adminButtonStyle} onClick={() => RemoveLibraryImage(targetid)}>fjern bilde</button>
             </>
         )
     }
@@ -41,18 +40,18 @@ export const Reports = (report: report) => {
         typeid = targetid
         typebuttons = (
             <>
-                <button className={buttonstyle} onClick={() =>{deleteReviewFromReport(targetid); setHiden("hidden")}}>slett rapportert Anmeldelse</button>
+                <button className={adminButtonStyle} onClick={() => { deleteReviewFromReport(targetid); setHiden("hidden") }}>slett rapportert Anmeldelse</button>
             </>
         )
     }
-
+    // handle the close and opening of report
     const handleExpand = () => {
         setIsExpanded(!isExpanded)
         if (isExpanded) setexpand("utvid")
         else setexpand("lukk")
     }
     return (
-        <article className={"h-2em w-full grid grid-cols-18  border-blackChocolate border-1 p-1"+hidden}>
+        <article className={"h-2em w-full grid grid-cols-18  border-blackChocolate border-1 p-1" + hidden}>
             <p className="col-span-1 col-start-2">{report.id}</p>
             <p className="col-span-1">{report.reportLevel}</p>
             <p className="col-span-1">{report.reportType}</p>
@@ -66,7 +65,7 @@ export const Reports = (report: report) => {
                     <p>{report.text}</p>
                     <label>adminhandlinger: <br /></label>
                     {typebuttons}
-                    <button className={buttonstyle} onClick={() =>{ deleteReport(report.id); setHiden("hidden")}}>delete rapport</button>
+                    <button className={adminButtonStyle} onClick={() => { deleteReport(report.id); setHiden("hidden") }}>delete rapport</button>
                 </div>)}
         </article>
 
