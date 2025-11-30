@@ -1,6 +1,7 @@
 import { favoriteLibrary } from "@/db/schema"
 import { imageService } from "@/types/image";
 import { databaseUserData, postUserData, UserData, userRepository } from "@/types/user"
+import { validateAdminLevel, validateEditUserData, validateEmail, validateId, validateUserData } from "@/utils/valueValidation";
 
 import {
     hashPassword as hash,
@@ -26,6 +27,8 @@ export function createUserService(repository: userRepository, imagehandler: imag
             return result
         },
         async getUserById(id: string) {
+            if (!validateId.safeParse(id)) return Promise.reject("Failed to validate user id.")
+
             const result = await repository.getUserById(id)
             if (result.data && result.data.length !== 0) {
                 if (result.data[0].profileImage == undefined || result.data[0].profileImage == "0") {
@@ -42,10 +45,14 @@ export function createUserService(repository: userRepository, imagehandler: imag
             return { succes: false, error:"failed to get user" }
         },
         async getUserByEmail(email: string) {
+            if (!validateEmail.safeParse(email)) return Promise.reject("Failed to validate user email.")
+
             const result = await repository.getUserByEmail(email)
             return result
         },
         async createUser(formdata: FormData) {
+            if (!validateUserData(formdata)) return Promise.reject("Failed to validate user.")
+
             const file=formdata.get("file")
             formdata.delete("file")
             const dataObject = Object.fromEntries(formdata.entries());
@@ -68,6 +75,8 @@ export function createUserService(repository: userRepository, imagehandler: imag
             return result
         },
         async editUserById(id: string, formdata: FormData) {
+            if (!validateEditUserData(id, formdata)) return Promise.reject("Failed to validate user data.")
+
             const file=formdata.get("file")
             formdata.delete("file")
             const dataObject = Object.fromEntries(formdata.entries());
@@ -86,23 +95,35 @@ export function createUserService(repository: userRepository, imagehandler: imag
             return result
         },
         async deleteUserByid(id: string) {
+            if (!validateId.safeParse(id)) return Promise.reject("Failed to validate user id.")
+
             const result = await repository.deleteUserById(id)
             return result
         },
         async getAdminById(id: string) {
+            if (!validateId.safeParse(id)) return Promise.reject("Failed to validate user id.")
+
             const result = await repository.getAdminById(id)
             return result
         },
         async createAdmin(userId: string, adminLevel: number) {
+            if (!validateId.safeParse(userId)) return Promise.reject("Failed to validate user id.")
+            if (!validateAdminLevel.safeParse(adminLevel)) return Promise.reject("Failed to validate admin level.")
+
             const createdAt = new Date().toString()
             const result = await repository.createAdmin(userId, createdAt, adminLevel)
             return result
         },
         async editAdmin(userId: string, adminLevel: number) {
+            if (!validateId.safeParse(userId)) return Promise.reject("Failed to validate user id.")
+            if (!validateAdminLevel.safeParse(adminLevel)) return Promise.reject("Failed to validate admin level.")
+
             const result = await repository.editAdmin(userId, adminLevel)
             return result
         },
         async deleteAdmin(userId: string) {
+            if (!validateId.safeParse(userId)) return Promise.reject("Failed to validate user id.")
+
             const result = await repository.deleteAdminById(userId)
             return result
         },

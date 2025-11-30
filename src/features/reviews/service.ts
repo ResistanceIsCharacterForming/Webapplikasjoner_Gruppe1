@@ -1,6 +1,7 @@
 import { review, reviewEndorsement } from "@/db/schema"
 import { postEndorsementData, postReviewData, reviewService } from "@/types/reviews"
 import {  imageService } from "@/types/image";
+import { validateEditEndorsement, validateEditReview, validateId, validateNumberId, validatePostEndorsement, validatePostReview } from "@/utils/valueValidation";
 
 export function createReviewService(repository: any,imagehandler:imageService) :reviewService{
 
@@ -10,6 +11,8 @@ export function createReviewService(repository: any,imagehandler:imageService) :
              return result
         },
          async createReview(formdata:any){
+            if (!validatePostReview(formdata)) return Promise.reject("Failed to validate review.")
+
             const file=formdata.get("file")
             formdata.delete("file")
             const dataObject  = Object.fromEntries(formdata.entries());
@@ -28,6 +31,8 @@ export function createReviewService(repository: any,imagehandler:imageService) :
             return result
         },
          async getReviewById(id:number){
+            if (!validateNumberId.safeParse(id)) return Promise.reject("Failed to validate review id.")
+
             const result=await repository.getReviewById(id)
              if (result.data && result.data.length !== 0) {
                 if (result.data[0].photo == undefined || result.data[0].photo == "0") {
@@ -42,18 +47,24 @@ export function createReviewService(repository: any,imagehandler:imageService) :
             return {success:false}
         },
          async getReviewByUserId(id:string){
+            if (!validateId.safeParse(id)) return Promise.reject("Failed to validate user id.")
+
             const result=await repository.getReviewByUserId(id)
             return result
         },
          async getReviewByLibraryId(id:string){
+            if (!validateId.safeParse(id)) return Promise.reject("Failed to validate library id.")
+
             const result=await repository.getReviewByLibraryId(id)
             return result
         },
          async editReview(id:number,formdata :any){
+            if (!validateEditReview(id, formdata)) return Promise.reject("Failed to validate review.")
+
             const file=formdata.get("file")
             formdata.delete("file")
             const dataObject  = Object.fromEntries(formdata.entries());
-            const data = dataObject as unknown  as Partial<review>
+            const data = dataObject as unknown as Partial<review>
             if(file !==null){
                 data.photo="1"
                 const key= id+"@reviewPicture.png"
@@ -63,14 +74,20 @@ export function createReviewService(repository: any,imagehandler:imageService) :
             return result
         },
          async deleteReviewById(id:number){
+            if (!validateNumberId.safeParse(id)) return Promise.reject("Failed to validate review id.")
+
             const result=await repository.deleteReviewById(id)
             return result
         },
          async deleteReviewByUserId(id:string){
+            if (!validateId.safeParse(id)) return Promise.reject("Failed to validate user id.")
+
             const result=await repository.deleteReviewByUserId(id)
             return result
         },
          async deleteReviewByLibraryId(id:string){
+            if (!validateId.safeParse(id)) return Promise.reject("Failed to validate library id.")
+
             const result=await repository.deleteReviewByLibraryId(id)
             return result
         },
@@ -81,6 +98,8 @@ export function createReviewService(repository: any,imagehandler:imageService) :
             return result
         },
          async createReviewEndorsement(formdata:any){
+            if (!validatePostEndorsement(formdata)) return Promise.reject("Failed to validate endorsement.")
+
             const dataObject  = Object.fromEntries(formdata.entries());
             const data = dataObject as unknown  as postEndorsementData
            
@@ -88,10 +107,14 @@ export function createReviewService(repository: any,imagehandler:imageService) :
             return result
         },
          async getReviewEndorsementById(id:number){
+            if (!validateNumberId.safeParse(id)) return Promise.reject("Failed to validate endorsement id.")
+
             const result=await repository.getReviewEndorsementById(id)
             return result
         },
          async getReviewEndorsementByUserId(id:string){
+            if (!validateId.safeParse(id)) return Promise.reject("Failed to validate user id.")
+
             const result=await repository.getReviewEndorsementByUserId(id)
             return result
         },
@@ -100,6 +123,8 @@ export function createReviewService(repository: any,imagehandler:imageService) :
             return result
         },
          async editReviewEndorsement(id:number,formdata:any){
+            if (!validateEditEndorsement(id, formdata)) return Promise.reject("Failed to validate endorsement.")
+
             const dataObject  = Object.fromEntries(formdata.entries());
             const data = dataObject as unknown  as Partial<postEndorsementData>
             const result=await repository.editReviewEndorsement(id,data)
@@ -110,6 +135,8 @@ export function createReviewService(repository: any,imagehandler:imageService) :
             return result
         },
          async deleteReviewEndorsementById(id:number){
+            if (!validateNumberId.safeParse(id)) return Promise.reject("Failed to validate endorsement id.")
+
             const result=await repository.deleteReviewEndorsementById(id)
             return result
         },
