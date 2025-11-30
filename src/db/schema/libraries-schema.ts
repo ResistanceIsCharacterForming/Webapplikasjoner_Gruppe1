@@ -1,11 +1,11 @@
 import { sqliteTable, text, real, int } from "drizzle-orm/sqlite-core";
-import {users} from "./users-schema";
+import { users } from "./users-schema";
 import { randomUUID } from "node:crypto";
 
 
 export const libraries = sqliteTable("libraries", {
   id: text().primaryKey().$defaultFn(() => randomUUID()),
-  userId:text("userId").references(() => users.id, { onDelete: 'set null' }),
+  userId: text("userId").references(() => users.id, { onDelete: 'set null' }),
   name: text().notNull(),
   text: text().notNull(),
   cordlon: real().notNull(),
@@ -16,4 +16,3 @@ export const libraries = sqliteTable("libraries", {
   isVisible: int('isvisible', { mode: 'boolean' }).notNull(),
 });
 
-export type library = typeof libraries.$inferSelect;

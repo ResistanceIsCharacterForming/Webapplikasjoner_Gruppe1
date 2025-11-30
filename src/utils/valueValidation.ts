@@ -49,7 +49,7 @@ export const validateAdminLevel = z.number()
 export const validateReviewPoints = z.number()
     .refine(value => value !== null, { error: "Cannot be null.", abort: true })
     .refine(value => value >= 0, { error: "Cannot be negative.", abort: true })
-    .refine(value => value <= 5, { error: "Cannot be a higher than 5.", abort: true })
+   
 
 
 const parseNumberInt = function(numData: FormDataEntryValue | null) {
@@ -127,7 +127,6 @@ export const validateEditLibrary = function(id: string, formdata: any) {
 
 export const validatePostReport = function(formdata: any) {
     if (!(formdata instanceof FormData)) return false
-
     const validations = [
         validateId.safeParse(formdata.get("submitterUserId")),
         validateReportType.safeParse(formdata.get("reportType")),

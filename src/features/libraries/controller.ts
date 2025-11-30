@@ -107,7 +107,6 @@ export function createLibraryController(libraryService: libraryService) {
       }
     },
     async editLibrary(id: string, data: any) {
-      console.log(data)
       const result = await libraryService.editLibrary(id, data)
        if (result.success === true) {
         return new Response(

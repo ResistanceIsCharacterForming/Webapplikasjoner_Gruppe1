@@ -1,6 +1,5 @@
 import { route } from "rwsdk/router"
 import { singletonMaster } from "@/utils/singletonBuilder"
-import { postLibraryData } from "@/types/library"
 import { filterQueryParam } from "@/utils/queryParamsHandler.ts"
 
 const libraryController = singletonMaster.libraryController
@@ -26,17 +25,6 @@ export const librariesRoutes = [
             }
     },
     ]),
-    // to be deleted when we have change libary map page to delete 
-    route("libraries/:lat/:long", [
-        async (ctx) => {
-        const method = ctx.request.method.toLowerCase()
-        if (method === "get") {
-            const lat =ctx.params?.lat ?? undefined
-            const long = ctx.params?.long ?? undefined
-            const result = await libraryController.listLibraryWithCords(lat,long)
-            return result
-        }
-    }]),
     route("libraries/:id", [
         async (ctx) => {
         const method = ctx.request.method.toLowerCase()

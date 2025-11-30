@@ -2,15 +2,7 @@ import { user } from "@/types/user"
 import { JSX, useEffect, useState } from "react"
 import { useListUser } from "../hooks/universal/useListUser"
 import { Users } from "./users"
-
-
-type inputFields = {
-    label: string, name: string, type: string
-}
-type selectOption = {
-    type: string, value: string
-}
-
+import { inputFields, selectOption } from "@/styles/tailwind"
 
 const sortOptions: selectOption[] = [
     { type: "nyeste", value: "newest" },
@@ -29,6 +21,7 @@ export const UserContainer = () => {
     const [showcase, setShowcase] = useState<JSX.Element[]>()
     const [sort, setSorting] = useState(sortOptions[0].value)
     const [searchSetting, setSearchSetting] = useState(searchOptions[0].value)
+    // used to sett data if no data is there but if date exiest it will just change showcase
     useEffect(() => {
         if (users) {
             settSorting(sort)
@@ -38,16 +31,18 @@ export const UserContainer = () => {
 
     }, [users])
 
-
+    //update the page so it relfects the sortting
     useEffect(() => {
         settSorting(sort)
     }, [sort])
 
+    // gets a list of users, and sett it in state to be acced later
     async function listusers() {
         const users = await useListUser()
         setusers(users.data)
     }
 
+    // makes a list of user componets and setts it to showcase
     async function showusers(userslist?: user[]) {
         if (userslist) {
             const listusers = userslist.map(user =>
@@ -62,6 +57,7 @@ export const UserContainer = () => {
             setShowcase(listusers)
         }
     }
+    // search that will only show the serach and match the serchsetting thats selected
     function search(search: string) {
         if (search == "") showusers()
         else if (users !== undefined) {
@@ -86,7 +82,7 @@ export const UserContainer = () => {
             }
         }
     }
-
+    // setts the sorting and gives it to showcase
     async function settSorting(sorting: string) {
         if (users !== undefined) {
             if (sorting === "newest") {

@@ -46,6 +46,7 @@ export default defineApp([
 
     /*layout(MainLayout, [*/
       route("/home", MapSafeGuard),
+      // REMOVE THIS BEFORE DELIVER!
       route("/db",databasescreen),
       route("/dashboard", [isAdmin, DashboardScreen])
     /*])*/

@@ -1,16 +1,13 @@
-import { favoriteLibrary } from "@/db/schema"
-import { imageService } from "@/types/image";
-import { databaseUserData, postUserData, UserData, userRepository } from "@/types/user"
+
+import { favoriteLibrary } from "@/types/library";
+import { databaseUserData, UserData, userRepository } from "@/types/user"
+import { singletonMaster } from "@/utils/singletonBuilder";
 import { validateAdminLevel, validateEditUserData, validateEmail, validateId, validateUserData } from "@/utils/valueValidation";
 
 import {
     hashPassword as hash,
     verifyPassword as verify,
 } from "better-auth/crypto"
-import { error } from "console";
-import { and } from "drizzle-orm";
-import { arrayBuffer } from "stream/consumers";
-
 export async function hashPassword(password: string): Promise<string> {
     try {
         return await hash(password);
@@ -20,7 +17,8 @@ export async function hashPassword(password: string): Promise<string> {
     }
 }
 
-export function createUserService(repository: userRepository, imagehandler: imageService) {
+export function createUserService(repository: userRepository) {
+    const imagehandler = singletonMaster.ImageService
     return {
         async listUsers() {
             const result = await repository.getUsers()

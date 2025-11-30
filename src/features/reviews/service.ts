@@ -1,30 +1,34 @@
-import { review, reviewEndorsement } from "@/db/schema"
-import { postEndorsementData, postReviewData, reviewService } from "@/types/reviews"
+
+import { postEndorsementData, postReviewData, review, reviewPhotoName, reviewService } from "@/types/reviews"
 import {  imageService } from "@/types/image";
 import { validateEditEndorsement, validateEditReview, validateId, validateNumberId, validatePostEndorsement, validatePostReview } from "@/utils/valueValidation";
+import { singletonMaster } from "@/utils/singletonBuilder";
 
-export function createReviewService(repository: any,imagehandler:imageService) :reviewService{
-
+export function createReviewService(repository: any) :reviewService{
+    const imagehandler = singletonMaster.ImageService
     return {
         async getReviews(){
              const result=await repository.getReviews()
              return result
         },
+        // creates a review with formdata that might have a file with it
          async createReview(formdata:any){
             if (!validatePostReview(formdata)) return Promise.reject("Failed to validate review.")
-
+            //tries to get a file  and then removes it from formdata even if not there it will not affect anything 
             const file=formdata.get("file")
             formdata.delete("file")
+            // make object from formdata
             const dataObject  = Object.fromEntries(formdata.entries());
             const data = dataObject as unknown  as postReviewData
+            // checks if a img exiest
             if(file !==null)data.photo="1"
             else data.photo="0"
             data.createdAt = new Date().toUTCString()
             const result=await repository.createReview(data)
-            console.log(result)
+            // checks if there is a file and if so it will upload it here
             if(file !==null){
                 if (result.success && result.data){
-                    const key= result.data[0].id+"@reviewPicture.png"
+                    const key= result.data[0].id+reviewPhotoName
                     await imagehandler.putImage(key,file)
                     }   
             }
@@ -34,13 +38,14 @@ export function createReviewService(repository: any,imagehandler:imageService) :
             if (!validateNumberId.safeParse(id)) return Promise.reject("Failed to validate review id.")
 
             const result=await repository.getReviewById(id)
+            //checks if the review has a photo and if so it will collect it
              if (result.data && result.data.length !== 0) {
                 if (result.data[0].photo == undefined || result.data[0].photo == "0") {
                     const img = ""
                     return { success: true, data: { img: img, data:result.data } }
                 }
                 if (result.data[0].photo == "1") {
-                    const img = await imagehandler.getImage(result.data[0].id + "@reviewPicture.png")
+                    const img = await imagehandler.getImage(result.data[0].id + reviewPhotoName)
                     if(img.data != undefined) return { success: true, data: { img: img.data, data:result.data } }
                 }
             }
@@ -60,14 +65,15 @@ export function createReviewService(repository: any,imagehandler:imageService) :
         },
          async editReview(id:number,formdata :any){
             if (!validateEditReview(id, formdata)) return Promise.reject("Failed to validate review.")
-
+            //tries to get a file  and then removes it from formdata even if not there it will not affect anything 
             const file=formdata.get("file")
             formdata.delete("file")
             const dataObject  = Object.fromEntries(formdata.entries());
             const data = dataObject as unknown as Partial<review>
+            // if there is a file it will make a photo and upload it
             if(file !==null){
                 data.photo="1"
-                const key= id+"@reviewPicture.png"
+                const key= id+reviewPhotoName
                 await imagehandler.putImage(key,file)
             }
             const result=await repository.editReview(id,data)
@@ -99,11 +105,16 @@ export function createReviewService(repository: any,imagehandler:imageService) :
         },
          async createReviewEndorsement(formdata:any){
             if (!validatePostEndorsement(formdata)) return Promise.reject("Failed to validate endorsement.")
-
             const dataObject  = Object.fromEntries(formdata.entries());
             const data = dataObject as unknown  as postEndorsementData
-           
             const result=await repository.createReviewEndorsement(data)
+            // checks if succesfull and then will update targeted review to get new points
+            if (result.succes){
+                 const pointscheck = await repository.getReviewEndorsementByReviewId(data.reviewId)
+                 const form = new FormData
+                 form.append("reviewsPoints",pointscheck)
+                if(pointscheck.data) repository.editReview(data.reviewId)
+            }
             return result
         },
          async getReviewEndorsementById(id:number){
@@ -136,12 +147,18 @@ export function createReviewService(repository: any,imagehandler:imageService) :
         },
          async deleteReviewEndorsementById(id:number){
             if (!validateNumberId.safeParse(id)) return Promise.reject("Failed to validate endorsement id.")
-
             const result=await repository.deleteReviewEndorsementById(id)
             return result
         },
           async deleteReviewEndorsementByReviewIdAndUserId(reviewid:number,userid:string){
             const result=await repository.deleteReviewEndorsementByReviewIdAndUserId(reviewid,userid)
+            // checks if succesfull and then will update targeted review to get new points
+              if (result.succes){
+                 const pointscheck = await repository.getReviewEndorsementByReviewId(reviewid)
+                 const form = new FormData
+                 form.append("reviewsPoints",pointscheck)
+                if(pointscheck.data) repository.editReview(reviewid)
+            }
             return result
           }
     }
