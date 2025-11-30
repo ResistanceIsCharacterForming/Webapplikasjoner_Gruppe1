@@ -52,6 +52,28 @@ export const validateReviewPoints = z.number()
     .refine(value => value <= 5, { error: "Cannot be a higher than 5.", abort: true })
 
 
+const parseNumberInt = function(numData: FormDataEntryValue | null) {
+    if (numData === null) return null
+    const num = parseInt(numData.toString())
+    
+    if (!isNaN(num)) return num
+    return null
+}
+
+const parseNumberFloat = function(numData: FormDataEntryValue | null) {
+    if (numData === null) return null
+    const num = parseFloat(numData.toString())
+
+    if (!isNaN(num)) return num
+    return null
+}
+
+const parseBoolean = function(boolString: FormDataEntryValue | null) {
+    if (boolString === null) return null
+    const isChecked = (boolString === "true") ? true : false
+    return isChecked
+}
+
 // export interface postLibraryData {
 //   userId: string,
 //   name: string,
@@ -64,13 +86,12 @@ export const validateReviewPoints = z.number()
 
 export const validatePostLibrary = function(formdata: any) {
     if (!(formdata instanceof FormData)) return false
-
     const validations = [
         validateId.safeParse(formdata.get("userId")),
         validateName.safeParse(formdata.get("name")),
         z.string().safeParse(formdata.get("text")),
-        validateLongitude.safeParse(formdata.get("cordlon")),
-        validateLatitude.safeParse(formdata.get("cordlat")),
+        validateLongitude.safeParse(parseNumberFloat(formdata.get("cordlon"))),
+        validateLatitude.safeParse(parseNumberFloat(formdata.get("cordlat"))),
         z.string().safeParse(formdata.get("books")),
         validateStringArray.safeParse(formdata.get("photos"))
     ]
@@ -88,7 +109,7 @@ export const validatePostLibrary = function(formdata: any) {
 export const validateEditLibrary = function(id: string, formdata: any) {
     if (!validateId.safeParse(id) || !(formdata instanceof FormData)) return false
 
-    if (formdata.get("id") !== id) return false
+    if (formdata.get("id") === null || formdata.get("id") !== id) return false
 
     return validatePostLibrary(formdata)
 }
@@ -110,7 +131,7 @@ export const validatePostReport = function(formdata: any) {
     const validations = [
         validateId.safeParse(formdata.get("submitterUserId")),
         validateReportType.safeParse(formdata.get("reportType")),
-        validateReportLevel.safeParse(formdata.get("reportLevel")),
+        validateReportLevel.safeParse(parseNumberInt(formdata.get("reportLevel"))),
     ]
 
     for (const validation of validations) {
@@ -126,7 +147,7 @@ export const validatePostReport = function(formdata: any) {
 export const validateEditReport = function(id: number, formdata: any) {
     if (!validateNumberId.safeParse(id) || !(formdata instanceof FormData)) return false
 
-    if (formdata.get("id") !== id.toString()) return false
+    if (formdata.get("id") === null || formdata.get("id") !== id.toString()) return false
 
     return validatePostReport(formdata)
 }
@@ -168,13 +189,13 @@ export const validateUserData = function(formdata: any) {
 export const validateEditUserData = function(id: string, formdata: any) {
     if (!validateId.safeParse(id) || !(formdata instanceof FormData)) return false
 
-    if (formdata.get("id") !== id) return false
+    if (formdata.get("id") === null || formdata.get("id") !== id) return false
 
     const validations = [
         validateName.safeParse(formdata.get("name")),
         validateEmail.safeParse(formdata.get("email")),
         z.string().safeParse(formdata.get("password")),
-        z.boolean().safeParse(formdata.get("isVisible"))
+        z.boolean().safeParse(parseBoolean(formdata.get("isVisible")))
     ]
 
     for (const validation of validations) {
@@ -203,7 +224,7 @@ export const validatePostReview = function(formdata: any) {
     const validations = [
         validateId.safeParse(formdata.get("userId")),
         validateId.safeParse(formdata.get("libraryId")),
-        validateReviewPoints.safeParse(formdata.get("reviewsPoints")),
+        validateReviewPoints.safeParse(parseNumberInt(formdata.get("reviewsPoints"))),
     ]
 
     for (const validation of validations) {
@@ -219,7 +240,7 @@ export const validatePostReview = function(formdata: any) {
 export const validateEditReview = function(id: number, formdata: any) {
     if (!validateNumberId.safeParse(id) || !(formdata instanceof FormData)) return false
 
-    if (formdata.get("id") !== id.toString()) return false
+    if (formdata.get("id") === null || formdata.get("id") !== id.toString()) return false
 
     return validatePostReview(formdata)
 }
@@ -234,7 +255,7 @@ export const validatePostEndorsement = function(formdata: any) {
 
     const validations = [
         validateId.safeParse(formdata.get("userId")),
-        validateNumberId.safeParse(formdata.get("reviewId"))
+        validateNumberId.safeParse(parseNumberInt(formdata.get("reviewId")))
     ]
 
     for (const validation of validations) {
@@ -250,7 +271,7 @@ export const validatePostEndorsement = function(formdata: any) {
 export const validateEditEndorsement = function(id: number, formdata: any) {
     if (!validateNumberId.safeParse(id) || !(formdata instanceof FormData)) return false
 
-    if (formdata.get("id") !== id.toString()) return false
+    if (formdata.get("id") === null || formdata.get("id") !== id.toString()) return false
 
     return validatePostEndorsement(formdata)
 }
