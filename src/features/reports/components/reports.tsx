@@ -7,8 +7,9 @@ import { deleteLibraryFromReport, deleteReport, deleteReviewFromReport, deleteUs
 const buttonstyle = "text-lg italic text-blackChocolate! hover:text-darkVanilla! bg-oldLace grow  border-blackChocolate border-1 p-1 focus:outline-none focus:shadow focus:border-darkVanilla rounded-md"
 
 export const Reports = (report: report) => {
-    const [ishidden, setIsHidden] = useState<boolean>(false)
+    const [isExpanded, setIsExpanded] = useState<boolean>(false)
     const [expand, setexpand] = useState("utvid")
+    const [hidden, setHiden] = useState("")
 
 
     let typebuttons
@@ -40,19 +41,18 @@ export const Reports = (report: report) => {
         typeid = targetid
         typebuttons = (
             <>
-                <button className={buttonstyle} onClick={() => deleteReviewFromReport(targetid)}>slett rapportert Anmeldelse</button>
+                <button className={buttonstyle} onClick={() =>{deleteReviewFromReport(targetid); setHiden("hidden")}}>slett rapportert Anmeldelse</button>
             </>
         )
     }
 
     const handleExpand = () => {
-        setIsHidden(!ishidden)
-        if (ishidden) setexpand("utvid")
+        setIsExpanded(!isExpanded)
+        if (isExpanded) setexpand("utvid")
         else setexpand("lukk")
     }
-
     return (
-        <article className="h-2em w-full grid grid-cols-18  border-blackChocolate border-1 p-1">
+        <article className={"h-2em w-full grid grid-cols-18  border-blackChocolate border-1 p-1"+hidden}>
             <p className="col-span-1 col-start-2">{report.id}</p>
             <p className="col-span-1">{report.reportLevel}</p>
             <p className="col-span-1">{report.reportType}</p>
@@ -60,13 +60,13 @@ export const Reports = (report: report) => {
             <p className="col-span-5">{report.submitterUserId}</p>
             <p className="col-span-5">{typeid}</p>
             <button className="col-start-18" onClick={() => handleExpand()}>{expand}</button>
-            {ishidden && (
+            {isExpanded && (
                 <div className="col-start-6 col-span-8">
                     <p>rapport tekst:</p>
                     <p>{report.text}</p>
                     <label>adminhandlinger: <br /></label>
                     {typebuttons}
-                    <button className={buttonstyle} onClick={() => deleteReport(report.id)}>delete rapport</button>
+                    <button className={buttonstyle} onClick={() =>{ deleteReport(report.id); setHiden("hidden")}}>delete rapport</button>
                 </div>)}
         </article>
 

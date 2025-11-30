@@ -32,8 +32,10 @@ export interface reviewRepository {
   getReviewEndorsementById(id: number): Promise<apiResponse<reviewEndorsement[]>>;
   getReviewEndorsementByUserId(id: string): Promise<apiResponse<reviewEndorsement[]>>;
   getReviewEndorsementByReviewId(id: number): Promise<apiResponse<reviewEndorsement[]>>;
+  getReviewEndorsementByReviewIdAndUserId(reviewid:number,userid:string):Promise<apiResponse<void>>;
   editReviewEndorsement(id: number,data:Partial<reviewEndorsement>): Promise<apiResponse<reviewEndorsement[]>>;
   deleteReviewEndorsementById(id: number): Promise<apiResponse<void>>;
+  deleteReviewEndorsementByReviewIdAndUserId(reviewid:number,userid:string):Promise<apiResponse<void>>;
 }
 
 export interface reviewService {
@@ -52,8 +54,18 @@ export interface reviewService {
   getReviewEndorsementById(id: number): Promise<apiResponse<reviewEndorsement[]>>;
   getReviewEndorsementByUserId(id: string): Promise<apiResponse<reviewEndorsement[]>>;
   getReviewEndorsementByReviewId(id: number): Promise<apiResponse<reviewEndorsement[]>>;
+  getReviewEndorsementByReviewIdAndUserId(reviewid:number,userid:string):Promise<apiResponse<void>>;
   editReviewEndorsement(id: number,data:Partial<reviewEndorsement>): Promise<apiResponse<reviewEndorsement[]>>;
   deleteReviewEndorsementById(id: number): Promise<apiResponse<void>>;
+  deleteReviewEndorsementByReviewIdAndUserId(reviewid:number,userid:string):Promise<apiResponse<void>>;
 }
 
 export type review = typeof reviews.$inferSelect;
+
+
+export type reviewComponentData =  review & {
+    reviewPhotos:string,
+    liked:boolean,
+    userName:string,
+    userProfilePhoto:string,
+}

@@ -1,4 +1,4 @@
-import {eq} from "drizzle-orm";
+import {and, eq} from "drizzle-orm";
 import {review,reviews,reviewEndorsement,reviewsEndorsements} from "../../db/schema";
 import { singletonMaster } from "@/utils/singletonBuilder"
 import { postReviewData, reviewRepository } from "@/types/reviews";
@@ -149,6 +149,19 @@ async getReviewEndorsementByReviewId(id:number){
     return{success:false,error:"failed getting reviewEndorsement by review id"}
   }
 },
+async getReviewEndorsementByReviewIdAndUserId(reviewid:number,userid:string){
+  try {
+      await db.select().from(reviewsEndorsements).where(
+      and(
+        eq(reviewsEndorsements.reviewId, reviewid),
+        eq(reviewsEndorsements.userId, userid)
+      ));
+    return{success: true}
+  }
+  catch (error){
+    return{success:false}
+  }
+},
 
 async editReviewEndorsement(id:number,data:Partial<reviewEndorsement>){
   try {
@@ -163,6 +176,20 @@ async editReviewEndorsement(id:number,data:Partial<reviewEndorsement>){
 async deleteReviewEndorsementById(id:number){
   try {
     await db.delete(reviewsEndorsements).where(eq(reviewsEndorsements.id,id));
+    return{success: true}
+  }
+  catch (error){
+    return{success:false,error:"failed to delete reviewEndorsement"}
+  }
+},
+
+async deleteReviewEndorsementByReviewIdAndUserId(reviewid:number,userid:string){
+  try {
+    await db.delete(reviewsEndorsements).where(
+      and(
+        eq(reviewsEndorsements.reviewId, reviewid),
+        eq(reviewsEndorsements.userId, userid)
+      ));
     return{success: true}
   }
   catch (error){

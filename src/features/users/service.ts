@@ -1,4 +1,4 @@
-import { favoriteLibrary, user } from "@/db/schema"
+import { favoriteLibrary } from "@/db/schema"
 import { imageService } from "@/types/image";
 import { databaseUserData, postUserData, UserData, userRepository } from "@/types/user"
 

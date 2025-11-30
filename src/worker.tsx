@@ -2,10 +2,7 @@ import { defineApp } from "rwsdk/worker"
 import { layout, prefix, render, route } from "rwsdk/router"
 import { Document } from "@/app/Document"
 import { setCommonHeaders } from "./app/headers"
-import { env } from "cloudflare:workers"
 
-import { user, users } from "@/db/schema/"
-import { MapScreen } from "./features/libraries/pages/mapScreen";
 
 import { authCheck, isAdmin } from "@/middleware/authHandler"
 /*import { MainLayout } from "./features/tokens/layouts/Layout"*/
@@ -18,7 +15,8 @@ import DashboardScreen from "./features/reports/pages/dashboard"
 import { FrontLayout } from "./features/tokens/layouts/FrontLayout"
 import { databasescreen } from "./test"
 import Landing from "./features/libraries/pages/Landing"
-import MapSafeGuard from "./features/libraries/pages/mapSafeguard"
+import { user } from "./types/user"
+import MapSafeGuard from "./features/libraries/pages/MapSafeguard"
 
 export interface Env {
   bokkroken: D1Database;
@@ -42,7 +40,8 @@ export default defineApp([
 
     layout(FrontLayout, [
       route("/login", LoginScreen),
-      route("/register", RegisterScreen)
+      route("/register", RegisterScreen),
+      
     ]),
 
     /*layout(MainLayout, [*/

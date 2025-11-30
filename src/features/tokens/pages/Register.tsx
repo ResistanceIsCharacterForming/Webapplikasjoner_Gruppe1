@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useRandomNameGenerator } from "../useRandomNameGenerator";
+import { navigate } from "rwsdk/client";
 
 export default function RegisterScreen() {
 
@@ -21,17 +22,17 @@ export default function RegisterScreen() {
     userFormData.append("name", user.name)
     userFormData.append("password", user.password)
     userFormData.append("email", user.email)
-
-    setUser({name: "", password: "", email: ""})
-
     try {
       const result = await fetch("/api/v1/users", {
         method: "POST",
         body: userFormData,
       })
-      console.log(await result)
+      if(result.ok){
+        setUser({name: "", password: "", email: ""})
+        navigate("/login")
+      }
+      else alert("feilet å lage nye bruker")
     } catch (error) {
-      console.error(error)
     }
   }
 

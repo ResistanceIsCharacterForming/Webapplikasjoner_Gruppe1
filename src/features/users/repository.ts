@@ -1,7 +1,6 @@
-import {admin, admins, users,user,favoriteLibraries,favoriteLibrary} from "../../db/schema"
+import {admin, admins, users,favoriteLibraries,favoriteLibrary} from "../../db/schema"
 import {eq} from "drizzle-orm"
-
-import { databaseUserData, userRepository } from "@/types/user"
+import { databaseUserData, user, userRepository } from "@/types/user"
 
 export function createUserRepository(db: any):userRepository{
   return{
@@ -28,7 +27,7 @@ export function createUserRepository(db: any):userRepository{
     async editUser(id: string,data : Partial<user>){
     try {
         const result : user[]= await db.update(users).set(data).where(eq(users.id, id)).returning()
-      return { success: true, data: result }
+        return { success: true, data: result }
       } catch (error) {
         return { success: false, error: 'Failed edit user' }
       }

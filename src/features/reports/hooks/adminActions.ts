@@ -6,9 +6,10 @@ import { useRandomNameGenerator } from "../../tokens/useRandomNameGenerator"
 const report = singletonMaster.reportService
 const user = singletonMaster.userService
 const library = singletonMaster.libraryService
+const review = singletonMaster.reviewService
 
 export async function deleteReviewFromReport(id: number) {
-    const result = await report.deleteReport(id)
+    const result = await review.deleteReviewById(id)
 }
 
 export async function deleteReport(id: number) {

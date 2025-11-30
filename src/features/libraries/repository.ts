@@ -60,6 +60,7 @@ export function createLibraryRepository(db:any):libraryRepository{
           lte(libraries.cordlat, lat+0.40),
           gte(libraries.cordlon, long-0.40),
           lte(libraries.cordlon, long+0.40),
+          eq(libraries.isVisible,true)
       ));
     return{success: true,data:result}
   }

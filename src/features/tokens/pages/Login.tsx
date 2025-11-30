@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react"
+import { navigate } from "rwsdk/client";
 
 export default function LoginScreen() {
-
   type detailsForm = {
     password: string;
     email: string;
@@ -18,17 +18,18 @@ export default function LoginScreen() {
 
     detailsFormData.append("password", details.password)
     detailsFormData.append("email", details.email)
-
-    setDetails({password: "", email: ""})
   
     try {
       const result = await fetch("/api/v1/tokens", {
         method: "POST",
         body: detailsFormData,
       })
-      console.log(result)
+    if(result.ok){
+      setDetails({password: "", email: ""})
+      navigate("/home")
+    }
+    else alert("failet å logge in sjekk passord/epost")
     } catch (error) {
-      console.error(error)
     }
   }
 

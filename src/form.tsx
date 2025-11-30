@@ -4,6 +4,7 @@ import React, { JSX, useEffect, useState } from 'react';
 import { apiuserdataRespone } from './types/user';
 import { libraries, library, review, user } from './db/schema';
 import { useGetReviewsFromLibraries } from "./features/reports/hooks/universal/useGetReviewsFromLibraries";
+import { reviewComponentData } from './types/reviews';
 
 const FileUploadComponent =  () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -139,7 +140,7 @@ export const Getreviewsingle = (props: { id: any; })=>{
     })
     const json :any= await test.json()
     const data :review = json.data[0]
-    const testcase=await useGetReviewsFromLibraries("03a949bd-f33e-4088-a8f9-189f935bccb0")
+    const testcase=await useGetReviewsFromLibraries("03a949bd-f33e-4088-a8f9-189f935bccb0","c99f5430-c3a5-42ca-8f77-f3bb0b369e7e")
     const newdata=testcase
     console.log(testcase)
     const asdadas=newdata.map(value=>
@@ -161,11 +162,19 @@ export const Getreviewsingle = (props: { id: any; })=>{
    )
 }
 
-const IDK = (review: review)=>{
+const IDK = (review: reviewComponentData)=>{
   let img =(<p>no img</p>)
-  if(review.photo) img=(<img src={"data:image/png;base64,"+review.photo}></img>)
+  if(review.reviewPhotos) img=(<img src={"data:image/png;base64,"+review.reviewPhotos} className="w-50 h-50"></img>)
   else img=(<p>no img</p>)
+  let img2 =(<p>no img</p>)
+  if(review.userProfilePhoto) img2=(<img src={"data:image/png;base64,"+review.userProfilePhoto} className="w-50 h-50"></img>)
+  else img2=(<p>no img</p>)
   return (
-    <> {img}</>
+    <> 
+    {review.id}
+    {img}
+    <>{review.userName}</>
+    <>{img2}</>
+    </>
   )
 }

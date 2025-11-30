@@ -126,7 +126,6 @@ export const ReportsContainer = (props: { category: string}) => {
                const filteredItems = reports.filter(reports => reports.reportLevel == Number(level))
                const listreports = filteredItems.map(report =>
                   <Reports key={report.id}{...report} />
-                
                )
                setShowcase(listreports)
             }

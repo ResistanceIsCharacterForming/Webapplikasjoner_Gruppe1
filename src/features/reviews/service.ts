@@ -105,10 +105,18 @@ export function createReviewService(repository: any,imagehandler:imageService) :
             const result=await repository.editReviewEndorsement(id,data)
             return result
         },
+        async getReviewEndorsementByReviewIdAndUserId(id:number,userid:string){
+            const result=await repository.getReviewEndorsementByReviewIdAndUserId(id,userid)
+            return result
+        },
          async deleteReviewEndorsementById(id:number){
             const result=await repository.deleteReviewEndorsementById(id)
             return result
-        }
+        },
+          async deleteReviewEndorsementByReviewIdAndUserId(reviewid:number,userid:string){
+            const result=await repository.deleteReviewEndorsementByReviewIdAndUserId(reviewid,userid)
+            return result
+          }
     }
 
 }
