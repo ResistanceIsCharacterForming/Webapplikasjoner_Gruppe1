@@ -51,3 +51,7 @@ export interface userRepository {
 }
 export type user = typeof users.$inferSelect;
 export type admin = typeof admins.$inferSelect;
+
+export const userPhotoName="@profilePicture.png"
+
+export const deafultUserPhotoName="defualtProfile.png"

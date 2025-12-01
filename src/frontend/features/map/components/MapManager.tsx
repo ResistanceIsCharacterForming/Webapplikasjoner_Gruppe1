@@ -1,9 +1,9 @@
 "use client"
 
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 
 /* Leaflet imports. */
-import { Circle, FeatureGroup, LayerGroup, LayersControl, MapContainer, Marker, Popup, Rectangle, TileLayer } from "react-leaflet"
+import { Circle, FeatureGroup, LayerGroup, LayersControl, MapContainer, Marker, Popup, Rectangle, TileLayer, useMap } from "react-leaflet"
 import "leaflet/dist/leaflet.css"
 
 /* Henter container for alle modals. */
@@ -17,23 +17,16 @@ import CreateLibraryLogic from "@/frontend/features/map/components/CreateLibrary
 
 import DisplayLibrariesMarker from "@/frontend/features/map/components/DisplayLibrariesMarker"
 
-function getInitialCenter() {
-  const params = new URLSearchParams(window.location.search)
-  const lat = parseFloat(params.get("lat") || "59.12183")
-  const lng = parseFloat(params.get("lng") || "11.381")
-  return [lat, lng] as [number, number]
-}
 
 /* Hent hook fra nuqs for å parse query params. */
 import { useQueryState } from 'nuqs'
-import { LatLng } from "leaflet"
+import { latLng, LatLng } from "leaflet"
 import AuthContext, { UserContext } from "@/frontend/features/auth/components/AuthContext"
 
 
-export default function MapGenerator() {
-
+export default function MapGenerator(props :{cords:[number,number]}) {
   const [showModal, setShowModal] = useState<boolean>(false)
-
+  const [latLong,SetLatLong] = useState<[number,number]>(props.cords)
   const [currentView, setCurrentView] = useState<string>("")
 
   /* Disse states samsvarer med hvilken query params vi kan forvente. */
@@ -41,6 +34,7 @@ export default function MapGenerator() {
   const [libraryID, setLibraryID] = useQueryState("bokkrok")
   const [reviewsID, setReviewsID] = useQueryState("anmeldelser")
   const [reportID, setReportID] = useQueryState("rapport")
+<<<<<<< Updated upstream
 
   const [cords, setCords] = useQueryState("koordinater")
 
@@ -49,6 +43,8 @@ export default function MapGenerator() {
     return [Number(parseCords[0]), Number(parseCords[1])]
   }
 
+=======
+>>>>>>> Stashed changes
     const singelParamActivate = (param: string, value: string) => {
         /* Siden React er smart og ikke oppdaterer en state med verdien den hadde kan vi kalle her uten å sjekke om verdien er en tom streng. */
         setUserID(null)
@@ -79,8 +75,6 @@ export default function MapGenerator() {
       setShowModal(true)
       setCurrentView(modalView)
     }
-
-
   const userId: any = useContext(UserContext)
 
   console.log(userId.userId)
@@ -115,7 +109,11 @@ const rectangle:any = [
         : null}
       
       <MapContainer
+<<<<<<< Updated upstream
         center={cords === null ? getInitialCenter() : getCords()}
+=======
+        center={props.cords}
+>>>>>>> Stashed changes
         minZoom={4}
         zoom={13}
         className="position: relativ z-0 h-[100vh] w-[100%]"
@@ -171,16 +169,23 @@ const rectangle:any = [
 
 
         <DisplayLibrariesMarker
-          onOpenAction={() => {
+          onOpenAction={(cords) => {
+            compareCords(cords)
             setShowModal(true)
             setCurrentView("setShowModal")
             /*openModalWithContent("library", )*/
+<<<<<<< Updated upstream
           }}
           onMoveendAction={(cords: any) => {
             const cordsAsString = `${cords.lat},${cords.lng}`
             setCords(cordsAsString)
             console.log(getCords())
           }}
+=======
+          }
+        }
+          cords={latLong}
+>>>>>>> Stashed changes
         />
         
 

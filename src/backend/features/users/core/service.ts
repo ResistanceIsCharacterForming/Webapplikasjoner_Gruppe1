@@ -1,7 +1,7 @@
 import { singletonMaster } from "@/backend/features/shared/utils/singletonBuilder";
 import { validateAdminLevel, validateEditUserData, validateEmail, validateId, validateUserData } from "@/backend/features/shared/zod/valueValidation";
 import { favoriteLibrary } from "@/backend/types/library";
-import { userRepository, UserData, databaseUserData } from "@/backend/types/user";
+import { userRepository, UserData, databaseUserData, deafultUserPhotoName, userPhotoName } from "@/backend/types/user";
 
 import {
     hashPassword as hash,
@@ -25,16 +25,15 @@ export function createUserService(repository: userRepository) {
         },
         async getUserById(id: string) {
             if (!validateId.safeParse(id)) return Promise.reject("Failed to validate user id.")
-
             const result = await repository.getUserById(id)
             if (result.data && result.data.length !== 0) {
                 if (result.data[0].profileImage == undefined || result.data[0].profileImage == "0") {
-                    const img = await imagehandler.getImage("defualtProfile.png")
+                    const img = await imagehandler.getImage(deafultUserPhotoName)
                     const returnData = { img: img.data, data:result.data[0] }
                     return { succes: true, data: returnData }
                 }
                 if (result.data[0].profileImage == "1") {
-                    const img = await imagehandler.getImage(result.data[0].id + "@profilePicture.png")
+                    const img = await imagehandler.getImage(result.data[0].id + userPhotoName)
                     const returnData = { img: img.data, data:result.data[0] }
                     return { succes: true, data: returnData }
                 }
@@ -63,7 +62,7 @@ export function createUserService(repository: userRepository) {
             const createdAt = new Date().toString()
             const result = await repository.createUser({ ...data, settings: "", createdAt: createdAt, lastLoginAt: "", profileImage: profileImage, isVisible: true })
             if (result.success && result.data) {
-                const key = result.data[0].id + "@profilePicture.png"
+                const key = result.data[0].id + userPhotoName
                 if (file !== null) {
                     const imgresutl = await imagehandler.putImage(key, file)
                 }
@@ -73,7 +72,6 @@ export function createUserService(repository: userRepository) {
         },
         async editUserById(id: string, formdata: FormData) {
             if (!validateEditUserData(id, formdata)) return Promise.reject("Failed to validate user data.")
-
             const file=formdata.get("file")
             formdata.delete("file")
             const dataObject = Object.fromEntries(formdata.entries());
@@ -85,7 +83,7 @@ export function createUserService(repository: userRepository) {
             }
              if(file){
                 data.profileImage="1"
-                const key= id+"@profilePicture.png"
+                const key= id+userPhotoName
                 await imagehandler.putImage(key,file)
             }
             const result = await repository.editUser(id, data)

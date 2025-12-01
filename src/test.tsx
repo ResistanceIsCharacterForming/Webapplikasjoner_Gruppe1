@@ -16,6 +16,7 @@ export const databasescreen = async () => {
   const userResult=await user.listUsers()
   const test2=await user.getUserById("858dcdca-f633-459a-8450-f5ff38f9f08b")
   const libarres=await libary.listLibraries()
+  test.putImage("test.png",)
   const listItems = userResult.data?.map(user =>
     <tr style={{borderBlock:"groove"}}>
     <td>  {user.id}  </td>

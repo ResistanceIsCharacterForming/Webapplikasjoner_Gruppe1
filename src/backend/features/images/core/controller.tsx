@@ -1,4 +1,5 @@
 import { imageService } from "@/backend/types/image"
+import { validateImgFile } from "../../shared/zod/fileValidation"
 
 
 export function createImageController(service: imageService) {
@@ -17,6 +18,7 @@ export function createImageController(service: imageService) {
         },
         async putImage(key: string, img: any) {
             const result = await service.putImage(key, img)
+            if ( result.success){
             return new Response(
                 JSON.stringify({
                     data: result.data,
@@ -26,6 +28,7 @@ export function createImageController(service: imageService) {
                     status: 201,
                     headers: { "Content-Type": "application/json" }
                 })
+            }else return new Response("failed request", { status: 404 })
         },
         async deleteImage(key: string) {
             const result = await service.deleteImage(key)

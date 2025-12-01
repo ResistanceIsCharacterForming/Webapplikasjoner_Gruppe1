@@ -1,4 +1,5 @@
 import { imageRepository, imageService } from "@/backend/types/image"
+import { validateImgFile } from "../../shared/zod/fileValidation"
 
 
 export function createImageService(repository:imageRepository):imageService{
@@ -9,9 +10,12 @@ export function createImageService(repository:imageRepository):imageService{
             
         },
         async putImage(key:string,img:any){
-            const result= await repository.putImage(key,img)
-            
-            return { success: result.success, data: result.data }
+            const validate =validateImgFile.safeParse(img)
+            if (validate.success && validate.data){
+                const result= await repository.putImage(key,img)
+                return { success: result.success, data: result.data }
+            }
+            else return { success: false, error: validate.error }
         },
         async deleteImage(key:string){
             const result=await repository.deleteImage(key)
