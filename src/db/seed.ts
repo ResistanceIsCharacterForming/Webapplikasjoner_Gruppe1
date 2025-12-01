@@ -1,11 +1,9 @@
 // src/db/seed.ts
-
-
-import { singletonMaster } from "@/utils/singletonBuilder";
-import { hashPassword } from "@/features/users/service";
-import { user } from "@/types/user";
-import { library } from "@/types/library";
+import { singletonMaster } from "@/backend/features/shared/utils/singletonBuilder";
+import { hashPassword } from "@/backend/features/users/core/service";
 import { admins, libraries, reviews, reviewsEndorsements, favoriteLibraries, reports, users } from "./schema";
+import { user } from "@/backend/types/user";
+import { library } from "@/backend/types/library";
 const db = singletonMaster.dbConnection
 
 try {

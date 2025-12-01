@@ -1,9 +1,9 @@
 import { RequestInfo } from "rwsdk/worker"
 
 /* Hente singletonMaster for å få tilgang til service laget til tokens. */
-import { verifyToken } from "@/features/tokens/utils/handleToken"
-import { singletonMaster } from "@/utils/singletonBuilder"
-import { checkCredentials } from "@/features/tokens/utils/checkCredentials"
+import { verifyToken } from "@/backend/features/tokens/utils/handleToken"
+import { singletonMaster } from "@/backend/features/shared/utils/singletonBuilder"
+import { checkCredentials } from "@/backend/features/tokens/utils/checkCredentials"
 
 
 export type AppContext = {

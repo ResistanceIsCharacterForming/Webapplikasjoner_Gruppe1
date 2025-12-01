@@ -3,21 +3,22 @@ import { layout, prefix, render, route } from "rwsdk/router"
 import { Document } from "@/app/Document"
 import { setCommonHeaders } from "./app/headers"
 
-
 import { authCheck, isAdmin } from "@/middleware/authHandler"
+
+import { APIv1 } from "@/backend/features/shared/utils/routesAPI"
+import { user } from "@/backend/types/user"
+import LoginScreen from "@/frontend/features/auth/components/Login"
+import RegisterScreen from "@/frontend/features/auth/components/Register"
+import DashboardScreen from "@/frontend/features/dashboard/components/dashboard"
+import Landing from "@/frontend/features/landing/Landing"
+import MapSafeGuard from "@/frontend/features/map/components/MapSafeguard"
+import { FrontLayout } from "@/frontend/features/shared/components/FrontLayout"
+import { MainLayout } from "@/frontend/features/shared/components/MainLayout"
+import { databasescreen } from "@/test"
 /*import { MainLayout } from "./features/tokens/layouts/Layout"*/
 
-import { APIv1 } from "./utils/routesAPI"
 
-import RegisterScreen from "./features/tokens/pages/Register"
-import LoginScreen from "./features/tokens/pages/Login"
-import DashboardScreen from "./features/reports/pages/dashboard"
-import { FrontLayout } from "./features/tokens/layouts/FrontLayout"
-import { databasescreen } from "./test"
-import Landing from "./features/libraries/pages/Landing"
-import MapSafeGuard from "./frontend/features/map/components/MapSafeguard"
-import { MainLayout } from "./features/tokens/layouts/MainLayout"
-import { user } from "./types/user"
+
 
 export interface Env {
   bokkroken: D1Database;
