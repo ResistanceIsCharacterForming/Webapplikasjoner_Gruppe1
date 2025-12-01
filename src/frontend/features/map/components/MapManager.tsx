@@ -24,9 +24,9 @@ import { latLng, LatLng } from "leaflet"
 import AuthContext, { UserContext } from "@/frontend/features/auth/components/AuthContext"
 
 
-export default function MapGenerator(props :{cords:[number,number]}) {
+export default function MapGenerator(props: { cords: [number, number] }) {
   const [showModal, setShowModal] = useState<boolean>(false)
-  const [latLong,SetLatLong] = useState<[number,number]>(props.cords)
+  const [latLong, SetLatLong] = useState<[number, number]>(props.cords)
   const [currentView, setCurrentView] = useState<string>("")
 
   /* Disse states samsvarer med hvilken query params vi kan forvente. */
@@ -34,8 +34,6 @@ export default function MapGenerator(props :{cords:[number,number]}) {
   const [libraryID, setLibraryID] = useQueryState("bokkrok")
   const [reviewsID, setReviewsID] = useQueryState("anmeldelser")
   const [reportID, setReportID] = useQueryState("rapport")
-<<<<<<< Updated upstream
-
   const [cords, setCords] = useQueryState("koordinater")
 
   const getCords: any = () => {
@@ -43,77 +41,72 @@ export default function MapGenerator(props :{cords:[number,number]}) {
     return [Number(parseCords[0]), Number(parseCords[1])]
   }
 
-=======
->>>>>>> Stashed changes
-    const singelParamActivate = (param: string, value: string) => {
-        /* Siden React er smart og ikke oppdaterer en state med verdien den hadde kan vi kalle her uten å sjekke om verdien er en tom streng. */
-        setUserID(null)
-        setLibraryID(null)
-        setReviewsID(null)
-        setReportID(null)
-        switch (param) {
-            case "userID": setUserID(value)
-            break
-            case "libraryID": setLibraryID(value)
-            break
-            case "reviewsID": setReviewsID(value)
-            break
-            case "reportID": setReportID(value)
-            break
-        }
-    }  
 
-    /* Helpe funksjon for å avgjøre om det er flere enn en query param i URL. Hvis det finnes mer enn en, returner false. */
-    const singleParamPresent = (): boolean => {
-        const allParams = [userID, libraryID, reviewsID, reportID].filter(value => value != null)
-        if (allParams.length > 1) return false
-        return true
+  const singelParamActivate = (param: string, value: string) => {
+    /* Siden React er smart og ikke oppdaterer en state med verdien den hadde kan vi kalle her uten å sjekke om verdien er en tom streng. */
+    setUserID(null)
+    setLibraryID(null)
+    setReviewsID(null)
+    setReportID(null)
+    switch (param) {
+      case "userID": setUserID(value)
+        break
+      case "libraryID": setLibraryID(value)
+        break
+      case "reviewsID": setReviewsID(value)
+        break
+      case "reportID": setReportID(value)
+        break
     }
+  }
 
-    const openModalWithContent = (modalView: string, param: string, id: string) => {
-      singelParamActivate(param, id)
-      setShowModal(true)
-      setCurrentView(modalView)
-    }
+  /* Helpe funksjon for å avgjøre om det er flere enn en query param i URL. Hvis det finnes mer enn en, returner false. */
+  const singleParamPresent = (): boolean => {
+    const allParams = [userID, libraryID, reviewsID, reportID].filter(value => value != null)
+    if (allParams.length > 1) return false
+    return true
+  }
+
+  const openModalWithContent = (modalView: string, param: string, id: string) => {
+    singelParamActivate(param, id)
+    setShowModal(true)
+    setCurrentView(modalView)
+  }
   const userId: any = useContext(UserContext)
 
   console.log(userId.userId)
 
 
-    const center:any = [51.505, -0.09]
-const rectangle:any = [
-  [51.49, -0.08],
-  [51.5, -0.06],
-]
+  const center: any = [51.505, -0.09]
+  const rectangle: any = [
+    [51.49, -0.08],
+    [51.5, -0.06],
+  ]
 
 
   return (
     /* Wrap vår egen modal og hele Leaflet elementet i en flex så vi kan enkelt sentrere modal over kartet. */
     <section className=" w-full h-screen flex justify-center items-center">
 
-        {/* Hvis modal er lukket og vi har ingenting å vise frem, hold den skjult. */}
-        {showModal === true && currentView !== "" ?
-            <ModalContainer
-            /* Vi sender funksjoner til ModalContainer som blir kjørt når forskjellige knapper inni den er trykket på. */
-            actions={{
-                onPrevious: () => console.log("previous"),
-                onForward: () => console.log("forward"),
-                onClose: () => {
-                    setShowModal(false)
-                    setCurrentView("")
-                }
-            }}>
-            {currentView === "displayLibrary" ? <ModalContentShowLibrary/> : null}
-            {currentView === "createLibrary" ? <ModalContentNewLibrary/> : null}
-            </ModalContainer>
+      {/* Hvis modal er lukket og vi har ingenting å vise frem, hold den skjult. */}
+      {showModal === true && currentView !== "" ?
+        <ModalContainer
+          /* Vi sender funksjoner til ModalContainer som blir kjørt når forskjellige knapper inni den er trykket på. */
+          actions={{
+            onPrevious: () => console.log("previous"),
+            onForward: () => console.log("forward"),
+            onClose: () => {
+              setShowModal(false)
+              setCurrentView("")
+            }
+          }}>
+          {currentView === "displayLibrary" ? <ModalContentShowLibrary /> : null}
+          {currentView === "createLibrary" ? <ModalContentNewLibrary /> : null}
+        </ModalContainer>
         : null}
-      
+
       <MapContainer
-<<<<<<< Updated upstream
-        center={cords === null ? getInitialCenter() : getCords()}
-=======
-        center={props.cords}
->>>>>>> Stashed changes
+        center={cords === null ? latLong : getCords()}
         minZoom={4}
         zoom={13}
         className="position: relativ z-0 h-[100vh] w-[100%]"
@@ -125,69 +118,63 @@ const rectangle:any = [
         />
 
 
-          
-{/* TEST */}
+
+        {/* TEST */}
         <LayersControl position="topright">
-      <LayersControl.Overlay name="Marker with popup">
-        <Marker position={center}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </Marker>
-      </LayersControl.Overlay>
-      <LayersControl.Overlay checked name="Layer group with circles">
-        <LayerGroup>
-          <Circle
-            center={center}
-            pathOptions={{ fillColor: 'blue' }}
-            radius={200}
-          />
-          <Circle
-            center={center}
-            pathOptions={{ fillColor: 'red' }}
-            radius={100}
-            stroke={false}
-          />
-          <LayerGroup>
-            <Circle
-              center={[51.51, -0.08]}
-              pathOptions={{ color: 'green', fillColor: 'green' }}
-              radius={100}
-            />
-          </LayerGroup>
-        </LayerGroup>
-      </LayersControl.Overlay>
-      <LayersControl.Overlay name="Feature group">
-        <FeatureGroup pathOptions={{ color: 'purple' }}>
-          <Popup>Popup in FeatureGroup</Popup>
-          <Circle center={[51.51, -0.06]} radius={200} />
-          <Rectangle bounds={rectangle} />
-        </FeatureGroup>
-      </LayersControl.Overlay>
-    </LayersControl>
+          <LayersControl.Overlay name="Marker with popup">
+            <Marker position={center}>
+              <Popup>
+                A pretty CSS3 popup. <br /> Easily customizable.
+              </Popup>
+            </Marker>
+          </LayersControl.Overlay>
+          <LayersControl.Overlay checked name="Layer group with circles">
+            <LayerGroup>
+              <Circle
+                center={center}
+                pathOptions={{ fillColor: 'blue' }}
+                radius={200}
+              />
+              <Circle
+                center={center}
+                pathOptions={{ fillColor: 'red' }}
+                radius={100}
+                stroke={false}
+              />
+              <LayerGroup>
+                <Circle
+                  center={[51.51, -0.08]}
+                  pathOptions={{ color: 'green', fillColor: 'green' }}
+                  radius={100}
+                />
+              </LayerGroup>
+            </LayerGroup>
+          </LayersControl.Overlay>
+          <LayersControl.Overlay name="Feature group">
+            <FeatureGroup pathOptions={{ color: 'purple' }}>
+              <Popup>Popup in FeatureGroup</Popup>
+              <Circle center={[51.51, -0.06]} radius={200} />
+              <Rectangle bounds={rectangle} />
+            </FeatureGroup>
+          </LayersControl.Overlay>
+        </LayersControl>
 
 
 
         <DisplayLibrariesMarker
           onOpenAction={(cords) => {
-            compareCords(cords)
             setShowModal(true)
             setCurrentView("setShowModal")
             /*openModalWithContent("library", )*/
-<<<<<<< Updated upstream
+
           }}
           onMoveendAction={(cords: any) => {
             const cordsAsString = `${cords.lat},${cords.lng}`
             setCords(cordsAsString)
             console.log(getCords())
           }}
-=======
-          }
-        }
-          cords={latLong}
->>>>>>> Stashed changes
-        />
-        
+          cords={latLong} />
+
 
         <CreateLibraryLogic
           onAddAction={(position: LatLng) => {
@@ -198,9 +185,9 @@ const rectangle:any = [
             openModalWithContent("createLibrary", "libraryID", cords)
           }}
         />
-      
+
       </MapContainer>
-      
+
     </section>
   )
 }
