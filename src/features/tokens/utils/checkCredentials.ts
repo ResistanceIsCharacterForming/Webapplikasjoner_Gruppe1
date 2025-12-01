@@ -39,26 +39,26 @@ export const extractJWT = (cookie: string) => {
     return jwt
 }
 
-export const checkCredentials = async (ctx: { request: Request }): Promise<{ success: boolean; userId: string | null } | false> => {
+export const checkCredentials = async (request: any): Promise<{ success: boolean; id: string | null } | false> => {
 
-    let cookieHeader: string | undefined = ctx.request.headers.get("cookie") ?? undefined
+    let cookieHeader: string | undefined = request.headers.get("cookie") ?? undefined
     let singleCookie: string | null = null
 
-    if (cookieHeader === undefined) return {success: false, userId: null}
-    
+    if (cookieHeader === undefined) return {success: false, id: null}
+
+    if (!cookieHeader.includes("jwtToken")) return {success: false, id: null}
+
     if (cookieHeader.includes(";")) {
         singleCookie = isolateCookie(cookieHeader)
     }
-
-    if (!singleCookie || !singleCookie.includes(":")) return {success: false, userId: null}
-
-    const jwt: string | null = extractJWT(singleCookie)
+    
+    const jwt: string | null = extractJWT(cookieHeader)
 
     if (!jwt) return false
 
     const result = await verifyToken(jwt)
 
     if (!result) return false
-
-    return {success: true, userId: result}
+    
+    return {success: true, id: result}
 }

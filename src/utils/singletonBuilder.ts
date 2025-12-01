@@ -1,3 +1,5 @@
+
+
 /* Libraries */
 import { createLibraryController } from "@/features/libraries/controller"
 import { createLibraryService } from "@/features/libraries/service"
@@ -30,6 +32,15 @@ import { createDbConnection, createR2Connection } from "@/db/index"
 import { createImageService } from "@/features/images/service"
 import { createImageRepository } from "@/features/images/repository"
 import { ImageController } from "@/features/images/controller"
+
+
+
+export function a() {
+    console.log(true)
+}
+
+
+
 
 /* Lazy loader for alle singletons. */
 export const singletonMaster = {

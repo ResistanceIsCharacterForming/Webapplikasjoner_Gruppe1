@@ -1,9 +1,9 @@
 "use client"
 
-import { useState } from "react"
+import { useContext, useState } from "react"
 
 /* Leaflet imports. */
-import { MapContainer, TileLayer } from "react-leaflet"
+import { Circle, FeatureGroup, LayerGroup, LayersControl, MapContainer, Marker, Popup, Rectangle, TileLayer } from "react-leaflet"
 import "leaflet/dist/leaflet.css"
 
 /* Henter container for alle modals. */
@@ -26,6 +26,8 @@ function getInitialCenter() {
 
 /* Hent hook fra nuqs for å parse query params. */
 import { useQueryState } from 'nuqs'
+import { LatLng } from "leaflet"
+import AuthContext, { UserContext } from "@/features/tokens/layouts/AuthContext"
 
 
 export default function MapGenerator() {
@@ -58,7 +60,6 @@ export default function MapGenerator() {
         }
     }  
 
-
     /* Helpe funksjon for å avgjøre om det er flere enn en query param i URL. Hvis det finnes mer enn en, returner false. */
     const singleParamPresent = (): boolean => {
         const allParams = [userID, libraryID, reviewsID, reportID].filter(value => value != null)
@@ -66,9 +67,24 @@ export default function MapGenerator() {
         return true
     }
 
-    const openModalWithContent = (type: string, id: string) => {
-
+    const openModalWithContent = (modalView: string, param: string, id: string) => {
+      singelParamActivate(param, id)
+      setShowModal(true)
+      setCurrentView(modalView)
     }
+
+
+  const userId: any = useContext(UserContext)
+
+  console.log(userId.userId)
+
+
+    const center:any = [51.505, -0.09]
+const rectangle:any = [
+  [51.49, -0.08],
+  [51.5, -0.06],
+]
+
 
   return (
     /* Wrap vår egen modal og hele Leaflet elementet i en flex så vi kan enkelt sentrere modal over kartet. */
@@ -103,17 +119,67 @@ export default function MapGenerator() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        <DisplayLibrariesMarker/>
 
-        <CreateLibraryLogic
-          onAddAction={(position: any) => {
-            console.log(position)
+          
+{/* TEST */}
+        <LayersControl position="topright">
+      <LayersControl.Overlay name="Marker with popup">
+        <Marker position={center}>
+          <Popup>
+            A pretty CSS3 popup. <br /> Easily customizable.
+          </Popup>
+        </Marker>
+      </LayersControl.Overlay>
+      <LayersControl.Overlay checked name="Layer group with circles">
+        <LayerGroup>
+          <Circle
+            center={center}
+            pathOptions={{ fillColor: 'blue' }}
+            radius={200}
+          />
+          <Circle
+            center={center}
+            pathOptions={{ fillColor: 'red' }}
+            radius={100}
+            stroke={false}
+          />
+          <LayerGroup>
+            <Circle
+              center={[51.51, -0.08]}
+              pathOptions={{ color: 'green', fillColor: 'green' }}
+              radius={100}
+            />
+          </LayerGroup>
+        </LayerGroup>
+      </LayersControl.Overlay>
+      <LayersControl.Overlay name="Feature group">
+        <FeatureGroup pathOptions={{ color: 'purple' }}>
+          <Popup>Popup in FeatureGroup</Popup>
+          <Circle center={[51.51, -0.06]} radius={200} />
+          <Rectangle bounds={rectangle} />
+        </FeatureGroup>
+      </LayersControl.Overlay>
+    </LayersControl>
+
+
+
+        <DisplayLibrariesMarker
+          onOpenAction={() => {
             setShowModal(true)
-            setCurrentView("createLibrary")
+            setCurrentView("setShowModal")
             /*openModalWithContent("library", )*/
           }}
         />
-      
+
+        <CreateLibraryLogic
+          onAddAction={(position: LatLng) => {
+            console.log(position)
+            const lat = position.lat;
+            const lng = position.lng;
+            const cords = `${lat},${lng}`;
+            openModalWithContent("createLibrary", "libraryID", cords)
+          }}
+        />
       
       </MapContainer>
       

@@ -5,17 +5,31 @@ import { verifyToken } from "@/features/tokens/utils/handleToken"
 import { singletonMaster } from "@/utils/singletonBuilder"
 import { checkCredentials } from "@/features/tokens/utils/checkCredentials"
 
+
+export type AppContext = {
+  userId: string | null
+}
+
 /* Middelware for å brytte tidlig hvis brukeren forsøker å få tilgang til en begrenset rute og de ikke er innlogget. */
-export const authCheck = async (ctx: RequestInfo) => {
+export async function authCheck ({
+  ctx,
+  request,
+}: {
+  ctx: AppContext
+  request: Request
+}) {
+
+    ctx.userId = null
+
     /* Send ctx til funksjonen checkCredentials i token sitt service lag.  */
     
-    const auth = await checkCredentials(ctx)
+    const auth = await checkCredentials(request)
 
     /* Vi forventer å få tilbake UID-en til brukeren hvis JWT fra token er riktig. */
-    const userId: string | undefined = auth.userId ?? undefined
+    const user: any = auth
 
     /* Hent URL for siden som blir forespurt. */
-    const url = new URL(ctx.request.url)
+    const url = new URL(request.url)
 
     /* Hent ut selve stinavnet fra url. Hvis brukeren har lagt til en trailing slash fjern den. */
     let requestedPathname: string = url.pathname
@@ -25,7 +39,7 @@ export const authCheck = async (ctx: RequestInfo) => {
     }
     
     /* Hvilken metode brukes for å gjøre denne handlingen. */
-    const method = ctx.request.method.toLowerCase()
+    const method = request.method.toLowerCase()
 
     /* Dette er en oversikt over hvilken sider og API ressurser som krever at brukeren er logget inn. */
     const openRoutes: string[] = [
@@ -33,19 +47,21 @@ export const authCheck = async (ctx: RequestInfo) => {
         "/login",
         "/register",
         "/home",
+        "/api/v1/tokens",
+        "/api/v1/users",
         "/api/v1/libraries"
     ]
 
     const isOpenRoute = (openRoutes.includes(requestedPathname))
 
-    if (!userId && !isOpenRoute) return new Response("No auth", { status: 401 })
+    if (!user && !isOpenRoute) return new Response("No auth", { status: 401 })
 
     // Temp to test, need to be moved
     interface AuthenticatedCtx extends RequestInfo {
         user?: string
     }
-
-    if (userId) (ctx as AuthenticatedCtx).user = userId
+    
+    if (user) ctx.userId = user.id
 }
 
 // TESTING 

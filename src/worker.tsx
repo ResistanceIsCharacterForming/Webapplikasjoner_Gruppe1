@@ -19,6 +19,7 @@ import { FrontLayout } from "./features/tokens/layouts/FrontLayout"
 import { databasescreen } from "./test"
 import Landing from "./features/libraries/pages/Landing"
 import MapSafeGuard from "./frontend/features/map/components/MapSafeguard"
+import { MainLayout } from "./features/tokens/layouts/MainLayout"
 
 export interface Env {
   bokkroken: D1Database;
@@ -45,10 +46,10 @@ export default defineApp([
       route("/register", RegisterScreen)
     ]),
 
-    /*layout(MainLayout, [*/
+    layout(MainLayout, [
       route("/home", MapSafeGuard),
       route("/db", databasescreen)/*,
       route("/dashboard", [isAdmin, DashboardScreen])*/
-    /*])*/
+    ])
   ])
 ])
