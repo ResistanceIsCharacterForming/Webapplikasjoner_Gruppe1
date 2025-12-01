@@ -1,51 +1,84 @@
 import { RequestInfo } from "rwsdk/worker"
 
 /* Hente singletonMaster for å få tilgang til service laget til tokens. */
-import { verifyToken } from "@/features/tokens/hooks/handleToken"
+import { verifyToken } from "@/features/tokens/utils/handleToken"
 import { singletonMaster } from "@/utils/singletonBuilder"
+import { checkCredentials } from "@/features/tokens/utils/checkCredentials"
+
+
+export type AppContext = {
+  userId: string | null
+}
 
 /* Middelware for å brytte tidlig hvis brukeren forsøker å få tilgang til en begrenset rute og de ikke er innlogget. */
-export const authCheck = async (ctx: any) => {
+export async function authCheck ({
+  ctx,
+  request,
+}: {
+  ctx: AppContext
+  request: Request
+}) {
+
+    ctx.userId = null
+
     /* Send ctx til funksjonen checkCredentials i token sitt service lag.  */
-    const auth = await singletonMaster.tokensService.checkCredentials(ctx)
+    
+    const auth = await checkCredentials(request)
 
     /* Vi forventer å få tilbake UID-en til brukeren hvis JWT fra token er riktig. */
-    const userId: string | undefined = auth.userId ?? undefined
+    const user: any = auth
 
     /* Hent URL for siden som blir forespurt. */
-    const url = new URL(ctx.request.url)
+    const url = new URL(request.url)
 
     /* Hent ut selve stinavnet fra url. Hvis brukeren har lagt til en trailing slash fjern den. */
     let requestedPathname: string = url.pathname
-    if (url.pathname.slice(-1) === "/") {
-        requestedPathname = url.pathname.slice(0, -1)
+    
+    if (requestedPathname !== "/" && requestedPathname.endsWith("/")) {
+        requestedPathname = requestedPathname.slice(0, -1)
     }
-
+    
     /* Hvilken metode brukes for å gjøre denne handlingen. */
-    const method = ctx.request.method.toLowerCase()
+    const method = request.method.toLowerCase()
 
     /* Dette er en oversikt over hvilken sider og API ressurser som krever at brukeren er logget inn. */
-    const protectedRoutes: [{pathname: string, method: string}] = [
-        {pathname : "/api/v1/users", method : "get"}
+    const openRoutes: string[] = [
+        "/",
+        "/login",
+        "/register",
+        "/home",
+        "/api/v1/tokens",
+        "/api/v1/users",
+        "/api/v1/libraries"
     ]
 
-    /* Vi bruker sameMethod for å enkelt lagre om enten method er lik hva method fra et objekt er eller any, altså vilkårlig.  */
-    let sameMethod: boolean = false
-    /* Hent hvert objekt fra protectedRoutes. */
-    for (let route of protectedRoutes) {
-        /* Gjør denne sammenligning her for å øke lesbarhet nedenfor. */
-        if (method === route.method || route.method == "any") {
-            sameMethod = true
-        }
-        /* Hvis objektet sin sti er lik den som forespures og metoden er beskyttet, undersøker om vi er logget inn. */
-        if (route.pathname == requestedPathname && sameMethod) {
-            /* Hvis userId ikke finnes, altså brukeren ikke er logget inn, send tilbake en feilmelding. */
-            if (userId === undefined) return new Response("No auth", { status: 401 })
-        }
-    }
+    const isOpenRoute = (openRoutes.includes(requestedPathname))
 
-    ctx.user = userId
+    if (!user && !isOpenRoute) return new Response("No auth", { status: 401 })
+
+    // Temp to test, need to be moved
+    interface AuthenticatedCtx extends RequestInfo {
+        user?: string
+    }
+    
+    if (user) ctx.userId = user.id
 }
+
+// TESTING 
+
+// Arrange
+
+// Act
+
+// Assert
+
+
+
+
+
+
+
+
 
 /* Middleware for å undersøke om brukeren er admin. Tar ikke høyde for admin-nivå. */
 export const isAdmin = async (ctx: RequestInfo["ctx"]) => {

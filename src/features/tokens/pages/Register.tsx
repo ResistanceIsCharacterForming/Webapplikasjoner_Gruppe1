@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react"
-import { useRandomNameGenerator } from "../useRandomNameGenerator";
+import { useRandomNameGenerator } from "./useRandomNameGenerator";
+import { cosineDistance } from "drizzle-orm";
 import { navigate } from "rwsdk/client";
 
 export default function RegisterScreen() {

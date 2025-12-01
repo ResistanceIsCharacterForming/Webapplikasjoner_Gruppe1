@@ -1,9 +1,9 @@
-// src/db/index.ts
 
-import { drizzle } from "drizzle-orm/d1";
+import { drizzle, DrizzleD1Database } from "drizzle-orm/d1";
 
 import * as schema from "./schema";
-import { env } from "cloudflare:workers";
+
+import { env } from "cloudflare:workers"
 
 export const createDbConnection =  (): drizzle => {
     return drizzle(env.bokkroken, { schema })
