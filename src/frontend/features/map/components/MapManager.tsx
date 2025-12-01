@@ -173,7 +173,7 @@ export default function MapGenerator(props: { cords: [number, number] }) {
             setCords(cordsAsString)
             console.log(getCords())
           }}
-          cords={latLong} />
+          />
 
 
         <CreateLibraryLogic

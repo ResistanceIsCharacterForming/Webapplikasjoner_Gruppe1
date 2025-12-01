@@ -13,25 +13,23 @@ import { useQueryState } from "nuqs"
 interface DisplayLibrariesMarkerProps {
   onOpenAction: (position: any) => void
   onMoveendAction: (position: any) => void
-  cords:[number,number]
 }
 
-export default function DisplayLibrariesMarker({onOpenAction,onMoveendAction,cords}: DisplayLibrariesMarkerProps) {
+export default function DisplayLibrariesMarker({onOpenAction,onMoveendAction}: DisplayLibrariesMarkerProps) {
     
     const [libraries, setLibraries] = useState<libraryType[]>()
+    /*
     function compareCords(cords: [number, number]) {
         if (Math.abs(cords[0] - cords[0]) > 0.2 && Math.abs(cords[0] - cords[0]) > 0.2) return true
         return false
     }
+    */
     
     const getLibraries = async () => {
         const lat = map.getCenter().lat
         const lng = map.getCenter().lng
-        if (compareCords([lat,lng])){
-            console.log("change cords ")
-            const result = await getLibrariesOfArea(lat, lng)
-            setLibraries(result.data)   
-        }
+        const result = await getLibrariesOfArea(lat, lng)
+        setLibraries(result.data)   
     }
     
     const map = useMapEvents({
