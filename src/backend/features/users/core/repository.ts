@@ -6,7 +6,7 @@ import {eq} from "drizzle-orm"
 
 export function createUserRepository(db: any):userRepository{
   return{
-    async getUsers(){
+     async getUsers(){
       try {
         const result: user[] = await db.select().from(users)
         return { success: true, data: result }

@@ -122,9 +122,6 @@ export function createUserService(repository: userRepository) {
             const result = await repository.deleteAdminById(userId)
             return result
         },
-        async isUserOwner(id: string) {
-
-        },
         //favlibs
         async getFavoriteLibraries() {
             const result = await repository.getFavoriteLibraries()

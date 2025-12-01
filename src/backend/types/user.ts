@@ -29,25 +29,22 @@ export interface userRepository {
   getUserById(id: string): Promise<apiResponse<user[]>>
   getUserByEmail(email: string): Promise<apiResponse<user>>
   deleteUserById(id: string): Promise<apiResponse<void>>,
-  isUserAdmin(ctx: any): Promise<boolean>,
-  isUserOwner(ctx: any): Promise<boolean>
-
   //favoritlibaries
-  getFavoriteLibraries(): Promise<apiResponse<favoriteLibrary[]>>
-  createFavoriteLibrary(data:any): Promise<apiResponse<favoriteLibrary[]>>
-  editFavoriteLibrary(id:number,data:Partial<favoriteLibrary>): Promise<apiResponse<favoriteLibrary[]>>
-  getFavoriteLibraryById(id:number): Promise<apiResponse<favoriteLibrary[]>>
-  getFavoriteLibrariesByUserId(id:string): Promise<apiResponse<favoriteLibrary[]>>
-  getFavoriteLibrariesByLibraryId(id:string): Promise<apiResponse<favoriteLibrary[]>>
-  deleteFavoriteLibraryById(id:number): Promise<apiResponse<void>>
-  deleteFavoriteLibrariesByUserId(id:string): Promise<apiResponse<void>>
-  deleteFavoriteLibrariesByLibraryId(id:string): Promise<apiResponse<void>>
+  getFavoriteLibraries(): Promise<apiResponse<favoriteLibrary[]>>,
+  createFavoriteLibrary(data:any): Promise<apiResponse<favoriteLibrary[]>>,
+  editFavoriteLibrary(id:number,data:Partial<favoriteLibrary>): Promise<apiResponse<favoriteLibrary[]>>,
+  getFavoriteLibraryById(id:number): Promise<apiResponse<favoriteLibrary[]>>,
+  getFavoriteLibrariesByUserId(id:string): Promise<apiResponse<favoriteLibrary[]>>,
+  getFavoriteLibrariesByLibraryId(id:string): Promise<apiResponse<favoriteLibrary[]>>,
+  deleteFavoriteLibraryById(id:number): Promise<apiResponse<void>>,
+  deleteFavoriteLibrariesByUserId(id:string): Promise<apiResponse<void>>,
+  deleteFavoriteLibrariesByLibraryId(id:string): Promise<apiResponse<void>>,
 
-  getAdmins(): Promise<apiResponse<admin[]>>
-  createAdmin(userId:string,createdAt:string,adminLevel:number): Promise<apiResponse<admin[]>>
-  editAdmin(id: string, data: any): Promise<apiResponse<admin[]>>
-  getAdminById(id: string): Promise<apiResponse<admin[]>>
-  deleteAdminById(id: string): Promise<apiResponse<void>>
+  getAdmins(): Promise<apiResponse<admin[]>>,
+  createAdmin(userId:string,createdAt:string,adminLevel:number): Promise<apiResponse<admin[]>>,
+  editAdmin(id: string, data: any): Promise<apiResponse<admin[]>>,
+  getAdminById(id: string): Promise<apiResponse<admin[]>>,
+  deleteAdminById(id: string): Promise<apiResponse<void>>,
 }
 export type user = typeof users.$inferSelect;
 export type admin = typeof admins.$inferSelect;

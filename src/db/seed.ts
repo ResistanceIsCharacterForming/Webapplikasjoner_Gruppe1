@@ -4,8 +4,33 @@ import { hashPassword } from "@/backend/features/users/core/service";
 import { admins, libraries, reviews, reviewsEndorsements, favoriteLibraries, reports, users } from "./schema";
 import { user } from "@/backend/types/user";
 import { library } from "@/backend/types/library";
+import { useRandomNameGenerator } from "@/backend/features/shared/utils/useRandomNameGenerator";
 const db = singletonMaster.dbConnection
 
+function randomCreateData(){
+  return "Mon Dec 01 2025 11:55:"+ Math.floor(Math.random()*58+1)+" GMT+0100 (Central European Standard Time)"
+}
+
+function randomLoginData(){
+  return "Mon Dec 01 2025 11:57:"+ Math.floor(Math.random()*58+1)+" GMT+0100 (Central European Standard Time)"
+}
+
+function randomUsers(amount:number):Partial<user>[]{
+  const userlist =[]
+  for (let index = 0; index < amount; index++) {
+    userlist[index]= {
+    name: useRandomNameGenerator(),
+    email: "random"+Math.floor(Math.random()*9999)+"@gmail.com",
+    password: "b60b1b8731dbed62a45d9fbce9afaf90:559246f6eabd22d47bd15c544a66c1a8cc5ecbdcc285118b9e4ab8f275b3bd72ee19e26eb97cfbf3d5557a2b1f2c41fea8dc16f65557840d0528cc567da659c0", // its just 123 in our hashed system
+    settings: "{}",
+    createdAt: randomCreateData(),
+    lastLoginAt: randomLoginData(),
+    profileImage: "0",
+    isVisible: true
+  } 
+  }
+  return userlist
+}
 try {
   //make sure the tables are empty
   await db.delete(admins);
@@ -16,15 +41,17 @@ try {
   await db.delete(reports);
   await db.delete(users);
 
+
+
   //partial do id is made in the db
   const password = await hashPassword("passowrd@1")
   const madsuser: Partial<user> = {
-    name: "madsuser",
+    name: useRandomNameGenerator(),
     email: "mads.soyland@gmail.com",
     password: password,
     settings: "{}",
-    createdAt: new Date().toISOString(),
-    lastLoginAt: new Date().toISOString(),
+    createdAt: randomCreateData(),
+    lastLoginAt: randomLoginData(),
     profileImage: "0",
     isVisible: true
   };
@@ -33,8 +60,8 @@ try {
     email: "administrator@gmail.com",
     password: "6312d419432f8b9ac59c4a01df186004:399bd2ab57d6737f35af01f077385217d67a29dde3842d6861b5673ff9efb70cdced8693238eebf2e21574790f617f4de66e46b1240859f2babd33dee20738b0",
     settings: "{}",
-    createdAt: "Mon Dec 01 2025 11:57:10 GMT+0100 (Central European Standard Time)",
-    lastLoginAt: "Mon Dec 01 2025 11:57:10 GMT+0100 (Central European Standard Time)",
+    createdAt: randomCreateData(),
+    lastLoginAt: randomLoginData(),
     profileImage: "0",
     isVisible: true
   }
@@ -44,44 +71,23 @@ try {
     email: "ellen.norman@gmail.com",
     password: "200dabc91a6099164f6512bc113e89f2:6915dc1addb7cd6b9504453ded1fda6b7ac615351a7043c3f9f9aa29e40754a2f94658eb66e5f0c7f71390dabe17ed1a47818b138af4815702abef5e1e8dc430",
     settings: "{}",
-    createdAt: "Mon Dec 01 2025 11:57:10 GMT+0100 (Central European Standard Time)",
-    lastLoginAt: "Mon Dec 01 2025 11:57:10 GMT+0100 (Central European Standard Time)",
+    createdAt: randomCreateData(),
+    lastLoginAt: randomLoginData(),
     profileImage: "0",
     isVisible: true
   }
 
-  const madsuser2: Partial<user> = {
-    name: "madsuser2",
-    email: "mjsoylan@hiof.no",
-    password: password,
-    settings: "{}",
-    createdAt: new Date().toISOString(),
-    lastLoginAt: new Date().toISOString(),
-    profileImage: "0",
-    isVisible: true
-  };
-
   const nikolaiuser: Partial<user> = {
-    name: "nikolaiuser",
+    name: useRandomNameGenerator(),
     email: "nikol.lysebraate@hiof.no",
     password: password,
     settings: "{}",
-    createdAt: new Date().toISOString(),
-    lastLoginAt: new Date().toISOString(),
+    createdAt: randomCreateData(),
+    lastLoginAt: randomLoginData(),
     profileImage: "0",
     isVisible: true
   };
 
-  const mathias: Partial<user> = {
-    name: "mathias",
-    email: "mathias.hem@hiof.no",
-    password: password,
-    settings: "{}",
-    createdAt: new Date().toISOString(),
-    lastLoginAt: new Date().toISOString(),
-    profileImage: "",
-    isVisible: true
-  };
 
   // Insert a user
   await db.insert(users).values(adminbruker);
@@ -90,11 +96,14 @@ try {
 
   await db.insert(users).values(madsuser);
 
-  await db.insert(users).values(madsuser2);
-
   await db.insert(users).values(nikolaiuser)
 
-  await db.insert(users).values(mathias);
+  const randoms = randomUsers(20)
+
+  for (let index = 0; index < randoms.length; index++) {
+    await db.insert(users).values(randoms[index])    
+  }
+
 
 
   const newUserId = await db.select({ id: users.id }).from(users)

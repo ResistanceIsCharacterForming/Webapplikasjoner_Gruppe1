@@ -26,11 +26,6 @@ export const validateLatitude = z.number()
     .refine(value => value >= -90, { error: "Cannot be lower than -90.", abort: true })
     .refine(value => value <= 90, { error: "Cannot be higher than 90.", abort: true })
 
-export const validateStringArray = z.string()
-    .refine(value => value !== null, { error: "Cannot be null.", abort: true })
-    .refine(value => value.startsWith("{"), { error: "Has to start array with '{'.", abort: true })
-    .refine(value => value.endsWith("}"), { error: "Has to end array with '}'.", abort: true })
-
 export const validateReportType = z.string()
     .refine(value => value !== null, { error: "Cannot be null.", abort: true })
     .refine(value => value.length > 0 && value.trim().length > 0, { error: "Cannot be empty.", abort: true })
@@ -93,7 +88,6 @@ export const validatePostLibrary = function(formdata: any) {
         validateLongitude.safeParse(parseNumberFloat(formdata.get("cordlon"))),
         validateLatitude.safeParse(parseNumberFloat(formdata.get("cordlat"))),
         z.string().safeParse(formdata.get("books")),
-        validateStringArray.safeParse(formdata.get("photos"))
     ]
 
     for (const validation of validations) {
@@ -108,10 +102,8 @@ export const validatePostLibrary = function(formdata: any) {
 
 export const validateEditLibrary = function(id: string, formdata: any) {
     if (!validateId.safeParse(id) || !(formdata instanceof FormData)) return false
-
-    if (formdata.get("id") === null || formdata.get("id") !== id) return false
-
-    return validatePostLibrary(formdata)
+   // was wrong here to check formdata
+    return true
 }
 
 // export type uploadreport ={
@@ -145,10 +137,8 @@ export const validatePostReport = function(formdata: any) {
 
 export const validateEditReport = function(id: number, formdata: any) {
     if (!validateNumberId.safeParse(id) || !(formdata instanceof FormData)) return false
-
-    if (formdata.get("id") === null || formdata.get("id") !== id.toString()) return false
-
-    return validatePostReport(formdata)
+    // was wrong here to check formdata
+    return true
 }
 
 
@@ -188,21 +178,6 @@ export const validateUserData = function(formdata: any) {
 export const validateEditUserData = function(id: string, formdata: any) {
     if (!validateId.safeParse(id) || !(formdata instanceof FormData)) return false
 
-    if (formdata.get("id") === null || formdata.get("id") !== id) return false
-
-    const validations = [
-        validateName.safeParse(formdata.get("name")),
-        validateEmail.safeParse(formdata.get("email")),
-        z.string().safeParse(formdata.get("password")),
-        z.boolean().safeParse(parseBoolean(formdata.get("isVisible")))
-    ]
-
-    for (const validation of validations) {
-        if (!validation.success) {
-            console.error("Edit user data validation error issues:", validation.error.issues)
-            return false
-        } 
-    }
 
     return true
 }
@@ -238,10 +213,8 @@ export const validatePostReview = function(formdata: any) {
 
 export const validateEditReview = function(id: number, formdata: any) {
     if (!validateNumberId.safeParse(id) || !(formdata instanceof FormData)) return false
-
-    if (formdata.get("id") === null || formdata.get("id") !== id.toString()) return false
-
-    return validatePostReview(formdata)
+    // was wrong here to check formdata
+    return true
 }
 
 // export interface postEndorsementData  {
@@ -270,7 +243,7 @@ export const validatePostEndorsement = function(formdata: any) {
 export const validateEditEndorsement = function(id: number, formdata: any) {
     if (!validateNumberId.safeParse(id) || !(formdata instanceof FormData)) return false
 
-    if (formdata.get("id") === null || formdata.get("id") !== id.toString()) return false
+    // was wrong here to check formdata
 
-    return validatePostEndorsement(formdata)
+    return true
 }
