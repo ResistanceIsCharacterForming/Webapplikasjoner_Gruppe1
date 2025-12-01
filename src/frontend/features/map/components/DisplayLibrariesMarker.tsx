@@ -3,11 +3,11 @@
 import { useState } from "react"
 import { Marker, useMapEvents  } from "react-leaflet"
 
-import { getLibrariesOfArea } from "@/frontend/features/map/components/utils/getLibrariesOfArea"
+import { getLibrariesOfArea } from "@/frontend/features/map/utils/getLibrariesOfArea"
 import { LeafletEvent } from "leaflet"
 
 /* Types for leaflet */
-import { library as libraryType } from "@/types/library"
+import { library as libraryType } from "@/backend/types/library"
 
 interface DisplayLibrariesMarkerProps {
   onOpenAction: (position: any) => void

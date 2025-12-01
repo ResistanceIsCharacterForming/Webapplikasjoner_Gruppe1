@@ -10,8 +10,8 @@ import "leaflet/dist/leaflet.css"
 import ModalContainer from "@/frontend/features/shared/components/ModalContainer"
 
 /* Selve "rammen" for innholdet til en modal. */
-import ModalContentShowLibrary from "@/frontend/features/map/components/modal/DisplayLibrary"
-import ModalContentNewLibrary from "@/frontend/features/map/components/modal/CreateLibrary"
+import ModalContentShowLibrary from "@/frontend/features/map/modal/DisplayLibrary"
+import ModalContentNewLibrary from "@/frontend/features/map/modal/CreateLibrary"
 
 import CreateLibraryLogic from "@/frontend/features/map/components/CreateLibraryLogic"
 
@@ -27,7 +27,7 @@ function getInitialCenter() {
 /* Hent hook fra nuqs for å parse query params. */
 import { useQueryState } from 'nuqs'
 import { LatLng } from "leaflet"
-import AuthContext, { UserContext } from "@/features/tokens/layouts/AuthContext"
+import AuthContext, { UserContext } from "@/frontend/features/auth/components/AuthContext"
 
 
 export default function MapGenerator() {
