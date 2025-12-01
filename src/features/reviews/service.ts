@@ -1,11 +1,10 @@
 
 import { postEndorsementData, postReviewData, review, reviewPhotoName, reviewService } from "@/types/reviews"
-import {  imageService } from "@/types/image";
 import { validateEditEndorsement, validateEditReview, validateId, validateNumberId, validatePostEndorsement, validatePostReview } from "@/utils/valueValidation";
 import { singletonMaster } from "@/utils/singletonBuilder";
 
 export function createReviewService(repository: any) :reviewService{
-    const imagehandler = singletonMaster.ImageService
+    const imagehandler = singletonMaster.imageService
     return {
         async getReviews(){
              const result=await repository.getReviews()

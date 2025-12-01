@@ -17,7 +17,6 @@ export function createReportController(reportService: reportService) {
                 )
 
             } else {
-
                 return new Response(null, { status: 300 })
 
             }

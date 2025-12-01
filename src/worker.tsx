@@ -47,8 +47,8 @@ export default defineApp([
 
     layout(MainLayout, [
       route("/home", MapSafeGuard),
-      route("/db", databasescreen)/*,
-      route("/dashboard", [isAdmin, DashboardScreen])*/
+      route("/db", databasescreen),
+      route("/dashboard", [isAdmin, DashboardScreen])
     ])
   ])
 ])
