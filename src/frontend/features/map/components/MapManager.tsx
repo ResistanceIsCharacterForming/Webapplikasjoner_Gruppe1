@@ -42,6 +42,13 @@ export default function MapGenerator() {
   const [reviewsID, setReviewsID] = useQueryState("anmeldelser")
   const [reportID, setReportID] = useQueryState("rapport")
 
+  const [cords, setCords] = useQueryState("koordinater")
+
+  const getCords: any = () => {
+    const parseCords = cords?.split(",") ?? [0, 0]
+    return [Number(parseCords[0]), Number(parseCords[1])]
+  }
+
     const singelParamActivate = (param: string, value: string) => {
         /* Siden React er smart og ikke oppdaterer en state med verdien den hadde kan vi kalle her uten å sjekke om verdien er en tom streng. */
         setUserID(null)
@@ -108,7 +115,7 @@ const rectangle:any = [
         : null}
       
       <MapContainer
-        center={getInitialCenter()}
+        center={cords === null ? getInitialCenter() : getCords()}
         minZoom={4}
         zoom={13}
         className="position: relativ z-0 h-[100vh] w-[100%]"
@@ -169,7 +176,13 @@ const rectangle:any = [
             setCurrentView("setShowModal")
             /*openModalWithContent("library", )*/
           }}
+          onMoveendAction={(cords: any) => {
+            const cordsAsString = `${cords.lat},${cords.lng}`
+            setCords(cordsAsString)
+            console.log(getCords())
+          }}
         />
+        
 
         <CreateLibraryLogic
           onAddAction={(position: LatLng) => {

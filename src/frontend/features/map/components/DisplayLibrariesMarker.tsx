@@ -8,25 +8,30 @@ import { LeafletEvent } from "leaflet"
 
 /* Types for leaflet */
 import { library as libraryType } from "@/backend/types/library"
+import { useQueryState } from "nuqs"
 
 interface DisplayLibrariesMarkerProps {
   onOpenAction: (position: any) => void
+  onMoveendAction: (position: any) => void
 }
 
-export default function DisplayLibrariesMarker({onOpenAction}: DisplayLibrariesMarkerProps) {
+export default function DisplayLibrariesMarker({onOpenAction, onMoveendAction}: DisplayLibrariesMarkerProps) {
     
     const [libraries, setLibraries] = useState<libraryType[]>()
+
+
 
     const getLibraries = async () => {
         const lat = map.getCenter().lat
         const lng = map.getCenter().lng
         const result = await getLibrariesOfArea(lat, lng)
-        setLibraries(result.data)
+
     }
     
     const map = useMapEvents({
         moveend(event: LeafletEvent) {
             getLibraries()
+            onMoveendAction(map.getCenter())
         }
     })
 
