@@ -12,34 +12,16 @@ import { useQueryState } from "nuqs"
 
 interface DisplayLibrariesMarkerProps {
   onOpenAction: (position: any) => void
-<<<<<<< Updated upstream
   onMoveendAction: (position: any) => void
-}
-
-export default function DisplayLibrariesMarker({onOpenAction, onMoveendAction}: DisplayLibrariesMarkerProps) {
-    
-    const [libraries, setLibraries] = useState<libraryType[]>()
-
-
-
-    const getLibraries = async () => {
-        const lat = map.getCenter().lat
-        const lng = map.getCenter().lng
-        const result = await getLibrariesOfArea(lat, lng)
-
-=======
   cords:[number,number]
 }
 
-export default function DisplayLibrariesMarker({onOpenAction,cords}: DisplayLibrariesMarkerProps) {
+export default function DisplayLibrariesMarker({onOpenAction,onMoveendAction,cords}: DisplayLibrariesMarkerProps) {
     
     const [libraries, setLibraries] = useState<libraryType[]>()
-    const [latLong,SetLatLong] = useState<[number,number]>(cords)
-    function compareCords(cords:[number,number]) {
-    if (Math.abs(cords[0]-latLong[0]) > 0.2 && Math.abs(cords[0]-latLong[0])> 0.2){
-        SetLatLong(cords)
-        return true
-    } return false
+    function compareCords(cords: [number, number]) {
+        if (Math.abs(cords[0] - cords[0]) > 0.2 && Math.abs(cords[0] - cords[0]) > 0.2) return true
+        return false
     }
     
     const getLibraries = async () => {
@@ -50,7 +32,6 @@ export default function DisplayLibrariesMarker({onOpenAction,cords}: DisplayLibr
             const result = await getLibrariesOfArea(lat, lng)
             setLibraries(result.data)   
         }
->>>>>>> Stashed changes
     }
     
     const map = useMapEvents({
