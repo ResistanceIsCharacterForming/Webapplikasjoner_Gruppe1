@@ -13,7 +13,7 @@ import { useGetReviewsFromLibraries } from "./features/reports/hooks/universal/u
 export const databasescreen = async () => {
   const test5 = useGetReviewsFromLibraries("03a949bd-f33e-4088-a8f9-189f935bccb0")
   const test = singletonMaster.ImageController;
-  const user=await createUserService(createUserRepository(singletonMaster.dbConnection),singletonMaster.ImageController)
+  const user=await createUserService(createUserRepository(singletonMaster.dbConnection))
   const libary=await createLibraryService(createLibraryRepository(singletonMaster.dbConnection))
   const userResult=await user.listUsers()
   const test2=await user.getUserById("858dcdca-f633-459a-8450-f5ff38f9f08b")

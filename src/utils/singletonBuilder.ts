@@ -52,7 +52,13 @@ export const singletonMaster = {
         }
         return this._r2Connection
     },
-
+     _imageService: null as ReturnType<typeof createImageService> | null,
+    get imageService(){
+        if (!this._imageService){
+            this._imageService = createImageService(createImageRepository(this.r2Connection))
+        }
+        return this._imageService
+    },
     _ImageController: null as ReturnType<typeof createImageController> | null,
     get ImageController(){
         if (!this._ImageController){

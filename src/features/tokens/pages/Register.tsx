@@ -1,8 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react"
+<<<<<<< Updated upstream
 import { useRandomNameGenerator } from "../useRandomNameGenerator";
+=======
+import { cosineDistance } from "drizzle-orm";
+>>>>>>> Stashed changes
 import { navigate } from "rwsdk/client";
+import { useRandomNameGenerator } from "./useRandomNameGenerator";
 
 export default function RegisterScreen() {
 
@@ -52,8 +57,8 @@ export default function RegisterScreen() {
 
   const fields: inputFields[] = [
     { label: "Navn", name: "name", type: "text" },
-    { label: "Password", name: "password", type: "password" },
     { label: "Epost", name: "email", type: "email" },
+    { label: "Password", name: "password", type: "password" },
   ]
   
   useEffect(() => {

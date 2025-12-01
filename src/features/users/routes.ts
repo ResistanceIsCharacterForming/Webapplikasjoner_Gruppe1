@@ -14,7 +14,7 @@ export const usersRoutes = [
             const method = ctx.request.method.toLowerCase()
              if (method === "post") {
                 try {
-                    const data: postUserData = await ctx.request.formData()
+                    const data = await ctx.request.formData()
                     const result = await userController.createUser(data)
                     return result   
                 } catch (error) {

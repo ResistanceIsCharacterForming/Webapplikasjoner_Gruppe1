@@ -1,7 +1,8 @@
 "use server"
 
+import { useRandomNameGenerator } from "@/features/tokens/pages/useRandomNameGenerator"
 import { singletonMaster } from "@/utils/singletonBuilder"
-import { useRandomNameGenerator } from "../../tokens/useRandomNameGenerator"
+
 
 const report = singletonMaster.reportService
 const user = singletonMaster.userService

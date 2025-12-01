@@ -46,9 +46,15 @@ export default defineApp([
 
     /*layout(MainLayout, [*/
       route("/home", MapSafeGuard),
+<<<<<<< Updated upstream
       // REMOVE THIS BEFORE DELIVER!
       route("/db",databasescreen),
       route("/dashboard", [isAdmin, DashboardScreen])
     /*])*/
+=======
+      route("/db", databasescreen),
+      route("/dashboard", [isAdmin, DashboardScreen])
+    ])
+>>>>>>> Stashed changes
   ])
 ])
