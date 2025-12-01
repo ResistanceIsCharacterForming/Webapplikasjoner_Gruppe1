@@ -1,6 +1,7 @@
-import {admin, admins, users,favoriteLibraries,favoriteLibrary} from "../../db/schema"
+import {admins, users,favoriteLibraries} from "../../db/schema"
 import {eq} from "drizzle-orm"
-import { databaseUserData, user, userRepository } from "@/types/user"
+import { admin, databaseUserData, user, userRepository } from "@/types/user"
+import { favoriteLibrary } from "@/types/library"
 
 export function createUserRepository(db: any):userRepository{
   return{
