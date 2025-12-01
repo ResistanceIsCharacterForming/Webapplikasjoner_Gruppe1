@@ -30,6 +30,27 @@ try {
     profileImage: "0",
     isVisible: true
   };
+  const adminbruker: Partial<user> = {
+    name: "free_grass(O.O)",
+    email: "administrator@gmail.com",
+    password: "6312d419432f8b9ac59c4a01df186004:399bd2ab57d6737f35af01f077385217d67a29dde3842d6861b5673ff9efb70cdced8693238eebf2e21574790f617f4de66e46b1240859f2babd33dee20738b0",
+    settings: "{}",
+    createdAt: "Mon Dec 01 2025 11:57:10 GMT+0100 (Central European Standard Time)",
+    lastLoginAt: "Mon Dec 01 2025 11:57:10 GMT+0100 (Central European Standard Time)",
+    profileImage: "0",
+    isVisible: true
+  }
+  
+  const normalbruker: Partial<user> = {
+    name: "sweet_bee(*-*)",
+    email: "ellen.norman@gmail.com",
+    password: "200dabc91a6099164f6512bc113e89f2:6915dc1addb7cd6b9504453ded1fda6b7ac615351a7043c3f9f9aa29e40754a2f94658eb66e5f0c7f71390dabe17ed1a47818b138af4815702abef5e1e8dc430",
+    settings: "{}",
+    createdAt: "Mon Dec 01 2025 11:57:10 GMT+0100 (Central European Standard Time)",
+    lastLoginAt: "Mon Dec 01 2025 11:57:10 GMT+0100 (Central European Standard Time)",
+    profileImage: "0",
+    isVisible: true
+  }
 
   const madsuser2: Partial<user> = {
     name: "madsuser2",
@@ -65,6 +86,10 @@ try {
   };
 
   // Insert a user
+  await db.insert(users).values(adminbruker);
+
+  await db.insert(users).values(normalbruker);
+
   await db.insert(users).values(madsuser);
 
   await db.insert(users).values(madsuser2);
@@ -73,8 +98,9 @@ try {
 
   await db.insert(users).values(mathias);
 
+
   const newUserId = await db.select({ id: users.id }).from(users)
-  // 0 er mads,1 er mads2,2 er nikolai,3 er mathias
+  // 0 er adminbruker,1 er normalbruker resten burde bli lagde nye
 
   const halden_skole: Partial<library> = {
     userId: newUserId[0].id,

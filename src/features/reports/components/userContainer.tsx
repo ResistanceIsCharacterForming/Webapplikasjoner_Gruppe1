@@ -97,7 +97,7 @@ export const UserContainer = () => {
                     if (b.createdAt === null) {
                         return -1
                     }
-                    return b.createdAt.localeCompare(a.createdAt)
+                    return a.createdAt.localeCompare(b.createdAt)
                 })
 
 
@@ -115,7 +115,7 @@ export const UserContainer = () => {
                     if (b.createdAt === null) {
                         return -1
                     }
-                    return a.createdAt.localeCompare(b.createdAt)
+                    return b.createdAt.localeCompare(a.createdAt)
                 })
                 showusers(sortedItems)
             }

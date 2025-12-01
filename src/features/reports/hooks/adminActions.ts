@@ -49,6 +49,7 @@ export async function settUserProfileToBasic(id: string) {
     data.append("name", useRandomNameGenerator() )
     data.append("profileImage", "0")
     const result = await user.editUserById(id,data)
+    const reviewRemove = await review.deleteReviewByUserId(id)
 }
 
 export async function RemoveLibraryImage(id: string) {
