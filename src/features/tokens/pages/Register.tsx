@@ -1,11 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react"
-<<<<<<< Updated upstream
 import { useRandomNameGenerator } from "../useRandomNameGenerator";
-=======
-import { cosineDistance } from "drizzle-orm";
->>>>>>> Stashed changes
+import { useRandomNameGenerator } from "./useRandomNameGenerator";
 import { navigate } from "rwsdk/client";
 import { useRandomNameGenerator } from "./useRandomNameGenerator";
 

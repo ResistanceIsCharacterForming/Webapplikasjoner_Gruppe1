@@ -129,8 +129,4 @@ export const reviewsRoutes = [
         },
     ]),
     
-
-
-
-
 ]

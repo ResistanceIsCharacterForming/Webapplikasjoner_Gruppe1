@@ -15,8 +15,9 @@ import DashboardScreen from "./features/reports/pages/dashboard"
 import { FrontLayout } from "./features/tokens/layouts/FrontLayout"
 import { databasescreen } from "./test"
 import Landing from "./features/libraries/pages/Landing"
+import MapSafeGuard from "./frontend/features/map/components/MapSafeguard"
+import { MainLayout } from "./features/tokens/layouts/MainLayout"
 import { user } from "./types/user"
-import MapSafeGuard from "./features/libraries/pages/MapSafeguard"
 
 export interface Env {
   bokkroken: D1Database;
@@ -44,17 +45,10 @@ export default defineApp([
       
     ]),
 
-    /*layout(MainLayout, [*/
+    layout(MainLayout, [
       route("/home", MapSafeGuard),
-<<<<<<< Updated upstream
-      // REMOVE THIS BEFORE DELIVER!
-      route("/db",databasescreen),
-      route("/dashboard", [isAdmin, DashboardScreen])
-    /*])*/
-=======
       route("/db", databasescreen),
       route("/dashboard", [isAdmin, DashboardScreen])
     ])
->>>>>>> Stashed changes
   ])
 ])
