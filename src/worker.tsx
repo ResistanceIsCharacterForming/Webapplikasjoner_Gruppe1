@@ -21,6 +21,8 @@ export interface Env {
 
 export type AppContext = {
   user: user | undefined;
+  userId: string | undefined
+  isAdmin: boolean
   authUrl: string;
 }
 
