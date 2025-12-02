@@ -9,12 +9,12 @@ interface ReviewCardProps {
 export default function ReviewCard({reviewData}: ReviewCardProps) {
     console.log(reviewData)
     return (
-        <article className="flex flex-wrap border border-darkVanilla rounded-lg p-1 mt-1">
-            <section className="flex flex-col items-center basis-2/5">
-                <p className="font-manrope">{reviewData.userName}</p>
-                <img className="max-w-[50%]" src="src/frontend/features/map/pdia-ba38fab8-99fc-42cf-b5f4-522a3dc408c3.jpg"/>
+        <article className="flex flex-wrap border border-darkVanilla rounded-lg p-1 mt-2 sm:justify-between sm:flex-row">
+            <section className="flex flex-col items-center basis-2/5 sm:basis-1/3">
+                <p className="font-manrope">{/*reviewData.userName*/}Bruker</p>
+                <img className="size-4/5 m-auto" src="src/frontend/features/map/pdia-ba38fab8-99fc-42cf-b5f4-522a3dc408c3.jpg"/>
             </section>
-            <article className="basis-3/5 flex flex-col items-end gap-0">
+            <article className="basis-3/5 flex flex-col items-end gap-0 sm:basis-1/3">
                 <section>
                     <span className="flex flex-wrap justify-end text-end gap-1">
                         <p className="font-manrope">{reviewData.reviewsPoints}</p>
@@ -32,11 +32,11 @@ export default function ReviewCard({reviewData}: ReviewCardProps) {
                     </svg>
                 </section>
             </article>
-            <section>
-                <p className="font-manrope">{reviewData.text}</p>
+            <section className="basis-full sm:basis-1/3">
+                <img className="w-full size-4/5" src="./src/frontend/features/map/RP-P-1922-145-edit-1.png"/>
             </section>
             <section className="basis-full">
-                <img className="w-full max-w-[80%] m-auto" src="./src/frontend/features/map/RP-P-1922-145-edit-1.png"/>
+                <p className="font-manrope">{reviewData.text}</p>
             </section>
         </article>
     )
