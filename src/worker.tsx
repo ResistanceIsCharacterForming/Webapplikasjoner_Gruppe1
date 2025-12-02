@@ -12,8 +12,8 @@ import RegisterScreen from "@/frontend/features/auth/components/Register"
 import DashboardScreen from "@/frontend/features/dashboard/components/dashboard"
 import Landing from "@/frontend/features/landing/Landing"
 import MapSafeGuard from "@/frontend/features/map/components/MapSafeguard"
-import { FrontLayout } from "@/frontend/features/shared/components/FrontLayout"
-import { MainLayout } from "@/frontend/features/shared/components/MainLayout"
+import { FrontLayout } from "@/frontend/features/shared/components/layouts/FrontLayout"
+import { MainLayout } from "@/frontend/features/shared/components/layouts/MainLayout"
 import { databasescreen } from "@/test"
 /*import { MainLayout } from "./features/tokens/layouts/Layout"*/
 

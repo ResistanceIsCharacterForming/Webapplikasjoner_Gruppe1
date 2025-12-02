@@ -1,4 +1,5 @@
-export default function ModalContentNewLibrary() {
+"use client"
+export default function PresenterCreateLibrary() {
     return (
         <article className="flex flex-wrap py-2 px-2">
             <h2 className="font-prata text-xl">Legg til bokkrok</h2>
