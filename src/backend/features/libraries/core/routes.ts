@@ -4,11 +4,11 @@ import { filterQueryParam } from "@/backend/features/shared/utils/queryParamsHan
 
 const libraryController = singletonMaster.libraryController
 
-
+/* Alle nettverks-stier for libraries. */
 export const librariesRoutes = [
+    /* Hent alle libraries ressurser */
     route("libraries", [
         async (ctx) => {
-            //add alle kan bruke 
             const method = ctx.request.method.toLowerCase()
             if (method === "get") {
                 const lat = Number(filterQueryParam(ctx, "lat"))

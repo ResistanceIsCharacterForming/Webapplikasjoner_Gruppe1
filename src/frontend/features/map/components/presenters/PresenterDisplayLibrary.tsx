@@ -1,5 +1,5 @@
 "use client"
-import ReviewCard from "@/frontend/features/map/components/presenters/PresenterReviewCard";
+import PresenterReviewCard from "@/frontend/features/map/components/presenters/PresenterReviewCard";
 
 import { library } from "@/backend/types/library"
 import { reviewComponentData } from "@/backend/types/reviews";
@@ -29,7 +29,7 @@ export default function PresenterLibrary({libraryImg, libraryData, reviewCompone
             </svg>
           </section>
           <section className="basis-full">
-            <img className="size-4/5 m-auto" src={"data:image/png;base64," + libraryImg} />
+            <img className="size-auto sm: size-100 m-auto" src={"data:image/png;base64," + libraryImg} />
           </section>
           <section className="basis-full mt-1">
             <label className="font-manrope text-blackChocolate" htmlFor="review">Ny anmeldelse:</label>
@@ -47,7 +47,7 @@ export default function PresenterLibrary({libraryImg, libraryData, reviewCompone
           </section>
           <section className="basis-full">
             {reviewComponents?.map((review) => {
-              return <ReviewCard key={review.id} reviewData={review}/>
+              return <PresenterReviewCard key={review.id} reviewData={review}/>
             })}
           </section>
         </article>

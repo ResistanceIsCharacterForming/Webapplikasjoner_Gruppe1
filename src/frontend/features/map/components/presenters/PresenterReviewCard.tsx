@@ -6,7 +6,7 @@ interface ReviewCardProps {
   reviewData: reviewComponentData
 }
 
-export default function ReviewCard({reviewData}: ReviewCardProps) {
+export default function PresenterReviewCard({reviewData}: ReviewCardProps) {
     return (
         <article className="h-1em w-full grid grid-cols-5 grid-rows-5  border border-darkVanilla rounded-lg p-1 mt-2 sm:justify-between sm:flex-row ">
             <section className="col-span-5 row-span-2 grid grid-cols-10">
@@ -27,7 +27,7 @@ export default function ReviewCard({reviewData}: ReviewCardProps) {
                     </svg>
                 </section>
             </section>
-            <section className="col-span-3 row-span-3 items-center">
+            <section className="col-start-2 col-span-3 row-span-3 items-center">
                 <p className="font-manrope">{reviewData.text}</p>
             </section>
             <section className="ol-span-3 row-span-3">

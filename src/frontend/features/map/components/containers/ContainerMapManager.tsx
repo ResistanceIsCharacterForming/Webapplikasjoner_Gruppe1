@@ -21,7 +21,7 @@ import ContainerCreateLibrary from "@/frontend/features/map/components/container
 import ContainerLibraryLogic from "@/frontend/features/map/components/containers/ContainerLibraryLogic"
 import ContainerLibrariesMarker from "./ContainerLibrariesMarker"
 
-export default function MapGenerator(props: { cords: [number, number] }) {
+export default function ContainerMapManager(props: { cords: [number, number] }) {
   const [showModal, setShowModal] = useState<boolean>(false)
   const [latLong, SetLatLong] = useState<[number, number]>(props.cords)
   const [currentView, setCurrentView] = useState<string>("")
@@ -81,7 +81,7 @@ export default function MapGenerator(props: { cords: [number, number] }) {
   }
 
   const user: any = useContext(UserContext)
-
+  
   useEffect(() => {
     if (!singleParamPresent) return
     if (userID) openModalWithContent("displayUser", "userID", userID)
@@ -147,6 +147,7 @@ export default function MapGenerator(props: { cords: [number, number] }) {
             }}
           />
 
+          {user.userId !== null ?
           <ContainerLibraryLogic
             onAddAction={(position: LatLng) => {
               const lat = position.lat;
@@ -154,7 +155,7 @@ export default function MapGenerator(props: { cords: [number, number] }) {
               const cords = `${lat},${lng}`;
               openModalWithContent("createLibrary", "libraryID", cords)
             }}
-          />
+          /> : null}
 
         </MapContainer>
 

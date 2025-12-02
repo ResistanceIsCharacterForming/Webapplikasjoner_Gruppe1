@@ -1,6 +1,4 @@
 import { imageRepository, imageService } from "@/backend/types/image"
-import { validateImgFile } from "../../shared/zod/fileValidation"
-
 
 export function createImageService(repository:imageRepository):imageService{
     return{

@@ -47,8 +47,6 @@ export default function ContainerCreateLibrary({cords, userId}: ContainerCreateL
         form.append("books", formData.books)
         if(formData.file)form.append("file", formData.file[0])
 
-        const result = await createLibrary(form)
-
         setLibraryID(null)
     }
 
