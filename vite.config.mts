@@ -10,6 +10,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export default defineConfig({
+  test: {
+    // ...
+    env: {
+          AAAA: 'test_value',
+        }
+  },
   environments: {
     ssr: {},
   },
@@ -41,5 +47,5 @@ export default defineConfig({
       usePolling: true,
       interval: 1000,
     },
-  },
+  }
 });

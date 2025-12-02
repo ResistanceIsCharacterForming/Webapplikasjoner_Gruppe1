@@ -1,65 +1,58 @@
-import { defineApp } from "rwsdk/worker";
-import { render, route } from "rwsdk/router";
-import { Document } from "@/app/Document";
-import { Home } from "@/app/pages/Home";
+import { defineApp } from "rwsdk/worker"
+import { layout, prefix, render, route } from "rwsdk/router"
+import { Document } from "@/app/Document"
+import { setCommonHeaders } from "./app/headers"
 
-import { User, users } from "./db/schema/user-schema";
-import { setCommonHeaders } from "./app/headers";
-import { env } from "cloudflare:workers";
-import { drizzle } from "drizzle-orm/d1";
+import { authCheck, hasAdminRights, isAdmin } from "@/middleware/authHandler"
+
+import { APIv1 } from "@/backend/features/shared/utils/routesAPI"
+import { user } from "@/backend/types/user"
+import LoginScreen from "@/frontend/features/auth/components/Login"
+import RegisterScreen from "@/frontend/features/auth/components/Register"
+import DashboardScreen from "@/frontend/features/dashboard/components/dashboard"
+import Landing from "@/frontend/features/landing/Landing"
+import MapSafeGuard from "@/frontend/features/map/components/MapSafeguard"
+import { FrontLayout } from "@/frontend/features/shared/components/layouts/FrontLayout"
+import { MainLayout } from "@/frontend/features/shared/components/layouts/MainLayout"
 
 export interface Env {
-  DB: D1Database;
+  bokkroken: D1Database;
 }
 
 export type AppContext = {
-  user: User | undefined;
+  user: user | undefined;
+  userId: string | undefined
+  isAdmin: boolean
   authUrl: string;
-};
+}
 
 export default defineApp([
   setCommonHeaders(),
+
+  /* Middleware for å undersøke om hva brukeren forespør er åpnet eller krever innloging. */
+  authCheck,
+
+  /* APIv1 inneholder alle routes tilknyttet API. */
+  prefix("/api/v1/", APIv1),
+
+  /* Forsiden, og hvor brukeren kan logge inn eller lage nye bruker. */
   render(Document, [
-    route("/", async () => {
-      const userResult = await drizzle(env.DB).select().from(users);
-      return (
-        <div style={{ padding: "2rem", maxWidth: "600px", margin: "0 auto" }}>
-          <h1>Start</h1>
-          <p>Velkommen til eksempel</p>
-          <p>Databasen har {userResult.length} brukere</p>
-          <div style={{ margin: "1.5rem 0" }}>
-            <a
-              href="/home"
-              style={{
-                display: "inline-block",
-                padding: "0.5rem 1rem",
-                background: "#0070f3",
-                color: "white",
-                textDecoration: "none",
-                borderRadius: "4px",
-                fontWeight: "500",
-              }}
-            >
-              Go to Home Page
-            </a>
-          </div>
-          <p style={{ fontSize: "0.875rem", color: "#666" }}>
-            Note: The home page is protected and requires authentication. You
-            will be redirected to login if you're not signed in.
-          </p>
-        </div>
-      );
-    }),
-    route("/home", [
-      ({ ctx }) => {
-        if (!ctx.user) {
-          return new Response(null, {
-            status: 302,
-            headers: { Location: "/" },
-          });
-        }
-      },
-      Home,
+
+    route("/", Landing),
+
+    layout(FrontLayout, [
+      route("/login", LoginScreen),
+      route("/register", RegisterScreen),
+      
     ]),
-  ]),
-]);
+
+    /* Hoved innholdet vårt */
+    layout(MainLayout, [
+      /* Middelware som ser om bruker er admin, men kun for å "gi" dem rettigheter */
+      hasAdminRights,
+      route("/home", MapSafeGuard),
+    ])
+    ,route("/dashboard", [isAdmin, DashboardScreen])
+
+  ])
+])

@@ -1,31 +1,40 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "simple-start",
-  "main": "src/worker.tsx",
-  "compatibility_date": "2025-08-29",
-  "compatibility_flags": [
-    "nodejs_compat"
-  ],
-  "assets": {
-    "binding": "ASSETS",
-    "directory": "public"
-  },
-  "observability": {
-    "enabled": true
-  },
-  "vars": {},
-  "d1_databases": [
-    {
-      "binding": "DB",
-      "database_name": "simple-start",
-      "database_id": "__change_me__",
-      "migrations_dir": "drizzle"
-    }
-  ],
-  "r2_buckets": [
-    {
-      "binding": "R2",
-      "bucket_name": "simple-start"
-    },
-  ]
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "bokkrokendb",
+	"main": "src/worker.tsx",
+	"compatibility_date": "2025-08-29",
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"assets": {
+		"binding": "ASSETS",
+		"directory": "public"
+	},
+	"observability": {
+		"enabled": true
+	},
+	"vars": {},
+	"d1_databases": [
+		{
+			"binding": "bokkroken",
+			"database_name": "bokkroken",
+			"database_id": "df105785-a5b7-409b-b053-fa135166fa7c",
+			"migrations_dir": "drizzle/"
+		},
+		{
+			"binding": "testing_bokkroken",
+			"database_name": "testing-bokkroken",
+			"database_id": "4260a464-1db8-43da-87b9-ae33894beb46"
+		}
+	],
+	"r2_buckets": [
+		{
+			"binding": "R2",
+			"bucket_name": "bokkrokenbucket"
+		},
+		{
+			"bucket_name": "test-bokkrokenbucket",
+			"binding": "R2Test"
+		}
+	]
 }
