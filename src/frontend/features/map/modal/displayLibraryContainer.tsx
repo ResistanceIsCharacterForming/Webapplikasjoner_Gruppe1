@@ -6,7 +6,7 @@ import { library } from "@/backend/types/library"
 import { reviewComponentData } from "@/backend/types/reviews"
 import { useEffect, useState } from "react"
 
-/*
+
 export function DisplayLibraryContainer(props: { libraryid: string, userid?: string }) {
     const [libraries, setLibraries] = useState<{ img: string, data: library }>()
     const [reviewComponentData, setReviewComponentData] = useState<reviewComponentData[]>()
@@ -30,4 +30,4 @@ export function DisplayLibraryContainer(props: { libraryid: string, userid?: str
         <>{child}</>
     )
 
-}*/
+}

@@ -3,7 +3,7 @@
 import { createContext, ReactNode } from "react";
 
 export interface UserContextType {
-  userId: string | null
+  userId: string | undefined
   isAdmin: boolean
 }
 

@@ -47,6 +47,8 @@ export default function MapGenerator(props: { cords: [number, number] }) {
   const [reportID, setReportID] = useQueryState("rapport")
   const [cords, setCords] = useQueryState("koordinater")
 
+  const [elementId, setElementId] = useState<string>("")
+
   const getCords: any = () => {
     const parseCords = cords?.split(",") ?? [0, 0]
     return [Number(parseCords[0]), Number(parseCords[1])]
@@ -84,19 +86,14 @@ export default function MapGenerator(props: { cords: [number, number] }) {
       case "userID":
         break
       case "libraryID":
-       const result = await useGetLibrary(id)
-        console.log(result)
+        setElementId(id)
         break
       case "reviewsID":
         break
     }
-    
-    
   }
 
-  const userId: any = useContext(UserContext)
-
-  console.log(userId)
+  const user: any = useContext(UserContext)
 
   useEffect(() => {
     if (!singleParamPresent) return
@@ -107,8 +104,7 @@ export default function MapGenerator(props: { cords: [number, number] }) {
 
   return (
     /* Wrap vår egen modal og hele Leaflet elementet i en flex så vi kan enkelt sentrere modal over kartet. */
-    <section className=" w-full h-screen flex justify-center items-center">
-
+    <section className="w-full h-screen flex justify-center items-center">
 
       <PresenterMapManager>
 
@@ -128,11 +124,8 @@ export default function MapGenerator(props: { cords: [number, number] }) {
               }}
             >
               {currentView === "displayLibrary" && (
-                <ContainerDisplayLibrary>
-                  <PresenterDisplayLibrary />
-                </ContainerDisplayLibrary>
+                <ContainerDisplayLibrary libraryId={elementId} userId={user.userId} />
               )}
-
               {currentView === "createLibrary" && (
                 <ContainerCreateLibrary>
                   <PresenterCreateLibrary />
@@ -177,7 +170,6 @@ export default function MapGenerator(props: { cords: [number, number] }) {
           </ContainerLibraryLogic>
 
         </MapContainer>
-
 
       </PresenterMapManager>
 

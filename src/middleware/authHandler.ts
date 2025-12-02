@@ -16,7 +16,7 @@ export async function authCheck({
   request: Request
 }) {
 
-  ctx.userId = null
+  ctx.userId = undefined
   ctx.isAdmin = false
 
   /* Send ctx til funksjonen checkCredentials i token sitt service lag.  */
