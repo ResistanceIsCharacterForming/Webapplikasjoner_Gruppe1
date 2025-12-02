@@ -4,7 +4,8 @@ import { inputFields } from "@/frontend/types/inputFields"
 import { selectOption } from "@/frontend/types/selectOption"
 import { user } from "@/backend/types/user"
 import { useListUser } from "@/backend/features/shared/utils/universal/user/useListUser"
-import { ContainerDashboardUser } from "./ContainerDashboardUser"
+import { ContainerDashboardUser } from "./containerDashboardUser"
+
 
 const sortOptions: selectOption[] = [
     { type: "nyeste", value: "newest" },
