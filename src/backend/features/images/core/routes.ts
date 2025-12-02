@@ -17,10 +17,11 @@ export const imageRoutes = [
       if (imageKey !== "") {
         try {
           const data: any = await ctx.request.formData()
-          const response = await controller.putImage(imageKey, data)
+          const file=data.get("file")
+          const response = await controller.putImage(imageKey, file)
           return response
         } catch {
-          return new Response("Bad Request " + imageKey.toString(), { status: 404 })
+          return new Response("Bad Request ", { status: 404 })
         }
       }
     }
