@@ -1,18 +1,18 @@
 "use client"
 
+/* */
 import { useContext, useEffect, useState } from "react"
 
 /* Leaflet imports. */
 import { MapContainer, TileLayer, } from "react-leaflet"
 import "leaflet/dist/leaflet.css"
 
-
-
 /* Hent hook fra nuqs for å parse query params. */
 import { useQueryState } from 'nuqs'
-import { latLng, LatLng } from "leaflet"
+import { LatLng } from "leaflet"
 import { UserContext } from "@/frontend/features/auth/components/AuthContext"
 
+/* Alle presenter og container kompoennter */
 import PresenterMapManager from "../presenters/PresenterMapManager"
 import ContainerModal from "@/frontend/features/shared/components/containers/ContainerModal"
 import PresenterModal from "@/frontend/features/shared/components/presenters/PresenterModal"
@@ -21,7 +21,9 @@ import ContainerCreateLibrary from "@/frontend/features/map/components/container
 import ContainerLibraryLogic from "@/frontend/features/map/components/containers/ContainerLibraryLogic"
 import ContainerLibrariesMarker from "./ContainerLibrariesMarker"
 
+/* Komponent for å håndtere kartet og modalen */
 export default function ContainerMapManager(props: { cords: [number, number] }) {
+  /* States for å håndtere logikk. */
   const [showModal, setShowModal] = useState<boolean>(false)
   const [latLong, SetLatLong] = useState<[number, number]>(props.cords)
   const [currentView, setCurrentView] = useState<string>("")
@@ -33,13 +35,16 @@ export default function ContainerMapManager(props: { cords: [number, number] }) 
   const [reportID, setReportID] = useQueryState("rapport")
   const [cords, setCords] = useQueryState("koordinater")
 
+  /* Util state brukt for å sende verdi til den åpne modalen. */
   const [elementValue, setElementValue] = useState<string>("")
 
+  /* Hent koordinater fra query params. */
   const getCords: any = () => {
     const parseCords = cords?.split(",") ?? [0, 0]
     return [Number(parseCords[0]), Number(parseCords[1])]
   }
 
+  /* "Slå" av alle query params untatt en. */
   const singelParamActivate = (param: string, value: string) => {
     /* Siden React er smart og ikke oppdaterer en state med verdien den hadde kan vi kalle her uten å sjekke om verdien er en tom streng. */
     setUserID(null)
@@ -63,6 +68,7 @@ export default function ContainerMapManager(props: { cords: [number, number] }) 
     return true
   }
 
+  /* Åpne selve modal-visning. modalView er hvilken komponent som skal kalles, nedenfor. param er for query params i URL. id er verdi til query param. */
   const openModalWithContent = async (modalView: string, param: string, id: string) => {
     singelParamActivate(param, id)
     setShowModal(true)
@@ -80,8 +86,10 @@ export default function ContainerMapManager(props: { cords: [number, number] }) 
     }
   }
 
+  /* userId og isAdmin, hentet fra context til layouten som får det fra serveren. */
   const user: any = useContext(UserContext)
   
+  /* Hvis en query param er satt ønsker vi å laste modal-vinduet for den ressursen. */
   useEffect(() => {
     if (!singleParamPresent) return
     if (userID) openModalWithContent("displayUser", "userID", userID)
