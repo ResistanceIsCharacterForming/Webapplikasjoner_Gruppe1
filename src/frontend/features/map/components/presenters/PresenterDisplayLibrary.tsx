@@ -29,7 +29,7 @@ export default function PresenterLibrary({libraryImg, libraryData, reviewCompone
             </svg>
           </section>
           <section className="basis-full">
-            <img className="w-full max-w-[80%] m-auto" src={"data:image/png;base64," + libraryImg} />
+            <img className="size-4/5 m-auto" src={"data:image/png;base64," + libraryImg} />
           </section>
           <section className="basis-full mt-1">
             <label className="font-manrope text-blackChocolate" htmlFor="review">Ny anmeldelse:</label>
