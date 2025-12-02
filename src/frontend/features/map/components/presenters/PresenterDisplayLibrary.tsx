@@ -2,13 +2,18 @@
 import ReviewCard from "@/frontend/features/dashboard/components/ReviewCard";
 
 import { library } from "@/backend/types/library"
+import { reviewComponentData } from "@/backend/types/reviews";
 
 interface PresenterLibraryProps {
   libraryData: library
   libraryImg: string
+  reviewComponents: reviewComponentData[] | undefined
 }
 
-export default function PresenterLibrary({libraryImg, libraryData}: PresenterLibraryProps) {
+export default function PresenterLibrary({libraryImg, libraryData, reviewComponents}: PresenterLibraryProps) {
+
+
+    console.log(reviewComponents)
 
 /*
     console.log(libraryData)
