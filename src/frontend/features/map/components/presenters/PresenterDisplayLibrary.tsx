@@ -1,5 +1,5 @@
 "use client"
-import ReviewCard from "@/frontend/features/dashboard/components/ReviewCard";
+import ReviewCard from "@/frontend/features/map/components/ReviewCard";
 
 import { library } from "@/backend/types/library"
 import { reviewComponentData } from "@/backend/types/reviews";
@@ -11,13 +11,6 @@ interface PresenterLibraryProps {
 }
 
 export default function PresenterLibrary({libraryImg, libraryData, reviewComponents}: PresenterLibraryProps) {
-
-
-    console.log(reviewComponents)
-
-/*
-    console.log(libraryData)
-    console.log(libraryImg)*/
 
     return (
         <article className="flex flex-wrap py-2 px-2">
@@ -36,7 +29,7 @@ export default function PresenterLibrary({libraryImg, libraryData, reviewCompone
             </svg>
           </section>
           <section className="basis-full">
-            <img className="w-full max-w-[80%] m-auto" src={"data:image/png;base64,"+libraryImg} />
+            <img className="w-full max-w-[80%] m-auto" src={"data:image/png;base64," + libraryImg} />
           </section>
           <section className="basis-full mt-1">
             <label className="font-manrope text-blackChocolate" htmlFor="review">Ny anmeldelse:</label>
@@ -50,7 +43,7 @@ export default function PresenterLibrary({libraryImg, libraryData, reviewCompone
           </section>
           <hr className="basis-full my-3"/>
           <section className="basis-1/2 mb-1">
-            <p className="font-manrope">Anmeldelser (2)</p>
+            <p className="font-manrope">Anmeldelser ({reviewComponents !== undefined ? reviewComponents.length : 0})</p>
           </section>
           <section className="basis-1/2">
             <span className="flex flex-wrap justify-end text-end gap-1">
@@ -61,9 +54,9 @@ export default function PresenterLibrary({libraryImg, libraryData, reviewCompone
             </span>
           </section>
           <section className="basis-full">
-            <ReviewCard/>
-            <ReviewCard/>
-            <ReviewCard/>
+            {reviewComponents?.map((review) => {
+              return <ReviewCard reviewData={review}/>
+            })}
           </section>
         </article>
     )
