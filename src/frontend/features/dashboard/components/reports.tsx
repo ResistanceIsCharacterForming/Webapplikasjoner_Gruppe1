@@ -4,6 +4,7 @@ import { report } from "@/backend/types/reports"
 import { deleteUser, setNotVisibleUser, settUserProfileToBasic, 
     deleteLibraryFromReport, setNotVisibleLibraryFromReport, 
     RemoveLibraryImage, deleteReviewFromReport, deleteReport } from "@/backend/features/reports/utils/adminActions"
+import { DashboardReportPresentation } from "./dashboardReportPresentation"
 
 
 export const Reports = (report: report) => {
@@ -65,7 +66,7 @@ export const Reports = (report: report) => {
         else setexpand("lukk")
     }
     return (
-         <>{!hidden && (<dashboardReportPresentation report={report} typeid={typeid} buttons={typebuttons} isExpanded={isExpanded} expand={expand} handleExpand={handleExpand} /> )}</>
+         <>{!hidden && typeid && typebuttons && (<DashboardReportPresentation report={report} typeid={typeid} buttons={typebuttons} isExpanded={isExpanded} expand={expand} handleExpand={handleExpand} /> )}</>
     )
 //(report: report,typeid:string,buttons:JSX.Element,isExpanded:boolean,expand:string,handleExpand: () => void)
 

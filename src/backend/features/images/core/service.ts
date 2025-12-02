@@ -10,7 +10,8 @@ export function createImageService(repository:imageRepository):imageService{
             
         },
         async putImage(key:string,img:any){
-            const validate =validateImgFile.safeParse(img)
+            const file=img.get("file")
+            const validate =validateImgFile.safeParse(file)
             if (validate.success && validate.data){
                 const result= await repository.putImage(key,img)
                 return { success: result.success, data: result.data }

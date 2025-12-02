@@ -16,7 +16,7 @@ export const imageRoutes = [
     if (method === "post") {
       if (imageKey !== "") {
         try {
-          const data = await ctx.request.body
+          const data: any = await ctx.request.formData()
           const response = await controller.putImage(imageKey, data)
           return response
         } catch {
