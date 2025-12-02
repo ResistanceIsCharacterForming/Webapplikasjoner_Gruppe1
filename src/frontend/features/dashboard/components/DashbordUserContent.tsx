@@ -1,9 +1,10 @@
 
 import { JSX, useEffect, useState } from "react"
-import { inputFields, selectOption } from "@/frontend/styles/tailwind"
-import { useListUser } from "@/backend/features/shared/utils/universal/useListUser"
+import { inputFields } from "@/frontend/types/inputFields"
+import { selectOption } from "@/frontend/types/selectOption"
 import { user } from "@/backend/types/user"
-import { DashboardUserContainer } from "@/frontend/features/dashboard/components/dashboardUserContainer"
+import { useListUser } from "@/backend/features/shared/utils/universal/user/useListUser"
+import { ContainerDashboardUser } from "./ContainerDashboardUser"
 
 const sortOptions: selectOption[] = [
     { type: "nyeste", value: "newest" },
@@ -17,7 +18,7 @@ const searchOptions: selectOption[] = [
 const field: inputFields = { label: "search", name: "search", type: "search" }
 
 
-export const UserContainer = () => {
+export const DashbordUserContent = () => {
     const [users, setusers] = useState<user[]>()
     const [showcase, setShowcase] = useState<JSX.Element[]>()
     const [sort, setSorting] = useState(sortOptions[0].value)
@@ -47,13 +48,13 @@ export const UserContainer = () => {
     async function showusers(userslist?: user[]) {
         if (userslist) {
             const listusers = userslist.map(user =>
-                <DashboardUserContainer key={user.id}{...user} />
+                <ContainerDashboardUser key={user.id}{...user} />
             )
             setShowcase(listusers)
         }
         else if (users) {
             const listusers = users.map(user =>
-                <DashboardUserContainer key={user.id}{...user} />
+                <ContainerDashboardUser key={user.id}{...user} />
             )
             setShowcase(listusers)
         }

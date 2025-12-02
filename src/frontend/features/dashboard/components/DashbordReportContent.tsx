@@ -1,10 +1,11 @@
 "use client"
 
 import { JSX, useEffect, useState } from "react"
-import { inputFields, selectOption } from "@/frontend/styles/tailwind"
+import { inputFields } from "@/frontend/types/inputFields"
+import { selectOption } from "@/frontend/types/selectOption"
 import { getReports } from "@/backend/features/reports/utils/adminActions"
 import { report } from "@/backend/types/reports"
-import { Reports } from "@/frontend/features/dashboard/components/dashboardReportContainer"
+import { ContainerDashboardReport } from "@/frontend/features/dashboard/components/containerDashboardReport"
 
 const levelOptions: selectOption[] = [
    { type: "all", value: "all" },
@@ -25,7 +26,7 @@ const searchOptions: selectOption[] = [
 ]
 const field: inputFields = { label: "search", name: "search", type: "search" }
 
-export const ReportsContainer = (props: { category: string }) => {
+export const DashbordReportContent = (props: { category: string }) => {
    const [currentcategory, setCurrentcategory] = useState("")
    const [reports, setReports] = useState<report[]>()
    const [showcase, setShowcase] = useState<JSX.Element[]>()
@@ -74,13 +75,13 @@ export const ReportsContainer = (props: { category: string }) => {
    async function showReports(reportslist?: report[]) {
       if (reportslist) {
          const listreports = reportslist.map(report =>
-            <Reports key={report.id}{...report} />
+            <ContainerDashboardReport key={report.id}{...report} />
          )
          setShowcase(listreports)
       }
       else if (reports) {
          const listreports = reports.map(report =>
-            <Reports key={report.id}{...report} />
+            <ContainerDashboardReport key={report.id}{...report} />
          )
          setShowcase(listreports)
       }
@@ -123,7 +124,7 @@ export const ReportsContainer = (props: { category: string }) => {
          else {
             const filteredItems = reports.filter(reports => reports.reportLevel == Number(level))
             const listreports = filteredItems.map(report =>
-               <Reports key={report.id}{...report} />
+               <ContainerDashboardReport key={report.id}{...report} />
             )
             setShowcase(listreports)
          }

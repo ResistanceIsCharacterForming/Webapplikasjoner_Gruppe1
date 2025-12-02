@@ -1,7 +1,7 @@
 import { user } from "@/backend/types/user"
 import { JSX } from "react";
 
-export const DashboardUserPresentation = (props:{user: user,buttons: JSX.Element,isExpanded:boolean,expand:string,handleExpand: () => void}) => {
+export const PresentationDashboardUser = (props:{user: user,buttons: JSX.Element,isExpanded:boolean,expand:string,handleExpand: () => void}) => {
     return (
         <article className="h-2em w-full grid grid-cols-18  border-blackChocolate border-1 p-1" >
             <p className="col-span-4 col-start-2">{props.user.id}</p>

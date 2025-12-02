@@ -14,7 +14,6 @@ import Landing from "@/frontend/features/landing/Landing"
 import MapSafeGuard from "@/frontend/features/map/components/MapSafeguard"
 import { FrontLayout } from "@/frontend/features/shared/components/layouts/FrontLayout"
 import { MainLayout } from "@/frontend/features/shared/components/layouts/MainLayout"
-import { databasescreen } from "@/test"
 /*import { MainLayout } from "./features/tokens/layouts/Layout"*/
 
 
@@ -49,9 +48,8 @@ export default defineApp([
     layout(MainLayout, [
       hasAdminRights,
       route("/home", MapSafeGuard),
-      route("/db", databasescreen),
     ])
     ,route("/dashboard", [isAdmin, DashboardScreen])
-    
+
   ])
 ])

@@ -2,18 +2,18 @@
 
 import { useState } from "react"
 import AdminNav from "@/frontend/features/dashboard/components/adminNav"
-import { ReportsContainer } from "@/frontend/features/dashboard/components/reportsContainer"
-import { UserContainer } from "@/frontend/features/dashboard/components/userContainer"
+import { DashbordReportContent } from "@/frontend/features/dashboard/components/DashbordReportContent"
+import { DashbordUserContent } from "@/frontend/features/dashboard/components/userContainer"
 
 // the dashborad screen with 5 buttons 4 of them is to swape between report types and one is to list user and do actions on users
 export default function DashboardScreen() {
-   const [children, setChildren] = useState(<ReportsContainer category={""} />)
+   const [children, setChildren] = useState(<DashbordReportContent category={""} />)
    function setReportContainerBody(type: string) {
-      setChildren(<ReportsContainer category={type} />)
+      setChildren(<DashbordReportContent category={type} />)
    }
 
    function setUserContainerBody() {
-      setChildren(<UserContainer />)
+      setChildren(<DashbordUserContent />)
    }
 
 

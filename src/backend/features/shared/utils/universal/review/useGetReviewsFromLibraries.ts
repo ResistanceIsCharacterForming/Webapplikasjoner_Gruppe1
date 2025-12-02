@@ -45,7 +45,18 @@ export async function useGetReviewsFromLibraries(id: string, userid?: string): P
             }
             returndata[index] = data
         }
-
+        returndata = returndata.sort((a,b)=>{
+             if (a.reviewsPoints === null && b.reviewsPoints === null) {
+                        return 0
+                    }
+                    if (a.reviewsPoints === null) {
+                        return 1
+                    }
+                    if (b.reviewsPoints === null) {
+                        return -1
+                    }
+                    return b.reviewsPoints - a.reviewsPoints
+        })
     }
     return returndata;
 }

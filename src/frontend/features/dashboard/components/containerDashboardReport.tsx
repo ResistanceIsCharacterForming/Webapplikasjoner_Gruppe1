@@ -4,10 +4,10 @@ import { report } from "@/backend/types/reports"
 import { deleteUser, setNotVisibleUser, settUserProfileToBasic, 
     deleteLibraryFromReport, setNotVisibleLibraryFromReport, 
     RemoveLibraryImage, deleteReviewFromReport, deleteReport } from "@/backend/features/reports/utils/adminActions"
-import { DashboardReportPresentation } from "./dashboardReportPresentation"
+import { PresentationDashboardReport } from "./presentationDashboardReport"
 
 
-export const Reports = (report: report) => {
+export const ContainerDashboardReport = (report: report) => {
     const [isExpanded, setIsExpanded] = useState<boolean>(false)
     const [expand, setexpand] = useState("utvid")
     const [hidden, setHiden] = useState("")
@@ -66,6 +66,6 @@ export const Reports = (report: report) => {
         else setexpand("lukk")
     }
     return (
-         <>{!hidden && typeid && typebuttons && (<DashboardReportPresentation report={report} typeid={typeid} buttons={typebuttons} isExpanded={isExpanded} expand={expand} handleExpand={handleExpand} /> )}</>
+         <>{!hidden && typeid && typebuttons && (<PresentationDashboardReport report={report} typeid={typeid} buttons={typebuttons} isExpanded={isExpanded} expand={expand} handleExpand={handleExpand} /> )}</>
     )
 }

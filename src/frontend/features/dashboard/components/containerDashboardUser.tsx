@@ -2,9 +2,9 @@
 import { useEffect, useState } from "react"
 import { deleteUser, setNotVisibleUser, settUserProfileToBasic, makeUserAdmin, removeAdminFromUser } from "@/backend/features/reports/utils/adminActions"
 import { user } from "@/backend/types/user"
-import { DashboardUserPresentation } from "./dashboardUserPresentation"
+import { PresentationDashboardUser } from "./presentationDashboardUser"
 
-export const DashboardUserContainer = (user: user) => {
+export const ContainerDashboardUser = (user: user) => {
     const [isExpanded, setIsExpanded] = useState<boolean>(false)
     const [expand, setexpand] = useState("utvid")
     const [hidden, setHiden] = useState(false)
@@ -37,6 +37,6 @@ export const DashboardUserContainer = (user: user) => {
     
 
     return (
-        <>{!hidden && <DashboardUserPresentation user={user} buttons={typebuttons} isExpanded={isExpanded} expand={expand} handleExpand={handleExpand} /> }</>
+        <>{!hidden && <PresentationDashboardUser user={user} buttons={typebuttons} isExpanded={isExpanded} expand={expand} handleExpand={handleExpand} /> }</>
     )
 }

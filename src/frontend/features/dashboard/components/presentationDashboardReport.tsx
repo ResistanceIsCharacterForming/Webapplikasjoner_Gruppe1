@@ -2,7 +2,7 @@ import { report } from "@/backend/types/reports"
 import { JSX } from "react"
 
 
-export const DashboardReportPresentation = (props:{report: report,typeid:string|number,buttons:JSX.Element,isExpanded:boolean,expand:string,handleExpand: () => void}) => {
+export const PresentationDashboardReport = (props:{report: report,typeid:string|number,buttons:JSX.Element,isExpanded:boolean,expand:string,handleExpand: () => void}) => {
     return (
         <article className="h-2em w-full grid grid-cols-18  border-blackChocolate border-1 p-1">
             <p className="col-span-1 col-start-2">{props.report.id}</p>
