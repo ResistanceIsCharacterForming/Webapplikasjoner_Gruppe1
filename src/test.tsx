@@ -1,7 +1,7 @@
 import { createLibraryRepository } from "./backend/features/libraries/core/repository";
 import { createLibraryService } from "./backend/features/libraries/core/service";
 import { singletonMaster } from "./backend/features/shared/utils/singletonBuilder";
-import { useGetReviewsFromLibraries } from "./backend/features/shared/utils/universal/useGetReviewsFromLibraries";
+import { useGetReviewsFromLibraries } from "./backend/features/shared/utils/universal/review/useGetReviewsFromLibraries";
 import { createUserRepository } from "./backend/features/users/core/repository";
 import { createUserService } from "./backend/features/users/core/service";
 import { libraryPhoto, logo, userPhoto } from "./db/base64backups";

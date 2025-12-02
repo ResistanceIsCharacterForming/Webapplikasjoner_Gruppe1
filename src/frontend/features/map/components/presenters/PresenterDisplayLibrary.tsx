@@ -12,7 +12,7 @@ interface PresenterLibraryProps {
 
 export default function PresenterLibrary({libraryImg, libraryData, reviewComponents}: PresenterLibraryProps) {
 
-
+    console.log("i am here")
     console.log(reviewComponents)
 
 /*
