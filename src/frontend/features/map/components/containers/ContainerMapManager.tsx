@@ -33,6 +33,7 @@ import ContainerCreateLibrary from "@/frontend/features/map/components/container
 import ContainerLibraryLogic from "@/frontend/features/map/components/containers/ContainerLibraryLogic"
 import ContainerLibrariesMarker from "./ContainerLibrariesMarker"
 
+import { useGetLibrary } from "@/backend/features/shared/utils/universal/useGetLibrary"
 
 export default function MapGenerator(props: { cords: [number, number] }) {
   const [showModal, setShowModal] = useState<boolean>(false)
@@ -52,7 +53,6 @@ export default function MapGenerator(props: { cords: [number, number] }) {
   }
 
   const singelParamActivate = (param: string, value: string) => {
-    console.log(value)
     /* Siden React er smart og ikke oppdaterer en state med verdien den hadde kan vi kalle her uten å sjekke om verdien er en tom streng. */
     setUserID(null)
     setLibraryID(null)
@@ -75,13 +75,28 @@ export default function MapGenerator(props: { cords: [number, number] }) {
     return true
   }
 
-  const openModalWithContent = (modalView: string, param: string, id: string) => {
+  const openModalWithContent = async (modalView: string, param: string, id: string) => {
     singelParamActivate(param, id)
     setShowModal(true)
     setCurrentView(modalView)
+
+    switch (param) {
+      case "userID":
+        break
+      case "libraryID":
+       const result = await useGetLibrary(id)
+        console.log(result)
+        break
+      case "reviewsID":
+        break
+    }
+    
+    
   }
 
   const userId: any = useContext(UserContext)
+
+  console.log(userId)
 
   useEffect(() => {
     if (!singleParamPresent) return

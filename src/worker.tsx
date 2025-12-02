@@ -3,7 +3,7 @@ import { layout, prefix, render, route } from "rwsdk/router"
 import { Document } from "@/app/Document"
 import { setCommonHeaders } from "./app/headers"
 
-import { authCheck, isAdmin } from "@/middleware/authHandler"
+import { authCheck, hasAdminRights, isAdmin } from "@/middleware/authHandler"
 
 import { APIv1 } from "@/backend/features/shared/utils/routesAPI"
 import { user } from "@/backend/types/user"
@@ -47,6 +47,7 @@ export default defineApp([
     ]),
 
     layout(MainLayout, [
+      hasAdminRights,
       route("/home", MapSafeGuard),
       route("/db", databasescreen),
       route("/dashboard", [isAdmin, DashboardScreen])

@@ -4,7 +4,6 @@ import { createContext, ReactNode } from "react";
 
 export interface UserContextType {
   userId: string | null
-  isAuthenticated: boolean
   isAdmin: boolean
 }
 
