@@ -96,6 +96,8 @@ export default function MapGenerator(props: { cords: [number, number] }) {
 
   const userId: any = useContext(UserContext)
 
+  console.log(userId)
+
   useEffect(() => {
     if (!singleParamPresent) return
     if (userID) openModalWithContent("displayUser", "userID", userID)
