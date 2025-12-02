@@ -49,7 +49,8 @@ export async function authCheck ({
         "/home",
         "/api/v1/tokens",
         "/api/v1/users",
-        "/api/v1/libraries"
+        "/api/v1/libraries",
+        "/api/v1/image"
     ]
 
     const isOpenRoute = (openRoutes.includes(requestedPathname))
