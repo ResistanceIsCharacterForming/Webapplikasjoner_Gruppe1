@@ -2,11 +2,11 @@
 import { singletonMaster } from "@/backend/features/shared/utils/singletonBuilder"
 import { hashPassword } from "@/backend/features/users/core/service"
 import { admins, libraries, reviews, reviewsEndorsements, favoriteLibraries, reports, users } from "./schema"
-import { deafultUserPhotoName, user } from "@/backend/types/user"
-import { deafultLibaryPhotoName, library } from "@/backend/types/library"
+import {  user } from "@/backend/types/user"
+import {  library } from "@/backend/types/library"
 import { useRandomNameGenerator } from "@/backend/features/shared/utils/useRandomNameGenerator"
 import { eq } from "drizzle-orm"
-import path from 'node:path';
+
 
 const db = singletonMaster.dbConnection
 const r2 = singletonMaster.r2Connection
@@ -63,18 +63,6 @@ function randomUsers(amount: number): Partial<user>[] {
     }
   }
   return userlist
-}
-
-try {
-  
-  const filePath =path.resolve("reviewphoto1.png")
-  FileReader
-  r2.put(deafultLibaryPhotoName,test)
-   //r2.put(deafultLibaryPhotoName,)
-
-
-} catch (error) {
-  console.log(error)
 }
 
 try {

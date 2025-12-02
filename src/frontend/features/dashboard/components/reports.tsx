@@ -65,27 +65,28 @@ export const Reports = (report: report) => {
         else setexpand("lukk")
     }
     return (
-        <article className={"h-2em w-full grid grid-cols-18  border-blackChocolate border-1 p-1" + hidden}>
-            <p className="col-span-1 col-start-2">{report.id}</p>
-            <p className="col-span-1">{report.reportLevel}</p>
-            <p className="col-span-1">{report.reportType}</p>
-            <p className="col-span-3">{report.createdAt}</p>
-            <p className="col-span-5">{report.submitterUserId}</p>
-            <p className="col-span-5">{typeid}</p>
-            <button className="col-start-18" onClick={() => handleExpand()}>{expand}</button>
-            {isExpanded && (
-                <div className="col-start-6 col-span-8">
-                    <p>rapport tekst:</p>
-                    <p>{report.text}</p>
-                    <label>adminhandlinger: <br /></label>
-                    {typebuttons}
-                    <button className={"text-lg italic text-blackChocolate! hover:text-darkVanilla! bg-oldLace grow  border-blackChocolate border-1 p-1 focus:outline-none focus:shadow focus:border-darkVanilla rounded-md"}
-                     onClick={() => { deleteReport(report.id); setHiden("hidden") }}>delete rapport</button>
-                </div>)}
-        </article>
-
-
+         <>{!hidden && (<dashboardReportPresentation report={report} typeid={typeid} buttons={typebuttons} isExpanded={isExpanded} expand={expand} handleExpand={handleExpand} /> )}</>
     )
-
+//(report: report,typeid:string,buttons:JSX.Element,isExpanded:boolean,expand:string,handleExpand: () => void)
 
 }
+
+
+// <article className={"h-2em w-full grid grid-cols-18  border-blackChocolate border-1 p-1" + hidden}>
+//             <p className="col-span-1 col-start-2">{report.id}</p>
+//             <p className="col-span-1">{report.reportLevel}</p>
+//             <p className="col-span-1">{report.reportType}</p>
+//             <p className="col-span-3">{report.createdAt}</p>
+//             <p className="col-span-5">{report.submitterUserId}</p>
+//             <p className="col-span-5">{typeid}</p>
+//             <button className="col-start-18" onClick={() => handleExpand()}>{expand}</button>
+//             {isExpanded && (
+//                 <div className="col-start-6 col-span-8">
+//                     <p>rapport tekst:</p>
+//                     <p>{report.text}</p>
+//                     <label>adminhandlinger: <br /></label>
+//                     {typebuttons}
+//                     <button className={"text-lg italic text-blackChocolate! hover:text-darkVanilla! bg-oldLace grow  border-blackChocolate border-1 p-1 focus:outline-none focus:shadow focus:border-darkVanilla rounded-md"}
+//                      onClick={() => { deleteReport(report.id); setHiden("hidden") }}>delete rapport</button>
+//                 </div>)}
+//         </article>
