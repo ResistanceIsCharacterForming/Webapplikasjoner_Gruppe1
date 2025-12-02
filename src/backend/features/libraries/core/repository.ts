@@ -16,7 +16,6 @@ export function createLibraryRepository(db: any): libraryRepository {
 
     async createLibrary(data: databaseLibraryData) {
       try {
-        /*console.log(data)*/
         const result: library[] = await db.insert(libraries).values(data).returning();
         return { success: true, data: result }
       } catch (error) {
@@ -55,10 +54,10 @@ export function createLibraryRepository(db: any): libraryRepository {
       try {
         const result: library[] = await db.select().from(libraries).where(
           and(
-            gte(libraries.cordlat, lat - 0.40),
-            lte(libraries.cordlat, lat + 0.40),
-            gte(libraries.cordlon, long - 0.40),
-            lte(libraries.cordlon, long + 0.40),
+            gte(libraries.cordlat, lat - 1.20),
+            lte(libraries.cordlat, lat + 1.20),
+            gte(libraries.cordlon, long - 1.20),
+            lte(libraries.cordlon, long + 1.20),
             eq(libraries.isVisible, true)
           ));
         return { success: true, data: result }

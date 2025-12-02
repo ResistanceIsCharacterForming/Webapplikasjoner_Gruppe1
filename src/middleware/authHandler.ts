@@ -123,7 +123,6 @@ export const hasAdminRights = async ({
   const result = await singletonMaster.userService.getAdminById(userId)
 
   if (result.data !== undefined && result.data.length !== 0) {
-    console.log(result)
     ctx.isAdmin = true
   }
 

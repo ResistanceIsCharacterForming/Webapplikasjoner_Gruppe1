@@ -3,7 +3,7 @@ import { singletonMaster } from "@/backend/features/shared/utils/singletonBuilde
 
 
 
-export async function useEditUser(id: string, data: FormData) {
+export async function editUser(id: string, data: FormData) {
     const result = await singletonMaster.userService.editUserById(id, data);
     return result;
 }

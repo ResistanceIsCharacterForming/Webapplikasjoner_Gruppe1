@@ -8,7 +8,7 @@ export interface postLibraryData {
   text: string,
   cordlon: number,
   cordlat: number,
-  books: string
+  books: string|null
   photos: string 
 }
 

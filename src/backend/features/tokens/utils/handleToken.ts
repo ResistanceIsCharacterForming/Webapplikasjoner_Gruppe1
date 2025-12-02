@@ -44,7 +44,6 @@ export const verifyToken = async(jwt: string) => {
         return {success: true, userId: payload.id}
     } catch (error) {
         /* Kjører catch er token feil, ingen auth */
-        console.log(error)
         return {success: false, userId: undefined}
     }
 

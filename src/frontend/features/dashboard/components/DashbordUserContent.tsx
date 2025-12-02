@@ -3,7 +3,7 @@ import { JSX, useEffect, useState } from "react"
 import { inputFields } from "@/frontend/types/inputFields"
 import { selectOption } from "@/frontend/types/selectOption"
 import { user } from "@/backend/types/user"
-import { useListUser } from "@/backend/features/shared/utils/universal/user/useListUser"
+import { listUser } from "@/backend/features/shared/utils/universal/user/listUser"
 import { ContainerDashboardUser } from "./containerDashboardUser"
 
 
@@ -41,7 +41,7 @@ export const DashbordUserContent = () => {
 
     // gets a list of users, and sett it in state to be acced later
     async function listusers() {
-        const users = await useListUser()
+        const users = await listUser()
         setusers(users.data)
     }
 

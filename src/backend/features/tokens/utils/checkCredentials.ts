@@ -20,7 +20,6 @@ export const verifyToken = async(jwt: string): Promise<string | null> => {
         return payload.id as string
     } catch (error) {
         /* Kjører catch er token feil, ingen auth */
-        console.log(error)
         return null
     }
 }

@@ -3,7 +3,7 @@ import { singletonMaster } from "@/backend/features/shared/utils/singletonBuilde
 
 
 
-export async function useCreateUser(data: FormData) {
+export async function createUser(data: FormData) {
     const result = await singletonMaster.userService.createUser(data);
     return result;
 }

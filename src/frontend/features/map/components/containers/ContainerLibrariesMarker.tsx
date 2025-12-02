@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { Marker, useMapEvents } from "react-leaflet"
 
-import { getLibrariesOfArea } from "@/frontend/features/map/utils/getLibrariesOfArea"
+import { getLibrariesOfArea } from "@/backend/features/shared/utils/universal/library/getLibrariesOfArea"
 import { LeafletEvent } from "leaflet"
 
 /* Types for leaflet */

@@ -1,6 +1,7 @@
 "use client"
-import { useGetLibrary } from "@/backend/features/shared/utils/universal/library/useGetLibrary";
-import { useGetReviewsFromLibraries } from "@/backend/features/shared/utils/universal/review/useGetReviewsFromLibraries";
+
+import { getLibrary } from "@/backend/features/shared/utils/universal/library/getLibrary";
+import { getReviewsFromLibraries } from "@/backend/features/shared/utils/universal/review/getReviewsFromLibraries";
 import { library } from "@/backend/types/library";
 import { reviewComponentData } from "@/backend/types/reviews";
 import PresenterDisplayLibrary from "@/frontend/features/map/components/presenters/PresenterDisplayLibrary"
@@ -17,18 +18,18 @@ export default function ContainerDisplayLibrary({ libraryId, userId }: Container
 
     const [reviewComponents, setReviewComponents] = useState<reviewComponentData[]>()
 
-    const getLibrary = async () => {
-        const result = await useGetLibrary(libraryId)
+    const getLibrarydata = async () => {
+        const result = await getLibrary(libraryId)
         if (result.data) setLibraries(result.data)
     }
 
     const getReviewsAndEndorsment = async () => {
-        const result = await useGetReviewsFromLibraries(libraryId, userId)
+        const result = await getReviewsFromLibraries(libraryId, userId)
         if (result) setReviewComponents(result)
     }
 
     useEffect(() => {
-        getLibrary()
+        getLibrarydata()
         getReviewsAndEndorsment()
     }, [])
 

@@ -3,37 +3,23 @@
 import { useContext, useEffect, useState } from "react"
 
 /* Leaflet imports. */
-import { Circle, FeatureGroup, LayerGroup, LayersControl, MapContainer, Marker, Popup, Rectangle, TileLayer, useMap } from "react-leaflet"
+import { MapContainer, TileLayer, } from "react-leaflet"
 import "leaflet/dist/leaflet.css"
 
-/* Henter container for alle modals. */
-import ModalContainer from "@/frontend/features/shared/components/containers/ContainerModal"
-
-/* Selve "rammen" for innholdet til en modal. */
-import ContentShowLibrary from "@/frontend/features/map/components/presenters/PresenterDisplayLibrary"
-import ContentNewLibrary from "@/frontend/features/map/components/presenters/PresenterCreateLibrary"
-
-import CreateLibraryLogic from "@/frontend/features/map/components/containers/ContainerLibraryLogic"
 
 
 /* Hent hook fra nuqs for å parse query params. */
 import { useQueryState } from 'nuqs'
 import { latLng, LatLng } from "leaflet"
-import AuthContext, { UserContext } from "@/frontend/features/auth/components/AuthContext"
+import { UserContext } from "@/frontend/features/auth/components/AuthContext"
 
 import PresenterMapManager from "../presenters/PresenterMapManager"
 import ContainerModal from "@/frontend/features/shared/components/containers/ContainerModal"
-import PresenterNewLibrary from "@/frontend/features/map/components/presenters/PresenterCreateLibrary"
 import PresenterModal from "@/frontend/features/shared/components/presenters/PresenterModal"
-import PresenterDisplayLibrary from "@/frontend/features/map/components/presenters/PresenterDisplayLibrary"
-
-
 import ContainerDisplayLibrary from "@/frontend/features/map/components/containers/ContainerDisplayLibrary"
 import ContainerCreateLibrary from "@/frontend/features/map/components/containers/ContainerCreateLibrary"
 import ContainerLibraryLogic from "@/frontend/features/map/components/containers/ContainerLibraryLogic"
 import ContainerLibrariesMarker from "./ContainerLibrariesMarker"
-
-import { useGetLibrary } from "@/backend/features/shared/utils/universal/library/useGetLibrary"
 
 export default function MapGenerator(props: { cords: [number, number] }) {
   const [showModal, setShowModal] = useState<boolean>(false)
@@ -101,7 +87,7 @@ export default function MapGenerator(props: { cords: [number, number] }) {
     if (userID) openModalWithContent("displayUser", "userID", userID)
     if (libraryID) openModalWithContent("displayLibrary", "libraryID", libraryID)
     if (reviewsID) openModalWithContent("displayReviews", "reviewsID", reviewsID)
-  },[])
+  }, [])
 
   return (
     /* Wrap vår egen modal og hele Leaflet elementet i en flex så vi kan enkelt sentrere modal over kartet. */
@@ -121,6 +107,10 @@ export default function MapGenerator(props: { cords: [number, number] }) {
                 onClose: () => {
                   setShowModal(false);
                   setCurrentView("");
+                  setUserID(null)
+                  setLibraryID(null)
+                  setReviewsID(null)
+                  setReportID(null)
                 }
               }}
             >

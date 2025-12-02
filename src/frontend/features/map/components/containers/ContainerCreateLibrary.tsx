@@ -1,10 +1,11 @@
 "use client"
 
-import { useCreateLibrary } from "@/backend/features/shared/utils/universal/library/useCreateLibrary"
+import { createLibrary } from "@/backend/features/shared/utils/universal/library/createLibrary"
 import { library, postLibraryData } from "@/backend/types/library"
 import PresenterCreateLibrary from "@/frontend/features/map/components/presenters/PresenterCreateLibrary"
 
 import { ContainerChildrenProp } from "@/frontend/types/container"
+import { useQueryState } from "nuqs"
 import { useState } from "react"
 
 interface ContainerCreateLibraryProps {
@@ -19,10 +20,11 @@ export interface formDataFields {
   cordlat: string
   cordlon: string
   books: string
-  file: File | string
+  file: FileList |null
 }
 
 export default function ContainerCreateLibrary({cords, userId}: ContainerCreateLibraryProps) {
+    const [libraryID, setLibraryID] = useQueryState("bokkrok")
 
     const [formData, setFormData] = useState<formDataFields>({
         userId: userId,
@@ -31,12 +33,10 @@ export default function ContainerCreateLibrary({cords, userId}: ContainerCreateL
         cordlat: cords.split(",")[0],
         cordlon: cords.split(",")[1],
         books: "",
-        file: ""
+        file: null
     })
 
     const onSubmitAction = async () => {
-        console.log(formData)
-
         const form = new FormData
 
         form.append("userId", formData.userId)
@@ -45,17 +45,20 @@ export default function ContainerCreateLibrary({cords, userId}: ContainerCreateL
         form.append("cordlat", formData.cordlat)
         form.append("cordlon", formData.cordlon)
         form.append("books", formData.books)
-        form.append("file", formData.file)
+        if(formData.file)form.append("file", formData.file[0])
 
-        const result = await useCreateLibrary(form)
+        const result = await createLibrary(form)
 
-        console.log(result)
+        setLibraryID(null)
     }
 
-    const onChangeAction = (field: string, value: string) => {
+    const onChangeAction = (field: string, value: string|any) => {
         const key = field as keyof formDataFields
         setFormData(prev => ({ ...prev, [key]: value }))
     }
+    const onFileAction=(file:any)  => {
+        setFormData(prev => ({ ...prev, file: file }))
+    }
 
-    return <><PresenterCreateLibrary formData={formData} onChangeAction={onChangeAction} onSubmitAction={onSubmitAction}/></>
+    return <><PresenterCreateLibrary formData={formData} onFileAction={onFileAction} onChangeAction={onChangeAction} onSubmitAction={onSubmitAction}/></>
 }

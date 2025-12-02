@@ -8,10 +8,11 @@ interface ContainerCreateLibraryProps {
     formData: formDataFields
     onChangeAction: (field: string, value: string) => void
     onSubmitAction: () => void
+    onFileAction: (file: any) => void
 }
 
 
-export default function PresenterCreateLibrary({formData, onChangeAction, onSubmitAction}: ContainerCreateLibraryProps) {
+export default function PresenterCreateLibrary({formData,onFileAction, onChangeAction, onSubmitAction}: ContainerCreateLibraryProps) {
 
     return (
         <article className="flex flex-wrap py-2 px-2">
@@ -39,7 +40,7 @@ export default function PresenterCreateLibrary({formData, onChangeAction, onSubm
                 <input
                     type="file"
                     placeholder="Photo"
-                    onChange={e => onChangeAction("file", e.target.value)}
+                    onChange={e => onFileAction(e.target.files)}
                 />
 
                 <input type="submit" value="Lag ny bokkrok"/>

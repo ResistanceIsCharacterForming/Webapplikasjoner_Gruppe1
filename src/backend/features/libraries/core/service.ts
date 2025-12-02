@@ -27,7 +27,6 @@ export function createLibraryService(repository: libraryRepository): libraryServ
                 //it will return the library with its own picture
                 else if (result.data[0].photos == "1") {
                     const img = await imagehandler.getImage(result.data[0].id + LibaryPhotoName)
-                    console.log(img)
                     if(img.data && img.success)return { success: result.success, data:{ img: img.data,data:result.data[0] } }
                     // defaults to a base64 string of userimg as backup
                     else return { success: result.success, data:{ img: libraryPhoto,data:result.data[0] } }
@@ -51,7 +50,6 @@ export function createLibraryService(repository: libraryRepository): libraryServ
             return result
         },
         async createLibrary( formdata: any ) {
-            
             if (!validatePostLibrary(formdata)) return Promise.reject("Failed to validate library.")
             //get the file and then removes it from formdata
             const file=formdata.get("file")

@@ -6,7 +6,6 @@ export function createImageController(service: imageService) {
     return {
         async getImage(key: string) {
             const result = await service.getImage(key)
-            console.log(result)
             return new Response(
                 JSON.stringify({
                     data: result.data,

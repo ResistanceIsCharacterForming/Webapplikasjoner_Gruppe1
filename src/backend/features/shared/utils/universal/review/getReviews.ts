@@ -1,9 +1,7 @@
 "use server";
 import { singletonMaster } from "@/backend/features/shared/utils/singletonBuilder";
 
-
-
-export async function useListUser() {
-    const result = await singletonMaster.userService.listUsers();
+export async function getReviews() {
+    const result = await singletonMaster.reviewService.getReviews();
     return result;
 }
