@@ -1,6 +1,7 @@
+"use client"
 import ReviewCard from "@/frontend/features/dashboard/components/ReviewCard";
 
-export default function DisplayLibrary() {
+export default function PresenterLibrary() {
     return (
         <article className="flex flex-wrap py-2 px-2">
           <section className="basis-4/5">

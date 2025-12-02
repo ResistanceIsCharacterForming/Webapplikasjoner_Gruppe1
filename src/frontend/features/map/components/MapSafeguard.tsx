@@ -15,12 +15,12 @@ export default function MapSafeGuard() {
 
     useEffect(() => {
         if (!isClient()) return
-        import("./MapManager").then((module) => {
+        import("./containers/ContainerMapManager").then((module) => {
             setDynamicImport((() => module.default))
             setMapLoaded(true)
         })
 
-        navigator.geolocation.getCurrentPosition((position)=> {setloction([position.coords.latitude,position.coords.longitude]);})
+       /* navigator.geolocation.getCurrentPosition((position)=> {setloction([position.coords.latitude,position.coords.longitude]);})*/
         
     }, [])
 
