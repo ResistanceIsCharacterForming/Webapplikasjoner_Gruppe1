@@ -14,12 +14,13 @@ export function createLibraryService(repository: libraryRepository): libraryServ
         async getLibraryWithId(id:string) {
             if (!validateId.safeParse(id)) return Promise.reject("Failed to validate library id.")
             const result=await repository.getLibraryById(id)
+        console.log(result)
             // it will check the result and read make sure it got some data back succesfully it will also return the libary photo
             if (result.data && result.data.length !== 0) {
                 // it will return the libary with the base library photo
                 if (result.data[0].photos == undefined || result.data[0].photos == "0") {
                     const img = await imagehandler.getImage(deafultLibaryPhotoName)
-                     if(img.data != undefined)return { success: result.success, data: { img: img.data, data:result.data[0] } }
+                    if(img.data != undefined)return { success: result.success, data: { img: img.data, data:result.data[0] } }
                 }
                 //it will return the library with its own picture
                 if (result.data[0].photos == "1") {
@@ -67,7 +68,6 @@ export function createLibraryService(repository: libraryRepository): libraryServ
         },
          async editLibrary(id:string,formdata:any) {
             if (!validateEditLibrary(id, formdata)) return Promise.reject("Failed to validate library.")
-
             const file=formdata.get("file")
             formdata.delete("file")
             const dataObject  = Object.fromEntries(formdata.entries());
