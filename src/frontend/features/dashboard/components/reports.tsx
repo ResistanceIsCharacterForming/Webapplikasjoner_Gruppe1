@@ -1,7 +1,5 @@
 "use client"
 import { useState } from "react"
-
-import { adminButtonStyle } from "@/frontend/styles/tailwind"
 import { report } from "@/backend/types/reports"
 import { deleteUser, setNotVisibleUser, settUserProfileToBasic, 
     deleteLibraryFromReport, setNotVisibleLibraryFromReport, 
@@ -21,9 +19,12 @@ export const Reports = (report: report) => {
         typeid = targetid
         typebuttons = (
             <>
-                <button className={adminButtonStyle} onClick={() => { deleteUser(targetid); setHiden("hidden") }}>slett rapportert bruker</button>
-                <button className={adminButtonStyle} onClick={() => setNotVisibleUser(targetid)}>sett rapportert bruker som usynlig</button>
-                <button className={adminButtonStyle} onClick={() => settUserProfileToBasic(targetid)}>nullstill brukernavn og bilde</button>
+                <button className={"text-lg italic text-blackChocolate! hover:text-darkVanilla! bg-oldLace grow  border-blackChocolate border-1 p-1 focus:outline-none focus:shadow focus:border-darkVanilla rounded-md"}
+                 onClick={() => { deleteUser(targetid); setHiden("hidden") }}>slett rapportert bruker</button>
+                <button className={"text-lg italic text-blackChocolate! hover:text-darkVanilla! bg-oldLace grow  border-blackChocolate border-1 p-1 focus:outline-none focus:shadow focus:border-darkVanilla rounded-md"}
+                 onClick={() => setNotVisibleUser(targetid)}>sett rapportert bruker som usynlig</button>
+                <button className={"text-lg italic text-blackChocolate! hover:text-darkVanilla! bg-oldLace grow  border-blackChocolate border-1 p-1 focus:outline-none focus:shadow focus:border-darkVanilla rounded-md"}
+                 onClick={() => settUserProfileToBasic(targetid)}>nullstill brukernavn og bilde</button>
             </>
         )
     }
@@ -32,9 +33,12 @@ export const Reports = (report: report) => {
         typeid = targetid
         typebuttons = (
             <>
-                <button className={adminButtonStyle} onClick={() => { deleteLibraryFromReport(targetid); setHiden("hidden") }}>slett rapportert Bibliotek</button>
-                <button className={adminButtonStyle} onClick={() => setNotVisibleLibraryFromReport(targetid)}>sett rapportert Bibliotek usynlig</button>
-                <button className={adminButtonStyle} onClick={() => RemoveLibraryImage(targetid)}>fjern bilde</button>
+                <button className={"text-lg italic text-blackChocolate! hover:text-darkVanilla! bg-oldLace grow  border-blackChocolate border-1 p-1 focus:outline-none focus:shadow focus:border-darkVanilla rounded-md"}
+                 onClick={() => { deleteLibraryFromReport(targetid); setHiden("hidden") }}>slett rapportert Bibliotek</button>
+                <button className={"text-lg italic text-blackChocolate! hover:text-darkVanilla! bg-oldLace grow  border-blackChocolate border-1 p-1 focus:outline-none focus:shadow focus:border-darkVanilla rounded-md"}
+                 onClick={() => setNotVisibleLibraryFromReport(targetid)}>sett rapportert Bibliotek usynlig</button>
+                <button className={"text-lg italic text-blackChocolate! hover:text-darkVanilla! bg-oldLace grow  border-blackChocolate border-1 p-1 focus:outline-none focus:shadow focus:border-darkVanilla rounded-md"}
+                 onClick={() => RemoveLibraryImage(targetid)}>fjern bilde</button>
             </>
         )
     }
@@ -43,7 +47,8 @@ export const Reports = (report: report) => {
         typeid = targetid
         typebuttons = (
             <>
-                <button className={adminButtonStyle} onClick={() => { deleteReviewFromReport(targetid); setHiden("hidden") }}>slett rapportert Anmeldelse</button>
+                <button className={"text-lg italic text-blackChocolate! hover:text-darkVanilla! bg-oldLace grow  border-blackChocolate border-1 p-1 focus:outline-none focus:shadow focus:border-darkVanilla rounded-md"}
+                 onClick={() => { deleteReviewFromReport(targetid); setHiden("hidden") }}>slett rapportert Anmeldelse</button>
             </>
         )
     }
@@ -68,7 +73,8 @@ export const Reports = (report: report) => {
                     <p>{report.text}</p>
                     <label>adminhandlinger: <br /></label>
                     {typebuttons}
-                    <button className={adminButtonStyle} onClick={() => { deleteReport(report.id); setHiden("hidden") }}>delete rapport</button>
+                    <button className={"text-lg italic text-blackChocolate! hover:text-darkVanilla! bg-oldLace grow  border-blackChocolate border-1 p-1 focus:outline-none focus:shadow focus:border-darkVanilla rounded-md"}
+                     onClick={() => { deleteReport(report.id); setHiden("hidden") }}>delete rapport</button>
                 </div>)}
         </article>
 

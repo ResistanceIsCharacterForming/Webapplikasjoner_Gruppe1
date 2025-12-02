@@ -1,6 +1,6 @@
 
 import { JSX, useEffect, useState } from "react"
-import { inputFields, selectOption } from "@/frontend/styles/tailwind"
+import { inputFields, selectOption } from "@/frontend/styles/inputFields"
 import { useListUser } from "@/backend/features/shared/utils/universal/useListUser"
 import { user } from "@/backend/types/user"
 import { Users } from "@/frontend/features/dashboard/components/users"
