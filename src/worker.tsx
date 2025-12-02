@@ -50,7 +50,8 @@ export default defineApp([
       hasAdminRights,
       route("/home", MapSafeGuard),
       route("/db", databasescreen),
-      route("/dashboard", [isAdmin, DashboardScreen])
     ])
+    ,route("/dashboard", [isAdmin, DashboardScreen])
+    
   ])
 ])
