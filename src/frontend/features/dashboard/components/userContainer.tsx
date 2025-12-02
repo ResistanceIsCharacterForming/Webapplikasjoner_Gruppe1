@@ -1,9 +1,9 @@
 
 import { JSX, useEffect, useState } from "react"
-import { inputFields, selectOption } from "@/frontend/styles/inputFields"
+import { inputFields, selectOption } from "@/frontend/styles/tailwind"
 import { useListUser } from "@/backend/features/shared/utils/universal/useListUser"
 import { user } from "@/backend/types/user"
-import { Users } from "@/frontend/features/dashboard/components/users"
+import { DashboardUserContainer } from "@/frontend/features/dashboard/components/dashboardUserContainer"
 
 const sortOptions: selectOption[] = [
     { type: "nyeste", value: "newest" },
@@ -47,13 +47,13 @@ export const UserContainer = () => {
     async function showusers(userslist?: user[]) {
         if (userslist) {
             const listusers = userslist.map(user =>
-                <Users key={user.id}{...user} />
+                <DashboardUserContainer key={user.id}{...user} />
             )
             setShowcase(listusers)
         }
         else if (users) {
             const listusers = users.map(user =>
-                <Users key={user.id}{...user} />
+                <DashboardUserContainer key={user.id}{...user} />
             )
             setShowcase(listusers)
         }

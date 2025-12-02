@@ -25,6 +25,8 @@ export const Reports = (report: report) => {
                  onClick={() => setNotVisibleUser(targetid)}>sett rapportert bruker som usynlig</button>
                 <button className={"text-lg italic text-blackChocolate! hover:text-darkVanilla! bg-oldLace grow  border-blackChocolate border-1 p-1 focus:outline-none focus:shadow focus:border-darkVanilla rounded-md"}
                  onClick={() => settUserProfileToBasic(targetid)}>nullstill brukernavn og bilde</button>
+                 <button className={"text-lg italic text-blackChocolate! hover:text-darkVanilla! bg-oldLace grow  border-blackChocolate border-1 p-1 focus:outline-none focus:shadow focus:border-darkVanilla rounded-md"}
+                     onClick={() => { deleteReport(report.id); setHiden("hidden") }}>delete rapport</button>
             </>
         )
     }
@@ -39,6 +41,8 @@ export const Reports = (report: report) => {
                  onClick={() => setNotVisibleLibraryFromReport(targetid)}>sett rapportert Bibliotek usynlig</button>
                 <button className={"text-lg italic text-blackChocolate! hover:text-darkVanilla! bg-oldLace grow  border-blackChocolate border-1 p-1 focus:outline-none focus:shadow focus:border-darkVanilla rounded-md"}
                  onClick={() => RemoveLibraryImage(targetid)}>fjern bilde</button>
+                 <button className={"text-lg italic text-blackChocolate! hover:text-darkVanilla! bg-oldLace grow  border-blackChocolate border-1 p-1 focus:outline-none focus:shadow focus:border-darkVanilla rounded-md"}
+                     onClick={() => { deleteReport(report.id); setHiden("hidden") }}>delete rapport</button>
             </>
         )
     }
@@ -49,6 +53,8 @@ export const Reports = (report: report) => {
             <>
                 <button className={"text-lg italic text-blackChocolate! hover:text-darkVanilla! bg-oldLace grow  border-blackChocolate border-1 p-1 focus:outline-none focus:shadow focus:border-darkVanilla rounded-md"}
                  onClick={() => { deleteReviewFromReport(targetid); setHiden("hidden") }}>slett rapportert Anmeldelse</button>
+                 <button className={"text-lg italic text-blackChocolate! hover:text-darkVanilla! bg-oldLace grow  border-blackChocolate border-1 p-1 focus:outline-none focus:shadow focus:border-darkVanilla rounded-md"}
+                     onClick={() => { deleteReport(report.id); setHiden("hidden") }}>delete rapport</button>
             </>
         )
     }

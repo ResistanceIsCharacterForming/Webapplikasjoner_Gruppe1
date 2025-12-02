@@ -14,7 +14,6 @@ export function createLibraryService(repository: libraryRepository): libraryServ
         async getLibraryWithId(id:string) {
             if (!validateId.safeParse(id)) return Promise.reject("Failed to validate library id.")
             const result=await repository.getLibraryById(id)
-        console.log(result)
             // it will check the result and read make sure it got some data back succesfully it will also return the libary photo
             if (result.data && result.data.length !== 0) {
                 // it will return the libary with the base library photo

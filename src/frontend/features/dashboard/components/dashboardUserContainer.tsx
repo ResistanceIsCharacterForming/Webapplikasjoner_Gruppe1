@@ -1,17 +1,19 @@
 "use client"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { deleteUser, setNotVisibleUser, settUserProfileToBasic, makeUserAdmin, removeAdminFromUser } from "@/backend/features/reports/utils/adminActions"
 import { user } from "@/backend/types/user"
+import { DashboardUserPresentation } from "./dashboardUserPresentation"
 
-export const Users = (user: user) => {
-    const [ishidden, setIsHidden] = useState<boolean>(false)
+export const DashboardUserContainer = (user: user) => {
+    const [isExpanded, setIsExpanded] = useState<boolean>(false)
     const [expand, setexpand] = useState("utvid")
-    const [hidden, setHiden] = useState("")
+    const [hidden, setHiden] = useState(false)
+
     // buttons for users
     let typebuttons = (
         <>
             <button className={"text-lg italic text-blackChocolate! hover:text-darkVanilla! bg-oldLace grow  border-blackChocolate border-1 p-1 focus:outline-none focus:shadow focus:border-darkVanilla rounded-md"}
-             onClick={() => { deleteUser(user.id); setHiden("hidden") }}>slett  bruker</button>
+             onClick={() => { deleteUser(user.id); handlehidden() }}>slett  bruker</button>
             <button className={"text-lg italic text-blackChocolate! hover:text-darkVanilla! bg-oldLace grow  border-blackChocolate border-1 p-1 focus:outline-none focus:shadow focus:border-darkVanilla rounded-md"}
              onClick={() => setNotVisibleUser(user.id)}>sett bruker som usynlig</button>
             <button className={"text-lg italic text-blackChocolate! hover:text-darkVanilla! bg-oldLace grow  border-blackChocolate border-1 p-1 focus:outline-none focus:shadow focus:border-darkVanilla rounded-md"}
@@ -24,25 +26,17 @@ export const Users = (user: user) => {
     )
     // handling closeing and opening 
     const handleExpand = () => {
-        setIsHidden(!ishidden)
-        if (ishidden) setexpand("utvid")
+        setIsExpanded(!isExpanded)
+        if (isExpanded) setexpand("utvid")
         else setexpand("lukk")
     }
+    // handle when need to hide to report do to action
+    const handlehidden = () => {
+        setHiden(true)
+    }
+    
 
     return (
-        <article className={"h-2em w-full grid grid-cols-18  border-blackChocolate border-1 p-1" + hidden}>
-            <p className="col-span-4 col-start-2">{user.id}</p>
-            <p className="col-span-3">{user.name}</p>
-            <p className="col-span-3">{user.email}</p>
-            <p className="col-span-5 ">{user.createdAt}</p>
-            <button className="col-start-18" onClick={() => handleExpand()}>{expand}</button>
-            {ishidden && (
-                <div className="col-start-6 col-span-8">
-                    <label>adminhandlinger: <br /></label>
-                    {typebuttons}
-                </div>)}
-        </article>
+        <>{!hidden && <DashboardUserPresentation user={user} buttons={typebuttons} isExpanded={isExpanded} expand={expand} handleExpand={handleExpand} /> }</>
     )
-
-
 }
