@@ -2,6 +2,7 @@ import { singletonMaster } from "@/backend/features/shared/utils/singletonBuilde
 import { validateAdminLevel, validateEditUserData, validateEmail, validateId, validateUserData } from "@/backend/features/shared/zod/valueValidation";
 import { favoriteLibrary } from "@/backend/types/library";
 import { userRepository, UserData, databaseUserData, deafultUserPhotoName, userPhotoName } from "@/backend/types/user";
+import { userPhoto } from "@/db/base64backups";
 
 import {
     hashPassword as hash,
@@ -29,13 +30,15 @@ export function createUserService(repository: userRepository) {
             if (result.data && result.data.length !== 0) {
                 if (result.data[0].profileImage == undefined || result.data[0].profileImage == "0") {
                     const img = await imagehandler.getImage(deafultUserPhotoName)
-                    const returnData = { img: img.data, data:result.data[0] }
-                    return { succes: true, data: returnData }
+                    if (img.success && img.data)return { succes: true, data: { img: img.data, data:result.data[0] } }
+                    // defaults to a base64 string of userimg as backup
+                    else return { success: result.success, data:{ img: userPhoto,data:result.data[0] } }
                 }
                 if (result.data[0].profileImage == "1") {
                     const img = await imagehandler.getImage(result.data[0].id + userPhotoName)
-                    const returnData = { img: img.data, data:result.data[0] }
-                    return { succes: true, data: returnData }
+                    if (img.success && img.data)return { succes: true, data: { img: img.data, data:result.data[0] } }
+                    // defaults to a base64 string of userimg as backup
+                    else return { success: result.success, data:{ img: userPhoto,data:result.data[0] } }
                 }
             }
             return { succes: false, error:"failed to get user" }

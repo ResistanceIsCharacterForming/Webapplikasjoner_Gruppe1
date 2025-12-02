@@ -4,6 +4,7 @@ import { singletonMaster } from "./backend/features/shared/utils/singletonBuilde
 import { useGetReviewsFromLibraries } from "./backend/features/shared/utils/universal/useGetReviewsFromLibraries";
 import { createUserRepository } from "./backend/features/users/core/repository";
 import { createUserService } from "./backend/features/users/core/service";
+import { libraryPhoto, logo, userPhoto } from "./db/base64backups";
 import FileUploadComponent, { ImgboxComponent, Getsingleuser, Getlibraryuser, Getreviewsingle } from "./form";
 
 
@@ -33,7 +34,7 @@ export const databasescreen = async () => {
   console.log(Math.random()*2+59)
   
   
-  
+ 
   const listItems = userResult.data?.map(user =>
     <tr style={{borderBlock:"groove"}}>
     <td>  {user.id}  </td>
@@ -64,7 +65,10 @@ export const databasescreen = async () => {
     return (
     <div style={{ padding: "2rem", margin: "0 auto"}}>
       <h1>list element</h1>
-      <table>
+       <img src={"data:image/png;base64,"+userPhoto} width="150px" height="100px"></img>
+       <img src={"data:image/png;base64,"+libraryPhoto} width="150px" height="100px"></img>
+       <img src={"data:image/png;base64,"+logo} width="150px" height="100px"></img>
+       <table>
         <tr>
           <td>id</td>
           <td>email</td>

@@ -1,6 +1,7 @@
 import { singletonMaster } from "@/backend/features/shared/utils/singletonBuilder";
 import { validateEditLibrary, validateId, validateLatitude, validateLongitude, validatePostLibrary } from "@/backend/features/shared/zod/valueValidation";
 import { libraryRepository, libraryService, deafultLibaryPhotoName, LibaryPhotoName, postLibraryData } from "@/backend/types/library";
+import { libraryPhoto } from "@/db/base64backups";
 
 
 export function createLibraryService(repository: libraryRepository): libraryService {
@@ -20,13 +21,19 @@ export function createLibraryService(repository: libraryRepository): libraryServ
                 if (result.data[0].photos == undefined || result.data[0].photos == "0") {
                     const img = await imagehandler.getImage(deafultLibaryPhotoName)
                     if(img.data != undefined)return { success: result.success, data: { img: img.data, data:result.data[0] } }
+                    // defaults to a base64 string of userimg as backup
+                    else return { success: result.success, data:{ img: libraryPhoto,data:result.data[0] } }
                 }
                 //it will return the library with its own picture
-                if (result.data[0].photos == "1") {
+                else if (result.data[0].photos == "1") {
                     const img = await imagehandler.getImage(result.data[0].id + LibaryPhotoName)
                     if(img.data != undefined)return { success: result.success, data:{ img: img.data,data:result.data[0] } }
+                    // defaults to a base64 string of userimg as backup
+                    else return { success: result.success, data:{ img: libraryPhoto,data:result.data[0] } }
                 }
+                // defaults to a base64 string of userimg as backup we do this do to issues with seeding r2 with photos as redwoodskd has not implmentet a file system
             }
+            
             return { success: false}
         },
         async listLibraryWithUserId(id:string) {
