@@ -43,7 +43,7 @@ export default function ContainerLibrariesMarker({ onOpenAction, onMoveendAction
     return (
         <>
             {libraries?.map((library: libraryType) => (
-                <PresenterLibrariesMarker key={library.id} library={library} onOpenAction={onOpenAction} />
+                <PresenterLibrariesMarker key={library.id} library={library} onOpenAction={() => {onOpenAction(library.id)}} />
             ))}
         </>
     )

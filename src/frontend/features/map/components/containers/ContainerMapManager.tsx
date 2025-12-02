@@ -51,8 +51,8 @@ export default function MapGenerator(props: { cords: [number, number] }) {
     return [Number(parseCords[0]), Number(parseCords[1])]
   }
 
-
   const singelParamActivate = (param: string, value: string) => {
+    console.log(value)
     /* Siden React er smart og ikke oppdaterer en state med verdien den hadde kan vi kalle her uten å sjekke om verdien er en tom streng. */
     setUserID(null)
     setLibraryID(null)
@@ -64,8 +64,6 @@ export default function MapGenerator(props: { cords: [number, number] }) {
       case "libraryID": setLibraryID(value)
         break
       case "reviewsID": setReviewsID(value)
-        break
-      case "reportID": setReportID(value)
         break
     }
   }
@@ -82,7 +80,15 @@ export default function MapGenerator(props: { cords: [number, number] }) {
     setShowModal(true)
     setCurrentView(modalView)
   }
+
   const userId: any = useContext(UserContext)
+
+  useEffect(() => {
+    if (!singleParamPresent) return
+    if (userID) openModalWithContent("displayUser", "userID", userID)
+    if (libraryID) openModalWithContent("displayLibrary", "libraryID", libraryID)
+    if (reviewsID) openModalWithContent("displayReviews", "reviewsID", reviewsID)
+  },[])
 
   return (
     /* Wrap vår egen modal og hele Leaflet elementet i en flex så vi kan enkelt sentrere modal over kartet. */
@@ -134,9 +140,9 @@ export default function MapGenerator(props: { cords: [number, number] }) {
           />
 
           <ContainerLibrariesMarker
-            onOpenAction={(library) => {
-              setShowModal(true)
-              setCurrentView("setShowModal")
+            onOpenAction={(libraryId) => {
+              openModalWithContent("displayLibrary", "libraryID", libraryId)
+
             }}
             onMoveendAction={(cords: any) => {
               const cordsAsString = `${cords.lat},${cords.lng}`
@@ -152,7 +158,7 @@ export default function MapGenerator(props: { cords: [number, number] }) {
               openModalWithContent("createLibrary", "libraryID", cords)
             }}
           >
-            <PresenterLibraryLogic/>
+            <PresenterLibraryLogic />
           </ContainerLibraryLogic>
 
         </MapContainer>
