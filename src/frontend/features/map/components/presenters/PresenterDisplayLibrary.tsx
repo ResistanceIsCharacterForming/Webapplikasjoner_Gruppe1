@@ -1,5 +1,5 @@
 "use client"
-import ReviewCard from "@/frontend/features/map/components/ReviewCard";
+import ReviewCard from "@/frontend/features/map/components/presenters/PresenterReviewCard";
 
 import { library } from "@/backend/types/library"
 import { reviewComponentData } from "@/backend/types/reviews";
@@ -55,7 +55,7 @@ export default function PresenterLibrary({libraryImg, libraryData, reviewCompone
           </section>
           <section className="basis-full">
             {reviewComponents?.map((review) => {
-              return <ReviewCard reviewData={review}/>
+              return <ReviewCard key={review.id} reviewData={review}/>
             })}
           </section>
         </article>

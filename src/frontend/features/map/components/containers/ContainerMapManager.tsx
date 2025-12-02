@@ -26,8 +26,8 @@ import ContainerModal from "@/frontend/features/shared/components/containers/Con
 import PresenterNewLibrary from "@/frontend/features/map/components/presenters/PresenterCreateLibrary"
 import PresenterModal from "@/frontend/features/shared/components/presenters/PresenterModal"
 import PresenterDisplayLibrary from "@/frontend/features/map/components/presenters/PresenterDisplayLibrary"
-import PresenterLibraryLogic from "@/frontend/features/map/components/presenters/PresenterLibraryLogic"
-import PresenterCreateLibrary from "@/frontend/features/map/components/presenters/PresenterCreateLibrary"
+
+
 import ContainerDisplayLibrary from "@/frontend/features/map/components/containers/ContainerDisplayLibrary"
 import ContainerCreateLibrary from "@/frontend/features/map/components/containers/ContainerCreateLibrary"
 import ContainerLibraryLogic from "@/frontend/features/map/components/containers/ContainerLibraryLogic"
@@ -47,7 +47,7 @@ export default function MapGenerator(props: { cords: [number, number] }) {
   const [reportID, setReportID] = useQueryState("rapport")
   const [cords, setCords] = useQueryState("koordinater")
 
-  const [elementId, setElementId] = useState<string>("")
+  const [elementValue, setElementValue] = useState<string>("")
 
   const getCords: any = () => {
     const parseCords = cords?.split(",") ?? [0, 0]
@@ -84,9 +84,10 @@ export default function MapGenerator(props: { cords: [number, number] }) {
 
     switch (param) {
       case "userID":
+        setElementValue(param)
         break
       case "libraryID":
-        setElementId(id)
+        setElementValue(id)
         break
       case "reviewsID":
         break
@@ -124,12 +125,10 @@ export default function MapGenerator(props: { cords: [number, number] }) {
               }}
             >
               {currentView === "displayLibrary" && (
-                <ContainerDisplayLibrary libraryId={elementId} userId={user.userId} />
+                <ContainerDisplayLibrary libraryId={elementValue} userId={user.userId} />
               )}
               {currentView === "createLibrary" && (
-                <ContainerCreateLibrary>
-                  <PresenterCreateLibrary />
-                </ContainerCreateLibrary>
+                <ContainerCreateLibrary cords={elementValue} userId={user.userId} />
               )}
             </PresenterModal>
           </ContainerModal>
@@ -165,9 +164,7 @@ export default function MapGenerator(props: { cords: [number, number] }) {
               const cords = `${lat},${lng}`;
               openModalWithContent("createLibrary", "libraryID", cords)
             }}
-          >
-            <PresenterLibraryLogic />
-          </ContainerLibraryLogic>
+          />
 
         </MapContainer>
 

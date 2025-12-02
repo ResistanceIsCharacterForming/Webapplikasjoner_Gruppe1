@@ -7,7 +7,7 @@ interface ReviewCardProps {
 }
 
 export default function ReviewCard({reviewData}: ReviewCardProps) {
-    console.log(reviewData)
+
     return (
         <article className="flex flex-wrap border border-darkVanilla rounded-lg p-1 mt-2 sm:justify-between sm:flex-row">
             <section className="flex flex-col items-center basis-2/5 sm:basis-1/3">
