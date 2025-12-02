@@ -1,7 +1,7 @@
 "use client"
 
 import { JSX, useEffect, useState } from "react"
-import { inputFields, selectOption } from "@/frontend/styles/tailwind"
+import { inputFields, selectOption } from "@/frontend/styles/inputFields"
 import { getReports } from "@/backend/features/reports/utils/adminActions"
 import { report } from "@/backend/types/reports"
 import { Reports } from "@/frontend/features/dashboard/components/reports"
