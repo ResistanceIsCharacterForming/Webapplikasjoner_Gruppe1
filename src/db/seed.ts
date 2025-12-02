@@ -2,19 +2,25 @@
 import { singletonMaster } from "@/backend/features/shared/utils/singletonBuilder"
 import { hashPassword } from "@/backend/features/users/core/service"
 import { admins, libraries, reviews, reviewsEndorsements, favoriteLibraries, reports, users } from "./schema"
-import {  user } from "@/backend/types/user"
-import {  library } from "@/backend/types/library"
+import { user } from "@/backend/types/user"
+import { library } from "@/backend/types/library"
 import { useRandomNameGenerator } from "@/backend/features/shared/utils/useRandomNameGenerator"
 import { eq } from "drizzle-orm"
+import { review } from "@/backend/types/reviews"
 
 
 const db = singletonMaster.dbConnection
-const r2 = singletonMaster.r2Connection
 // a random create date it will always be a newer then user create data
+function randomCreateReportData() {
+  return "Mon Dec 01 2025 11:59:" + Math.floor(Math.random() * 58 + 1) + " GMT+0100 (Central European Standard Time)"
+}
+
 function randomCreateData() {
   return "Mon Dec 01 2025 11:57:" + Math.floor(Math.random() * 58 + 1) + " GMT+0100 (Central European Standard Time)"
 }
-
+function randomCreateReviewData() {
+  return "Mon Dec 01 2025 11:58:" + Math.floor(Math.random() * 58 + 1) + " GMT+0100 (Central European Standard Time)"
+}
 function randomCreateUserData() {
   return "Mon Dec 01 2025 11:55:" + Math.floor(Math.random() * 58 + 1) + " GMT+0100 (Central European Standard Time)"
 }
@@ -24,7 +30,75 @@ function randomLoginData() {
 }
 // 59.12187818300706,11.468696594238283
 // 60.031929699115615,10.298309326171877
+function randomReviews(amount: number, userids: user[], libaraiesids: library[]): Partial<review>[] {
+  const list = []
+  const randomtekst = ["det er en test annmedelse", "fresh!", "jeg elsker denne bokkroken!", "jeg likte den ikke så mye", "synd den hadde ikke min yndlings book", " jeg synes at bokkroker er et kult konsept men det burde vært litt mer bøker her og kansje en person som kunne vise meg til alle de nye bøkene og sortere det i system med masse hyller og så burde det nok være et tak over det også det kan være ganske nyttig tenker jeg"]
+  for (let index = 0; index < amount; index++) {
+    list[index] = {
+      userId: userids[Math.floor(Math.random() * userids.length)].id,
+      libraryId: libaraiesids[Math.floor(Math.random() * libaraiesids.length)].id,
+      text: randomtekst[Math.floor(Math.random() * randomtekst.length)],
+      reviewsPoints: 0,
+      createdAt: randomCreateReviewData(),
+    }
+  }
 
+  return list
+}
+function randomlibreryReports(amount:number,userids:user[],libraries:library[]){
+  const list = []
+  for (let index = 0; index < amount; index++) {
+    list[index]={
+    libraryId: libraries[Math.floor(Math.random() * libraries.length)].id,
+    submitterUserId:userids[Math.floor(Math.random() * userids.length)].id,
+    reportType: "library",
+    reportLevel: Math.floor(Math.random() *2+1),
+    text: "dette er en test rapport",
+    createdAt:  randomCreateReportData(),
+    }
+  }
+  return list
+}
+function randomReviewReports(amount:number,userids:user[],reviewies:review[]){
+  const list = []
+  for (let index = 0; index < amount; index++) {
+    list[index]={
+    reviewId: reviewies[Math.floor(Math.random() * reviewies.length)].id,
+    submitterUserId:userids[Math.floor(Math.random() * userids.length)].id,
+    reportType: "review",
+    reportLevel: Math.floor(Math.random() *2+1),
+    text: "dette er en test rapport",
+    createdAt:  randomCreateReportData(),
+    }
+  }
+  return list
+}
+function randomUserReports(amount:number,userids:user[]){
+  const list = []
+  for (let index = 0; index < amount; index++) {
+    list[index]={
+    userId: userids[Math.floor(Math.random() * userids.length)].id,
+    submitterUserId:userids[Math.floor(Math.random() * userids.length)].id,
+    reportType: "user",
+    reportLevel: Math.floor(Math.random() *2+1),
+    text: "dette er en test rapport",
+    createdAt:  randomCreateReportData(),
+    }
+    
+  }
+  return list
+}
+function randomReviewEndorsment(amount: number, userids: user[], reviewids: review[]) {
+  const list = []
+  for (let index = 0; index < amount; index++) {
+    list[index] = {
+      userId: userids[Math.floor(Math.random() * userids.length)].id,
+      reviewId: reviewids[Math.floor(Math.random() * reviewids.length)].id
+    }
+  }
+  return list
+
+}
 
 function randomLibraries(amount: number, userids: user[]): Partial<library>[] {
 
@@ -127,9 +201,14 @@ try {
   await db.insert(users).values(madsuser)
   await db.insert(users).values(nikolaiuser)
   const normalbrukerdb = await db.select().from(users).where(eq(users.email, "ellen.norman@gmail.com"))
+
   const adminbrukerdb = await db.select().from(users).where(eq(users.email, "administrator@gmail.com"))
   const madsuserdb = await db.select().from(users).where(eq(users.email, "mads.soyland@gmail.com"))
   const nikolaiuserdb = await db.select().from(users).where(eq(users.email, "nikol.lysebraate@hiof.no"))
+
+
+
+  console.log("making random users")
   const userRandoms = randomUsers(20)
 
   for (let index = 0; index < userRandoms.length; index++) {
@@ -149,7 +228,7 @@ try {
     cordlon: 11.353732,
     books: "it for dummies, javascript for dummies, learning python",
     createdAt: randomCreateData(),
-    photos: "{}",
+    photos: "0",
     isVisible: true
   }
 
@@ -161,7 +240,7 @@ try {
     cordlon: 11.35266,
     books: "brannsikerhet v1,brannsikerhet v2, brannsikhert for barn v1",
     createdAt: randomCreateData(),
-    photos: "{}",
+    photos: "0",
     isVisible: true
   }
 
@@ -173,7 +252,7 @@ try {
     cordlon: 11.35497,
     books: "ringes herre,hunger games,where is waldo",
     createdAt: randomCreateData(),
-    photos: "{}",
+    photos: "0",
     isVisible: true
   }
 
@@ -185,7 +264,7 @@ try {
     cordlon: 11.163802,
     books: "",
     createdAt: randomCreateData(),
-    photos: "{}",
+    photos: "0",
     isVisible: true
   }
   // Insert a library
@@ -197,97 +276,70 @@ try {
 
   await db.insert(libraries).values(solbergtårnet)
 
-  const libraryRandoms = randomLibraries(20, newUserId)
 
+  console.log("making random libraries")
+  const libraryRandoms = randomLibraries(40, newUserId)
   for (let index = 0; index < libraryRandoms.length; index++) {
     await db.insert(libraries).values(libraryRandoms[index])
   }
-  // Insert an admin
+  console.log("making admins")
   await db.insert(admins).values({
-    userId:adminbrukerdb[0].id,
+    userId: adminbrukerdb[0].id,
     adminLevel: 0,
     createdAt: randomCreateData(),
   })
+
   await db.insert(admins).values({
     userId: madsuserdb[0].id,
     adminLevel: 0,
     createdAt: randomCreateData(),
   })
+
   await db.insert(admins).values({
     userId: nikolaiuserdb[0].id,
     adminLevel: 0,
     createdAt: randomCreateData(),
   })
-
+   
   const newLibraryId = await db.select({ id: libraries.id }).from(libraries)
-  // Insert a review
-  await db.insert(reviews).values({
-    userId: newUserId[0].id,
-    libraryId: newLibraryId[0].id,
-    text: "dette er en test anmeldelse",
-    reviewsPoints: 0,
-    createdAt: new Date().toISOString(),
-  })
-  await db.insert(reviews).values({
-    userId: newUserId[2].id,
-    libraryId: newLibraryId[0].id,
-    text: "dette er en test anmeldelse",
-    reviewsPoints: 0,
-    createdAt: new Date().toISOString(),
-  })
-  await db.insert(reviews).values({
-    userId: newUserId[3].id,
-    libraryId: newLibraryId[0].id,
-    text: "dette er en test anmeldelse",
-    reviewsPoints: 0,
-    createdAt: new Date().toISOString(),
-  })
-
-
+  console.log("making random review")
+  const reviewsRandoms = randomReviews(200, newUserId, newLibraryId)
+  for (let index = 0; index < reviewsRandoms.length; index++) {
+    await db.insert(reviews).values(reviewsRandoms[index])
+  }
   const newReviewId = await db.select({ id: reviews.id }).from(reviews)
-  // Insert a review usefulness
-  await db.insert(reviewsEndorsements).values({
-    userId: newUserId[0].id,
-    reviewId: newReviewId[0].id,
-  })
 
-  await db.insert(reviewsEndorsements).values({
-    userId: newUserId[2].id,
-    reviewId: newReviewId[0].id,
-  })
+  console.log("making random endorsment")
+  const endorsementRandoms = randomReviewEndorsment(1000,newUserId,newReviewId)
+   for (let index = 0; index < endorsementRandoms.length; index++) {
+    await db.insert(reviewsEndorsements).values(endorsementRandoms[index])
+  }
 
-  await db.insert(reviewsEndorsements).values({
-    userId: newUserId[3].id,
-    reviewId: newReviewId[0].id,
-  })
+  console.log("updating review endorsments on db")
+  for (let index = 0; index < newReviewId.length; index++) {
+    const id = newReviewId[index].id;
+    const endorsements = await db.select().from(reviewsEndorsements).where(eq(reviewsEndorsements.reviewId, id))
+    await await db.update(reviews).set({reviewsPoints : endorsements.length}).where(eq(reviews.id, id))
+  }
 
 
-  // Insert a favorite library
-  await db.insert(favoriteLibraries).values({
-    userId: newUserId[0].id,
-    libraryId: newLibraryId[0].id,
-  })
-  // Insert a favorite library
-  await db.insert(favoriteLibraries).values({
-    userId: newUserId[2].id,
-    libraryId: newLibraryId[2].id,
-  })
-  // Insert a favorite library
-  await db.insert(favoriteLibraries).values({
-    userId: newUserId[3].id,
-    libraryId: newLibraryId[3].id,
-  })
+  console.log("making random reports")
+  const reportusers = randomUserReports(30,newUserId)
 
+  const reportlibery = randomlibreryReports(30,newUserId,newLibraryId)
 
-  // Insert a report
-  await db.insert(reports).values({
-    userId: newUserId[0].id,
-    submitterUserId: newUserId[2].id,
-    reportType: "User",
-    reportLevel: 1,
-    text: "dette er en test rapport",
-    createdAt: new Date().toISOString(),
-  })
+  const reportreview = randomReviewReports(30,newUserId,newReviewId)
+  console.log("inserting db random reports")
+  for (let index = 0; index < reportusers.length; index++) {
+     await db.insert(reports).values(reportusers[index])
+  }
+   for (let index = 0; index < reportlibery.length; index++) {
+     await db.insert(reports).values(reportlibery[index])
+  }
+   for (let index = 0; index < reportreview.length; index++) {
+     await db.insert(reports).values(reportreview[index])
+  }
+ 
   console.log("finished seeding")
 } catch (error) {
   console.error("Error seeding database:", error)

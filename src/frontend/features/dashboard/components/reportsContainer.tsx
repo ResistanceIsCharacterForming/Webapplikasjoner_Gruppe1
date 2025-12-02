@@ -4,7 +4,7 @@ import { JSX, useEffect, useState } from "react"
 import { inputFields, selectOption } from "@/frontend/styles/tailwind"
 import { getReports } from "@/backend/features/reports/utils/adminActions"
 import { report } from "@/backend/types/reports"
-import { Reports } from "@/frontend/features/dashboard/components/reports"
+import { Reports } from "@/frontend/features/dashboard/components/dashboardReportContainer"
 
 const levelOptions: selectOption[] = [
    { type: "all", value: "all" },
@@ -20,7 +20,7 @@ const sortOptions: selectOption[] = [
 ]
 const searchOptions: selectOption[] = [
    { type: "text", value: "text" },
-   { type: "id", value: "id" },
+   { type: "rapportert id", value: "rapportert id" },
    { type: "submitter", value: "submitter" },
 ]
 const field: inputFields = { label: "search", name: "search", type: "search" }

@@ -20,7 +20,7 @@ export default function DashboardScreen() {
    const allButtons: any = [
       ["", "alle"],
       ["review", "anmeldelse"],
-      ["User", "bruker"],      
+      ["user", "bruker"],      
       ["library", "bibliotek"],      
       [null, "liste av brukere"],      
    ]

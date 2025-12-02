@@ -20,18 +20,18 @@ export function createLibraryService(repository: libraryRepository): libraryServ
                 // it will return the libary with the base library photo
                 if (result.data[0].photos == undefined || result.data[0].photos == "0") {
                     const img = await imagehandler.getImage(deafultLibaryPhotoName)
-                    if(img.data != undefined)return { success: result.success, data: { img: img.data, data:result.data[0] } }
+                    if(img.data && img.success)return { success: result.success, data: { img: img.data, data:result.data[0] } }
                     // defaults to a base64 string of userimg as backup
                     else return { success: result.success, data:{ img: libraryPhoto,data:result.data[0] } }
                 }
                 //it will return the library with its own picture
                 else if (result.data[0].photos == "1") {
                     const img = await imagehandler.getImage(result.data[0].id + LibaryPhotoName)
-                    if(img.data != undefined)return { success: result.success, data:{ img: img.data,data:result.data[0] } }
+                    console.log(img)
+                    if(img.data && img.success)return { success: result.success, data:{ img: img.data,data:result.data[0] } }
                     // defaults to a base64 string of userimg as backup
                     else return { success: result.success, data:{ img: libraryPhoto,data:result.data[0] } }
                 }
-                // defaults to a base64 string of userimg as backup we do this do to issues with seeding r2 with photos as redwoodskd has not implmentet a file system
             }
             
             return { success: false}

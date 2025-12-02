@@ -41,7 +41,7 @@ export function createLibraryController(service: libraryService) {
 
       } else {
 
-        return new Response(null, { status: 300 })
+        return new Response("failed to get library by id", { status: 300 })
 
       }
     },
