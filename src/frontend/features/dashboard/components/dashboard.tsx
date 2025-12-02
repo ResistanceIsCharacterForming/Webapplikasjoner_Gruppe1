@@ -2,8 +2,8 @@
 
 import { useState } from "react"
 import AdminNav from "@/frontend/features/dashboard/components/adminNav"
-import { DashbordReportContent } from "@/frontend/features/dashboard/components/DashbordReportContent"
-import { DashbordUserContent } from "@/frontend/features/dashboard/components/userContainer"
+import { DashbordReportContent } from "./DashbordReportContent"
+import { DashbordUserContent } from "./DashbordUserContent"
 
 // the dashborad screen with 5 buttons 4 of them is to swape between report types and one is to list user and do actions on users
 export default function DashboardScreen() {
