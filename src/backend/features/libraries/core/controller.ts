@@ -2,7 +2,6 @@ import { libraryService, postLibraryData } from "@/backend/types/library";
 
 /* Controller for library handlinger. */
 export function createLibraryController(service: libraryService) {
-  
   return {
     async listLibraries() {
       const result = await service.listLibraries();
@@ -18,7 +17,6 @@ export function createLibraryController(service: libraryService) {
             headers: { "Content-Type": "application/json" },
           }
         )
-
       } else {
 
         return new Response(null, { status: 300 })

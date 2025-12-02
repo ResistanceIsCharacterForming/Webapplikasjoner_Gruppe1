@@ -14,10 +14,6 @@ import Landing from "@/frontend/features/landing/Landing"
 import MapSafeGuard from "@/frontend/features/map/components/MapSafeguard"
 import { FrontLayout } from "@/frontend/features/shared/components/layouts/FrontLayout"
 import { MainLayout } from "@/frontend/features/shared/components/layouts/MainLayout"
-/*import { MainLayout } from "./features/tokens/layouts/Layout"*/
-
-
-
 
 export interface Env {
   bokkroken: D1Database;
@@ -31,10 +27,13 @@ export type AppContext = {
 export default defineApp([
   setCommonHeaders(),
 
+  /* Middleware for å undersøke om hva brukeren forespør er åpnet eller krever innloging. */
   authCheck,
 
+  /* APIv1 inneholder alle routes tilknyttet API. */
   prefix("/api/v1/", APIv1),
 
+  /* Forsiden, og hvor brukeren kan logge inn eller lage nye bruker. */
   render(Document, [
 
     route("/", Landing),
@@ -45,7 +44,9 @@ export default defineApp([
       
     ]),
 
+    /* Hoved innholdet vårt */
     layout(MainLayout, [
+      /* Middelware som ser om bruker er admin, men kun for å "gi" dem rettigheter */
       hasAdminRights,
       route("/home", MapSafeGuard),
     ])

@@ -5,7 +5,11 @@ import { useEffect, useState } from "react"
 
 import { navigate } from "rwsdk/client";
 
+/* Denne komponenten skulle fulgt presenter-container designmønsteret om vi hadde tid. */
+/* Komponent for å lage ny bruker. */
 export default function RegisterScreen() {
+
+  /* Standard form handling. Vi benytter state for å huske verdien i selve formen etterhvert som bruker skriver. */
 
   type userForm = {
     name: string;
@@ -15,6 +19,7 @@ export default function RegisterScreen() {
 
   const [ user, setUser ] = useState<userForm>({name: "", password: "", email: ""})
 
+  /* Vår egen handling når form skulle bli sendt av bruker */
   const onCreateUser = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -23,6 +28,8 @@ export default function RegisterScreen() {
     userFormData.append("name", user.name)
     userFormData.append("password", user.password)
     userFormData.append("email", user.email)
+
+    /* Her gjør vi et nettverskall mot vår API-løsning. Vi har brukte både dette og React serverside components bevist i forskjellige sammenhenger.  */
     try {
       const result = await fetch("/api/v1/users", {
         method: "POST",
@@ -32,7 +39,7 @@ export default function RegisterScreen() {
         setUser({name: "", password: "", email: ""})
         navigate("/login")
       }
-      else alert("feilet å lage nye bruker")
+      else alert("Feilet å lage ny bruker.")
     } catch (error) {
     }
   }

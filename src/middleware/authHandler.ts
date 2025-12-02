@@ -19,7 +19,7 @@ export async function authCheck({
   ctx.userId = undefined
   ctx.isAdmin = false
 
-  /* Send ctx til funksjonen checkCredentials i token sitt service lag.  */
+  /* Send ctx til hjelpe funksjonen checkCredentials.  */
 
   const auth = await checkCredentials(request)
 
@@ -45,10 +45,6 @@ export async function authCheck({
     "/login",
     "/register",
     "/home",
-    "/api/v1/tokens",
-    "/api/v1/users",
-    "/api/v1/libraries",
-    "/api/v1/image"
   ]
 
   const isOpenRoute = (openRoutes.includes(requestedPathname))

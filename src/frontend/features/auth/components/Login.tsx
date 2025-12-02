@@ -3,7 +3,12 @@
 import { useState } from "react"
 import { navigate } from "rwsdk/client";
 
+/* Denne komponenten skulle fulgt presenter-container designmønsteret om vi hadde tid. */
+/* Komponent for å logge inn med en bruker. */
 export default function LoginScreen() {
+
+  /* Standard form handling. Vi benytter state for å huske verdien i selve formen etterhvert som bruker skriver. */
+
   type detailsForm = {
     password: string;
     email: string;
@@ -11,6 +16,7 @@ export default function LoginScreen() {
 
   const [ details, setDetails ] = useState<detailsForm>({password: "", email: ""})
 
+  /* Vår egen handling når form skulle bli sendt av bruker */
   const onCreateUser = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -19,6 +25,7 @@ export default function LoginScreen() {
     detailsFormData.append("password", details.password)
     detailsFormData.append("email", details.email)
   
+    /* Her gjør vi et nettverskall mot vår API-løsning. Vi har brukte både dette og React serverside components bevist i forskjellige sammenhenger.  */
     try {
       const result = await fetch("/api/v1/tokens", {
         method: "POST",
@@ -28,7 +35,7 @@ export default function LoginScreen() {
       setDetails({password: "", email: ""})
       navigate("/home")
     }
-    else alert("failet å logge in sjekk passord/epost")
+    else alert("Feilet å logge in sjekk passord eller epost.")
     } catch (error) {
     }
   }
@@ -64,9 +71,11 @@ export default function LoginScreen() {
                 className = "w-full border-blackChocolate border-1 p-1 focus:outline-none focus:shadow focus:border-darkVanilla rounded-md"
                 placeholder= "Skriv her ..."
                 required
+                key={field.name}
                 type={field.type}
                 id={field.type}
                 name={field.type}
+                value={details[field.name as keyof detailsForm]}
                 onChange={(e) => callbackForDetails(e.target.value, field.type)}
               />
             </article>
