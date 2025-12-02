@@ -1,7 +1,7 @@
 "use client"
 
-import { useGetLibrary } from "@/backend/features/shared/utils/universal/useGetLibrary"
-import { useGetReviewsFromLibraries } from "@/backend/features/shared/utils/universal/useGetReviewsFromLibraries"
+import { useGetLibrary } from "@/backend/features/shared/utils/universal/library/useGetLibrary"
+import { useGetReviewsFromLibraries } from "@/backend/features/shared/utils/universal/review/useGetReviewsFromLibraries"
 import { library } from "@/backend/types/library"
 import { reviewComponentData } from "@/backend/types/reviews"
 import { useEffect, useState } from "react"

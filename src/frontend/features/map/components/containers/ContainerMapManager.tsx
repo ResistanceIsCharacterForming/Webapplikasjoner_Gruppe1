@@ -33,7 +33,7 @@ import ContainerCreateLibrary from "@/frontend/features/map/components/container
 import ContainerLibraryLogic from "@/frontend/features/map/components/containers/ContainerLibraryLogic"
 import ContainerLibrariesMarker from "./ContainerLibrariesMarker"
 
-import { useGetLibrary } from "@/backend/features/shared/utils/universal/useGetLibrary"
+import { useGetLibrary } from "@/backend/features/shared/utils/universal/library/useGetLibrary"
 
 export default function MapGenerator(props: { cords: [number, number] }) {
   const [showModal, setShowModal] = useState<boolean>(false)

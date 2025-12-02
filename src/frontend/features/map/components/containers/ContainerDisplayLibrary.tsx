@@ -1,6 +1,6 @@
 "use client"
-import { useGetLibrary } from "@/backend/features/shared/utils/universal/useGetLibrary";
-import { useGetReviewsFromLibraries } from "@/backend/features/shared/utils/universal/useGetReviewsFromLibraries";
+import { useGetLibrary } from "@/backend/features/shared/utils/universal/library/useGetLibrary";
+import { useGetReviewsFromLibraries } from "@/backend/features/shared/utils/universal/review/useGetReviewsFromLibraries";
 import { library } from "@/backend/types/library";
 import { reviewComponentData } from "@/backend/types/reviews";
 import PresenterDisplayLibrary from "@/frontend/features/map/components/presenters/PresenterDisplayLibrary"
@@ -30,8 +30,6 @@ export default function ContainerDisplayLibrary({ libraryId, userId }: Container
     useEffect(() => {
         getLibrary()
         getReviewsAndEndorsment()
-
-        console.log(reviewComponents)
     }, [])
 
     return <>{libraries ? <PresenterDisplayLibrary libraryImg={libraries?.img} libraryData={libraries?.data} reviewComponents={reviewComponents} /> : null}</>
