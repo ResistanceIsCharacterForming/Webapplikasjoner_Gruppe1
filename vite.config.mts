@@ -47,5 +47,5 @@ export default defineConfig({
       usePolling: true,
       interval: 1000,
     },
-  },
+  }
 });
