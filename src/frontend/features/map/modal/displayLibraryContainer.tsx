@@ -5,7 +5,7 @@ import { useGetReviewsFromLibraries } from "@/backend/features/shared/utils/univ
 import { library } from "@/backend/types/library"
 import { reviewComponentData } from "@/backend/types/reviews"
 import { useEffect, useState } from "react"
-import DisplayLibrary from "./DisplayLibrary"
+import DisplayLibrary from "@/frontend/features/map/modal/DisplayLibrary"
 
 
 
